@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6ac9fa681995176a6aa81be36e4cc46e">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>NLP for Economists: Text as Data</title>
+  <link href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link href="styles.css" rel="stylesheet">
+ </head>
+ <body>
+  <div class="reveal">
+   <div class="slides">
+
+    <section class="section-divider" data-state="is-section-divider" id="title" style="padding: 0;">
+     <div style="display: grid; grid-template-columns: 55% 45%; height: 720px;">
+      <div style="display: flex; flex-direction: column; justify-content: center; padding: 50px 50px 50px 60px;">
+       <p style="font-size: 12pt; color: var(--secondary-color); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;">
+        ECON 3916 &bull; Applied Machine Learning for Economists &bull; Chapter 23
+       </p>
+       <h1 style="font-size: 32pt; line-height: 1.25; color: var(--primary-color); margin-bottom: 25px;">
+        NLP for Economists:<br>Text as Data
+       </h1>
+       <div style="width: 50px; height: 3px; background: var(--secondary-color); margin-bottom: 0;"></div>
+       <div style="margin-top: auto; padding-bottom: 15px;">
+        <p style="font-size: 16pt; color: var(--primary-color); font-weight: 700; font-family: var(--heading-font); margin-bottom: 8px;">
+         Dr. Richeng Piao
+        </p>
+        <p style="font-size: 12pt; color: var(--muted-color); font-weight: 400; font-style: italic; line-height: 1.8;">
+         Department of Economics<br>Northeastern University
+        </p>
+       </div>
+      </div>
+      <div style="overflow: hidden;">
+       <img alt="NLP for economists — converting text to numerical features" src="figures/ch23-tfidf-heatmap.png" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+     </div>
+    </section>
+
+    <section id="learning-objectives" style="padding: 40px 50px;">
+     <h2 style="margin-bottom: 20px;">
+      <i class="fa-solid fa-bullseye" style="color: var(--accent-color);"></i> Learning Objectives
+     </h2>
+     <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--secondary-color);">
+       <p style="font-size: 22pt; font-weight: 700; color: var(--secondary-color);">23.1</p>
+       <p style="font-size: 16pt;"><strong>[Understand]</strong> Explain <strong>bag-of-words</strong>, tokenization, and why <strong>TF-IDF</strong> improves on raw word counts</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--accent-color);">
+       <p style="font-size: 22pt; font-weight: 700; color: var(--accent-color);">23.2</p>
+       <p style="font-size: 16pt;"><strong>[Apply]</strong> Build a complete <strong>text preprocessing pipeline</strong> &mdash; tokenization, stop words, TF-IDF &mdash; in scikit-learn</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--success-color);">
+       <p style="font-size: 22pt; font-weight: 700; color: var(--success-color);">23.3</p>
+       <p style="font-size: 16pt;"><strong>[Analyze]</strong> Analyze FOMC minutes using the <strong>Loughran-McDonald</strong> lexicon and correlate with rate decisions</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--danger-color);">
+       <p style="font-size: 22pt; font-weight: 700; color: var(--danger-color);">23.4</p>
+       <p style="font-size: 16pt;"><strong>[Evaluate]</strong> Evaluate when <strong>domain-specific lexicons</strong> outperform general-purpose alternatives</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="retrieval-practice" style="padding: 40px 50px;">
+     <h2><i class="fa-solid fa-rotate" style="color: var(--secondary-color);"></i> Retrieval Practice</h2>
+     <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
+      <div style="background: #f8f6f3; border-left: 4px solid var(--secondary-color); padding: 20px 24px; border-radius: 8px;">
+       <p style="font-size: 15pt; font-weight: 600; color: var(--secondary-color); margin-bottom: 6px;">Chapter 22 &mdash; Clustering</p>
+       <p style="font-size: 16pt;">In K-Means, what does each cell in the feature matrix \(\mathbf{X}\) represent? What were the rows and columns?</p>
+      </div>
+      <div style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 20px 24px; border-radius: 8px;">
+       <p style="font-size: 15pt; font-weight: 600; color: var(--accent-color); margin-bottom: 6px;">Chapter 6 &mdash; Feature Engineering</p>
+       <p style="font-size: 16pt;">What is <strong>feature engineering</strong>? Why does the choice of features shape your results?</p>
+      </div>
+     </div>
+     <p style="font-size: 14pt; color: var(--muted-color); margin-top: 24px;"><i class="fa-solid fa-lightbulb"></i> Today's matrix has words as features and documents as observations &mdash; the same structure, new input type.</p>
+    </section>
+
+    <section id="opening-hook" style="padding: 40px 50px;">
+     <h2><i class="fa-solid fa-bolt" style="color: var(--accent-color);"></i> A Bet on Language</h2>
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
+      <div>
+       <p style="font-size: 16pt; line-height: 1.6;">Banks, asset managers and regulators now feed <strong>text</strong> into their research and trading systems, with word counts and with language models.</p>
+       <p style="font-size: 16pt; line-height: 1.6; margin-top: 12px;">The argument: the edge now lives in <em>language</em>: earnings calls, regulatory filings, central bank communications.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+       <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 18px; border-left: 3px solid var(--secondary-color);">
+        <p style="font-size: 14pt;"><strong>Banks</strong> &mdash; earnings calls and analyst reports</p>
+       </div>
+       <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 18px; border-left: 3px solid var(--accent-color);">
+        <p style="font-size: 14pt;"><strong>Asset managers</strong> &mdash; customer calls and the news</p>
+       </div>
+       <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 18px; border-left: 3px solid var(--success-color);">
+        <p style="font-size: 14pt;"><strong>Regulators</strong> &mdash; filings on EDGAR</p>
+       </div>
+      </div>
+     </div>
+     <div style="background: var(--secondary-color); color: white; padding: 16px 24px; border-radius: 8px; margin-top: 20px; text-align: center;">
+      <p style="font-size: 18pt; font-weight: 600;">How do you convert a 10,000-word Federal Reserve document into numbers?</p>
+     </div>
+    </section>
+
+    <section id="concept-bridge" style="padding: 40px 50px;">
+     <h2><i class="fa-solid fa-bridge" style="color: var(--secondary-color);"></i> From Chapter 22 to Today</h2>
+     <div style="display: grid; grid-template-columns: 1fr 50px 1fr; align-items: center; gap: 0; margin-top: 20px;">
+      <div style="background: #f8f6f3; padding: 20px; border-radius: 8px; text-align: center;">
+       <p style="font-size: 14pt; font-weight: 700; color: var(--secondary-color);">Chapter 22</p>
+       <p style="font-size: 16pt; margin-top: 8px;">Countries &times; Economic Indicators</p>
+       <p style="font-size: 14pt; color: var(--muted-color);">GDP, life expectancy, trade</p>
+      </div>
+      <div style="text-align: center;">
+       <i class="fa-solid fa-arrow-right" style="font-size: 24pt; color: var(--accent-color);"></i>
+      </div>
+      <div style="background: #f8f6f3; padding: 20px; border-radius: 8px; text-align: center;">
+       <p style="font-size: 14pt; font-weight: 700; color: var(--accent-color);">Chapter 23</p>
+       <p style="font-size: 16pt; margin-top: 8px;">Documents &times; Words</p>
+       <p style="font-size: 14pt; color: var(--muted-color);">FOMC meetings, TF-IDF weights</p>
+      </div>
+     </div>
+     <div style="background: var(--accent-color); color: white; padding: 18px 24px; border-radius: 8px; margin-top: 24px; text-align: center;">
+      <p style="font-size: 18pt; font-weight: 600; font-style: italic;">Text is a feature engineering problem: the same matrix and methods, applied to a new kind of input.</p>
+     </div>
+    </section>
+
+    <section class="section-divider" data-state="is-section-divider" id="divider-dtm">
+     <p style="font-size: 14pt; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 3px;">Section 1</p>
+     <h1 style="font-size: 36pt;">The Document-Term Matrix</h1>
+     <p style="font-size: 16pt; color: var(--muted-color);">Converting text to the feature matrix \(\mathbf{X}\)</p>
+    </section>
+
+    <section id="dtm-concept" style="padding: 40px 50px;">
+     <h2>The Bag-of-Words Model</h2>
+     <p style="font-size: 16pt; line-height: 1.6;">Treat each document as an <strong>unordered collection of words</strong>, ignoring grammar and word order.</p>
+     <div style="margin-top: 16px; overflow-x: auto;">
+      <table style="font-size: 14pt; width: 100%; border-collapse: collapse;">
+       <thead>
+        <tr style="background: var(--secondary-color); color: white;">
+         <th style="padding: 10px 14px; text-align: left;">Document</th>
+         <th style="padding: 10px 14px;">inflation</th>
+         <th style="padding: 10px 14px;">rate</th>
+         <th style="padding: 10px 14px;">committee</th>
+         <th style="padding: 10px 14px;">labor</th>
+         <th style="padding: 10px 14px;">growth</th>
+         <th style="padding: 10px 14px;">tapering</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr style="background: #f8f6f3;">
+         <td style="padding: 10px 14px; font-weight: 600;">Jan 2023</td>
+         <td style="padding: 10px 14px; text-align: center;">15</td>
+         <td style="padding: 10px 14px; text-align: center;">22</td>
+         <td style="padding: 10px 14px; text-align: center;">18</td>
+         <td style="padding: 10px 14px; text-align: center;">8</td>
+         <td style="padding: 10px 14px; text-align: center;">5</td>
+         <td style="padding: 10px 14px; text-align: center;">0</td>
+        </tr>
+        <tr>
+         <td style="padding: 10px 14px; font-weight: 600;">Mar 2023</td>
+         <td style="padding: 10px 14px; text-align: center;">12</td>
+         <td style="padding: 10px 14px; text-align: center;">19</td>
+         <td style="padding: 10px 14px; text-align: center;">20</td>
+         <td style="padding: 10px 14px; text-align: center;">11</td>
+         <td style="padding: 10px 14px; text-align: center;">7</td>
+         <td style="padding: 10px 14px; text-align: center;">3</td>
+        </tr>
+        <tr style="background: #f8f6f3;">
+         <td style="padding: 10px 14px; font-weight: 600;">Jun 2023</td>
+         <td style="padding: 10px 14px; text-align: center;">9</td>
+         <td style="padding: 10px 14px; text-align: center;">25</td>
+         <td style="padding: 10px 14px; text-align: center;">17</td>
+         <td style="padding: 10px 14px; text-align: center;">14</td>
+         <td style="padding: 10px 14px; text-align: center;">3</td>
+         <td style="padding: 10px 14px; text-align: center;">0</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+     <p style="font-size: 15pt; margin-top: 14px; color: var(--muted-color);">\(\mathbf{X} \in \mathbb{R}^{n \times p}\) &mdash; same structure as Chapter 22, with words as features</p>
+    </section>
+
+    <section id="fomc-corpus" style="padding: 40px 50px;">
+     <h2>The FOMC Minutes Corpus</h2>
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
+      <div>
+       <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+         <div style="width: 48px; height: 48px; background: var(--secondary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18pt; font-weight: 700; flex-shrink: 0;">243</div>
+         <p style="font-size: 15pt;">sets of minutes (8 meetings/year, 2000&ndash;2026)</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+         <div style="width: 48px; height: 48px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14pt; font-weight: 700; flex-shrink: 0;">3-14K</div>
+         <p style="font-size: 15pt;">words per document</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+         <div style="width: 48px; height: 48px; background: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 18pt; font-weight: 700; flex-shrink: 0;">26</div>
+         <p style="font-size: 15pt;">years of tightening &amp; easing cycles</p>
+        </div>
+       </div>
+      </div>
+      <div style="background: #f8f6f3; padding: 18px; border-radius: 8px;">
+       <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); margin-bottom: 8px;">Available via:</p>
+       <ul style="font-size: 14pt; line-height: 1.8;">
+        <li>Federal Reserve website</li>
+        <li>HuggingFace (<code>vtasca/fomc-statements-minutes</code>)</li>
+        <li>Kaggle</li>
+       </ul>
+       <p style="font-size: 14pt; color: var(--muted-color); margin-top: 12px;">Spans multiple policy regimes &mdash; ideal for validating text-derived signals.</p>
+      </div>
+     </div>
+    </section>
+
+    <section>
+     <section id="poll-1-question" style="padding: 40px 50px;">
+      <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--accent-color);"></i> Class Poll</h2>
+      <p style="font-size: 20pt; font-weight: 600; margin-top: 20px;">Which word tells you the MOST about a specific FOMC meeting?</p>
+      <div class="poll-grid" data-poll-id="ch23-econ3916-poll1-informative-word" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px;">
+       <div class="poll-option" data-value="A" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>A)</strong> "committee" &mdash; appears in every meeting</p>
+       </div>
+       <div class="poll-option" data-value="B" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>B)</strong> "recession" &mdash; high in some meetings, absent in others</p>
+       </div>
+       <div class="poll-option" data-value="C" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>C)</strong> "the" &mdash; most frequent word in English</p>
+       </div>
+       <div class="poll-option" data-value="D" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>D)</strong> "economic" &mdash; appears in 250 of 260 meetings</p>
+       </div>
+      </div>
+      <div data-poll-results="ch23-econ3916-poll1-informative-word"></div>
+     </section>
+     <section id="poll-1-reveal" style="padding: 40px 50px;">
+      <h2><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> Poll 1 Reveal</h2>
+      <div style="background: var(--success-color); color: white; padding: 20px 24px; border-radius: 8px; margin-top: 16px;">
+       <p style="font-size: 20pt; font-weight: 700;">Answer: (B) "recession"</p>
+      </div>
+      <div style="margin-top: 20px;">
+       <p style="font-size: 16pt; line-height: 1.6;">A word that appears in <strong>many</strong> documents tells you nothing about what makes <em>this</em> meeting special.</p>
+       <p style="font-size: 16pt; line-height: 1.6; margin-top: 10px;">A word that is frequent in <em>this</em> document but <strong>rare</strong> across the corpus &mdash; that is the distinctive signal.</p>
+       <p style="font-size: 18pt; font-weight: 600; color: var(--accent-color); margin-top: 16px;">This is exactly what TF-IDF formalizes.</p>
+      </div>
+     </section>
+    </section>
+
+    <section class="section-divider" data-state="is-section-divider" id="divider-tfidf">
+     <p style="font-size: 14pt; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 3px;">Section 2</p>
+     <h1 style="font-size: 36pt;">TF-IDF</h1>
+     <p style="font-size: 16pt; color: var(--muted-color);">Importance = Frequency &times; Rarity</p>
+    </section>
+
+    <section id="tfidf-formula" style="padding: 40px 50px;">
+     <h2>Term Frequency &ndash; Inverse Document Frequency</h2>
+     <div style="background: #f8f6f3; padding: 24px 30px; border-radius: 8px; text-align: center; margin-top: 16px;">
+      <p style="font-size: 22pt;">\[\text{TF-IDF}(t, d, D) = \underbrace{\text{TF}(t, d)}_{\text{frequency in this doc}} \times \underbrace{\log\frac{|D|}{df(t)}}_{\text{rarity across corpus}}\]</p>
+     </div>
+     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 20px;">
+      <div style="background: #f8f6f3; padding: 14px; border-radius: 8px; border-top: 3px solid var(--secondary-color);">
+       <p style="font-size: 13pt; font-weight: 600; color: var(--secondary-color);">TF(t, d)</p>
+       <p style="font-size: 13pt;">How often word <em>t</em> appears in <em>this</em> document</p>
+      </div>
+      <div style="background: #f8f6f3; padding: 14px; border-radius: 8px; border-top: 3px solid var(--accent-color);">
+       <p style="font-size: 13pt; font-weight: 600; color: var(--accent-color);">|D|</p>
+       <p style="font-size: 13pt;">Total documents in corpus (243 FOMC meetings in the lab)</p>
+      </div>
+      <div style="background: #f8f6f3; padding: 14px; border-radius: 8px; border-top: 3px solid var(--danger-color);">
+       <p style="font-size: 13pt; font-weight: 600; color: var(--danger-color);">df(t)</p>
+       <p style="font-size: 13pt;">Documents containing word <em>t</em> (corpus-wide commonness)</p>
+      </div>
+     </div>
+     <p style="font-size: 16pt; margin-top: 16px;"><strong>High TF-IDF</strong> = frequent here, rare everywhere else. <strong>Low TF-IDF</strong> = ubiquitous word.</p>
+    </section>
+
+    <section id="tfidf-worked" style="padding: 40px 50px;">
+     <h2><i class="fa-solid fa-calculator" style="color: var(--accent-color);"></i> Worked Example: December 2008 FOMC</h2>
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 16px;">
+      <div style="background: #f0f7f4; padding: 20px; border-radius: 8px; border-left: 4px solid var(--success-color);">
+       <p style="font-size: 16pt; font-weight: 700; color: var(--success-color);">"recession"</p>
+       <p style="font-size: 14pt; margin-top: 8px;">TF = 2 / 4,641 = 0.00043</p>
+       <p style="font-size: 14pt;">df = 87 of 243 meetings</p>
+       <p style="font-size: 14pt;">IDF = log(243/87) &asymp; 1.03</p>
+       <p style="font-size: 18pt; font-weight: 700; margin-top: 10px; color: var(--success-color);">TF-IDF = 0.00044 &check;</p>
+      </div>
+      <div style="background: #fdf0f0; padding: 20px; border-radius: 8px; border-left: 4px solid var(--danger-color);">
+       <p style="font-size: 16pt; font-weight: 700; color: var(--danger-color);">"inflation"</p>
+       <p style="font-size: 14pt; margin-top: 8px;">TF = 28 / 4,641 = 0.0060</p>
+       <p style="font-size: 14pt;">df = 243 of 243 meetings</p>
+       <p style="font-size: 14pt;">IDF = log(243/243) = log(1) = <strong>0</strong></p>
+       <p style="font-size: 18pt; font-weight: 700; margin-top: 10px; color: var(--danger-color);">TF-IDF = 0 &cross;</p>
+      </div>
+     </div>
+     <div style="background: var(--accent-color); color: white; padding: 14px 20px; border-radius: 8px; margin-top: 20px; text-align: center;">
+      <p style="font-size: 16pt;">"inflation" appears <strong>14&times; as often</strong> but carries <strong>zero information</strong> &mdash; information &prop; rarity, not frequency</p>
+     </div>
+    </section>
+
+    <section id="tfidf-code" style="padding: 40px 50px;">
+     <h2><i class="fa-solid fa-code" style="color: var(--secondary-color);"></i> In Code: TfidfVectorizer</h2>
+     <pre style="background: #1e1e2e; color: #cdd6f4; padding: 20px 24px; border-radius: 8px; font-size: 14pt; line-height: 1.6; margin-top: 16px; overflow-x: auto;"><code>from sklearn.feature_extraction.text import TfidfVectorizer
+
+vectorizer = TfidfVectorizer(
+    max_features=1000,       # Keep top 1000 words
+    stop_words='english',    # Remove common English words
+    ngram_range=(1, 2),      # Bigrams: "interest rate", "labor market"
+    sublinear_tf=True,       # 1 + log(tf) &mdash; diminishing returns
+)
+
+X_tfidf = vectorizer.fit_transform(documents)
+# Shape: (243, 1000) &mdash; 243 meetings &times; 1000 features</code></pre>
+     <p style="font-size: 15pt; margin-top: 16px; color: var(--muted-color);"><strong>sublinear_tf</strong>: Mentioning "growth" 20 times &ne; 20&times; more growth-focused. Diminishing marginal information.</p>
+    </section>
+
+    <section>
+     <section id="discussion-1-question" style="padding: 40px 50px;">
+      <h2><i class="fa-solid fa-comments" style="color: var(--secondary-color);"></i> Discussion</h2>
+      <div style="background: #f8f6f3; padding: 28px 32px; border-radius: 8px; border-left: 5px solid var(--secondary-color); margin-top: 24px;">
+       <p style="font-size: 20pt; line-height: 1.5;">You count the word <strong>"inflation"</strong> 15 times in January 2023 FOMC minutes and 12 times in March 2023.</p>
+       <p style="font-size: 20pt; line-height: 1.5; margin-top: 12px;">Can you conclude January was <em>more focused</em> on inflation? <strong>Why or why not?</strong></p>
+                <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>2</strong> to start the timer.</p>
+        </div>
+      <p style="font-size: 16pt; color: var(--muted-color); margin-top: 20px;"><i class="fa-solid fa-users"></i> Think-pair-share: 2 min with a partner, then 2 min class discussion</p>
+     </section>
+     <section id="discussion-1-debrief" style="padding: 40px 50px;">
+      <h2><i class="fa-solid fa-lightbulb" style="color: var(--accent-color);"></i> Discussion Debrief</h2>
+      <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;">
+       <div style="background: #fdf0f0; padding: 18px 22px; border-radius: 8px; border-left: 4px solid var(--danger-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--danger-color);">Problem 1: Document Length</p>
+        <p style="font-size: 15pt;">15 mentions in 15,000 words (0.1%) &lt; 12 mentions in 5,000 words (0.24%). <strong>TF normalizes</strong> for document length.</p>
+       </div>
+       <div style="background: #fdf0f0; padding: 18px 22px; border-radius: 8px; border-left: 4px solid var(--danger-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--danger-color);">Problem 2: Corpus Context</p>
+        <p style="font-size: 15pt;">"inflation" appears in all 243 sets of minutes (lab Step 3), so even 15 mentions is not distinctive. <strong>IDF penalizes</strong> common words.</p>
+       </div>
+      </div>
+      <p style="font-size: 16pt; font-weight: 600; color: var(--success-color); margin-top: 16px;">TF-IDF handles both problems &mdash; it accounts for document-level frequency AND corpus-level rarity.</p>
+     </section>
+    </section>
+
+    <section class="section-divider" data-state="is-section-divider" id="divider-sentiment">
+     <p style="font-size: 14pt; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 3px;">Section 3</p>
+     <h1 style="font-size: 36pt;">Sentiment Analysis</h1>
+     <p style="font-size: 16pt; color: var(--muted-color);">Why generic dictionaries fail &mdash; and what works</p>
+    </section>
+
+    <section id="generic-fails" style="padding: 40px 50px;">
+     <h2>Why Generic Sentiment Fails</h2>
+     <p style="font-size: 16pt; line-height: 1.6;">The Harvard General Inquirer (1960s) classifies words for everyday English. In financial text, this fails badly:</p>
+     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; margin-top: 16px;">
+      <div style="background: #fdf0f0; padding: 14px; border-radius: 8px; text-align: center;">
+       <p style="font-size: 16pt; font-weight: 700;">"liability"</p>
+       <p style="font-size: 13pt; color: var(--danger-color);">Harvard: NEGATIVE</p>
+       <p style="font-size: 13pt; color: var(--success-color);">Reality: accounting term</p>
+      </div>
+      <div style="background: #fdf0f0; padding: 14px; border-radius: 8px; text-align: center;">
+       <p style="font-size: 16pt; font-weight: 700;">"tax"</p>
+       <p style="font-size: 13pt; color: var(--danger-color);">Harvard: NEGATIVE</p>
+       <p style="font-size: 13pt; color: var(--success-color);">Reality: line item</p>
+      </div>
+      <div style="background: #fdf0f0; padding: 14px; border-radius: 8px; text-align: center;">
+       <p style="font-size: 16pt; font-weight: 700;">"capital"</p>
+       <p style="font-size: 13pt; color: var(--danger-color);">Harvard: NEGATIVE</p>
+       <p style="font-size: 13pt; color: var(--success-color);">Reality: balance sheet</p>
+      </div>
+      <div style="background: #fdf0f0; padding: 14px; border-radius: 8px; text-align: center;">
+       <p style="font-size: 16pt; font-weight: 700;">"foreign"</p>
+       <p style="font-size: 13pt; color: var(--danger-color);">Harvard: NEGATIVE</p>
+       <p style="font-size: 13pt; color: var(--success-color);">Reality: geographic</p>
+      </div>
+     </div>
+     <div style="background: var(--danger-color); color: white; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center;">
+      <p style="font-size: 28pt; font-weight: 700;">73.8%</p>
+      <p style="font-size: 16pt;">of Harvard "negative" words are NOT negative in financial text</p>
+      <p style="font-size: 13pt; margin-top: 4px;">Loughran &amp; McDonald (2011), <em>Journal of Finance</em></p>
+     </div>
+    </section>
+
+    <section id="harvard-vs-lm" style="padding: 30px 50px;">
+     <h2>Harvard GI vs. Loughran-McDonald</h2>
+     <div style="text-align: center; margin-top: 10px;">
+      <img alt="Comparison of Harvard General Inquirer vs Loughran-McDonald classification — Harvard misclassifies neutral financial vocabulary as negative" src="figures/ch23-harvard-vs-lm.png" style="max-height: 520px; border-radius: 8px;">
+     </div>
+    </section>
+
+    <section>
+     <section id="poll-2-question" style="padding: 40px 50px;">
+      <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--accent-color);"></i> Class Poll</h2>
+      <p style="font-size: 20pt; font-weight: 600; margin-top: 20px;">Which of these words is NEGATIVE in a 10-K annual filing?</p>
+      <div class="poll-grid" data-poll-id="ch23-econ3916-poll2-negative-word" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px;">
+       <div class="poll-option" data-value="A" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>A)</strong> "liability" &mdash; every company has liabilities</p>
+       </div>
+       <div class="poll-option" data-value="B" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>B)</strong> "litigation" &mdash; the company is being sued</p>
+       </div>
+       <div class="poll-option" data-value="C" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>C)</strong> "capital" &mdash; an accounting category</p>
+       </div>
+       <div class="poll-option" data-value="D" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>D)</strong> "foreign" &mdash; describes a geographic segment</p>
+       </div>
+      </div>
+      <div data-poll-results="ch23-econ3916-poll2-negative-word"></div>
+     </section>
+     <section id="poll-2-reveal" style="padding: 40px 50px;">
+      <h2><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> Poll 2 Reveal</h2>
+      <div style="background: var(--success-color); color: white; padding: 18px 24px; border-radius: 8px; margin-top: 16px;">
+       <p style="font-size: 20pt; font-weight: 700;">Answer: (B) "litigation" &mdash; being sued IS negative</p>
+      </div>
+      <p style="font-size: 16pt; margin-top: 16px;">The Harvard General Inquirer classifies <strong>all four</strong> as negative.</p>
+      <p style="font-size: 16pt; margin-top: 8px;">Only the <strong>Loughran-McDonald lexicon</strong> correctly identifies liability, capital, and foreign as <strong>neutral</strong> in financial context.</p>
+      <p style="font-size: 16pt; margin-top: 16px; font-weight: 600; color: var(--accent-color);">Lesson: Always use domain-specific lexicons for economic text.</p>
+     </section>
+    </section>
+
+    <section id="lm-lexicon" style="padding: 40px 50px;">
+     <h2>The Loughran-McDonald Lexicon</h2>
+     <table style="font-size: 14pt; width: 100%; border-collapse: collapse; margin-top: 16px;">
+      <thead>
+       <tr style="background: var(--secondary-color); color: white;">
+        <th style="padding: 10px 14px; text-align: left;">Category</th>
+        <th style="padding: 10px 14px; text-align: left;">Examples</th>
+        <th style="padding: 10px 14px; text-align: center;">Words</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr style="background: #fdf0f0;"><td style="padding: 10px 14px; font-weight: 600; color: var(--danger-color);">Negative</td><td style="padding: 10px 14px;">loss, impairment, default, litigation, adverse</td><td style="padding: 10px 14px; text-align: center;">~2,350</td></tr>
+       <tr><td style="padding: 10px 14px; font-weight: 600; color: var(--success-color);">Positive</td><td style="padding: 10px 14px;">achieve, benefit, gain, improve, profitable</td><td style="padding: 10px 14px; text-align: center;">~354</td></tr>
+       <tr style="background: #f8f6f3;"><td style="padding: 10px 14px; font-weight: 600; color: var(--accent-color);">Uncertainty</td><td style="padding: 10px 14px;">approximate, contingent, possible, uncertain</td><td style="padding: 10px 14px; text-align: center;">~290</td></tr>
+       <tr><td style="padding: 10px 14px; font-weight: 600;">Litigious</td><td style="padding: 10px 14px;">claimant, defendant, deposition, tribunal</td><td style="padding: 10px 14px; text-align: center;">~900</td></tr>
+       <tr style="background: #f8f6f3;"><td style="padding: 10px 14px; font-weight: 600;">Constraining</td><td style="padding: 10px 14px;">commit, obligation, prohibit, restrict</td><td style="padding: 10px 14px; text-align: center;">~180</td></tr>
+      </tbody>
+     </table>
+     <div style="background: #f8f6f3; padding: 16px 20px; border-radius: 8px; margin-top: 16px; text-align: center;">
+      <p style="font-size: 16pt;">\[\text{Sent}(d) = \frac{N_{\text{pos}} - N_{\text{neg}}}{N_{\text{pos}} + N_{\text{neg}} + \varepsilon}\]</p>
+      <p style="font-size: 14pt; color: var(--muted-color); margin-top: 6px;">Ranges from &minus;1 (all negative) to +1 (all positive)</p>
+     </div>
+    </section>
+
+    <section id="bloomberg-fedspeak" style="padding: 30px 50px;">
+     <h2><i class="fa-solid fa-chart-line" style="color: var(--secondary-color);"></i> FedSpeak Sentiment vs. Rate Decisions</h2>
+     <div style="text-align: center; margin-top: 8px;">
+      <img alt="LM sentiment score plotted against Federal Funds Rate from 1994-2025, showing correlation between hawkish language and rate hikes" src="figures/ch23-sentiment-vs-rate.png" style="max-height: 420px; border-radius: 8px;">
+     </div>
+     <div style="background: #f8f6f3; padding: 14px 20px; border-radius: 8px; margin-top: 12px;">
+      <p style="font-size: 15pt;"><strong>In practice:</strong> data vendors such as Bloomberg score Fed-related text for <strong>hawkish or dovish</strong> tone and sell the index to traders</p>
+     </div>
+    </section>
+
+    <section id="decision-scenario" style="padding: 40px 50px;">
+     <h2><i class="fa-solid fa-scale-balanced" style="color: var(--accent-color);"></i> Decision Scenario</h2>
+     <p style="font-size: 16pt; margin-top: 12px;">Your hedge fund client wants sentiment analysis on FOMC minutes. Three options:</p>
+     <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 16px;">
+      <div style="display: grid; grid-template-columns: 80px 1fr; background: #f8f6f3; border-radius: 8px; padding: 16px; border-left: 4px solid var(--danger-color); align-items: center;">
+       <p style="font-size: 18pt; font-weight: 700; color: var(--danger-color); text-align: center;">A</p>
+       <div><p style="font-size: 15pt;"><strong>Harvard GI</strong> &mdash; Free, fast, general-purpose. ~73.8% misclassification on financial text.</p></div>
+      </div>
+      <div style="display: grid; grid-template-columns: 80px 1fr; background: #f8f6f3; border-radius: 8px; padding: 16px; border-left: 4px solid var(--success-color); align-items: center;">
+       <p style="font-size: 18pt; font-weight: 700; color: var(--success-color); text-align: center;">B</p>
+       <div><p style="font-size: 15pt;"><strong>Loughran-McDonald</strong> &mdash; Free, domain-specific, standard in finance research. Transparent &amp; replicable.</p></div>
+      </div>
+      <div style="display: grid; grid-template-columns: 80px 1fr; background: #f8f6f3; border-radius: 8px; padding: 16px; border-left: 4px solid var(--secondary-color); align-items: center;">
+       <p style="font-size: 18pt; font-weight: 700; color: var(--secondary-color); text-align: center;">C</p>
+       <div><p style="font-size: 15pt;"><strong>Fine-tuned Transformer</strong> &mdash; $50K+ to develop, best accuracy, black box. Bloomberg's approach.</p></div>
+      </div>
+     </div>
+     <p style="font-size: 16pt; font-weight: 600; color: var(--accent-color); margin-top: 16px; text-align: center;">Show of hands: which do you recommend?</p>
+    </section>
+
+    <section id="takeaways" style="padding: 40px 50px;">
+     <h2><i class="fa-solid fa-star" style="color: var(--accent-color);"></i> Key Takeaways</h2>
+     <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 16px;">
+      <div style="display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start;">
+       <div style="width: 32px; height: 32px; background: var(--secondary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">1</div>
+       <p style="font-size: 15pt;"><strong>Text is a feature engineering problem.</strong> The DTM is the same \(\mathbf{X}\) matrix from Ch 22, with words as features.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start;">
+       <div style="width: 32px; height: 32px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">2</div>
+       <p style="font-size: 15pt;"><strong>TF-IDF weights by distinctiveness.</strong> Frequent here + rare everywhere = high signal.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start;">
+       <div style="width: 32px; height: 32px; background: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">3</div>
+       <p style="font-size: 15pt;"><strong>Domain-specific lexicons are essential.</strong> Harvard GI misclassifies 73.8% of financial "negative" words.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start;">
+       <div style="width: 32px; height: 32px; background: var(--danger-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">4</div>
+       <p style="font-size: 15pt;"><strong>The pipeline works.</strong> Tokenize &rarr; TF-IDF &rarr; LM-style sentiment &rarr; check against Fed events.</p>
+      </div>
+     </div>
+     <div style="background: #f8f6f3; padding: 14px 20px; border-radius: 8px; margin-top: 16px;">
+      <p style="font-size: 14pt; color: var(--muted-color);"><strong>Next:</strong> Ch 24 uses text features as <em>controls</em> in causal estimation (DML). Ch 25 queries FOMC docs with natural language (RAG).</p>
+     </div>
+    </section>
+    <section id="exit-ticket" style="padding: 32px 60px;">
+      <h2><i class="fa-solid fa-ticket" style="color: var(--accent-color);"></i> End-of-Class Check</h2>
+      <div class="content">
+        <div style="background: #f0f5f8; border-radius: 10px; padding: 18px 24px;">
+          <p style="font-size: 16pt; line-height: 1.65;">You convert 243 sets of FOMC minutes into a TF-IDF matrix.</p>
+          <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What have you actually produced?</strong></p>
+        </div>
+        <div style="background: #f4f7f4; border-left: 4px solid var(--accent-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
+          <p style="font-size: 15.5pt; line-height: 1.6;"><strong>Any answer earns full credit</strong> &mdash; attendance marks that you were here, not that you were right. You get the reasoning either way.</p>
+        </div>
+        <div style="background: #f8f6f3; border-left: 4px solid var(--danger-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
+          <p style="font-size: 16pt;"><i class="fa-solid fa-lock" style="color: var(--danger-color);"></i> <strong>Attendance is the check-in on your phone</strong> &mdash; enter your NUID once, then vote in today&rsquo;s polls. <strong>No Canvas quiz and no access code.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="lab-overview" style="padding: 40px 50px;">
+     <h2><i class="fa-solid fa-laptop-code" style="color: var(--secondary-color);"></i> Lab: FedSpeak Analysis</h2>
+     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px;">
+      <div>
+       <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center;">
+         <div style="background: var(--secondary-color); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</div>
+         <p style="font-size: 14pt;">Load a saved copy of the FOMC minutes <span style="color: var(--muted-color);">(guided)</span></p>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center;">
+         <div style="background: var(--secondary-color); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</div>
+         <p style="font-size: 14pt;">Preprocess text: tokenize, lemmatize, stop words <span style="color: var(--muted-color);">(guided)</span></p>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center;">
+         <div style="background: var(--secondary-color); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700;">3</div>
+         <p style="font-size: 14pt;">Build TF-IDF matrix <span style="color: var(--muted-color);">(guided)</span></p>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center;">
+         <div style="background: var(--accent-color); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700;">4</div>
+         <p style="font-size: 14pt;">Compute LM-style sentiment scores <span style="color: var(--accent-color); font-weight: 600;">(your task)</span></p>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center;">
+         <div style="background: var(--secondary-color); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700;">5</div>
+         <p style="font-size: 14pt;">Visualize sentiment over time <span style="color: var(--muted-color);">(guided)</span></p>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center;">
+         <div style="background: var(--accent-color); color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700;">6</div>
+         <p style="font-size: 14pt;">Cluster FOMC meetings with K-Means <span style="color: var(--accent-color); font-weight: 600;">(optional &mdash; Ch 22 callback)</span></p>
+        </div>
+       </div>
+      </div>
+      <div style="text-align: center;">
+       <img alt="FOMC meetings clustered by K-Means on TF-IDF vectors, showing distinct linguistic regimes" src="figures/ch23-fomc-clusters.png" style="max-height: 380px; border-radius: 8px;">
+       <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Illustration only &mdash; Part 6 finds weaker clusters</p>
+      </div>
+     </div>
+    </section>
+
+   </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280,
+      height: 720,
+      margin: 0,
+      controls: true,
+      progress: true,
+      slideNumber: true,
+      hash: true,
+      transition: 'fade',
+      transitionSpeed: 'default',
+      center: false,
+      autoAnimateDuration: 0.6,
+      autoAnimateEasing: 'ease-out',
+      pdfSeparateFragments: false,
+    });
+  </script>
+<script>
+(function () {
+  // 29 Sep 2026, Ryan: reveal's "?" panel only knew reveal's own keys. Every
+  // key the decks add (pen, timers, poll, speaker-view relays) is registered
+  // here so the panel is the one place to look. Rows depend on the window: the
+  // projector and speaker view get the instructor keys; a student's copy gets
+  // only what works for a student. Rows for features a deck lacks are skipped.
+  var q = location.search;
+  var receiver = /[?&]receiver(&|$)/.test(q), current = receiver && /postMessageEvents=true/.test(q);
+  var projector = /[?&]presenter(&|=|$)/.test(q) && !receiver;
+  if (receiver && !current) return;                         // the Upcoming pane is view-only
+  var inst = projector || current || /[?&]instructor(&|=|$)/.test(q);
+  // twice as many rows as reveal's own list: wider and tighter so it fits one screen
+  var css = document.createElement('style');
+  var H = '.reveal .overlay.overlay-help .viewport .viewport-inner';
+  css.textContent = H + '{width:min(1000px,94vw)!important;max-width:none!important;}' +
+    H + ' table{width:100%!important;}' +
+    H + ' table th,' + H + ' table td{padding:4px 12px!important;font-size:13px!important;line-height:1.3!important;}' +
+    H + ' table td:last-child{text-align:left!important;}' +
+    H + ' table th:first-child,' + H + ' table td:first-child{width:24%!important;}' +
+    H + ' .title{margin:0!important;}' + H + ' br{display:none;}' +
+    '.reveal .overlay.overlay-help .viewport{padding-top:0!important;}' + H + '{padding-top:18px!important;}';
+  document.head.appendChild(css);
+  function go() {
+    if (!Reveal.registerKeyboardShortcut) return;
+    var K = function (k, d) { Reveal.registerKeyboardShortcut(k, d); };
+    var hasTimer = !!document.getElementById('cd-wrap');
+    var hasPoll = !!document.querySelector('.poll-grid, [data-poll-voting]');
+    if (inst) {
+      K('F', 'Fullscreen &mdash; pressed in speaker view, it full-screens the <b>projector</b>');
+      K('ESC, O', 'Slide overview &mdash; from speaker view, on <b>both</b> screens (Enter or a click picks a slide)');
+      K('M', 'Move keyboard focus between the projector and speaker view (Cmd-` brings a window forward)');
+      if (hasTimer) K('1 &ndash; 9', 'Countdown timer for that many minutes (same number again hides it); starts on both screens');
+      if (hasPoll) K('T', 'Poll slide: open / close voting. In speaker view, clicking an option votes on the projector');
+    }
+    K('D', 'Pen on / off (Esc also leaves it)');
+    K('Pen: F L A R S Y', 'Free draw &middot; line &middot; arrow &middot; box &middot; shade &middot; triangle');
+    K('Pen: G N H E', 'Axis guides &middot; curve label &middot; shifted copy &middot; eraser');
+    K('Pen: [ ] Z X C P', 'Thinner &middot; thicker &middot; undo &middot; redo &middot; clear slide &middot; save as PNG');
+    K('?', 'This list');
+    // S is registered by reveal's notes plugin as a key BINDING ("Speaker notes
+    // view"), which the panel lists after these rows; a second S row would be a
+    // duplicate. Its description is not reachable through the API, so the row is
+    // amended when the panel is drawn.
+    if (inst) {
+      var wrap = document.querySelector('.reveal');
+      if (wrap && window.MutationObserver) new MutationObserver(function () {
+        var o = wrap.querySelector('.overlay-help');
+        if (!o || o.__tiS) return; o.__tiS = 1;
+        [].forEach.call(o.querySelectorAll('td'), function (td) {
+          if (td.textContent === 'Speaker notes view' && td.parentNode) td.parentNode.remove();   // v3: Ryan does not want the S row
+        });
+      }).observe(wrap, { childList: true });
+    }
+  }
+  if (window.Reveal && Reveal.isReady && Reveal.isReady()) go();
+  else if (window.Reveal && Reveal.on) Reveal.on('ready', go);
+})();
+</script>
+<script>
+(function () {
+  // public controls, cut from the presenter gate (v27) by strip_notes.py:
+  // what a student's copy of the deck always had (pen, full screen, home link). No speaker view in this build.
+  var current = false;
+  // ---- annotation: temporary marks on the slide -------------------------
+  // A whiteboard, not a document. Strokes live in memory only, keyed by
+  // slide, and are gone when the deck is closed -- asked for explicitly, so
+  // there is no storage anywhere in here.
+  //
+  // Points are kept in SLIDE units, the same 1280x720 space the laser dot
+  // uses. Canvas pixels would be wrong the moment the window is resized or
+  // the deck is thrown at a projector with a different aspect: the marks
+  // have to sit on the WORDS they were drawn on.
+  //
+  // The shape set is chosen for an economics board, not for drawing in
+  // general: a straight LINE for a budget line or a tangent, an ARROW for
+  // "demand shifts right", a RECT and a translucent SHADE for tax revenue and
+  // surplus boxes, a right TRIANGLE for deadweight loss, and GUIDES -- the
+  // dashed pair dropped from a point to the two axes, which is the single
+  // most-drawn mark in a micro lecture.
+  var Ink = (function () {
+    var PENS = [
+      { n: 'Red',    c: '#e11d48' },
+      { n: 'Blue',   c: '#2563eb' },
+      { n: 'Green',  c: '#059669' },
+      { n: 'Orange', c: '#ea580c' },
+      { n: 'Black',  c: '#111827' },
+      { n: 'Highlighter', c: 'rgba(250,204,21,.45)', hi: true }
+    ];
+    var SIZES = [2, 4, 8];            // thin / medium / thick, in slide units
+    var TOOLS = [
+      { k: 'free',  i: 'fa-pencil',           t: 'Freehand (f)' },
+      { k: 'line',  i: 'fa-slash',            t: 'Straight line (l)' },
+      { k: 'arrow', i: 'fa-arrow-right-long', t: 'Arrow — a shift (a)' },
+      { k: 'rect',  i: 'fa-square',           t: 'Rectangle (r)' },
+      { k: 'shade', i: 'fa-fill-drip',        t: 'Shaded area — revenue, surplus (s)' },
+      { k: 'tri',   i: 'fa-play',             t: 'Right triangle — deadweight loss (y)' },
+      { k: 'guide', i: 'fa-crosshairs',       t: 'Dashed guides to the axes (g)' },
+      { k: 'label', i: 'fa-font',             t: 'Curve label \u2014 D, S, MC, D\u2032 (n)' },
+      { k: 'ghost', i: 'fa-clone',            t: 'Shifted ghost of a curve \u2014 drag it across (h)' }
+    ];
+    var cv, ctx, active = false, erasing = false, pi = 0, si = 1, tool = 'free';
+    var ops = {}, undone = {}, cur = null, rcur = null, relay = null, bar = null, btn = null;
+
+    function skey() { var i = Reveal.getIndices(); return i.h + '.' + (i.v || 0); }
+    function box() { var s = document.querySelector('.reveal .slides'); return s ? s.getBoundingClientRect() : null; }
+    function width() { return PENS[pi].hi ? 24 : SIZES[si]; }
+
+    function ensure() {
+      if (cv) return;
+      cv = document.createElement('canvas');
+      cv.id = 'ti-ink';
+      cv.style.cssText = 'position:fixed;z-index:9990;pointer-events:none;touch-action:none';
+      document.body.appendChild(cv);
+      cv.addEventListener('pointerdown', down);
+      cv.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+      window.addEventListener('pointercancel', up);
+      fit();
+    }
+    function fit() {
+      var r = box(); if (!r || !cv) return;
+      var dpr = window.devicePixelRatio || 1;
+      cv.style.left = r.left + 'px'; cv.style.top = r.top + 'px';
+      cv.style.width = r.width + 'px'; cv.style.height = r.height + 'px';
+      cv.width = Math.max(1, Math.round(r.width * dpr));
+      cv.height = Math.max(1, Math.round(r.height * dpr));
+      ctx = cv.getContext('2d');
+      render();
+    }
+    // Live strokes are DERIVED by replaying this slide's op log, so undo and
+    // redo are a cursor into that log and never have to reverse a partially
+    // erased stroke by hand.
+    function live() {
+      var list = [], o = ops[skey()] || [];
+      o.forEach(function (op) {
+        if (op.t === 'add') list.push(op.s);
+        else if (op.t === 'del' && op.ids) list = list.filter(function (s) { return op.ids.indexOf(s.id) < 0; });
+        else if (op.t === 'del') op.ss.forEach(function (s) {
+          var i = list.indexOf(s); if (i >= 0) list.splice(i, 1);
+        });
+      });
+      return list;
+    }
+    // One description of every shape, used for BOTH drawing and erasing, so
+    // the two can never disagree about where a mark is.
+    function paths(s) {
+      var p = s.pts, a = p[0], b = p[p.length - 1];
+      if (s.k === 'free' || !s.k) return [p];
+      if (s.k === 'line' || s.k === 'arrow') return [[a, b]];
+      if (s.k === 'rect' || s.k === 'shade')
+        return [[a, { x: b.x, y: a.y }, b, { x: a.x, y: b.y }, a]];
+      if (s.k === 'tri') return [[a, b, { x: b.x, y: a.y }, a]];
+      if (s.k === 'guide') return [[a, { x: b.x, y: a.y }], [a, { x: a.x, y: b.y }]];
+      if (s.k === 'text') return [];
+      return [p];
+    }
+    function render() {
+      if (!cv || !ctx) return;
+      var r = box(); if (!r) return;
+      var dpr = window.devicePixelRatio || 1, k = Reveal.getScale() * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.setTransform(k, 0, 0, k, 0, 0);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      var all = live(); if (rcur) all = all.concat([rcur]); if (cur) all = all.concat([cur]);
+      all.forEach(function (s) {
+        if (!s.pts.length) return;
+        ctx.save();
+        if (s.k === 'text') {
+          ctx.globalAlpha = s.ghost ? 0.6 : 1;
+          ctx.fillStyle = s.c;
+          // italic serif, because that is how a curve is labelled on a board
+          ctx.font = 'italic 700 ' + (s.size || 22) + 'px Georgia,"Times New Roman",serif';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(s.txt || '', s.pts[0].x, s.pts[0].y);
+          ctx.restore(); return;
+        }
+        ctx.strokeStyle = s.c; ctx.lineWidth = s.w;
+        if (s.ghost) { ctx.globalAlpha = 0.6; ctx.setLineDash([9, 7]); }
+        else ctx.setLineDash(s.k === 'guide' ? [7, 6] : []);
+        if (s.k === 'shade') {
+          ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = s.c;
+          var q = s.pts[0], z = s.pts[s.pts.length - 1];
+          ctx.fillRect(Math.min(q.x, z.x), Math.min(q.y, z.y), Math.abs(z.x - q.x), Math.abs(z.y - q.y));
+          ctx.restore();
+        }
+        paths(s).forEach(function (seg) {
+          if (seg.length < 1) return;
+          ctx.beginPath(); ctx.moveTo(seg[0].x, seg[0].y);
+          for (var i = 1; i < seg.length; i++) ctx.lineTo(seg[i].x, seg[i].y);
+          if (seg.length === 1) ctx.lineTo(seg[0].x + 0.01, seg[0].y + 0.01);
+          ctx.stroke();
+        });
+        if (s.k === 'arrow') {
+          var a = s.pts[0], b = s.pts[s.pts.length - 1];
+          var ang = Math.atan2(b.y - a.y, b.x - a.x), L = 9 + s.w * 2.2;
+          ctx.beginPath();
+          ctx.moveTo(b.x, b.y);
+          ctx.lineTo(b.x - L * Math.cos(ang - 0.42), b.y - L * Math.sin(ang - 0.42));
+          ctx.moveTo(b.x, b.y);
+          ctx.lineTo(b.x - L * Math.cos(ang + 0.42), b.y - L * Math.sin(ang + 0.42));
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        ctx.restore();
+      });
+    }
+    function at(ev) {
+      var r = box(), k = Reveal.getScale() || 1;
+      return { x: (ev.clientX - r.left) / k, y: (ev.clientY - r.top) / k };
+    }
+    function push(op) {
+      if (op.t === 'add' && op.s && !op.s.id) op.s.id = Math.random().toString(36).slice(2, 10);
+      var k = skey(); (ops[k] = ops[k] || []).push(op); undone[k] = [];
+    }
+    // v25: the WHOLE log of one slide, so the other window can replace its own -- the two
+    // can then never disagree about which stroke an undo or an erase meant
+    function snap() {
+      var k = skey();
+      send({ k: 'snap', key: k, ops: JSON.parse(JSON.stringify(ops[k] || [])), undone: JSON.parse(JSON.stringify(undone[k] || [])) });
+    }
+    function snapAll() {
+      Object.keys(ops).forEach(function (k) {
+        if ((ops[k] || []).length || (undone[k] || []).length)
+          send({ k: 'snap', key: k, ops: JSON.parse(JSON.stringify(ops[k] || [])), undone: JSON.parse(JSON.stringify(undone[k] || [])) });
+      });
+    }
+    function send(m) { if (relay) relay(m); }
+
+    // erase whole strokes, not pixels: one op to undo, and it never leaves
+    // half a rubbed-out line behind
+    function eraseAt(p) {
+      var hit = [], R = 14;
+      live().forEach(function (s) {
+        if (s.k === 'text') {
+          var half = (s.size || 22) * 0.6, wide = (s.txt || '').length * (s.size || 22) * 0.34;
+          if (p.x > s.pts[0].x - 8 && p.x < s.pts[0].x + wide + 8 &&
+              p.y > s.pts[0].y - half && p.y < s.pts[0].y + half) hit.push(s);
+          return;
+        }
+        var segs = paths(s), i, j, pts;
+        for (i = 0; i < segs.length; i++) {
+          pts = segs[i];
+          for (j = 0; j < pts.length; j++) {
+            var dx = pts[j].x - p.x, dy = pts[j].y - p.y;
+            if (dx * dx + dy * dy < (R + s.w) * (R + s.w)) { hit.push(s); return; }
+          }
+          // a long straight edge has few vertices: walk it
+          for (j = 1; j < pts.length; j++) {
+            var A = pts[j - 1], B = pts[j], L = Math.hypot(B.x - A.x, B.y - A.y);
+            if (L < 1) continue;
+            var t = ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y)) / (L * L);
+            if (t < 0 || t > 1) continue;
+            var cx = A.x + t * (B.x - A.x), cy = A.y + t * (B.y - A.y);
+            if (Math.hypot(p.x - cx, p.y - cy) < R + s.w) { hit.push(s); return; }
+          }
+        }
+      });
+      if (hit.length) { push({ t: 'del', ids: hit.map(function (s) { return s.id; }) }); render(); paintBar(); return true; }
+    }
+    // nearest live stroke to a point, by the same segment walk the eraser uses
+    function nearest(p) {
+      var best = null, bd = 1e9;
+      live().forEach(function (s) {
+        paths(s).forEach(function (pts) {
+          for (var j = 1; j < pts.length; j++) {
+            var A = pts[j - 1], B = pts[j], L = Math.hypot(B.x - A.x, B.y - A.y);
+            var cx, cy, tt;
+            if (L < 1) { cx = A.x; cy = A.y; }
+            else {
+              tt = Math.max(0, Math.min(1, ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y)) / (L * L)));
+              cx = A.x + tt * (B.x - A.x); cy = A.y + tt * (B.y - A.y);
+            }
+            var d = Math.hypot(p.x - cx, p.y - cy);
+            if (d < bd) { bd = d; best = s; }
+          }
+        });
+      });
+      return bd < 40 ? best : null;
+    }
+    // A label is typed, not drawn, so it gets a real input at the click point
+    // rather than a prompt() -- a modal dialog in front of a projected slide is
+    // worse than the thing it is trying to collect.
+    function labelAt(p, ev) {
+      var r = box(), k = Reveal.getScale() || 1, size = 16 + si * 6;
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.placeholder = 'D\u2032';
+      inp.style.cssText = 'position:fixed;z-index:10004;left:' + (r.left + p.x * k - 6) + 'px;top:' +
+        (r.top + p.y * k - size * k * 0.75) + 'px;width:130px;font:italic 700 ' + Math.round(size * k) +
+        'px Georgia,serif;color:' + PENS[pi].c + ';background:rgba(255,255,255,.92);border:2px solid ' +
+        PENS[pi].c + ';border-radius:6px;padding:1px 5px;outline:none';
+      document.body.appendChild(inp);
+      // v27: the box grows with the text. At 130px fixed, a large italic label scrolled its
+      // start out of sight after four characters and Ryan could not see what he typed.
+      var meas = document.createElement('canvas').getContext('2d');
+      meas.font = 'italic 700 ' + Math.round(size * k) + 'px Georgia,serif';
+      var grow = function () {
+        var w = meas.measureText(inp.value || inp.placeholder).width;
+        inp.style.width = Math.max(60, Math.ceil(w + size * k * 0.9 + 14)) + 'px';
+      };
+      inp.addEventListener('input', grow); grow();
+      inp.focus();
+      var done = function (commit) {
+        var txt = inp.value.trim();
+        inp.remove();
+        if (!commit || !txt) return;
+        var s = { k: 'text', c: PENS[pi].c, w: SIZES[si], size: size, txt: txt, pts: [p] };
+        push({ t: 'add', s: s }); snap();
+        render(); paintBar();
+      };
+      inp.addEventListener('keydown', function (e) {
+        e.stopPropagation();                       // Reveal and Ink both listen on document
+        if (e.key === 'Enter') { e.preventDefault(); done(true); }
+        if (e.key === 'Escape') { e.preventDefault(); done(false); }
+      });
+      inp.addEventListener('blur', function () { done(true); });
+    }
+
+    function down(ev) {
+      if (!active) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var p = at(ev);
+      if (erasing) { if (eraseAt(p)) snap(); return; }
+      if (tool === 'label') { labelAt(p, ev); return; }
+      if (tool === 'ghost') {
+        // copy the curve you pressed on, then drag the copy to where it shifted
+        var src = nearest(p);
+        if (!src) return;
+        var base = src.pts.map(function (q) { return { x: q.x, y: q.y }; });
+        cur = { k: src.k, c: src.c, w: src.w, size: src.size, txt: src.txt,
+                ghost: true, base: base, from: p, pts: base };
+        render(); return;
+      }
+      cur = { c: PENS[pi].c, w: width(), k: tool, pts: [p, p] };
+      send({ k: 'down', x: p.x, y: p.y, c: cur.c, w: cur.w, tool: tool });
+      render();
+    }
+    function move(ev) {
+      if (!active) return;
+      var p = at(ev);
+      if (erasing) {
+        if (ev.buttons && eraseAt(p)) snap();
+        return;
+      }
+      if (!cur) return;
+      ev.preventDefault();
+      if (cur.ghost) {
+        var dx = p.x - cur.from.x, dy = p.y - cur.from.y;
+        cur.pts = cur.base.map(function (q) { return { x: q.x + dx, y: q.y + dy }; });
+        render(); return;                          // relayed whole, on release
+      }
+      if (cur.k === 'free') cur.pts.push(p); else cur.pts[1] = p;
+      send({ k: 'move', x: p.x, y: p.y }); render();
+    }
+    function up() {
+      if (!cur) return;
+      // a shape needs two distinct corners; a tap is not a rectangle
+      var a = cur.pts[0], b = cur.pts[cur.pts.length - 1];
+      var ok = cur.ghost ? Math.hypot(b.x - a.x, b.y - a.y) >= 0
+             : cur.k === 'free' ? cur.pts.length > 1
+             : Math.hypot(b.x - a.x, b.y - a.y) > 4;
+      if (cur.ghost) {
+        var moved = cur.pts.length && cur.base.length &&
+                    Math.hypot(cur.pts[0].x - cur.base[0].x, cur.pts[0].y - cur.base[0].y) > 4;
+        if (moved) {
+          var g = { k: cur.k, c: cur.c, w: cur.w, size: cur.size, txt: cur.txt, ghost: true, pts: cur.pts };
+          push({ t: 'add', s: g }); snap();
+        }
+        cur = null; render(); paintBar(); return;
+      }
+      if (ok) { push({ t: 'add', s: cur }); cur = null; snap(); }
+      else { cur = null; send({ k: 'cancel' }); }
+      render(); paintBar();
+    }
+    // the projected window rebuilds the same stroke from the relayed points
+    function apply(m) {
+      if (!m) return;
+      ensure();
+      // v25: the other window's stroke in progress lives in rcur, never in cur, so a stroke
+      // drawn on each screen at once cannot merge into one
+      if (m.k === 'down') { rcur = { c: m.c, w: m.w, k: m.tool || 'free', pts: [{ x: m.x, y: m.y }, { x: m.x, y: m.y }] }; render(); return; }
+      if (m.k === 'move') { if (rcur) { if (rcur.k === 'free') rcur.pts.push({ x: m.x, y: m.y }); else rcur.pts[1] = { x: m.x, y: m.y }; render(); } return; }
+      if (m.k === 'cancel') { rcur = null; render(); return; }
+      if (m.k === 'snap') {
+        ops[m.key] = m.ops || []; undone[m.key] = m.undone || []; rcur = null;
+        render(); paintBar(); return;
+      }
+      if (m.k === 'req')  { snapAll(); return; }
+      // a window still on v24 or older sends these; keep them working during a mixed reload
+      if (m.k === 'up')   { if (rcur) push({ t: 'add', s: rcur }); rcur = null; render(); return; }
+      if (m.k === 'full') { if (m.s) { push({ t: 'add', s: m.s }); render(); } return; }
+      if (m.k === 'erase'){ eraseAt({ x: m.x, y: m.y }); return; }
+      if (m.k === 'undo') { undo(true); return; }
+      if (m.k === 'redo') { redo(true); return; }
+      if (m.k === 'clear'){ clear(true); return; }
+      if (m.k === 'mode') { setActive(m.on, true); return; }
+    }
+    function undo(q) {
+      var k = skey(), o = ops[k] || [];
+      if (!o.length) return;
+      (undone[k] = undone[k] || []).push(o.pop());
+      render(); paintBar(); if (!q) snap();
+    }
+    function redo(q) {
+      var k = skey(), u = undone[k] || [];
+      if (!u.length) return;
+      (ops[k] = ops[k] || []).push(u.pop());
+      render(); paintBar(); if (!q) snap();
+    }
+    function clear(q) {
+      var k = skey();
+      if (!(ops[k] || []).length) return;
+      undone[k] = (undone[k] || []).concat(ops[k]); ops[k] = [];
+      render(); paintBar(); if (!q) snap();
+    }
+    function setActive(v, q) {
+      active = !!v; ensure();
+      cv.style.pointerEvents = active ? 'auto' : 'none';
+      cv.style.cursor = active ? (erasing ? 'cell' : 'crosshair') : '';
+      if (bar) bar.style.display = active ? 'flex' : 'none';
+      if (btn) btn.style.opacity = active ? '1' : (current ? '.55' : '.18');
+      paintBar(); if (!q) send({ k: 'mode', on: active });
+    }
+
+    /* ---------- save a picture of the board ---------- */
+    // The slide is DOM, not a canvas, so the page cannot screenshot itself
+    // without help. html2canvas is fetched only when this is first pressed --
+    // no cost to a lecture that never uses it -- and if the CDN is unreachable
+    // the ink alone is still saved rather than nothing.
+    function stamp() {
+      var m = location.pathname.match(/\/([^\/]+)\/[^\/]*$/);
+      var n = document.querySelector('.reveal .slide-number');
+      return (m ? m[1] : 'slide') + '-' + (n ? n.textContent.replace(/\s+/g, '') : skey());
+    }
+    function download(blob) {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = stamp() + '.png';
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+    function inkOnly() {
+      var out = document.createElement('canvas');
+      out.width = cv.width; out.height = cv.height;
+      var c = out.getContext('2d');
+      c.fillStyle = '#fff'; c.fillRect(0, 0, out.width, out.height);
+      c.drawImage(cv, 0, 0);
+      out.toBlob(download);
+    }
+    function savePng() {
+      var reveal = document.querySelector('.reveal');
+      var go = function () {
+        window.html2canvas(reveal, { backgroundColor: '#ffffff', scale: 2, logging: false })
+          .then(function (base) {
+            var out = document.createElement('canvas');
+            out.width = base.width; out.height = base.height;
+            var c = out.getContext('2d');
+            c.drawImage(base, 0, 0);
+            var rr = reveal.getBoundingClientRect(), cr = cv.getBoundingClientRect();
+            var k = base.width / rr.width;
+            c.drawImage(cv, (cr.left - rr.left) * k, (cr.top - rr.top) * k, cr.width * k, cr.height * k);
+            out.toBlob(download);
+          })
+          .catch(inkOnly);
+      };
+      if (window.html2canvas) { go(); return; }
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload = go; s.onerror = inkOnly;
+      document.head.appendChild(s);
+    }
+
+    /* ---------- toolbar ---------- */
+    function paintBar() {
+      if (!bar) return;
+      [].forEach.call(bar.querySelectorAll('[data-pen]'), function (b) {
+        b.style.outline = (!erasing && +b.getAttribute('data-pen') === pi) ? '2px solid #111827' : '2px solid transparent';
+      });
+      [].forEach.call(bar.querySelectorAll('[data-size]'), function (b) {
+        var on = +b.getAttribute('data-size') === si;
+        b.style.background = on ? '#111827' : '#e5e7eb';
+        b.firstChild.style.background = on ? '#fff' : '#374151';
+      });
+      [].forEach.call(bar.querySelectorAll('[data-tool]'), function (b) {
+        var on = !erasing && b.getAttribute('data-tool') === tool;
+        b.style.background = on ? '#111827' : '#e5e7eb';
+        b.style.color = on ? '#fff' : '#374151';
+      });
+      var er = bar.querySelector('[data-a="erase"]');
+      if (er) { er.style.background = erasing ? '#111827' : '#e5e7eb'; er.style.color = erasing ? '#fff' : '#374151'; }
+      var k = skey();
+      var u = bar.querySelector('[data-a="undo"]'), rd = bar.querySelector('[data-a="redo"]'),
+          cl = bar.querySelector('[data-a="clear"]'), sv = bar.querySelector('[data-a="save"]');
+      if (u)  u.disabled  = !(ops[k] || []).length;
+      if (rd) rd.disabled = !(undone[k] || []).length;
+      if (cl) cl.disabled = !(ops[k] || []).length;
+      if (sv) sv.disabled = false;
+    }
+    function mount() {
+      if (bar) return;
+      btn = document.createElement('button');
+      btn.id = 'ti-pen'; btn.type = 'button'; btn.title = 'Draw on the slide (d)';
+      btn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+      var rest = current ? '.55' : '.18';
+      btn.style.cssText = 'position:fixed;left:' + (current ? 14 : 94) + 'px;bottom:12px;' +
+        'z-index:10001;width:34px;height:34px;' +
+        'border-radius:50%;display:flex;align-items:center;justify-content:center;' +
+        'background:rgba(255,255,255,.9);color:#6b8ba4;border:1px solid #e5e7eb;cursor:pointer;' +
+        'font-size:14px;padding:0;opacity:' + rest + ';transition:opacity .2s';
+      btn.addEventListener('mouseenter', function () { btn.style.opacity = '1'; });
+      btn.addEventListener('mouseleave', function () { if (!active) btn.style.opacity = rest; });
+      btn.addEventListener('click', function (e) { e.preventDefault(); setActive(!active); });
+      document.body.appendChild(btn);
+
+      bar = document.createElement('div');
+      bar.id = 'ti-ink-bar';
+      bar.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:10px;z-index:10003;' +
+        'display:none;gap:6px;align-items:center;padding:7px 10px;border-radius:11px;' +
+        'background:rgba(255,255,255,.97);box-shadow:0 2px 12px rgba(0,0,0,.22);' +
+        'font:600 12px system-ui,sans-serif;max-width:96vw;flex-wrap:wrap;justify-content:center';
+      var sep = '<span style="width:1px;height:20px;background:#e5e7eb"></span>';
+      var btnCss = 'border:0;border-radius:6px;padding:5px 8px;cursor:pointer;background:#e5e7eb;color:#374151;font:inherit';
+      var html = '';
+      PENS.forEach(function (p, i) {
+        html += '<button data-pen="' + i + '" type="button" title="' + p.n + '" style="width:22px;height:22px;' +
+                'border-radius:50%;border:0;cursor:pointer;padding:0;background:' + p.c + ';' +
+                'outline:2px solid transparent;outline-offset:2px"></button>';
+      });
+      html += sep;
+      SIZES.forEach(function (w, i) {
+        var d = 4 + i * 4;
+        html += '<button data-size="' + i + '" type="button" title="Tip ' + w + '" style="width:26px;height:22px;' +
+                'border:0;border-radius:6px;cursor:pointer;background:#e5e7eb;display:inline-flex;' +
+                'align-items:center;justify-content:center;padding:0">' +
+                '<span style="display:block;width:' + d + 'px;height:' + d + 'px;border-radius:50%;background:#374151"></span></button>';
+      });
+      html += sep;
+      TOOLS.forEach(function (t) {
+        html += '<button data-tool="' + t.k + '" type="button" title="' + t.t + '" style="' + btnCss + '">' +
+                '<i class="fa-solid ' + t.i + '"></i></button>';
+      });
+      html += sep +
+        '<button data-a="erase" type="button" title="Eraser (e)" style="' + btnCss + '">Erase</button>' +
+        '<button data-a="undo" type="button" title="Undo (z)" style="' + btnCss + '">Undo</button>' +
+        '<button data-a="redo" type="button" title="Redo (x)" style="' + btnCss + '">Redo</button>' +
+        '<button data-a="clear" type="button" title="Clear this slide (c)" style="' + btnCss + '">Clear</button>' +
+        '<button data-a="save" type="button" title="Save this slide as a PNG (p)" style="' + btnCss + '">' +
+        '<i class="fa-solid fa-camera"></i></button>' + sep +
+        '<button data-a="done" type="button" title="Stop drawing (d or Esc)" style="' + btnCss +
+        ';background:#111827;color:#fff">Done</button>';
+      bar.innerHTML = html;
+      bar.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+      bar.addEventListener('click', function (e) {
+        var t = e.target.closest('button'); if (!t) return;
+        e.preventDefault(); e.stopPropagation();
+        if (t.hasAttribute('data-pen'))  { pi = +t.getAttribute('data-pen'); erasing = false; setActive(true); return; }
+        if (t.hasAttribute('data-size')) { si = +t.getAttribute('data-size'); setActive(true); return; }
+        if (t.hasAttribute('data-tool')) { tool = t.getAttribute('data-tool'); erasing = false; setActive(true); return; }
+        var a = t.getAttribute('data-a');
+        if (a === 'erase') { erasing = !erasing; setActive(true); }
+        else if (a === 'undo') undo();
+        else if (a === 'redo') redo();
+        else if (a === 'clear') clear();
+        else if (a === 'save') savePng();
+        else if (a === 'done') setActive(false);
+      });
+      document.body.appendChild(bar);
+      ensure();
+      Reveal.on('resize', fit);
+      window.addEventListener('resize', fit);
+      Reveal.on('slidechanged', function () { cur = null; rcur = null; fit(); paintBar(); });
+      paintBar();
+    }
+
+    function keys(e) {
+      // v26: the system shortcuts too, while the pen is on -- Cmd/Ctrl-Z undo,
+      // Cmd/Ctrl-Shift-Z or Ctrl-Y redo. With the pen off they pass through untouched.
+      if (active && (e.metaKey || e.ctrlKey) && !e.altKey) {
+        var kk = (e.key || '').toLowerCase();
+        if (kk === 'z' || kk === 'y') {
+          e.preventDefault(); e.stopPropagation();
+          if (kk === 'y' || e.shiftKey) redo(); else undo();
+          return;
+        }
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target, tag = t && t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+      var k = e.key;
+      if (k === 'd' || k === 'D') { e.preventDefault(); e.stopPropagation(); setActive(!active); return; }
+      if (!active) return;                    // every other key is scoped to draw mode
+      var stop = function () { e.preventDefault(); e.stopPropagation(); };
+      if (k === 'Escape') { stop(); setActive(false); return; }
+      if (k === 'e' || k === 'E') { stop(); erasing = !erasing; setActive(true); return; }
+      if (k === 'z' || k === 'Z') { stop(); undo(); return; }
+      if (k === 'x' || k === 'X') { stop(); redo(); return; }
+      if (k === 'c' || k === 'C') { stop(); clear(); return; }
+      if (k === 'p' || k === 'P') { stop(); savePng(); return; }
+      if (k === '[') { stop(); si = Math.max(0, si - 1); setActive(true); return; }
+      if (k === ']') { stop(); si = Math.min(SIZES.length - 1, si + 1); setActive(true); return; }
+      // NOT "t": that is the poll open/close key, and it has to keep working
+      // while the pen is armed so a poll slide can be annotated and still
+      // opened for voting. Triangle takes "y" instead.
+      var map = { f: 'free', l: 'line', a: 'arrow', r: 'rect', s: 'shade', y: 'tri', g: 'guide',
+                  n: 'label', h: 'ghost' };
+      var want = map[k.toLowerCase && k.toLowerCase()];
+      if (want) { stop(); tool = want; erasing = false; setActive(true); }
+    }
+
+    return {
+      mount: mount, apply: apply, fit: fit, keys: keys, ask: function () { send({ k: 'req' }); },
+      on: function () { return active; },
+      relayTo: function (fn) { relay = fn; }
+    };
+  })();
+
+  // ---- full screen ----------------------------------------------------
+  // requestFullscreen needs TRANSIENT user activation IN THE WINDOW THAT GOES
+  // FULL SCREEN, so only a click (or "f") inside the projected window can do
+  // it. The speaker-view button and the click-anywhere target that used to work
+  // around that are GONE: they worked, but two windows and two clicks to reach
+  // full screen was never worth it. "m" then "f" does the same job from the
+  // keyboard -- see swapFocus below.
+  function goFull() {
+    var el = document.documentElement;
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    try {
+      var p = el.requestFullscreen();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+
+  function fsButton() {                 // projector window: the one-click path
+    if (document.getElementById('ti-fs')) return;
+    var b = document.createElement('button');
+    b.id = 'ti-fs'; b.type = 'button'; b.title = 'Full screen (f)';
+    b.innerHTML = '<i class="fa-solid fa-expand"></i>';
+    b.style.cssText = 'position:fixed;left:54px;bottom:12px;z-index:10001;width:34px;height:34px;' +
+      'border-radius:50%;display:flex;align-items:center;justify-content:center;' +
+      'background:rgba(255,255,255,.9);color:#6b8ba4;border:1px solid #e5e7eb;cursor:pointer;' +
+      'font-size:14px;padding:0;opacity:.18;transition:opacity .2s';
+    b.addEventListener('mouseenter', function () { b.style.opacity = '1'; });
+    b.addEventListener('mouseleave', function () { b.style.opacity = '.18'; });
+    b.addEventListener('click', function (e) { e.preventDefault(); goFull(); });
+    document.addEventListener('fullscreenchange', function () {
+      b.innerHTML = document.fullscreenElement ? '<i class="fa-solid fa-compress"></i>'
+                                               : '<i class="fa-solid fa-expand"></i>';
+    });
+    document.body.appendChild(b);
+  }
+
+  function homeLink() {            // presenter only: a faint way back to the chapter list
+    if (document.getElementById('ti-home')) return;
+    var a = document.createElement('a');
+    a.id = 'ti-home'; a.href = '../index.html'; a.title = 'Chapter list';
+    a.innerHTML = '<i class="fa-solid fa-house"></i>';
+    a.style.cssText = 'position:fixed;left:14px;bottom:12px;z-index:10001;width:34px;height:34px;' +
+      'border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);' +
+      'color:#6b8ba4;border:1px solid #e5e7eb;text-decoration:none;font-size:15px;opacity:.18;transition:opacity .2s';
+    a.addEventListener('mouseenter', function () { a.style.opacity = '1'; });
+    a.addEventListener('mouseleave', function () { a.style.opacity = '.18'; });
+    document.body.appendChild(a);
+  }
+  function start() {
+    homeLink(); fsButton(); Ink.mount();
+    document.addEventListener('keydown', Ink.keys, true);
+  }
+  if (Reveal.isReady()) start(); else Reveal.on('ready', start);
+})();
+</script>
+</body>
+</html>

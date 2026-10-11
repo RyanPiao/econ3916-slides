@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6d77898ac5c8517de1bd2fe9d529c53f">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Unsupervised Learning: Clustering Economies</title>
+  <link href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link href="styles.css" rel="stylesheet">
+ </head>
+ <body>
+  <div class="reveal">
+   <div class="slides">
+
+    <section class="section-divider" data-state="is-section-divider" id="title" style="padding: 0;">
+     <div style="display: grid; grid-template-columns: 55% 45%; height: 720px;">
+      <div style="display: flex; flex-direction: column; justify-content: center; padding: 50px 50px 50px 60px;">
+       <p style="font-size: 12pt; color: var(--secondary-color); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;">
+        ECON 3916 &bull; Applied Machine Learning for Economists &bull; Chapter 22
+       </p>
+       <h1 style="font-size: 32pt; line-height: 1.25; color: var(--primary-color); margin-bottom: 25px;">
+        Unsupervised Learning:<br>Clustering Economies
+       </h1>
+       <div style="width: 50px; height: 3px; background: var(--secondary-color); margin-bottom: 0;"></div>
+       <div style="margin-top: auto; padding-bottom: 15px;">
+        <p style="font-size: 16pt; color: var(--primary-color); font-weight: 700; font-family: var(--heading-font); margin-bottom: 8px;">
+         Dr. Richeng Piao
+        </p>
+        <p style="font-size: 12pt; color: var(--muted-color); font-weight: 400; font-style: italic; line-height: 1.8;">
+         Department of Economics<br>Northeastern University
+        </p>
+       </div>
+      </div>
+      <div style="overflow: hidden;">
+       <img alt="Unsupervised learning — clustering without labels" src="figures/ch22-gemini-supervised-vs-unsupervised.png" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+     </div>
+    </section>
+
+    <section id="learning-objectives" style="padding: 40px 50px;">
+     <h2 style="margin-bottom: 20px;">
+      <i class="fa-solid fa-bullseye" style="color: var(--accent-color);"></i> Learning Objectives
+     </h2>
+     <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--secondary-color);">
+       <p style="font-size: 22pt; font-weight: 700; color: var(--secondary-color);">22.1</p>
+       <p style="font-size: 16pt;"><strong>[Understand]</strong> Explain <strong>Lloyd's algorithm</strong> and why the centroid inherits the mean's vulnerability to outliers</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--accent-color);">
+       <p style="font-size: 22pt; font-weight: 700; color: var(--accent-color);">22.2</p>
+       <p style="font-size: 16pt;"><strong>[Apply]</strong> Implement <strong>K-Means &amp; PCA</strong> in scikit-learn with proper standardization and silhouette evaluation</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--success-color);">
+       <p style="font-size: 22pt; font-weight: 700; color: var(--success-color);">22.3</p>
+       <p style="font-size: 16pt;"><strong>[Analyze]</strong> Evaluate clustering with the <strong>elbow method and silhouette analysis</strong>, and explain why they sometimes disagree</p>
+      </div>
+      <div style="display: grid; grid-template-columns: 60px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--danger-color);">
+       <p style="font-size: 22pt; font-weight: 700; color: var(--danger-color);">22.4</p>
+       <p style="font-size: 16pt;"><strong>[Evaluate]</strong> Compare <strong>algorithmic vs. expert classification</strong> &mdash; K-Means vs. World Bank income groups</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="retrieval-practice">
+     <h2><i class="fa-solid fa-rotate" style="color: var(--secondary-color);"></i> Retrieval Practice</h2>
+     <div class="content">
+      <div style="background: #f8f6f3; border-left: 4px solid var(--secondary-color); padding: 20px 24px; border-radius: var(--box-radius); margin-bottom: 18px;">
+       <p style="font-size: 15pt; font-weight: 600; color: var(--secondary-color); margin-bottom: 6px;">Chapter 4 &mdash; Robust Statistics</p>
+       <p style="font-size: 16pt;">What is the <strong>breakdown point</strong> of the arithmetic mean? If 50 values have mean \$12,000 and one outlier at \$5,000,000 is added, what happens?</p>
+      </div>
+      <div class="fragment" style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 20px 24px; border-radius: var(--box-radius);">
+       <p style="font-size: 15pt; font-weight: 600; color: var(--accent-color); margin-bottom: 6px;">Chapter 15 &mdash; Bias-Variance Tradeoff</p>
+       <p style="font-size: 16pt;">In one sentence: what happens when a model is <strong>too simple</strong>? Too <strong>complex</strong>?</p>
+      </div>
+      <div class="fragment" style="margin-top: 16px;">
+       <p class="text-muted" style="font-size: 14pt;"><i class="fa-solid fa-lightbulb"></i> Hold both answers &mdash; the centroid inherits the mean's fragility, and choosing K is a bias-variance tradeoff.</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="hook">
+     <h2><i class="fa-solid fa-bolt" style="color: var(--accent-color);"></i> The Nubank Question</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
+       <div>
+        <p style="font-size: 15pt; line-height: 1.6;">In Q4 2025, <strong>Nubank</strong> served 131 million customers across Latin America. Its business segments are drawn mostly by income, plus one for small firms.</p>
+        <p class="fragment" style="font-size: 15pt; line-height: 1.6; margin-top: 12px;">Suppose its data science team ran <strong>K-Means clustering</strong> on behavioral features &mdash; transaction frequency, credit utilization, Pix payment volume, app engagement.</p>
+        <p class="fragment" style="font-size: 15pt; line-height: 1.6; margin-top: 12px;">Would the algorithm find these <strong>four segments</strong> again &mdash; or clusters that cut across the income lines?</p>
+       </div>
+       <div class="fragment">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+         <div class="stat-highlight" style="background: #f8f6f3; border-radius: 8px; padding: 18px;">
+          <p class="number" style="font-size: 32pt;">?</p>
+          <p class="label">Mass Market</p>
+         </div>
+         <div class="stat-highlight" style="background: #f8f6f3; border-radius: 8px; padding: 18px;">
+          <p class="number" style="font-size: 32pt;">?</p>
+          <p class="label">Super Core</p>
+         </div>
+         <div class="stat-highlight" style="background: #f8f6f3; border-radius: 8px; padding: 18px;">
+          <p class="number" style="font-size: 32pt;">?</p>
+          <p class="label">High Income</p>
+         </div>
+         <div class="stat-highlight" style="background: #f8f6f3; border-radius: 8px; padding: 18px;">
+          <p class="number" style="font-size: 32pt;">?</p>
+          <p class="label">SME</p>
+         </div>
+        </div>
+        <div class="fragment key-result" style="margin-top: 14px;">
+         <p><strong>Stakes:</strong> monthly revenue per active customer rose from <strong>\$11 &rarr; \$15</strong> in 2025</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section class="section-divider" data-state="is-section-divider" id="section-1">
+     <p>SECTION 1</p>
+     <h1 style="font-size: 36pt;">From Supervised to Unsupervised</h1>
+     <p class="subtitle">Why remove \(y\)?</p>
+    </section>
+
+    <section id="supervised-vs-unsupervised">
+     <h2>The Fundamental Shift</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+       <div style="background: #f8f6f3; padding: 22px; border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Supervised (Ch 12&ndash;21)</p>
+        <ul>
+         <li>Features \(\mathbf{X}\) <strong>and</strong> target \(y\)</li>
+         <li>Learn \(\hat{f}: \mathbf{X} \to y\)</li>
+         <li>Evaluate: \(R^2\), accuracy, MASE</li>
+         <li>Goal: <strong>predict</strong></li>
+        </ul>
+       </div>
+       <div style="background: #f8f6f3; padding: 22px; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Unsupervised (Ch 22)</p>
+        <ul>
+         <li>Features \(\mathbf{X}\) <strong>only</strong> &mdash; no \(y\)</li>
+         <li>Discover structure in \(\mathbf{X}\)</li>
+         <li>Evaluate: WCSS, silhouette</li>
+         <li>Goal: <strong>discover</strong></li>
+        </ul>
+       </div>
+      </div>
+      <div class="fragment" style="margin-top: 18px;">
+       <p style="font-size: 15pt;">Two families of unsupervised methods:</p>
+       <ul>
+        <li><strong>Clustering</strong> &mdash; partition observations into groups (K-Means)</li>
+        <li><strong>Dimensionality reduction</strong> &mdash; compress features (PCA)</li>
+       </ul>
+      </div>
+     </div>
+    </section>
+
+    <section id="poll-1">
+     <h2><i class="fa-solid fa-chart-bar" style="color: var(--secondary-color);"></i> Class Poll</h2>
+     <div class="content">
+      <p class="text-xl" style="margin-bottom: 20px;">Without \(y\), which can you <strong>no longer</strong> compute?</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 800px;">
+       <div class="poll-option">A) Mean of \(X\)</div>
+       <div class="poll-option">B) \(R^2\)</div>
+       <div class="poll-option">C) Correlation between features</div>
+       <div class="poll-option">D) Standard deviation of features</div>
+      </div>
+      <div class="fragment">
+       <div class="key-result" style="margin-top: 20px;">
+        <p><strong>B) \(R^2\)</strong> &mdash; requires comparing predictions to actual \(y\). Means, correlations, and standard deviations only use \(\mathbf{X}\). Unsupervised learning needs entirely different evaluation metrics.</p>
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section class="section-divider" data-state="is-section-divider" id="section-2">
+     <p>SECTION 2</p>
+     <h1 style="font-size: 36pt;">K-Means: Lloyd's Algorithm</h1>
+     <p class="subtitle">The assignment-update cycle</p>
+    </section>
+
+    <section id="lloyds-intuition">
+     <h2>Lloyd's Algorithm &mdash; Intuition</h2>
+     <div class="content">
+      <p style="font-size: 16pt; line-height: 1.6;">Imagine 160 people in a room. Divide them into 4 groups based on 20 characteristics. No labels.</p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px;">
+       <div style="background: #f8f6f3; padding: 18px; border-radius: 8px; text-align: center;">
+        <p style="font-size: 28pt; margin-bottom: 8px;"><i class="fa-solid fa-dice" style="color: var(--secondary-color);"></i></p>
+        <p style="font-size: 14pt; font-weight: 600;">Step 0: Initialize</p>
+        <p style="font-size: 13pt; color: var(--muted-color);">Place K "representatives" randomly</p>
+       </div>
+       <div class="fragment" style="background: #f8f6f3; padding: 18px; border-radius: 8px; text-align: center;">
+        <p style="font-size: 28pt; margin-bottom: 8px;"><i class="fa-solid fa-arrows-to-dot" style="color: var(--accent-color);"></i></p>
+        <p style="font-size: 14pt; font-weight: 600;">Step 1: Assign</p>
+        <p style="font-size: 13pt; color: var(--muted-color);">Each observation &rarr; nearest centroid</p>
+       </div>
+       <div class="fragment" style="background: #f8f6f3; padding: 18px; border-radius: 8px; text-align: center;">
+        <p style="font-size: 28pt; margin-bottom: 8px;"><i class="fa-solid fa-calculator" style="color: var(--success-color);"></i></p>
+        <p style="font-size: 14pt; font-weight: 600;">Step 2: Update</p>
+        <p style="font-size: 13pt; color: var(--muted-color);">Recompute centroid = <strong>mean</strong></p>
+       </div>
+      </div>
+      <div class="fragment" style="text-align: center; margin-top: 16px;">
+       <p style="font-size: 14pt; color: var(--muted-color);"><i class="fa-solid fa-repeat"></i> Repeat Steps 1 &amp; 2 until no observation changes cluster</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="lloyds-formal">
+     <h2>Lloyd's Algorithm &mdash; Formal Treatment</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+       <div>
+        <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Assignment Step</p>
+        <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px;">
+         \(c_i = \arg\min_{k} \|\mathbf{x}_i - \mu_k\|^2\)
+        </p>
+        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Each point goes to its nearest centroid (squared Euclidean distance)</p>
+       </div>
+       <div>
+        <p style="font-size: 14pt; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Update Step</p>
+        <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px;">
+         \(\mu_k = \frac{1}{|C_k|} \sum_{i \in C_k} \mathbf{x}_i\)
+        </p>
+        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Centroid = mean of assigned observations</p>
+       </div>
+      </div>
+      <div class="fragment" style="margin-top: 18px;">
+       <p style="font-size: 14pt; font-weight: 600; color: var(--success-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Objective Function &mdash; WCSS</p>
+       <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px;">
+        \(\text{WCSS} = \sum_{k=1}^{K} \sum_{i \in C_k} \|\mathbf{x}_i - \mu_k\|^2\)
+       </p>
+       <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Lower WCSS = tighter clusters. Each iteration reduces or maintains WCSS &rArr; guaranteed convergence (to a <strong>local</strong> minimum).</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="kmeans-iteration">
+     <h2>K-Means in Action</h2>
+     <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
+      <img alt="K-Means iteration — initial random centroids, after 1 iteration, convergence" class="figure" src="figures/ch22-kmeans-iteration.png" style="max-height: 420px;">
+     </div>
+     <p class="footnote">Left: random initialization. Center: after one iteration. Right: convergence. Centroids stabilize; so do the groups.</p>
+    </section>
+
+    <section id="misconception-initialization">
+     <h2>Initialization Matters</h2>
+     <div class="content">
+      <div class="misconception">
+       <p style="font-weight: 600; color: var(--danger-color); margin-bottom: 4px;"><i class="fa-solid fa-triangle-exclamation"></i> Common Misconception</p>
+       <p>"K-Means always finds the <strong>best</strong> clustering."</p>
+       <p style="margin-top: 8px;">K-Means converges to a <em>local</em> minimum of WCSS &mdash; not the global minimum. Different random initializations &rarr; different results.</p>
+      </div>
+      <div class="fragment key-result" style="margin-top: 16px;">
+       <p style="font-weight: 600; margin-bottom: 4px;">K-Means++ (Arthur &amp; Vassilvitskii, 2007)</p>
+       <ul>
+        <li>First centroid: random</li>
+        <li>Each subsequent: probability &prop; squared distance from nearest existing centroid</li>
+        <li>Ensures centroids are spread apart &rArr; dramatically reduces bad local minima</li>
+        <li>Default in <code>scikit-learn</code> (<code>init='k-means++'</code>)</li>
+       </ul>
+      </div>
+     </div>
+    </section>
+
+    <section id="centroid-problem">
+     <h2><i class="fa-solid fa-rotate-left" style="color: var(--accent-color);"></i> Callback to Chapter 4</h2>
+     <div class="content">
+      <p style="font-size: 16pt;">The centroid is a <strong>mean</strong>. The mean has breakdown point \(1/n\).</p>
+      <div style="background: #f8f6f3; padding: 20px 24px; border-radius: 8px; border-left: 4px solid var(--accent-color); margin-top: 14px;">
+       <p style="font-size: 15pt; font-weight: 600; margin-bottom: 8px;">Quick calculation:</p>
+       <p style="font-size: 15pt;">A cluster of 50 countries has avg GDP/capita = <strong>$12,000</strong>.</p>
+       <p style="font-size: 15pt;">A microstate with GDP = <strong>$5,000,000</strong> joins.</p>
+      </div>
+      <div class="fragment">
+       <p style="font-size: 16pt; text-align: center; padding: 14px; background: #F9F0EE; border-radius: 4px; margin-top: 14px;">
+        \(\mu_{\text{new}} = \frac{50 \times 12{,}000 + 5{,}000{,}000}{51} \approx \$109{,}804\)
+       </p>
+       <p style="font-size: 14pt; color: var(--danger-color); margin-top: 8px;"><strong>One observation moved the centroid by ~10&times;.</strong> The other 50 countries may now reassign to a different cluster.</p>
+      </div>
+      <div class="fragment key-result" style="margin-top: 12px;">
+       <p><strong>Robust alternative:</strong> K-Medoids (PAM) uses the <em>medoid</em> (actual data point closest to center) instead of the mean &mdash; just as the median replaces the mean for skewed data.</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="standardization">
+     <h2>Standardization Is NOT Optional</h2>
+     <div class="content">
+      <p style="font-size: 16pt;">K-Means uses <strong>Euclidean distance</strong> &mdash; treats all dimensions equally. But economic variables have wildly different scales:</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+       <div style="background: #F9F0EE; padding: 16px; border-radius: 8px; text-align: center;">
+        <p style="font-size: 24pt; font-weight: 700; color: var(--danger-color);">\$300 &ndash; \$120,000</p>
+        <p style="font-size: 13pt; color: var(--muted-color);">GDP per capita range</p>
+       </div>
+       <div style="background: #EEF2F0; padding: 16px; border-radius: 8px; text-align: center;">
+        <p style="font-size: 24pt; font-weight: 700; color: var(--success-color);">25 &ndash; 65</p>
+        <p style="font-size: 13pt; color: var(--muted-color);">Gini index range</p>
+       </div>
+      </div>
+      <div class="fragment" style="margin-top: 18px;">
+       <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px;">
+        \(z_{ij} = \frac{x_{ij} - \bar{x}_j}{s_j}\) &nbsp;&nbsp; (same z-score from Chapter 8)
+       </p>
+       <p style="font-size: 14pt; color: var(--muted-color); margin-top: 8px;">After standardization, 1 unit = 1 standard deviation in any feature. All variables contribute equally.</p>
+      </div>
+     </div>
+     <p class="footnote"><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Without StandardScaler, you are clustering on GDP per capita alone &mdash; the other 9 variables are noise.</p>
+    </section>
+
+    <section id="code-bridge">
+     <h2><i class="fa-solid fa-code" style="color: var(--secondary-color);"></i> In Code</h2>
+     <div class="content">
+      <pre style="background: #1e1e2e; color: #cdd6f4; padding: 20px 24px; border-radius: 8px; font-size: 14pt; line-height: 1.5; overflow-x: auto;"><code>from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+
+# Step 1: Standardize (MANDATORY)
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(df[feature_columns])
+
+# Step 2: Fit K-Means with K=4
+kmeans = KMeans(n_clusters=4, init='k-means++',
+                n_init='auto', random_state=42)
+df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
+      <div class="fragment" style="margin-top: 14px;">
+       <ul>
+        <li><code>StandardScaler</code> &mdash; mean 0, variance 1 (mandatory)</li>
+        <li><code>init='k-means++'</code> &mdash; smart initialization (default)</li>
+        <li><code>n_init='auto'</code> &mdash; one start with k-means++; <code>n_init=10</code> keeps best of 10</li>
+        <li><code>random_state=42</code> &mdash; reproducibility</li>
+       </ul>
+      </div>
+     </div>
+    </section>
+
+    <section class="section-divider" data-state="is-section-divider" id="section-3">
+     <p>SECTION 3</p>
+     <h1 style="font-size: 36pt;">Choosing \(K\)</h1>
+     <p class="subtitle">The elbow method and silhouette analysis</p>
+    </section>
+
+    <section id="elbow-method">
+     <h2>The Elbow Method</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
+       <div>
+        <p style="font-size: 15pt; line-height: 1.6;">Plot WCSS vs. \(K\) for \(K = 1, 2, \ldots, 10\).</p>
+        <ul>
+         <li>More clusters <strong>always</strong> reduces WCSS</li>
+         <li>Look for the <strong>"elbow"</strong> where improvement slows</li>
+         <li>Before elbow: real structure</li>
+         <li>After elbow: chasing noise</li>
+        </ul>
+        <div class="fragment misconception" style="margin-top: 14px;">
+         <p style="font-weight: 600; color: var(--danger-color);"><i class="fa-solid fa-triangle-exclamation"></i> Problem</p>
+         <p>The elbow is often <strong>ambiguous</strong> in real data &mdash; WCSS decreases smoothly without a sharp inflection.</p>
+        </div>
+       </div>
+       <div>
+        <img alt="Elbow and silhouette plots on the lab&rsquo;s 209 economies: WCSS falls smoothly with no clear elbow; silhouette is highest at K = 2 (0.273), next best K = 4 (0.206)" class="figure" src="figures/ch22-elbow-silhouette.png" style="max-height: 340px;">
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section id="silhouette-score">
+     <h2>The Silhouette Score</h2>
+     <div class="content">
+      <p style="font-size: 16pt; text-align: center; padding: 14px; background: #f8f6f3; border-radius: 4px;">
+       \(s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}\)
+      </p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px;">
+       <div style="text-align: center; padding: 14px; background: #EEF2F0; border-radius: 8px;">
+        <p style="font-size: 13pt; font-weight: 600; color: var(--success-color);">\(a(i)\) = cohesion</p>
+        <p style="font-size: 12pt; color: var(--muted-color);">Mean distance to own cluster</p>
+       </div>
+       <div style="text-align: center; padding: 14px; background: #EEF2F0; border-radius: 8px;">
+        <p style="font-size: 13pt; font-weight: 600; color: var(--accent-color);">\(b(i)\) = separation</p>
+        <p style="font-size: 12pt; color: var(--muted-color);">Mean distance to nearest other cluster</p>
+       </div>
+       <div style="text-align: center; padding: 14px; background: #EEF2F0; border-radius: 8px;">
+        <p style="font-size: 13pt; font-weight: 600; color: var(--secondary-color);">\(s(i) \in [-1, 1]\)</p>
+        <p style="font-size: 12pt; color: var(--muted-color);">Near 1 = good, 0 = boundary, &lt;0 = wrong cluster</p>
+       </div>
+      </div>
+      <div class="fragment key-result" style="margin-top: 16px;">
+       <p><strong>Choose \(K\) that maximizes mean silhouette.</strong> Unlike the elbow, the silhouette gives a principled maximum &mdash; but the two methods can disagree.</p>
+      </div>
+      <div class="fragment" style="margin-top: 10px;">
+       <p style="font-size: 14pt; color: var(--muted-color);"><i class="fa-solid fa-link"></i> <strong>Ch 18 connection:</strong> Silhouette score is the <em>unsupervised analog of AUC</em> &mdash; measures separation without ground-truth labels.</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="bias-variance-k">
+     <h2>Choosing \(K\) Is Bias-Variance</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; margin-top: 12px;">
+       <div style="background: #F9F0EE; padding: 20px; border-radius: 8px; text-align: center;">
+        <p style="font-size: 32pt; font-weight: 700; color: var(--danger-color);">\(K = 1\)</p>
+        <p style="font-size: 14pt; margin-top: 6px;"><strong>High bias</strong><br>Ignores all structure</p>
+       </div>
+       <div style="text-align: center;">
+        <p style="font-size: 36pt; color: var(--muted-color);">&harr;</p>
+        <p style="font-size: 12pt; color: var(--muted-color);">Optimal \(K\)<br>balances both</p>
+       </div>
+       <div style="background: #EEF2F0; padding: 20px; border-radius: 8px; text-align: center;">
+        <p style="font-size: 32pt; font-weight: 700; color: var(--success-color);">\(K = n\)</p>
+        <p style="font-size: 14pt; margin-top: 6px;"><strong>High variance</strong><br>Memorizes every point</p>
+       </div>
+      </div>
+      <div class="fragment" style="margin-top: 20px; text-align: center;">
+       <p style="font-size: 15pt;">Same tension from Chapter 15 &mdash; in a new setting.</p>
+       <p style="font-size: 14pt; color: var(--muted-color); margin-top: 6px;">No single "correct" \(K\). Domain knowledge provides the final answer.</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="poll-2">
+     <h2><i class="fa-solid fa-chart-bar" style="color: var(--secondary-color);"></i> Class Poll</h2>
+     <div class="content">
+      <p class="text-xl" style="margin-bottom: 20px;">K-Means with K=2 gives silhouette = 0.45. You try K=4. What happens?</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 800px;">
+       <div class="poll-option">A) Silhouette will definitely increase</div>
+       <div class="poll-option">B) Silhouette will definitely decrease</div>
+       <div class="poll-option">C) It depends &mdash; could go either way</div>
+       <div class="poll-option">D) Silhouette is always the same</div>
+      </div>
+      <div class="fragment">
+       <div class="key-result" style="margin-top: 20px;">
+        <p><strong>C)</strong> Adding clusters sometimes improves separation (real subgroups) and sometimes worsens it (splitting natural groups). This is <strong>bias-variance in action</strong>.</p>
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section class="section-divider" data-state="is-section-divider" id="section-4">
+     <p>SECTION 4</p>
+     <h1 style="font-size: 36pt;">PCA: Dimensionality Reduction</h1>
+     <p class="subtitle">Compressing 10 dimensions to 2</p>
+    </section>
+
+    <section id="pca-intuition">
+     <h2>PCA &mdash; The "Best Photograph"</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;">
+       <div>
+        <p style="font-size: 15pt; line-height: 1.6;">Imagine photographing a <strong>3D sculpture</strong>. Each photo is a 2D projection &mdash; it captures some shape and loses the rest.</p>
+        <p class="fragment" style="font-size: 15pt; line-height: 1.6; margin-top: 12px;">The <strong>best photo</strong> is taken from the angle showing the <em>most variation</em> in form.</p>
+        <p class="fragment" style="font-size: 15pt; line-height: 1.6; margin-top: 12px;">PCA finds that "best angle" mathematically: the linear combination capturing <strong>maximum variance</strong>.</p>
+        <div class="fragment" style="margin-top: 14px; padding: 12px; background: #f8f6f3; border-radius: 4px; text-align: center;">
+         <p style="font-size: 16pt;">\(\mathbf{w}_1 = \arg\max_{\|\mathbf{w}\|=1} \text{Var}(\mathbf{X}\mathbf{w})\)</p>
+        </div>
+       </div>
+       <div>
+        <img alt="PCA projection — 3D to 2D conceptual diagram" class="figure" src="figures/ch22-gemini-pca-projection.png" style="max-height: 340px;">
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section id="explained-variance">
+     <h2>How Much Information Do We Keep?</h2>
+     <div class="content">
+      <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px; margin-bottom: 14px;">
+       \(\text{EVR}_j = \frac{\lambda_j}{\sum_{l=1}^p \lambda_l}\) &nbsp;&nbsp; (fraction of total variance in component \(j\))
+      </p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+       <div>
+        <p style="font-size: 15pt; line-height: 1.6;">On the lab's 209 countries, PC1 + PC2 explain <strong>54.8%</strong> of total variance.</p>
+        <p class="fragment" style="font-size: 15pt; line-height: 1.6; margin-top: 12px;"><strong>Why so much?</strong> Many indicators are correlated: rich countries have high life expectancy, low infant mortality, high internet access simultaneously.</p>
+       </div>
+       <div class="fragment">
+        <pre style="background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; font-size: 13pt; line-height: 1.5;"><code>from sklearn.decomposition import PCA
+
+pca = PCA(n_components=2,
+          random_state=42)
+X_pca = pca.fit_transform(X_scaled)
+
+# In the lab (Step 3b):
+# PC1: 41.9% variance
+# PC1+PC2: 54.8% variance</code></pre>
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section id="pca-scatter">
+     <h2>Country Clusters in PCA Space</h2>
+     <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
+      <img alt="2D PCA scatter plot with K-Means cluster coloring and country labels" class="figure" src="figures/ch22-pca-country-clusters.png" style="max-height: 420px;">
+     </div>
+     <p class="footnote">PC1 &asymp; "general development" axis. PC2 captures secondary variation (trade openness, resource dependence). Resist over-interpretation &mdash; PCA finds variance, economists supply meaning.</p>
+    </section>
+
+    <section class="section-divider" data-state="is-section-divider" id="section-5">
+     <p>SECTION 5</p>
+     <h1 style="font-size: 36pt;">The Development Club</h1>
+     <p class="subtitle">Algorithms vs. institutions</p>
+    </section>
+
+    <section id="wb-vs-kmeans">
+     <h2>World Bank vs. K-Means</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+       <div style="background: #f8f6f3; padding: 20px; border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">World Bank</p>
+        <ul>
+         <li><strong>1 variable:</strong> GNI per capita</li>
+         <li><strong>4 fixed thresholds</strong></li>
+         <li>Deterministic, transparent</li>
+         <li>Updated annually (SDR deflator)</li>
+         <li>Determines IDA lending eligibility</li>
+        </ul>
+       </div>
+       <div style="background: #f8f6f3; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">K-Means</p>
+        <ul>
+         <li><strong>10 variables:</strong> GDP, health, education, trade&hellip;</li>
+         <li><strong>Data-driven groups</strong></li>
+         <li>Statistically tighter</li>
+         <li>Changes with features or K</li>
+         <li>Captures multivariate nuance</li>
+        </ul>
+       </div>
+      </div>
+      <div class="fragment key-result" style="margin-top: 16px;">
+       <p><strong>The lab's crosstab:</strong> 50 of the 51 countries in the richest cluster are High income &mdash; but 27 High-income economies sit in the 94-country middle cluster.</p>
+      </div>
+     </div>
+    </section>
+
+    <section id="cluster-profiles">
+     <h2>What Does Each Cluster Look Like?</h2>
+     <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
+      <img alt="Cluster profiles — heatmap of standardized cluster means across 8 development indicators" class="figure" src="figures/ch22-cluster-profiles.png" style="max-height: 420px;">
+     </div>
+     <p class="footnote">Illustrative centroids in standardized units (z-scores), not the lab's clusters. Clusters 0 and 3 sit at opposite ends; Clusters 1 and 2 sit close to the middle &mdash; the boundary cases.</p>
+    </section>
+
+    <section id="discussion">
+     <h2><i class="fa-solid fa-comments" style="color: var(--accent-color);"></i> In-Class Discussion</h2>
+     <div class="content">
+      <div class="discussion-prompt">
+       <p class="bloom-level">Bloom's Level 5 &mdash; Evaluate</p>
+       <p style="font-size: 18pt; margin-top: 8px;">"Which classification system is better for understanding global development?"</p>
+      </div>
+      <div style="margin-top: 16px;">
+       <p style="font-size: 15pt;"><strong>Instructions:</strong></p>
+       <ul>
+        <li>Pair up. One partner argues for the <strong>World Bank</strong> system; the other argues for <strong>K-Means</strong>.</li>
+        <li>Then <strong>switch</strong> sides.</li>
+       </ul>
+      </div>
+      <div style="text-align: center; margin-top: 14px;">
+       <span class="timer-badge"><i class="fa-solid fa-clock"></i> 3 minutes</span>
+      </div>
+               <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>3</strong> to start the timer.</p>
+        </div>
+    </section>
+
+    <section id="debrief">
+     <h2>Debrief: Neither Is "Right"</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+       <div style="padding: 18px; border-left: 3px solid var(--secondary-color); background: #f8f6f3; border-radius: 4px;">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); margin-bottom: 6px;">World Bank is better when&hellip;</p>
+        <ul>
+         <li style="font-size: 14pt;">Transparency matters (any government can verify)</li>
+         <li style="font-size: 14pt;">Stability matters (thresholds don't jump around)</li>
+         <li style="font-size: 14pt;">Administrative decisions (lending eligibility)</li>
+        </ul>
+       </div>
+       <div style="padding: 18px; border-left: 3px solid var(--accent-color); background: #f8f6f3; border-radius: 4px;">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--accent-color); margin-bottom: 6px;">K-Means is better when&hellip;</p>
+        <ul>
+         <li style="font-size: 14pt;">You want to discover latent structure</li>
+         <li style="font-size: 14pt;">Multiple dimensions matter</li>
+         <li style="font-size: 14pt;">Research questions, not policy decisions</li>
+        </ul>
+       </div>
+      </div>
+      <div class="fragment" style="margin-top: 16px;">
+       <p style="font-size: 15pt;"><strong>Brief alternatives:</strong></p>
+       <ul>
+        <li><strong>DBSCAN</strong> &mdash; density-based, no \(K\) required, classifies outliers as noise</li>
+        <li><strong>Hierarchical</strong> &mdash; dendrogram shows structure at every possible \(K\)</li>
+        <li><strong>GMMs</strong> &mdash; soft assignment (probabilities: 70% Cluster 1, 30% Cluster 2)</li>
+       </ul>
+      </div>
+     </div>
+    </section>
+
+    <section id="connections">
+     <h2><i class="fa-solid fa-link" style="color: var(--secondary-color);"></i> Connections</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+       <div>
+        <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Looking Back</p>
+        <ul>
+         <li><strong>Ch 4:</strong> Centroid = mean &rarr; breakdown point \(1/n\)</li>
+         <li><strong>Ch 15:</strong> Choosing \(K\) = bias-variance tradeoff</li>
+         <li><strong>Ch 18:</strong> Silhouette = unsupervised AUC</li>
+        </ul>
+       </div>
+       <div>
+        <p style="font-size: 14pt; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Looking Forward</p>
+        <ul>
+         <li><strong>Ch 23:</strong> Same K-Means on text vectors (TF-IDF)</li>
+         <li><strong>Ch 24:</strong> Cluster memberships &rarr; heterogeneous treatment effects in DML</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section id="takeaways">
+     <h2><i class="fa-solid fa-star" style="color: var(--accent-color);"></i> Key Takeaways</h2>
+     <div class="content">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+       <div style="display: grid; grid-template-columns: 40px 1fr; align-items: start; gap: 12px;">
+        <p style="font-size: 20pt; font-weight: 700; color: var(--secondary-color);">1</p>
+        <p style="font-size: 15pt;"><strong>K-Means</strong> partitions data by iterating assignment &amp; update. Converges to a <em>local</em> minimum.</p>
+       </div>
+       <div class="fragment" style="display: grid; grid-template-columns: 40px 1fr; align-items: start; gap: 12px;">
+        <p style="font-size: 20pt; font-weight: 700; color: var(--accent-color);">2</p>
+        <p style="font-size: 15pt;">The <strong>centroid is a mean</strong> &mdash; vulnerable to outliers. <strong>Standardization is mandatory.</strong></p>
+       </div>
+       <div class="fragment" style="display: grid; grid-template-columns: 40px 1fr; align-items: start; gap: 12px;">
+        <p style="font-size: 20pt; font-weight: 700; color: var(--success-color);">3</p>
+        <p style="font-size: 15pt;">Choosing \(K\) is <strong>bias-variance</strong>. Elbow + silhouette provide guidance; domain knowledge decides.</p>
+       </div>
+       <div class="fragment" style="display: grid; grid-template-columns: 40px 1fr; align-items: start; gap: 12px;">
+        <p style="font-size: 20pt; font-weight: 700; color: var(--danger-color);">4</p>
+        <p style="font-size: 15pt;"><strong>PCA</strong> compresses dimensions by finding directions of maximum variance.</p>
+       </div>
+       <div class="fragment" style="display: grid; grid-template-columns: 40px 1fr; align-items: start; gap: 12px;">
+        <p style="font-size: 20pt; font-weight: 700; color: var(--muted-color);">5</p>
+        <p style="font-size: 15pt;"><strong>Algorithms vs. experts</strong> answer different questions. Neither is "correct."</p>
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section id="lab-bridge">
+     <h2><i class="fa-solid fa-laptop-code" style="color: var(--secondary-color);"></i> Lab: Development Clubs</h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+       <div style="background: #f8f6f3; padding: 18px; border-radius: 8px; border-top: 3px solid var(--secondary-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); margin-bottom: 6px;">Parts 1&ndash;3: Guided</p>
+        <ul style="font-size: 13pt;">
+         <li>Load saved WDI data</li>
+         <li>Standardize features</li>
+         <li>Fit K-Means (K=4)</li>
+         <li>Draw clusters with PCA</li>
+        </ul>
+       </div>
+       <div style="background: #f8f6f3; padding: 18px; border-radius: 8px; border-top: 3px solid var(--accent-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--accent-color); margin-bottom: 6px;">Parts 4&ndash;5: Guided</p>
+        <ul style="font-size: 13pt;">
+         <li>Elbow + silhouette, K = 2&ndash;10</li>
+         <li>Why the silhouette picks K=2</li>
+         <li>Compare to WB income groups</li>
+         <li>Read the crosstab</li>
+        </ul>
+       </div>
+       <div style="background: #f8f6f3; padding: 18px; border-radius: 8px; border-top: 3px solid var(--success-color);">
+        <p style="font-size: 14pt; font-weight: 600; color: var(--success-color); margin-bottom: 6px;">AI Expansion + Part 6</p>
+        <ul style="font-size: 13pt;">
+         <li>Write your own choose_k prompt</li>
+         <li>Check the AI against Step 4</li>
+         <li>Part 6 (optional): K=3 vs K=5</li>
+         <li>Argue: which K reads better?</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </section>
+
+    <section id="exit-ticket" style="padding: 32px 60px;">
+      <h2><i class="fa-solid fa-ticket" style="color: var(--accent-color);"></i> End-of-Class Check</h2>
+      <div class="content">
+        <div style="background: #f0f5f8; border-radius: 10px; padding: 18px 24px;">
+          <p style="font-size: 16pt; line-height: 1.65;">You run K-Means with K=4 on data that has no real group structure at all.</p>
+          <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What comes back?</strong></p>
+        </div>
+        <div style="background: #f4f7f4; border-left: 4px solid var(--accent-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
+          <p style="font-size: 15.5pt; line-height: 1.6;"><strong>Any answer earns full credit</strong> &mdash; attendance marks that you were here, not that you were right. You get the reasoning either way.</p>
+        </div>
+        <div style="background: #f8f6f3; border-left: 4px solid var(--danger-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
+          <p style="font-size: 16pt;"><i class="fa-solid fa-lock" style="color: var(--danger-color);"></i> <strong>Attendance is the check-in on your phone</strong> &mdash; enter your NUID once, then vote in today&rsquo;s polls. <strong>No Canvas quiz and no access code.</strong></p>
+        </div>
+      </div>
+    </section>
+
+
+   </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+   Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    showSlideNumber: 'all',
+    center: false,
+    transition: 'none',
+    width: 1280,
+    height: 720,
+    margin: 0,
+    minScale: 0.2,
+    maxScale: 2.0,
+    pdfSeparateFragments: false,
+    pdfMaxPagesPerSlide: 1
+   });
+  </script>
+<script>
+(function () {
+  // 29 Sep 2026, Ryan: reveal's "?" panel only knew reveal's own keys. Every
+  // key the decks add (pen, timers, poll, speaker-view relays) is registered
+  // here so the panel is the one place to look. Rows depend on the window: the
+  // projector and speaker view get the instructor keys; a student's copy gets
+  // only what works for a student. Rows for features a deck lacks are skipped.
+  var q = location.search;
+  var receiver = /[?&]receiver(&|$)/.test(q), current = receiver && /postMessageEvents=true/.test(q);
+  var projector = /[?&]presenter(&|=|$)/.test(q) && !receiver;
+  if (receiver && !current) return;                         // the Upcoming pane is view-only
+  var inst = projector || current || /[?&]instructor(&|=|$)/.test(q);
+  // twice as many rows as reveal's own list: wider and tighter so it fits one screen
+  var css = document.createElement('style');
+  var H = '.reveal .overlay.overlay-help .viewport .viewport-inner';
+  css.textContent = H + '{width:min(1000px,94vw)!important;max-width:none!important;}' +
+    H + ' table{width:100%!important;}' +
+    H + ' table th,' + H + ' table td{padding:4px 12px!important;font-size:13px!important;line-height:1.3!important;}' +
+    H + ' table td:last-child{text-align:left!important;}' +
+    H + ' table th:first-child,' + H + ' table td:first-child{width:24%!important;}' +
+    H + ' .title{margin:0!important;}' + H + ' br{display:none;}' +
+    '.reveal .overlay.overlay-help .viewport{padding-top:0!important;}' + H + '{padding-top:18px!important;}';
+  document.head.appendChild(css);
+  function go() {
+    if (!Reveal.registerKeyboardShortcut) return;
+    var K = function (k, d) { Reveal.registerKeyboardShortcut(k, d); };
+    var hasTimer = !!document.getElementById('cd-wrap');
+    var hasPoll = !!document.querySelector('.poll-grid, [data-poll-voting]');
+    if (inst) {
+      K('F', 'Fullscreen &mdash; pressed in speaker view, it full-screens the <b>projector</b>');
+      K('ESC, O', 'Slide overview &mdash; from speaker view, on <b>both</b> screens (Enter or a click picks a slide)');
+      K('M', 'Move keyboard focus between the projector and speaker view (Cmd-` brings a window forward)');
+      if (hasTimer) K('1 &ndash; 9', 'Countdown timer for that many minutes (same number again hides it); starts on both screens');
+      if (hasPoll) K('T', 'Poll slide: open / close voting. In speaker view, clicking an option votes on the projector');
+    }
+    K('D', 'Pen on / off (Esc also leaves it)');
+    K('Pen: F L A R S Y', 'Free draw &middot; line &middot; arrow &middot; box &middot; shade &middot; triangle');
+    K('Pen: G N H E', 'Axis guides &middot; curve label &middot; shifted copy &middot; eraser');
+    K('Pen: [ ] Z X C P', 'Thinner &middot; thicker &middot; undo &middot; redo &middot; clear slide &middot; save as PNG');
+    K('?', 'This list');
+    // S is registered by reveal's notes plugin as a key BINDING ("Speaker notes
+    // view"), which the panel lists after these rows; a second S row would be a
+    // duplicate. Its description is not reachable through the API, so the row is
+    // amended when the panel is drawn.
+    if (inst) {
+      var wrap = document.querySelector('.reveal');
+      if (wrap && window.MutationObserver) new MutationObserver(function () {
+        var o = wrap.querySelector('.overlay-help');
+        if (!o || o.__tiS) return; o.__tiS = 1;
+        [].forEach.call(o.querySelectorAll('td'), function (td) {
+          if (td.textContent === 'Speaker notes view' && td.parentNode) td.parentNode.remove();   // v3: Ryan does not want the S row
+        });
+      }).observe(wrap, { childList: true });
+    }
+  }
+  if (window.Reveal && Reveal.isReady && Reveal.isReady()) go();
+  else if (window.Reveal && Reveal.on) Reveal.on('ready', go);
+})();
+</script>
+<script>
+(function () {
+  // public controls, cut from the presenter gate (v27) by strip_notes.py:
+  // what a student's copy of the deck always had (pen, full screen, home link). No speaker view in this build.
+  var current = false;
+  // ---- annotation: temporary marks on the slide -------------------------
+  // A whiteboard, not a document. Strokes live in memory only, keyed by
+  // slide, and are gone when the deck is closed -- asked for explicitly, so
+  // there is no storage anywhere in here.
+  //
+  // Points are kept in SLIDE units, the same 1280x720 space the laser dot
+  // uses. Canvas pixels would be wrong the moment the window is resized or
+  // the deck is thrown at a projector with a different aspect: the marks
+  // have to sit on the WORDS they were drawn on.
+  //
+  // The shape set is chosen for an economics board, not for drawing in
+  // general: a straight LINE for a budget line or a tangent, an ARROW for
+  // "demand shifts right", a RECT and a translucent SHADE for tax revenue and
+  // surplus boxes, a right TRIANGLE for deadweight loss, and GUIDES -- the
+  // dashed pair dropped from a point to the two axes, which is the single
+  // most-drawn mark in a micro lecture.
+  var Ink = (function () {
+    var PENS = [
+      { n: 'Red',    c: '#e11d48' },
+      { n: 'Blue',   c: '#2563eb' },
+      { n: 'Green',  c: '#059669' },
+      { n: 'Orange', c: '#ea580c' },
+      { n: 'Black',  c: '#111827' },
+      { n: 'Highlighter', c: 'rgba(250,204,21,.45)', hi: true }
+    ];
+    var SIZES = [2, 4, 8];            // thin / medium / thick, in slide units
+    var TOOLS = [
+      { k: 'free',  i: 'fa-pencil',           t: 'Freehand (f)' },
+      { k: 'line',  i: 'fa-slash',            t: 'Straight line (l)' },
+      { k: 'arrow', i: 'fa-arrow-right-long', t: 'Arrow — a shift (a)' },
+      { k: 'rect',  i: 'fa-square',           t: 'Rectangle (r)' },
+      { k: 'shade', i: 'fa-fill-drip',        t: 'Shaded area — revenue, surplus (s)' },
+      { k: 'tri',   i: 'fa-play',             t: 'Right triangle — deadweight loss (y)' },
+      { k: 'guide', i: 'fa-crosshairs',       t: 'Dashed guides to the axes (g)' },
+      { k: 'label', i: 'fa-font',             t: 'Curve label \u2014 D, S, MC, D\u2032 (n)' },
+      { k: 'ghost', i: 'fa-clone',            t: 'Shifted ghost of a curve \u2014 drag it across (h)' }
+    ];
+    var cv, ctx, active = false, erasing = false, pi = 0, si = 1, tool = 'free';
+    var ops = {}, undone = {}, cur = null, rcur = null, relay = null, bar = null, btn = null;
+
+    function skey() { var i = Reveal.getIndices(); return i.h + '.' + (i.v || 0); }
+    function box() { var s = document.querySelector('.reveal .slides'); return s ? s.getBoundingClientRect() : null; }
+    function width() { return PENS[pi].hi ? 24 : SIZES[si]; }
+
+    function ensure() {
+      if (cv) return;
+      cv = document.createElement('canvas');
+      cv.id = 'ti-ink';
+      cv.style.cssText = 'position:fixed;z-index:9990;pointer-events:none;touch-action:none';
+      document.body.appendChild(cv);
+      cv.addEventListener('pointerdown', down);
+      cv.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+      window.addEventListener('pointercancel', up);
+      fit();
+    }
+    function fit() {
+      var r = box(); if (!r || !cv) return;
+      var dpr = window.devicePixelRatio || 1;
+      cv.style.left = r.left + 'px'; cv.style.top = r.top + 'px';
+      cv.style.width = r.width + 'px'; cv.style.height = r.height + 'px';
+      cv.width = Math.max(1, Math.round(r.width * dpr));
+      cv.height = Math.max(1, Math.round(r.height * dpr));
+      ctx = cv.getContext('2d');
+      render();
+    }
+    // Live strokes are DERIVED by replaying this slide's op log, so undo and
+    // redo are a cursor into that log and never have to reverse a partially
+    // erased stroke by hand.
+    function live() {
+      var list = [], o = ops[skey()] || [];
+      o.forEach(function (op) {
+        if (op.t === 'add') list.push(op.s);
+        else if (op.t === 'del' && op.ids) list = list.filter(function (s) { return op.ids.indexOf(s.id) < 0; });
+        else if (op.t === 'del') op.ss.forEach(function (s) {
+          var i = list.indexOf(s); if (i >= 0) list.splice(i, 1);
+        });
+      });
+      return list;
+    }
+    // One description of every shape, used for BOTH drawing and erasing, so
+    // the two can never disagree about where a mark is.
+    function paths(s) {
+      var p = s.pts, a = p[0], b = p[p.length - 1];
+      if (s.k === 'free' || !s.k) return [p];
+      if (s.k === 'line' || s.k === 'arrow') return [[a, b]];
+      if (s.k === 'rect' || s.k === 'shade')
+        return [[a, { x: b.x, y: a.y }, b, { x: a.x, y: b.y }, a]];
+      if (s.k === 'tri') return [[a, b, { x: b.x, y: a.y }, a]];
+      if (s.k === 'guide') return [[a, { x: b.x, y: a.y }], [a, { x: a.x, y: b.y }]];
+      if (s.k === 'text') return [];
+      return [p];
+    }
+    function render() {
+      if (!cv || !ctx) return;
+      var r = box(); if (!r) return;
+      var dpr = window.devicePixelRatio || 1, k = Reveal.getScale() * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.setTransform(k, 0, 0, k, 0, 0);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      var all = live(); if (rcur) all = all.concat([rcur]); if (cur) all = all.concat([cur]);
+      all.forEach(function (s) {
+        if (!s.pts.length) return;
+        ctx.save();
+        if (s.k === 'text') {
+          ctx.globalAlpha = s.ghost ? 0.6 : 1;
+          ctx.fillStyle = s.c;
+          // italic serif, because that is how a curve is labelled on a board
+          ctx.font = 'italic 700 ' + (s.size || 22) + 'px Georgia,"Times New Roman",serif';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(s.txt || '', s.pts[0].x, s.pts[0].y);
+          ctx.restore(); return;
+        }
+        ctx.strokeStyle = s.c; ctx.lineWidth = s.w;
+        if (s.ghost) { ctx.globalAlpha = 0.6; ctx.setLineDash([9, 7]); }
+        else ctx.setLineDash(s.k === 'guide' ? [7, 6] : []);
+        if (s.k === 'shade') {
+          ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = s.c;
+          var q = s.pts[0], z = s.pts[s.pts.length - 1];
+          ctx.fillRect(Math.min(q.x, z.x), Math.min(q.y, z.y), Math.abs(z.x - q.x), Math.abs(z.y - q.y));
+          ctx.restore();
+        }
+        paths(s).forEach(function (seg) {
+          if (seg.length < 1) return;
+          ctx.beginPath(); ctx.moveTo(seg[0].x, seg[0].y);
+          for (var i = 1; i < seg.length; i++) ctx.lineTo(seg[i].x, seg[i].y);
+          if (seg.length === 1) ctx.lineTo(seg[0].x + 0.01, seg[0].y + 0.01);
+          ctx.stroke();
+        });
+        if (s.k === 'arrow') {
+          var a = s.pts[0], b = s.pts[s.pts.length - 1];
+          var ang = Math.atan2(b.y - a.y, b.x - a.x), L = 9 + s.w * 2.2;
+          ctx.beginPath();
+          ctx.moveTo(b.x, b.y);
+          ctx.lineTo(b.x - L * Math.cos(ang - 0.42), b.y - L * Math.sin(ang - 0.42));
+          ctx.moveTo(b.x, b.y);
+          ctx.lineTo(b.x - L * Math.cos(ang + 0.42), b.y - L * Math.sin(ang + 0.42));
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        ctx.restore();
+      });
+    }
+    function at(ev) {
+      var r = box(), k = Reveal.getScale() || 1;
+      return { x: (ev.clientX - r.left) / k, y: (ev.clientY - r.top) / k };
+    }
+    function push(op) {
+      if (op.t === 'add' && op.s && !op.s.id) op.s.id = Math.random().toString(36).slice(2, 10);
+      var k = skey(); (ops[k] = ops[k] || []).push(op); undone[k] = [];
+    }
+    // v25: the WHOLE log of one slide, so the other window can replace its own -- the two
+    // can then never disagree about which stroke an undo or an erase meant
+    function snap() {
+      var k = skey();
+      send({ k: 'snap', key: k, ops: JSON.parse(JSON.stringify(ops[k] || [])), undone: JSON.parse(JSON.stringify(undone[k] || [])) });
+    }
+    function snapAll() {
+      Object.keys(ops).forEach(function (k) {
+        if ((ops[k] || []).length || (undone[k] || []).length)
+          send({ k: 'snap', key: k, ops: JSON.parse(JSON.stringify(ops[k] || [])), undone: JSON.parse(JSON.stringify(undone[k] || [])) });
+      });
+    }
+    function send(m) { if (relay) relay(m); }
+
+    // erase whole strokes, not pixels: one op to undo, and it never leaves
+    // half a rubbed-out line behind
+    function eraseAt(p) {
+      var hit = [], R = 14;
+      live().forEach(function (s) {
+        if (s.k === 'text') {
+          var half = (s.size || 22) * 0.6, wide = (s.txt || '').length * (s.size || 22) * 0.34;
+          if (p.x > s.pts[0].x - 8 && p.x < s.pts[0].x + wide + 8 &&
+              p.y > s.pts[0].y - half && p.y < s.pts[0].y + half) hit.push(s);
+          return;
+        }
+        var segs = paths(s), i, j, pts;
+        for (i = 0; i < segs.length; i++) {
+          pts = segs[i];
+          for (j = 0; j < pts.length; j++) {
+            var dx = pts[j].x - p.x, dy = pts[j].y - p.y;
+            if (dx * dx + dy * dy < (R + s.w) * (R + s.w)) { hit.push(s); return; }
+          }
+          // a long straight edge has few vertices: walk it
+          for (j = 1; j < pts.length; j++) {
+            var A = pts[j - 1], B = pts[j], L = Math.hypot(B.x - A.x, B.y - A.y);
+            if (L < 1) continue;
+            var t = ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y)) / (L * L);
+            if (t < 0 || t > 1) continue;
+            var cx = A.x + t * (B.x - A.x), cy = A.y + t * (B.y - A.y);
+            if (Math.hypot(p.x - cx, p.y - cy) < R + s.w) { hit.push(s); return; }
+          }
+        }
+      });
+      if (hit.length) { push({ t: 'del', ids: hit.map(function (s) { return s.id; }) }); render(); paintBar(); return true; }
+    }
+    // nearest live stroke to a point, by the same segment walk the eraser uses
+    function nearest(p) {
+      var best = null, bd = 1e9;
+      live().forEach(function (s) {
+        paths(s).forEach(function (pts) {
+          for (var j = 1; j < pts.length; j++) {
+            var A = pts[j - 1], B = pts[j], L = Math.hypot(B.x - A.x, B.y - A.y);
+            var cx, cy, tt;
+            if (L < 1) { cx = A.x; cy = A.y; }
+            else {
+              tt = Math.max(0, Math.min(1, ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y)) / (L * L)));
+              cx = A.x + tt * (B.x - A.x); cy = A.y + tt * (B.y - A.y);
+            }
+            var d = Math.hypot(p.x - cx, p.y - cy);
+            if (d < bd) { bd = d; best = s; }
+          }
+        });
+      });
+      return bd < 40 ? best : null;
+    }
+    // A label is typed, not drawn, so it gets a real input at the click point
+    // rather than a prompt() -- a modal dialog in front of a projected slide is
+    // worse than the thing it is trying to collect.
+    function labelAt(p, ev) {
+      var r = box(), k = Reveal.getScale() || 1, size = 16 + si * 6;
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.placeholder = 'D\u2032';
+      inp.style.cssText = 'position:fixed;z-index:10004;left:' + (r.left + p.x * k - 6) + 'px;top:' +
+        (r.top + p.y * k - size * k * 0.75) + 'px;width:130px;font:italic 700 ' + Math.round(size * k) +
+        'px Georgia,serif;color:' + PENS[pi].c + ';background:rgba(255,255,255,.92);border:2px solid ' +
+        PENS[pi].c + ';border-radius:6px;padding:1px 5px;outline:none';
+      document.body.appendChild(inp);
+      // v27: the box grows with the text. At 130px fixed, a large italic label scrolled its
+      // start out of sight after four characters and Ryan could not see what he typed.
+      var meas = document.createElement('canvas').getContext('2d');
+      meas.font = 'italic 700 ' + Math.round(size * k) + 'px Georgia,serif';
+      var grow = function () {
+        var w = meas.measureText(inp.value || inp.placeholder).width;
+        inp.style.width = Math.max(60, Math.ceil(w + size * k * 0.9 + 14)) + 'px';
+      };
+      inp.addEventListener('input', grow); grow();
+      inp.focus();
+      var done = function (commit) {
+        var txt = inp.value.trim();
+        inp.remove();
+        if (!commit || !txt) return;
+        var s = { k: 'text', c: PENS[pi].c, w: SIZES[si], size: size, txt: txt, pts: [p] };
+        push({ t: 'add', s: s }); snap();
+        render(); paintBar();
+      };
+      inp.addEventListener('keydown', function (e) {
+        e.stopPropagation();                       // Reveal and Ink both listen on document
+        if (e.key === 'Enter') { e.preventDefault(); done(true); }
+        if (e.key === 'Escape') { e.preventDefault(); done(false); }
+      });
+      inp.addEventListener('blur', function () { done(true); });
+    }
+
+    function down(ev) {
+      if (!active) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var p = at(ev);
+      if (erasing) { if (eraseAt(p)) snap(); return; }
+      if (tool === 'label') { labelAt(p, ev); return; }
+      if (tool === 'ghost') {
+        // copy the curve you pressed on, then drag the copy to where it shifted
+        var src = nearest(p);
+        if (!src) return;
+        var base = src.pts.map(function (q) { return { x: q.x, y: q.y }; });
+        cur = { k: src.k, c: src.c, w: src.w, size: src.size, txt: src.txt,
+                ghost: true, base: base, from: p, pts: base };
+        render(); return;
+      }
+      cur = { c: PENS[pi].c, w: width(), k: tool, pts: [p, p] };
+      send({ k: 'down', x: p.x, y: p.y, c: cur.c, w: cur.w, tool: tool });
+      render();
+    }
+    function move(ev) {
+      if (!active) return;
+      var p = at(ev);
+      if (erasing) {
+        if (ev.buttons && eraseAt(p)) snap();
+        return;
+      }
+      if (!cur) return;
+      ev.preventDefault();
+      if (cur.ghost) {
+        var dx = p.x - cur.from.x, dy = p.y - cur.from.y;
+        cur.pts = cur.base.map(function (q) { return { x: q.x + dx, y: q.y + dy }; });
+        render(); return;                          // relayed whole, on release
+      }
+      if (cur.k === 'free') cur.pts.push(p); else cur.pts[1] = p;
+      send({ k: 'move', x: p.x, y: p.y }); render();
+    }
+    function up() {
+      if (!cur) return;
+      // a shape needs two distinct corners; a tap is not a rectangle
+      var a = cur.pts[0], b = cur.pts[cur.pts.length - 1];
+      var ok = cur.ghost ? Math.hypot(b.x - a.x, b.y - a.y) >= 0
+             : cur.k === 'free' ? cur.pts.length > 1
+             : Math.hypot(b.x - a.x, b.y - a.y) > 4;
+      if (cur.ghost) {
+        var moved = cur.pts.length && cur.base.length &&
+                    Math.hypot(cur.pts[0].x - cur.base[0].x, cur.pts[0].y - cur.base[0].y) > 4;
+        if (moved) {
+          var g = { k: cur.k, c: cur.c, w: cur.w, size: cur.size, txt: cur.txt, ghost: true, pts: cur.pts };
+          push({ t: 'add', s: g }); snap();
+        }
+        cur = null; render(); paintBar(); return;
+      }
+      if (ok) { push({ t: 'add', s: cur }); cur = null; snap(); }
+      else { cur = null; send({ k: 'cancel' }); }
+      render(); paintBar();
+    }
+    // the projected window rebuilds the same stroke from the relayed points
+    function apply(m) {
+      if (!m) return;
+      ensure();
+      // v25: the other window's stroke in progress lives in rcur, never in cur, so a stroke
+      // drawn on each screen at once cannot merge into one
+      if (m.k === 'down') { rcur = { c: m.c, w: m.w, k: m.tool || 'free', pts: [{ x: m.x, y: m.y }, { x: m.x, y: m.y }] }; render(); return; }
+      if (m.k === 'move') { if (rcur) { if (rcur.k === 'free') rcur.pts.push({ x: m.x, y: m.y }); else rcur.pts[1] = { x: m.x, y: m.y }; render(); } return; }
+      if (m.k === 'cancel') { rcur = null; render(); return; }
+      if (m.k === 'snap') {
+        ops[m.key] = m.ops || []; undone[m.key] = m.undone || []; rcur = null;
+        render(); paintBar(); return;
+      }
+      if (m.k === 'req')  { snapAll(); return; }
+      // a window still on v24 or older sends these; keep them working during a mixed reload
+      if (m.k === 'up')   { if (rcur) push({ t: 'add', s: rcur }); rcur = null; render(); return; }
+      if (m.k === 'full') { if (m.s) { push({ t: 'add', s: m.s }); render(); } return; }
+      if (m.k === 'erase'){ eraseAt({ x: m.x, y: m.y }); return; }
+      if (m.k === 'undo') { undo(true); return; }
+      if (m.k === 'redo') { redo(true); return; }
+      if (m.k === 'clear'){ clear(true); return; }
+      if (m.k === 'mode') { setActive(m.on, true); return; }
+    }
+    function undo(q) {
+      var k = skey(), o = ops[k] || [];
+      if (!o.length) return;
+      (undone[k] = undone[k] || []).push(o.pop());
+      render(); paintBar(); if (!q) snap();
+    }
+    function redo(q) {
+      var k = skey(), u = undone[k] || [];
+      if (!u.length) return;
+      (ops[k] = ops[k] || []).push(u.pop());
+      render(); paintBar(); if (!q) snap();
+    }
+    function clear(q) {
+      var k = skey();
+      if (!(ops[k] || []).length) return;
+      undone[k] = (undone[k] || []).concat(ops[k]); ops[k] = [];
+      render(); paintBar(); if (!q) snap();
+    }
+    function setActive(v, q) {
+      active = !!v; ensure();
+      cv.style.pointerEvents = active ? 'auto' : 'none';
+      cv.style.cursor = active ? (erasing ? 'cell' : 'crosshair') : '';
+      if (bar) bar.style.display = active ? 'flex' : 'none';
+      if (btn) btn.style.opacity = active ? '1' : (current ? '.55' : '.18');
+      paintBar(); if (!q) send({ k: 'mode', on: active });
+    }
+
+    /* ---------- save a picture of the board ---------- */
+    // The slide is DOM, not a canvas, so the page cannot screenshot itself
+    // without help. html2canvas is fetched only when this is first pressed --
+    // no cost to a lecture that never uses it -- and if the CDN is unreachable
+    // the ink alone is still saved rather than nothing.
+    function stamp() {
+      var m = location.pathname.match(/\/([^\/]+)\/[^\/]*$/);
+      var n = document.querySelector('.reveal .slide-number');
+      return (m ? m[1] : 'slide') + '-' + (n ? n.textContent.replace(/\s+/g, '') : skey());
+    }
+    function download(blob) {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = stamp() + '.png';
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+    function inkOnly() {
+      var out = document.createElement('canvas');
+      out.width = cv.width; out.height = cv.height;
+      var c = out.getContext('2d');
+      c.fillStyle = '#fff'; c.fillRect(0, 0, out.width, out.height);
+      c.drawImage(cv, 0, 0);
+      out.toBlob(download);
+    }
+    function savePng() {
+      var reveal = document.querySelector('.reveal');
+      var go = function () {
+        window.html2canvas(reveal, { backgroundColor: '#ffffff', scale: 2, logging: false })
+          .then(function (base) {
+            var out = document.createElement('canvas');
+            out.width = base.width; out.height = base.height;
+            var c = out.getContext('2d');
+            c.drawImage(base, 0, 0);
+            var rr = reveal.getBoundingClientRect(), cr = cv.getBoundingClientRect();
+            var k = base.width / rr.width;
+            c.drawImage(cv, (cr.left - rr.left) * k, (cr.top - rr.top) * k, cr.width * k, cr.height * k);
+            out.toBlob(download);
+          })
+          .catch(inkOnly);
+      };
+      if (window.html2canvas) { go(); return; }
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload = go; s.onerror = inkOnly;
+      document.head.appendChild(s);
+    }
+
+    /* ---------- toolbar ---------- */
+    function paintBar() {
+      if (!bar) return;
+      [].forEach.call(bar.querySelectorAll('[data-pen]'), function (b) {
+        b.style.outline = (!erasing && +b.getAttribute('data-pen') === pi) ? '2px solid #111827' : '2px solid transparent';
+      });
+      [].forEach.call(bar.querySelectorAll('[data-size]'), function (b) {
+        var on = +b.getAttribute('data-size') === si;
+        b.style.background = on ? '#111827' : '#e5e7eb';
+        b.firstChild.style.background = on ? '#fff' : '#374151';
+      });
+      [].forEach.call(bar.querySelectorAll('[data-tool]'), function (b) {
+        var on = !erasing && b.getAttribute('data-tool') === tool;
+        b.style.background = on ? '#111827' : '#e5e7eb';
+        b.style.color = on ? '#fff' : '#374151';
+      });
+      var er = bar.querySelector('[data-a="erase"]');
+      if (er) { er.style.background = erasing ? '#111827' : '#e5e7eb'; er.style.color = erasing ? '#fff' : '#374151'; }
+      var k = skey();
+      var u = bar.querySelector('[data-a="undo"]'), rd = bar.querySelector('[data-a="redo"]'),
+          cl = bar.querySelector('[data-a="clear"]'), sv = bar.querySelector('[data-a="save"]');
+      if (u)  u.disabled  = !(ops[k] || []).length;
+      if (rd) rd.disabled = !(undone[k] || []).length;
+      if (cl) cl.disabled = !(ops[k] || []).length;
+      if (sv) sv.disabled = false;
+    }
+    function mount() {
+      if (bar) return;
+      btn = document.createElement('button');
+      btn.id = 'ti-pen'; btn.type = 'button'; btn.title = 'Draw on the slide (d)';
+      btn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+      var rest = current ? '.55' : '.18';
+      btn.style.cssText = 'position:fixed;left:' + (current ? 14 : 94) + 'px;bottom:12px;' +
+        'z-index:10001;width:34px;height:34px;' +
+        'border-radius:50%;display:flex;align-items:center;justify-content:center;' +
+        'background:rgba(255,255,255,.9);color:#6b8ba4;border:1px solid #e5e7eb;cursor:pointer;' +
+        'font-size:14px;padding:0;opacity:' + rest + ';transition:opacity .2s';
+      btn.addEventListener('mouseenter', function () { btn.style.opacity = '1'; });
+      btn.addEventListener('mouseleave', function () { if (!active) btn.style.opacity = rest; });
+      btn.addEventListener('click', function (e) { e.preventDefault(); setActive(!active); });
+      document.body.appendChild(btn);
+
+      bar = document.createElement('div');
+      bar.id = 'ti-ink-bar';
+      bar.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:10px;z-index:10003;' +
+        'display:none;gap:6px;align-items:center;padding:7px 10px;border-radius:11px;' +
+        'background:rgba(255,255,255,.97);box-shadow:0 2px 12px rgba(0,0,0,.22);' +
+        'font:600 12px system-ui,sans-serif;max-width:96vw;flex-wrap:wrap;justify-content:center';
+      var sep = '<span style="width:1px;height:20px;background:#e5e7eb"></span>';
+      var btnCss = 'border:0;border-radius:6px;padding:5px 8px;cursor:pointer;background:#e5e7eb;color:#374151;font:inherit';
+      var html = '';
+      PENS.forEach(function (p, i) {
+        html += '<button data-pen="' + i + '" type="button" title="' + p.n + '" style="width:22px;height:22px;' +
+                'border-radius:50%;border:0;cursor:pointer;padding:0;background:' + p.c + ';' +
+                'outline:2px solid transparent;outline-offset:2px"></button>';
+      });
+      html += sep;
+      SIZES.forEach(function (w, i) {
+        var d = 4 + i * 4;
+        html += '<button data-size="' + i + '" type="button" title="Tip ' + w + '" style="width:26px;height:22px;' +
+                'border:0;border-radius:6px;cursor:pointer;background:#e5e7eb;display:inline-flex;' +
+                'align-items:center;justify-content:center;padding:0">' +
+                '<span style="display:block;width:' + d + 'px;height:' + d + 'px;border-radius:50%;background:#374151"></span></button>';
+      });
+      html += sep;
+      TOOLS.forEach(function (t) {
+        html += '<button data-tool="' + t.k + '" type="button" title="' + t.t + '" style="' + btnCss + '">' +
+                '<i class="fa-solid ' + t.i + '"></i></button>';
+      });
+      html += sep +
+        '<button data-a="erase" type="button" title="Eraser (e)" style="' + btnCss + '">Erase</button>' +
+        '<button data-a="undo" type="button" title="Undo (z)" style="' + btnCss + '">Undo</button>' +
+        '<button data-a="redo" type="button" title="Redo (x)" style="' + btnCss + '">Redo</button>' +
+        '<button data-a="clear" type="button" title="Clear this slide (c)" style="' + btnCss + '">Clear</button>' +
+        '<button data-a="save" type="button" title="Save this slide as a PNG (p)" style="' + btnCss + '">' +
+        '<i class="fa-solid fa-camera"></i></button>' + sep +
+        '<button data-a="done" type="button" title="Stop drawing (d or Esc)" style="' + btnCss +
+        ';background:#111827;color:#fff">Done</button>';
+      bar.innerHTML = html;
+      bar.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+      bar.addEventListener('click', function (e) {
+        var t = e.target.closest('button'); if (!t) return;
+        e.preventDefault(); e.stopPropagation();
+        if (t.hasAttribute('data-pen'))  { pi = +t.getAttribute('data-pen'); erasing = false; setActive(true); return; }
+        if (t.hasAttribute('data-size')) { si = +t.getAttribute('data-size'); setActive(true); return; }
+        if (t.hasAttribute('data-tool')) { tool = t.getAttribute('data-tool'); erasing = false; setActive(true); return; }
+        var a = t.getAttribute('data-a');
+        if (a === 'erase') { erasing = !erasing; setActive(true); }
+        else if (a === 'undo') undo();
+        else if (a === 'redo') redo();
+        else if (a === 'clear') clear();
+        else if (a === 'save') savePng();
+        else if (a === 'done') setActive(false);
+      });
+      document.body.appendChild(bar);
+      ensure();
+      Reveal.on('resize', fit);
+      window.addEventListener('resize', fit);
+      Reveal.on('slidechanged', function () { cur = null; rcur = null; fit(); paintBar(); });
+      paintBar();
+    }
+
+    function keys(e) {
+      // v26: the system shortcuts too, while the pen is on -- Cmd/Ctrl-Z undo,
+      // Cmd/Ctrl-Shift-Z or Ctrl-Y redo. With the pen off they pass through untouched.
+      if (active && (e.metaKey || e.ctrlKey) && !e.altKey) {
+        var kk = (e.key || '').toLowerCase();
+        if (kk === 'z' || kk === 'y') {
+          e.preventDefault(); e.stopPropagation();
+          if (kk === 'y' || e.shiftKey) redo(); else undo();
+          return;
+        }
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target, tag = t && t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+      var k = e.key;
+      if (k === 'd' || k === 'D') { e.preventDefault(); e.stopPropagation(); setActive(!active); return; }
+      if (!active) return;                    // every other key is scoped to draw mode
+      var stop = function () { e.preventDefault(); e.stopPropagation(); };
+      if (k === 'Escape') { stop(); setActive(false); return; }
+      if (k === 'e' || k === 'E') { stop(); erasing = !erasing; setActive(true); return; }
+      if (k === 'z' || k === 'Z') { stop(); undo(); return; }
+      if (k === 'x' || k === 'X') { stop(); redo(); return; }
+      if (k === 'c' || k === 'C') { stop(); clear(); return; }
+      if (k === 'p' || k === 'P') { stop(); savePng(); return; }
+      if (k === '[') { stop(); si = Math.max(0, si - 1); setActive(true); return; }
+      if (k === ']') { stop(); si = Math.min(SIZES.length - 1, si + 1); setActive(true); return; }
+      // NOT "t": that is the poll open/close key, and it has to keep working
+      // while the pen is armed so a poll slide can be annotated and still
+      // opened for voting. Triangle takes "y" instead.
+      var map = { f: 'free', l: 'line', a: 'arrow', r: 'rect', s: 'shade', y: 'tri', g: 'guide',
+                  n: 'label', h: 'ghost' };
+      var want = map[k.toLowerCase && k.toLowerCase()];
+      if (want) { stop(); tool = want; erasing = false; setActive(true); }
+    }
+
+    return {
+      mount: mount, apply: apply, fit: fit, keys: keys, ask: function () { send({ k: 'req' }); },
+      on: function () { return active; },
+      relayTo: function (fn) { relay = fn; }
+    };
+  })();
+
+  // ---- full screen ----------------------------------------------------
+  // requestFullscreen needs TRANSIENT user activation IN THE WINDOW THAT GOES
+  // FULL SCREEN, so only a click (or "f") inside the projected window can do
+  // it. The speaker-view button and the click-anywhere target that used to work
+  // around that are GONE: they worked, but two windows and two clicks to reach
+  // full screen was never worth it. "m" then "f" does the same job from the
+  // keyboard -- see swapFocus below.
+  function goFull() {
+    var el = document.documentElement;
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    try {
+      var p = el.requestFullscreen();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+
+  function fsButton() {                 // projector window: the one-click path
+    if (document.getElementById('ti-fs')) return;
+    var b = document.createElement('button');
+    b.id = 'ti-fs'; b.type = 'button'; b.title = 'Full screen (f)';
+    b.innerHTML = '<i class="fa-solid fa-expand"></i>';
+    b.style.cssText = 'position:fixed;left:54px;bottom:12px;z-index:10001;width:34px;height:34px;' +
+      'border-radius:50%;display:flex;align-items:center;justify-content:center;' +
+      'background:rgba(255,255,255,.9);color:#6b8ba4;border:1px solid #e5e7eb;cursor:pointer;' +
+      'font-size:14px;padding:0;opacity:.18;transition:opacity .2s';
+    b.addEventListener('mouseenter', function () { b.style.opacity = '1'; });
+    b.addEventListener('mouseleave', function () { b.style.opacity = '.18'; });
+    b.addEventListener('click', function (e) { e.preventDefault(); goFull(); });
+    document.addEventListener('fullscreenchange', function () {
+      b.innerHTML = document.fullscreenElement ? '<i class="fa-solid fa-compress"></i>'
+                                               : '<i class="fa-solid fa-expand"></i>';
+    });
+    document.body.appendChild(b);
+  }
+
+  function homeLink() {            // presenter only: a faint way back to the chapter list
+    if (document.getElementById('ti-home')) return;
+    var a = document.createElement('a');
+    a.id = 'ti-home'; a.href = '../index.html'; a.title = 'Chapter list';
+    a.innerHTML = '<i class="fa-solid fa-house"></i>';
+    a.style.cssText = 'position:fixed;left:14px;bottom:12px;z-index:10001;width:34px;height:34px;' +
+      'border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);' +
+      'color:#6b8ba4;border:1px solid #e5e7eb;text-decoration:none;font-size:15px;opacity:.18;transition:opacity .2s';
+    a.addEventListener('mouseenter', function () { a.style.opacity = '1'; });
+    a.addEventListener('mouseleave', function () { a.style.opacity = '.18'; });
+    document.body.appendChild(a);
+  }
+  function start() {
+    homeLink(); fsButton(); Ink.mount();
+    document.addEventListener('keydown', Ink.keys, true);
+  }
+  if (Reveal.isReady()) start(); else Reveal.on('ready', start);
+})();
+</script>
+</body>
+</html>

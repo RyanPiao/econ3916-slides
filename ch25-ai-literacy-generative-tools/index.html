@@ -1,0 +1,1196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=218863676adf52e5441263072e7b6010">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Literacy & Generative Tools for Economists</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <section id="title">
+          <div style="display: grid; grid-template-columns: 55% 45%; align-items: center; height: 100%;">
+            <div style="text-align: left; padding-right: 1em;">
+              <h1 style="font-size: 36pt; margin-bottom: 0.3em;">AI Literacy &<br>Generative Tools<br>for Economists</h1>
+              <p style="font-size: 16pt; color: var(--secondary); margin-bottom: 0.5em;">Chapter 25 of 26</p>
+              <p style="font-size: 14pt; color: var(--text-muted);">ECON 3916: Applied Machine Learning for Economists</p>
+              <p style="font-size: 12pt; color: var(--text-muted);">65 min | Presentation + Lab</p>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center;">
+              <img src="figures/figure_003_rag_pipeline.png" alt="RAG pipeline architecture diagram" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="learning-objectives">
+          <h2>Learning Objectives</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1em; margin-top: 1em;">
+            <div class="lo-card" style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; border-left: 4px solid var(--secondary);">
+              <p style="font-size: 11pt; color: var(--secondary); font-weight: bold;">LO1 — Understand</p>
+              <p style="font-size: 13pt;"><strong>Explain</strong> what LLMs, embeddings, and RAG are and how they differ from supervised ML</p>
+            </div>
+            <div class="lo-card" style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; border-left: 4px solid var(--accent);">
+              <p style="font-size: 11pt; color: var(--accent); font-weight: bold;">LO2 — Apply</p>
+              <p style="font-size: 13pt;"><strong>Use</strong> AI coding tools with effective prompt engineering</p>
+            </div>
+            <div class="lo-card" style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; border-left: 4px solid var(--success);">
+              <p style="font-size: 11pt; color: var(--success); font-weight: bold;">LO3 — Evaluate</p>
+              <p style="font-size: 13pt;"><strong>Evaluate</strong> AI-generated analysis using verification frameworks</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="retrieval-practice">
+          <h2><i class="fas fa-brain"></i> Retrieval Practice</h2>
+          <div style="text-align: left; max-width: 85%; margin: 0 auto;">
+            <p style="font-size: 16pt; margin-bottom: 0.8em;" class="fragment fade-in"><strong>1.</strong> In Ch 23, you converted FOMC minutes into vectors. What technique? <span class="fragment" style="color: var(--accent);">→ TF-IDF</span></p>
+            <p style="font-size: 16pt; margin-bottom: 0.8em;" class="fragment fade-in"><strong>2.</strong> Why can't LASSO directly estimate a treatment effect in DML? <span class="fragment" style="color: var(--accent);">→ Regularization bias shrinks θ toward zero</span></p>
+            <p style="font-size: 16pt;" class="fragment fade-in"><strong>3.</strong> What was the key idea behind cross-fitting? <span class="fragment" style="color: var(--accent);">→ Nuisance model never predicts on its own training data</span></p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="opening-hook">
+          <h2><i class="fas fa-gavel"></i> Mata v. Avianca (2023)</h2>
+          <div style="text-align: left; max-width: 85%; margin: 0 auto;">
+            <p style="font-size: 15pt;" class="fragment fade-in">Attorney Steven Schwartz submitted a legal brief citing <strong>6 federal court decisions</strong></p>
+            <p style="font-size: 15pt;" class="fragment fade-in">Complete with case names, docket numbers, and quoted passages</p>
+            <p style="font-size: 15pt; color: var(--danger);" class="fragment fade-in"><strong>Every single case was fabricated by ChatGPT</strong></p>
+            <p style="font-size: 15pt;" class="fragment fade-in">$5,000 fine + required notification to every named judge</p>
+          </div>
+          <div class="fragment fade-in" style="margin-top: 1.5em; padding: 0.8em; background: var(--bg-subtle); border-radius: 8px; border-left: 4px solid var(--accent);">
+            <p style="font-size: 16pt; font-weight: bold; text-align: center;">How would you verify whether an AI-generated economic claim is true?</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="concept-bridge">
+          <h2>From DML to RAG</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2em; margin-top: 1em;">
+            <div style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; text-align: center;">
+              <p style="font-size: 14pt; color: var(--secondary); font-weight: bold;">Chapter 24: DML</p>
+              <p style="font-size: 13pt;">ML → residuals → clean causal estimate</p>
+              <p style="font-size: 12pt; color: var(--text-muted);">Residualizes out <em>confounding</em></p>
+            </div>
+            <div style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; text-align: center;">
+              <p style="font-size: 14pt; color: var(--accent); font-weight: bold;">Chapter 25: RAG</p>
+              <p style="font-size: 13pt;">Retrieved docs → grounded context → verifiable output</p>
+              <p style="font-size: 12pt; color: var(--text-muted);">Residualizes out <em>hallucination</em></p>
+            </div>
+          </div>
+          <p style="font-size: 14pt; margin-top: 1.5em; text-align: center; color: var(--primary);">Same epistemic discipline — checking assumptions, verifying outputs, understanding what can go wrong</p>
+        </section>
+      </section>
+
+      <section class="section-divider" data-state="is-section-divider">
+        <section id="section-1-divider">
+          <h1 style="font-size: 36pt;">Section 1</h1>
+          <h2 style="font-size: 24pt; color: var(--secondary);">From Traditional ML to Language Models</h2>
+        </section>
+      </section>
+
+      <section>
+        <section id="llm-mechanism">
+          <h2>LLMs Are Conditional Probability Machines</h2>
+          <div style="text-align: center; margin: 1em 0;">
+            <p style="font-size: 18pt;">$$P(w_{t+1} \mid w_1, w_2, \ldots, w_t)$$</p>
+          </div>
+          <div style="text-align: left; max-width: 85%; margin: 0 auto;">
+            <p style="font-size: 14pt;" class="fragment fade-in">Given all previous tokens, predict the <strong>next token</strong></p>
+            <p style="font-size: 14pt;" class="fragment fade-in">No fact database. No verification. Just <strong>pattern matching at scale</strong></p>
+            <p style="font-size: 14pt;" class="fragment fade-in">When ChatGPT writes "CPI was 3.2%," it's producing a high-probability token sequence — the number may or may not be correct</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="token-prediction-figure">
+          <h2>Next-Token Prediction in Action</h2>
+          <div style="display: flex; justify-content: center; margin-top: 0.3em;">
+            <img src="figures/figure_001_token_prediction.png" alt="Probability distribution over candidate next tokens for 'The Federal Reserve raised interest ___' showing 'rates' at 42% probability" style="width: 65%; border-radius: 8px;">
+          </div>
+          <p style="font-size: 12pt; color: var(--text-muted); margin-top: 0.3em;">The model assigns probabilities to every possible next token. "Rates" is most likely — but the model doesn't <em>know</em> what the Fed actually did.</p>
+        </section>
+      </section>
+
+      <section>
+        <section id="stochastic-parrots">
+          <h2>Stochastic Parrots</h2>
+          <div style="text-align: left; max-width: 85%; margin: 0 auto;">
+            <p style="font-size: 14pt;">Bender et al. (2021): LLMs produce fluent text by <strong>stitching together statistical patterns</strong> without understanding meaning</p>
+            <div style="margin: 1em 0; padding: 0.8em; background: var(--bg-subtle); border-radius: 8px;">
+              <p style="font-size: 14pt; text-align: center;"><em>"The unemployment rate fell to 3.4% in January 2023"</em></p>
+              <p style="font-size: 12pt; text-align: center; color: var(--text-muted);">↑ Not a verified fact. A high-probability token sequence.</p>
+            </div>
+            <p style="font-size: 14pt;" class="fragment fade-in">Like a parrot reproducing speech without comprehension</p>
+            <p style="font-size: 14pt;" class="fragment fade-in">The number might be correct. It might not. <strong>The model cannot tell the difference.</strong></p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="embeddings">
+          <h2>From TF-IDF to Embeddings</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5em; margin-top: 0.5em;">
+            <div style="text-align: center;">
+              <p style="font-size: 14pt; font-weight: bold; color: var(--secondary);">Ch 23: TF-IDF (Sparse)</p>
+              <p style="font-size: 12pt;">One dimension per word<br>Mostly zeros<br>No meaning captured</p>
+            </div>
+            <div style="text-align: center;">
+              <p style="font-size: 14pt; font-weight: bold; color: var(--accent);">Ch 25: Embeddings (Dense)</p>
+              <p style="font-size: 12pt;">384–1536 dimensions<br>Every dimension carries info<br>Similar meanings cluster</p>
+            </div>
+          </div>
+          <div style="text-align: center; margin-top: 0.8em;">
+            <p style="font-size: 14pt;">$$\text{embed}(\text{"inflation expectations"}) \approx \text{embed}(\text{"price forecasts"})$$</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="embeddings-figure">
+          <h2>Sparse vs Dense Representations</h2>
+          <div style="display: flex; justify-content: center;">
+            <img src="figures/figure_002_tfidf_vs_embeddings.png" alt="TF-IDF produces scattered points while embeddings cluster documents by semantic meaning — monetary, fiscal, and trade policy documents form distinct groups" style="width: 70%; border-radius: 8px;">
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="poll-1">
+          <h2><i class="fas fa-chart-bar"></i> Class Poll</h2>
+          <p style="font-size: 15pt; margin-bottom: 1em;">An LLM says "US inflation was 3.1% in December 2024." What is this statement?</p>
+          <div class="poll-grid" data-poll-id="ch25-econ3916-poll-1">
+            <div class="poll-option" data-value="A">A verified fact from the model's database</div>
+            <div class="poll-option" data-value="B">A statistical prediction based on economic models</div>
+            <div class="poll-option" data-value="C">A high-probability token sequence based on training patterns</div>
+            <div class="poll-option" data-value="D">Definitely a hallucination</div>
+          </div>
+          <div data-poll-results="ch25-econ3916-poll-1" style="display:none;"></div>
+        </section>
+      </section>
+
+      <section>
+        <section id="poll-1-reveal">
+          <h2>Answer: (C) High-Probability Token Sequence</h2>
+          <div style="text-align: left; max-width: 85%; margin: 0 auto;">
+            <p style="font-size: 14pt;" class="fragment fade-in"><strong>(A) Wrong:</strong> LLMs don't have a "database" they query</p>
+            <p style="font-size: 14pt;" class="fragment fade-in"><strong>(B) Wrong:</strong> LLMs aren't running economic forecasting models</p>
+            <p style="font-size: 14pt; color: var(--accent);" class="fragment fade-in"><strong>(C) Correct:</strong> The model generates tokens statistically likely to follow "US inflation was." The number might happen to be correct — we just can't tell from the model alone.</p>
+            <p style="font-size: 14pt;" class="fragment fade-in"><strong>(D) Wrong:</strong> "Definitely" goes too far — from the model alone you cannot tell; only a source like BLS can</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="discussion-1">
+          <h2><i class="fas fa-comments"></i> Discussion: When Should You Trust AI?</h2>
+          <div style="text-align: left; max-width: 85%; margin: 0 auto;">
+            <p style="font-size: 15pt; margin-bottom: 1em;"><strong>Think-Pair-Share (4 min)</strong></p>
+            <p style="font-size: 14pt;">"When should you trust an AI-generated economic claim? What verification would you need before including it in a research paper?"</p>
+            <div style="margin-top: 1em; padding: 0.8em; background: var(--bg-subtle); border-radius: 8px;">
+              <p style="font-size: 12pt;"><strong>Pair prompts:</strong></p>
+              <p style="font-size: 12pt;">• Trust AI more for qualitative summaries or quantitative claims?</p>
+              <p style="font-size: 12pt;">• Trusting AI to write code vs. stating facts — same or different?</p>
+              <p style="font-size: 12pt;">• How is this like trusting a Wikipedia article?</p>
+            </div>
+                    <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>4</strong> to start the timer.</p>
+        </div>
+        </section>
+      </section>
+
+      <section class="section-divider" data-state="is-section-divider">
+        <section id="section-2-divider">
+          <h1 style="font-size: 36pt;">Section 2</h1>
+          <h2 style="font-size: 24pt; color: var(--secondary);">AI-Assisted Development</h2>
+        </section>
+      </section>
+
+      <section>
+        <section id="coding-spectrum">
+          <h2>The AI Coding Tool Spectrum</h2>
+          <table style="font-size: 13pt; width: 90%; margin: 1em auto;">
+            <thead>
+              <tr><th style="width: 20%;">Mode</th><th style="width: 35%;">What It Does</th><th style="width: 45%;">Example</th></tr>
+            </thead>
+            <tbody>
+              <tr class="fragment fade-in"><td><strong>Autocomplete</strong></td><td>Predicts next few tokens as you type</td><td><code>df.groupby('state')</code> → <code>.agg({'income': 'median'})</code></td></tr>
+              <tr class="fragment fade-in"><td><strong>Chat</strong></td><td>Answers code questions</td><td>"How do I compute robust SEs in statsmodels?"</td></tr>
+              <tr class="fragment fade-in"><td><strong>Agentic</strong></td><td>Plans and executes multi-step tasks</td><td>"Download FRED data, merge, run regression, plot"</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size: 13pt; color: var(--danger); margin-top: 0.5em;" class="fragment fade-in">Risk increases from left to right — agentic mode can spread subtle errors with no warning</p>
+        </section>
+      </section>
+
+      <section>
+        <section id="productivity-paradox">
+          <h2>The Productivity Paradox</h2>
+          <div style="display: flex; justify-content: center; margin: 0.5em 0;">
+            <img src="figures/figure_005_productivity_comparison.png" alt="METR study actual (-19%) vs perceived (+20%) vs Peng et al. (+55.8%)" style="width: 80%; border-radius: 8px;">
+          </div>
+          <div style="text-align: center;">
+            <p style="font-size: 14pt; margin-top: 0.5em;" class="fragment fade-in">Perception gap: <strong>~40 percentage points</strong></p>
+            <p style="font-size: 13pt; color: var(--text-muted);" class="fragment fade-in">Simple tasks: AI accelerates. Complex tasks: AI may slow you down.</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="comparative-advantage">
+          <h2>Comparative Advantage with AI</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5em; margin-top: 1em;">
+            <div style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; border-left: 4px solid var(--success);">
+              <p style="font-size: 14pt; font-weight: bold; color: var(--success);">Your Advantage</p>
+              <p style="font-size: 13pt;">Domain knowledge<br>Causal reasoning<br>Identification strategy<br>Economic interpretation<br>Judgment calls</p>
+            </div>
+            <div style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; border-left: 4px solid var(--secondary);">
+              <p style="font-size: 14pt; font-weight: bold; color: var(--secondary);">AI's Advantage</p>
+              <p style="font-size: 13pt;">Data loading code<br>Table formatting<br>Matplotlib styling<br>Library syntax<br>Boilerplate setup</p>
+            </div>
+          </div>
+          <p style="font-size: 13pt; margin-top: 1em; text-align: center; color: var(--accent);">When debugging AI code takes longer than writing it yourself → you've violated comparative advantage</p>
+        </section>
+      </section>
+
+      <section>
+        <section id="poll-2">
+          <h2><i class="fas fa-chart-bar"></i> Class Poll</h2>
+          <p style="font-size: 15pt; margin-bottom: 1em;">The METR study found that experienced developers using AI tools were:</p>
+          <div class="poll-grid" data-poll-id="ch25-econ3916-poll-2">
+            <div class="poll-option" data-value="A">55% faster</div>
+            <div class="poll-option" data-value="B">26% faster</div>
+            <div class="poll-option" data-value="C">About the same speed</div>
+            <div class="poll-option" data-value="D">19% slower</div>
+          </div>
+          <div data-poll-results="ch25-econ3916-poll-2" style="display:none;"></div>
+        </section>
+      </section>
+
+      <section>
+        <section id="discussion-2">
+          <h2><i class="fas fa-comments"></i> Your Comparative Advantage</h2>
+          <div style="text-align: left; max-width: 85%; margin: 0 auto;">
+            <p style="font-size: 15pt; margin-bottom: 1em;"><strong>Open Discussion (5 min)</strong></p>
+            <p style="font-size: 14pt;">"What is YOUR comparative advantage over AI?"</p>
+            <div style="margin-top: 1em; padding: 0.8em; background: var(--bg-subtle); border-radius: 8px;">
+              <p style="font-size: 12pt;">• Which parts of your labs could AI have done?</p>
+              <p style="font-size: 12pt;">• Could AI have chosen the right treatment variable in Ch 24?</p>
+              <p style="font-size: 12pt;">• What happens as AI improves? Does your advantage shift?</p>
+            </div>
+                    <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>5</strong> to start the timer.</p>
+        </div>
+        </section>
+      </section>
+
+      <section class="section-divider" data-state="is-section-divider">
+        <section id="section-3-divider">
+          <h1 style="font-size: 36pt;">Section 3</h1>
+          <h2 style="font-size: 24pt; color: var(--secondary);">RAG: Grounding AI in Evidence</h2>
+        </section>
+      </section>
+
+      <section>
+        <section id="hallucination">
+          <h2>The Hallucination Problem</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-top: 1em;">
+            <div style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; text-align: center;">
+              <p style="font-size: 28pt; font-weight: bold; color: var(--danger);">81%</p>
+              <p style="font-size: 12pt;">FinanceBench questions GPT-4-Turbo got wrong or refused, with retrieval</p>
+            </div>
+            <div style="background: var(--bg-subtle); padding: 1em; border-radius: 8px; text-align: center;">
+              <p style="font-size: 28pt; font-weight: bold; color: var(--danger);">17%</p>
+              <p style="font-size: 12pt;">FinanceBench questions it answered wrongly with the whole filing in context</p>
+            </div>
+          </div>
+          <div style="margin-top: 1em; text-align: left; max-width: 85%; margin-left: auto; margin-right: auto;">
+            <p style="font-size: 13pt;" class="fragment fade-in"><strong>Air Canada chatbot:</strong> Fabricated bereavement policy → tribunal ruled airline liable</p>
+            <p style="font-size: 13pt;" class="fragment fade-in"><strong>Industry shift:</strong> From "ban AI" → "deploy AI responsibly"</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="rag-pipeline">
+          <h2>How RAG Works: 4 Stages</h2>
+          <div style="display: flex; justify-content: center;">
+            <img src="figures/figure_003_rag_pipeline.png" alt="RAG pipeline: Documents are chunked, embedded into a vector database, user question retrieves similar chunks, LLM generates answer grounded in context" style="width: 75%; border-radius: 8px;">
+          </div>
+          <p style="font-size: 12pt; text-align: center; margin-top: 0.3em; color: var(--text-muted);">Same FOMC corpus from Ch 23 — now as a RAG knowledge base instead of TF-IDF vectors</p>
+        </section>
+      </section>
+
+      <section>
+        <section id="rag-equation">
+          <h2>Retrieval: Finding Relevant Documents</h2>
+          <div style="text-align: center; margin: 1em 0;">
+            <p style="font-size: 18pt;">$$\text{retrieved} = \arg\max_{d \in \mathcal{D}} \; \text{sim}(\text{embed}(q), \text{embed}(d))$$</p>
+          </div>
+          <div style="text-align: left; max-width: 80%; margin: 0 auto;">
+            <p style="font-size: 13pt;" class="fragment fade-in">$q$ = your question</p>
+            <p style="font-size: 13pt;" class="fragment fade-in">$\mathcal{D}$ = all document chunks in the vector database</p>
+            <p style="font-size: 13pt;" class="fragment fade-in">$\text{sim}(\cdot, \cdot)$ = cosine similarity (how close are the vectors?)</p>
+            <p style="font-size: 13pt;" class="fragment fade-in">Instead of making things up → the model reads <strong>YOUR documents</strong> first</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="poll-3">
+          <h2><i class="fas fa-chart-bar"></i> Class Poll</h2>
+          <p style="font-size: 15pt; margin-bottom: 1em;">RAG reduces hallucination by:</p>
+          <div class="poll-grid" data-poll-id="ch25-econ3916-poll-3">
+            <div class="poll-option" data-value="A">Retraining the model on your specific data</div>
+            <div class="poll-option" data-value="B">Retrieving relevant documents before generating an answer</div>
+            <div class="poll-option" data-value="C">Filtering the model's output with rule-based checks</div>
+            <div class="poll-option" data-value="D">Using a smaller, more focused model</div>
+          </div>
+          <div data-poll-results="ch25-econ3916-poll-3" style="display:none;"></div>
+        </section>
+      </section>
+
+      <section>
+        <section id="decision-scenario">
+          <h2><i class="fas fa-balance-scale"></i> Decision: RAG vs Fine-Tuning</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-top: 0.5em;">
+            <div style="background: var(--bg-subtle); padding: 0.8em; border-radius: 8px; border-top: 3px solid var(--secondary);">
+              <p style="font-size: 13pt; font-weight: bold; color: var(--secondary);">RAG Pipeline</p>
+              <p style="font-size: 11pt;">Setup: ~$2,000</p>
+              <p style="font-size: 11pt;">Monthly: \$350–\$2,850</p>
+              <p style="font-size: 11pt;">Updates: Near-zero cost</p>
+              <p style="font-size: 11pt;">Accuracy: 19&ndash;50% (GPT-4, FinanceBench)</p>
+            </div>
+            <div style="background: var(--bg-subtle); padding: 0.8em; border-radius: 8px; border-top: 3px solid var(--accent);">
+              <p style="font-size: 13pt; font-weight: bold; color: var(--accent);">Fine-Tuned Model</p>
+              <p style="font-size: 11pt;">Setup: \$10K–\$50K</p>
+              <p style="font-size: 11pt;">Monthly: \$2K–\$5K</p>
+              <p style="font-size: 11pt;">Updates: \$500–\$5K per retrain</p>
+              <p style="font-size: 11pt;">Accuracy: Varies by content</p>
+            </div>
+          </div>
+          <p style="font-size: 14pt; margin-top: 1em; text-align: center;"><strong>Scenario:</strong> 500 FOMC documents, $5K/month budget. <span style="color: var(--accent);">Which do you choose?</span></p>
+        </section>
+      </section>
+
+      <section class="section-divider" data-state="is-section-divider">
+        <section id="section-4-divider">
+          <h1 style="font-size: 36pt;">Section 4</h1>
+          <h2 style="font-size: 24pt; color: var(--secondary);">Evaluating AI-Generated Analysis</h2>
+        </section>
+      </section>
+
+      <section>
+        <section id="verification">
+          <h2>The 4-Step Verification Framework</h2>
+          <div style="text-align: left; max-width: 85%; margin: 0 auto;">
+            <div style="margin-bottom: 0.5em; padding: 0.5em; background: var(--bg-subtle); border-radius: 6px;" class="fragment fade-in">
+              <p style="font-size: 14pt;"><strong>1. Source Verification</strong> — Does the claim cite a verifiable source? No source → unverified.</p>
+            </div>
+            <div style="margin-bottom: 0.5em; padding: 0.5em; background: var(--bg-subtle); border-radius: 6px;" class="fragment fade-in">
+              <p style="font-size: 14pt;"><strong>2. Consistency Check</strong> — Does it pass a sanity test? "15% unemployment" → your domain knowledge flags this.</p>
+            </div>
+            <div style="margin-bottom: 0.5em; padding: 0.5em; background: var(--bg-subtle); border-radius: 6px;" class="fragment fade-in">
+              <p style="font-size: 14pt;"><strong>3. Adversarial Testing</strong> — Ask the same question differently. Different answers → at least one is wrong.</p>
+            </div>
+            <div style="margin-bottom: 0.5em; padding: 0.5em; background: var(--bg-subtle); border-radius: 6px;" class="fragment fade-in">
+              <p style="font-size: 14pt;"><strong>4. Reproduction</strong> — Re-run the analysis yourself. AI accelerates; it doesn't replace.</p>
+            </div>
+          </div>
+          <p style="font-size: 12pt; color: var(--text-muted); margin-top: 0.5em; text-align: center;" class="fragment fade-in">These are the same habits from 24 chapters of this course — applied to AI output</p>
+        </section>
+      </section>
+
+      <section>
+        <section id="poll-4">
+          <h2><i class="fas fa-chart-bar"></i> Class Poll</h2>
+          <p style="font-size: 15pt; margin-bottom: 1em;">Your AI says "unemployment hit 15% last quarter." First step?</p>
+          <div class="poll-grid" data-poll-id="ch25-econ3916-poll-4">
+            <div class="poll-option" data-value="A">Check the source — ask for the BLS release</div>
+            <div class="poll-option" data-value="B">Ask the AI to verify its own claim</div>
+            <div class="poll-option" data-value="C">Run the analysis yourself immediately</div>
+            <div class="poll-option" data-value="D">Accept it if the prompt was well-crafted</div>
+          </div>
+          <div data-poll-results="ch25-econ3916-poll-4" style="display:none;"></div>
+        </section>
+      </section>
+
+      <section>
+        <section id="career">
+          <h2>The AI-Literate Economist in 2026</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-top: 0.5em;">
+            <div>
+              <div style="text-align: center; margin-bottom: 0.5em;">
+                <p style="font-size: 36pt; font-weight: bold; color: var(--accent);">56%</p>
+                <p style="font-size: 12pt;">Wage premium for AI skills (PwC 2025)</p>
+                <p style="font-size: 11pt; color: var(--text-muted);">Up from 25% in 2024</p>
+              </div>
+              <div style="text-align: center;">
+                <p style="font-size: 28pt; font-weight: bold; color: var(--secondary);">73%</p>
+                <p style="font-size: 12pt;">Engineering teams using AI daily</p>
+              </div>
+            </div>
+            <div>
+              <img src="figures/figure_004_ai_adoption_trend.png" alt="AI adoption trend rising from 18% to 73% over 2024-2026" style="width: 100%; border-radius: 8px;">
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="takeaways">
+          <h2>Key Takeaways</h2>
+          <div style="text-align: left; max-width: 90%; margin: 0 auto;">
+            <p style="font-size: 14pt; margin-bottom: 0.5em;" class="fragment fade-in"><strong>1.</strong> LLMs predict tokens, not facts. GPT-4-Turbo answered 17% of FinanceBench wrong with the filing in hand.</p>
+            <p style="font-size: 14pt; margin-bottom: 0.5em;" class="fragment fade-in"><strong>2.</strong> AI productivity depends on context — 55.8% speedup for simple tasks, 19% slowdown for complex ones.</p>
+            <p style="font-size: 14pt; margin-bottom: 0.5em;" class="fragment fade-in"><strong>3.</strong> RAG grounds AI in your documents — chunk → embed → retrieve → generate. How you retrieve moved FinanceBench accuracy from 19% to 50%.</p>
+            <p style="font-size: 14pt; margin-bottom: 0.5em;" class="fragment fade-in"><strong>4.</strong> Verify like an economist — source, consistency, adversarial, reproduction.</p>
+            <p style="font-size: 14pt;" class="fragment fade-in"><strong>5.</strong> AI literacy is a career multiplier — 56% wage premium and growing.</p>
+          </div>
+        </section>
+      </section>
+
+      <section>
+        <section id="exit-ticket" style="padding: 32px 60px;">
+          <h2><i class="fa-solid fa-ticket" style="color: var(--accent-color);"></i> End-of-Class Check</h2>
+          <div class="content">
+            <div style="background: #f0f5f8; border-radius: 10px; padding: 18px 24px;">
+              <p style="font-size: 16pt; line-height: 1.65;">You build a RAG pipeline over Federal Reserve PDFs so the model answers only from retrieved passages.</p>
+              <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What can still go wrong?</strong></p>
+            </div>
+            <div style="background: #f4f7f4; border-left: 4px solid var(--accent-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
+              <p style="font-size: 15.5pt; line-height: 1.6;"><strong>Any answer earns full credit</strong> &mdash; attendance marks that you were here, not that you were right. You get the reasoning either way.</p>
+            </div>
+            <div style="background: #f8f6f3; border-left: 4px solid var(--danger-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
+              <p style="font-size: 16pt;"><i class="fa-solid fa-lock" style="color: var(--danger-color);"></i> <strong>Attendance is the check-in on your phone</strong> &mdash; enter your NUID once, then vote in today&rsquo;s polls. <strong>No Canvas quiz and no access code.</strong></p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>window.RevealNotes = { id: 'notes', init: function () {} };  /* public build: no speaker view */</script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/math/math.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      showSlideNumber: 'speaker',
+      transition: 'fade',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+      center: true,
+      width: 1920,
+      height: 1080,
+      margin: 0.05,
+      plugins: [ RevealMath.MathJax3 ]
+    });
+  </script>
+
+  <script>
+    document.querySelectorAll('.poll-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const pollGrid = this.closest('.poll-grid');
+        pollGrid.querySelectorAll('.poll-option').forEach(o => o.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+  </script>
+<script>
+(function () {
+  // 29 Sep 2026, Ryan: reveal's "?" panel only knew reveal's own keys. Every
+  // key the decks add (pen, timers, poll, speaker-view relays) is registered
+  // here so the panel is the one place to look. Rows depend on the window: the
+  // projector and speaker view get the instructor keys; a student's copy gets
+  // only what works for a student. Rows for features a deck lacks are skipped.
+  var q = location.search;
+  var receiver = /[?&]receiver(&|$)/.test(q), current = receiver && /postMessageEvents=true/.test(q);
+  var projector = /[?&]presenter(&|=|$)/.test(q) && !receiver;
+  if (receiver && !current) return;                         // the Upcoming pane is view-only
+  var inst = projector || current || /[?&]instructor(&|=|$)/.test(q);
+  // twice as many rows as reveal's own list: wider and tighter so it fits one screen
+  var css = document.createElement('style');
+  var H = '.reveal .overlay.overlay-help .viewport .viewport-inner';
+  css.textContent = H + '{width:min(1000px,94vw)!important;max-width:none!important;}' +
+    H + ' table{width:100%!important;}' +
+    H + ' table th,' + H + ' table td{padding:4px 12px!important;font-size:13px!important;line-height:1.3!important;}' +
+    H + ' table td:last-child{text-align:left!important;}' +
+    H + ' table th:first-child,' + H + ' table td:first-child{width:24%!important;}' +
+    H + ' .title{margin:0!important;}' + H + ' br{display:none;}' +
+    '.reveal .overlay.overlay-help .viewport{padding-top:0!important;}' + H + '{padding-top:18px!important;}';
+  document.head.appendChild(css);
+  function go() {
+    if (!Reveal.registerKeyboardShortcut) return;
+    var K = function (k, d) { Reveal.registerKeyboardShortcut(k, d); };
+    var hasTimer = !!document.getElementById('cd-wrap');
+    var hasPoll = !!document.querySelector('.poll-grid, [data-poll-voting]');
+    if (inst) {
+      K('F', 'Fullscreen &mdash; pressed in speaker view, it full-screens the <b>projector</b>');
+      K('ESC, O', 'Slide overview &mdash; from speaker view, on <b>both</b> screens (Enter or a click picks a slide)');
+      K('M', 'Move keyboard focus between the projector and speaker view (Cmd-` brings a window forward)');
+      if (hasTimer) K('1 &ndash; 9', 'Countdown timer for that many minutes (same number again hides it); starts on both screens');
+      if (hasPoll) K('T', 'Poll slide: open / close voting. In speaker view, clicking an option votes on the projector');
+    }
+    K('D', 'Pen on / off (Esc also leaves it)');
+    K('Pen: F L A R S Y', 'Free draw &middot; line &middot; arrow &middot; box &middot; shade &middot; triangle');
+    K('Pen: G N H E', 'Axis guides &middot; curve label &middot; shifted copy &middot; eraser');
+    K('Pen: [ ] Z X C P', 'Thinner &middot; thicker &middot; undo &middot; redo &middot; clear slide &middot; save as PNG');
+    K('?', 'This list');
+    // S is registered by reveal's notes plugin as a key BINDING ("Speaker notes
+    // view"), which the panel lists after these rows; a second S row would be a
+    // duplicate. Its description is not reachable through the API, so the row is
+    // amended when the panel is drawn.
+    if (inst) {
+      var wrap = document.querySelector('.reveal');
+      if (wrap && window.MutationObserver) new MutationObserver(function () {
+        var o = wrap.querySelector('.overlay-help');
+        if (!o || o.__tiS) return; o.__tiS = 1;
+        [].forEach.call(o.querySelectorAll('td'), function (td) {
+          if (td.textContent === 'Speaker notes view' && td.parentNode) td.parentNode.remove();   // v3: Ryan does not want the S row
+        });
+      }).observe(wrap, { childList: true });
+    }
+  }
+  if (window.Reveal && Reveal.isReady && Reveal.isReady()) go();
+  else if (window.Reveal && Reveal.on) Reveal.on('ready', go);
+})();
+</script>
+<script>
+(function () {
+  // public controls, cut from the presenter gate (v27) by strip_notes.py:
+  // what a student's copy of the deck always had (pen, full screen, home link). No speaker view in this build.
+  var current = false;
+  // ---- annotation: temporary marks on the slide -------------------------
+  // A whiteboard, not a document. Strokes live in memory only, keyed by
+  // slide, and are gone when the deck is closed -- asked for explicitly, so
+  // there is no storage anywhere in here.
+  //
+  // Points are kept in SLIDE units, the same 1280x720 space the laser dot
+  // uses. Canvas pixels would be wrong the moment the window is resized or
+  // the deck is thrown at a projector with a different aspect: the marks
+  // have to sit on the WORDS they were drawn on.
+  //
+  // The shape set is chosen for an economics board, not for drawing in
+  // general: a straight LINE for a budget line or a tangent, an ARROW for
+  // "demand shifts right", a RECT and a translucent SHADE for tax revenue and
+  // surplus boxes, a right TRIANGLE for deadweight loss, and GUIDES -- the
+  // dashed pair dropped from a point to the two axes, which is the single
+  // most-drawn mark in a micro lecture.
+  var Ink = (function () {
+    var PENS = [
+      { n: 'Red',    c: '#e11d48' },
+      { n: 'Blue',   c: '#2563eb' },
+      { n: 'Green',  c: '#059669' },
+      { n: 'Orange', c: '#ea580c' },
+      { n: 'Black',  c: '#111827' },
+      { n: 'Highlighter', c: 'rgba(250,204,21,.45)', hi: true }
+    ];
+    var SIZES = [2, 4, 8];            // thin / medium / thick, in slide units
+    var TOOLS = [
+      { k: 'free',  i: 'fa-pencil',           t: 'Freehand (f)' },
+      { k: 'line',  i: 'fa-slash',            t: 'Straight line (l)' },
+      { k: 'arrow', i: 'fa-arrow-right-long', t: 'Arrow — a shift (a)' },
+      { k: 'rect',  i: 'fa-square',           t: 'Rectangle (r)' },
+      { k: 'shade', i: 'fa-fill-drip',        t: 'Shaded area — revenue, surplus (s)' },
+      { k: 'tri',   i: 'fa-play',             t: 'Right triangle — deadweight loss (y)' },
+      { k: 'guide', i: 'fa-crosshairs',       t: 'Dashed guides to the axes (g)' },
+      { k: 'label', i: 'fa-font',             t: 'Curve label \u2014 D, S, MC, D\u2032 (n)' },
+      { k: 'ghost', i: 'fa-clone',            t: 'Shifted ghost of a curve \u2014 drag it across (h)' }
+    ];
+    var cv, ctx, active = false, erasing = false, pi = 0, si = 1, tool = 'free';
+    var ops = {}, undone = {}, cur = null, rcur = null, relay = null, bar = null, btn = null;
+
+    function skey() { var i = Reveal.getIndices(); return i.h + '.' + (i.v || 0); }
+    function box() { var s = document.querySelector('.reveal .slides'); return s ? s.getBoundingClientRect() : null; }
+    function width() { return PENS[pi].hi ? 24 : SIZES[si]; }
+
+    function ensure() {
+      if (cv) return;
+      cv = document.createElement('canvas');
+      cv.id = 'ti-ink';
+      cv.style.cssText = 'position:fixed;z-index:9990;pointer-events:none;touch-action:none';
+      document.body.appendChild(cv);
+      cv.addEventListener('pointerdown', down);
+      cv.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+      window.addEventListener('pointercancel', up);
+      fit();
+    }
+    function fit() {
+      var r = box(); if (!r || !cv) return;
+      var dpr = window.devicePixelRatio || 1;
+      cv.style.left = r.left + 'px'; cv.style.top = r.top + 'px';
+      cv.style.width = r.width + 'px'; cv.style.height = r.height + 'px';
+      cv.width = Math.max(1, Math.round(r.width * dpr));
+      cv.height = Math.max(1, Math.round(r.height * dpr));
+      ctx = cv.getContext('2d');
+      render();
+    }
+    // Live strokes are DERIVED by replaying this slide's op log, so undo and
+    // redo are a cursor into that log and never have to reverse a partially
+    // erased stroke by hand.
+    function live() {
+      var list = [], o = ops[skey()] || [];
+      o.forEach(function (op) {
+        if (op.t === 'add') list.push(op.s);
+        else if (op.t === 'del' && op.ids) list = list.filter(function (s) { return op.ids.indexOf(s.id) < 0; });
+        else if (op.t === 'del') op.ss.forEach(function (s) {
+          var i = list.indexOf(s); if (i >= 0) list.splice(i, 1);
+        });
+      });
+      return list;
+    }
+    // One description of every shape, used for BOTH drawing and erasing, so
+    // the two can never disagree about where a mark is.
+    function paths(s) {
+      var p = s.pts, a = p[0], b = p[p.length - 1];
+      if (s.k === 'free' || !s.k) return [p];
+      if (s.k === 'line' || s.k === 'arrow') return [[a, b]];
+      if (s.k === 'rect' || s.k === 'shade')
+        return [[a, { x: b.x, y: a.y }, b, { x: a.x, y: b.y }, a]];
+      if (s.k === 'tri') return [[a, b, { x: b.x, y: a.y }, a]];
+      if (s.k === 'guide') return [[a, { x: b.x, y: a.y }], [a, { x: a.x, y: b.y }]];
+      if (s.k === 'text') return [];
+      return [p];
+    }
+    function render() {
+      if (!cv || !ctx) return;
+      var r = box(); if (!r) return;
+      var dpr = window.devicePixelRatio || 1, k = Reveal.getScale() * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.setTransform(k, 0, 0, k, 0, 0);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      var all = live(); if (rcur) all = all.concat([rcur]); if (cur) all = all.concat([cur]);
+      all.forEach(function (s) {
+        if (!s.pts.length) return;
+        ctx.save();
+        if (s.k === 'text') {
+          ctx.globalAlpha = s.ghost ? 0.6 : 1;
+          ctx.fillStyle = s.c;
+          // italic serif, because that is how a curve is labelled on a board
+          ctx.font = 'italic 700 ' + (s.size || 22) + 'px Georgia,"Times New Roman",serif';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(s.txt || '', s.pts[0].x, s.pts[0].y);
+          ctx.restore(); return;
+        }
+        ctx.strokeStyle = s.c; ctx.lineWidth = s.w;
+        if (s.ghost) { ctx.globalAlpha = 0.6; ctx.setLineDash([9, 7]); }
+        else ctx.setLineDash(s.k === 'guide' ? [7, 6] : []);
+        if (s.k === 'shade') {
+          ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = s.c;
+          var q = s.pts[0], z = s.pts[s.pts.length - 1];
+          ctx.fillRect(Math.min(q.x, z.x), Math.min(q.y, z.y), Math.abs(z.x - q.x), Math.abs(z.y - q.y));
+          ctx.restore();
+        }
+        paths(s).forEach(function (seg) {
+          if (seg.length < 1) return;
+          ctx.beginPath(); ctx.moveTo(seg[0].x, seg[0].y);
+          for (var i = 1; i < seg.length; i++) ctx.lineTo(seg[i].x, seg[i].y);
+          if (seg.length === 1) ctx.lineTo(seg[0].x + 0.01, seg[0].y + 0.01);
+          ctx.stroke();
+        });
+        if (s.k === 'arrow') {
+          var a = s.pts[0], b = s.pts[s.pts.length - 1];
+          var ang = Math.atan2(b.y - a.y, b.x - a.x), L = 9 + s.w * 2.2;
+          ctx.beginPath();
+          ctx.moveTo(b.x, b.y);
+          ctx.lineTo(b.x - L * Math.cos(ang - 0.42), b.y - L * Math.sin(ang - 0.42));
+          ctx.moveTo(b.x, b.y);
+          ctx.lineTo(b.x - L * Math.cos(ang + 0.42), b.y - L * Math.sin(ang + 0.42));
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        ctx.restore();
+      });
+    }
+    function at(ev) {
+      var r = box(), k = Reveal.getScale() || 1;
+      return { x: (ev.clientX - r.left) / k, y: (ev.clientY - r.top) / k };
+    }
+    function push(op) {
+      if (op.t === 'add' && op.s && !op.s.id) op.s.id = Math.random().toString(36).slice(2, 10);
+      var k = skey(); (ops[k] = ops[k] || []).push(op); undone[k] = [];
+    }
+    // v25: the WHOLE log of one slide, so the other window can replace its own -- the two
+    // can then never disagree about which stroke an undo or an erase meant
+    function snap() {
+      var k = skey();
+      send({ k: 'snap', key: k, ops: JSON.parse(JSON.stringify(ops[k] || [])), undone: JSON.parse(JSON.stringify(undone[k] || [])) });
+    }
+    function snapAll() {
+      Object.keys(ops).forEach(function (k) {
+        if ((ops[k] || []).length || (undone[k] || []).length)
+          send({ k: 'snap', key: k, ops: JSON.parse(JSON.stringify(ops[k] || [])), undone: JSON.parse(JSON.stringify(undone[k] || [])) });
+      });
+    }
+    function send(m) { if (relay) relay(m); }
+
+    // erase whole strokes, not pixels: one op to undo, and it never leaves
+    // half a rubbed-out line behind
+    function eraseAt(p) {
+      var hit = [], R = 14;
+      live().forEach(function (s) {
+        if (s.k === 'text') {
+          var half = (s.size || 22) * 0.6, wide = (s.txt || '').length * (s.size || 22) * 0.34;
+          if (p.x > s.pts[0].x - 8 && p.x < s.pts[0].x + wide + 8 &&
+              p.y > s.pts[0].y - half && p.y < s.pts[0].y + half) hit.push(s);
+          return;
+        }
+        var segs = paths(s), i, j, pts;
+        for (i = 0; i < segs.length; i++) {
+          pts = segs[i];
+          for (j = 0; j < pts.length; j++) {
+            var dx = pts[j].x - p.x, dy = pts[j].y - p.y;
+            if (dx * dx + dy * dy < (R + s.w) * (R + s.w)) { hit.push(s); return; }
+          }
+          // a long straight edge has few vertices: walk it
+          for (j = 1; j < pts.length; j++) {
+            var A = pts[j - 1], B = pts[j], L = Math.hypot(B.x - A.x, B.y - A.y);
+            if (L < 1) continue;
+            var t = ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y)) / (L * L);
+            if (t < 0 || t > 1) continue;
+            var cx = A.x + t * (B.x - A.x), cy = A.y + t * (B.y - A.y);
+            if (Math.hypot(p.x - cx, p.y - cy) < R + s.w) { hit.push(s); return; }
+          }
+        }
+      });
+      if (hit.length) { push({ t: 'del', ids: hit.map(function (s) { return s.id; }) }); render(); paintBar(); return true; }
+    }
+    // nearest live stroke to a point, by the same segment walk the eraser uses
+    function nearest(p) {
+      var best = null, bd = 1e9;
+      live().forEach(function (s) {
+        paths(s).forEach(function (pts) {
+          for (var j = 1; j < pts.length; j++) {
+            var A = pts[j - 1], B = pts[j], L = Math.hypot(B.x - A.x, B.y - A.y);
+            var cx, cy, tt;
+            if (L < 1) { cx = A.x; cy = A.y; }
+            else {
+              tt = Math.max(0, Math.min(1, ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y)) / (L * L)));
+              cx = A.x + tt * (B.x - A.x); cy = A.y + tt * (B.y - A.y);
+            }
+            var d = Math.hypot(p.x - cx, p.y - cy);
+            if (d < bd) { bd = d; best = s; }
+          }
+        });
+      });
+      return bd < 40 ? best : null;
+    }
+    // A label is typed, not drawn, so it gets a real input at the click point
+    // rather than a prompt() -- a modal dialog in front of a projected slide is
+    // worse than the thing it is trying to collect.
+    function labelAt(p, ev) {
+      var r = box(), k = Reveal.getScale() || 1, size = 16 + si * 6;
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.placeholder = 'D\u2032';
+      inp.style.cssText = 'position:fixed;z-index:10004;left:' + (r.left + p.x * k - 6) + 'px;top:' +
+        (r.top + p.y * k - size * k * 0.75) + 'px;width:130px;font:italic 700 ' + Math.round(size * k) +
+        'px Georgia,serif;color:' + PENS[pi].c + ';background:rgba(255,255,255,.92);border:2px solid ' +
+        PENS[pi].c + ';border-radius:6px;padding:1px 5px;outline:none';
+      document.body.appendChild(inp);
+      // v27: the box grows with the text. At 130px fixed, a large italic label scrolled its
+      // start out of sight after four characters and Ryan could not see what he typed.
+      var meas = document.createElement('canvas').getContext('2d');
+      meas.font = 'italic 700 ' + Math.round(size * k) + 'px Georgia,serif';
+      var grow = function () {
+        var w = meas.measureText(inp.value || inp.placeholder).width;
+        inp.style.width = Math.max(60, Math.ceil(w + size * k * 0.9 + 14)) + 'px';
+      };
+      inp.addEventListener('input', grow); grow();
+      inp.focus();
+      var done = function (commit) {
+        var txt = inp.value.trim();
+        inp.remove();
+        if (!commit || !txt) return;
+        var s = { k: 'text', c: PENS[pi].c, w: SIZES[si], size: size, txt: txt, pts: [p] };
+        push({ t: 'add', s: s }); snap();
+        render(); paintBar();
+      };
+      inp.addEventListener('keydown', function (e) {
+        e.stopPropagation();                       // Reveal and Ink both listen on document
+        if (e.key === 'Enter') { e.preventDefault(); done(true); }
+        if (e.key === 'Escape') { e.preventDefault(); done(false); }
+      });
+      inp.addEventListener('blur', function () { done(true); });
+    }
+
+    function down(ev) {
+      if (!active) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var p = at(ev);
+      if (erasing) { if (eraseAt(p)) snap(); return; }
+      if (tool === 'label') { labelAt(p, ev); return; }
+      if (tool === 'ghost') {
+        // copy the curve you pressed on, then drag the copy to where it shifted
+        var src = nearest(p);
+        if (!src) return;
+        var base = src.pts.map(function (q) { return { x: q.x, y: q.y }; });
+        cur = { k: src.k, c: src.c, w: src.w, size: src.size, txt: src.txt,
+                ghost: true, base: base, from: p, pts: base };
+        render(); return;
+      }
+      cur = { c: PENS[pi].c, w: width(), k: tool, pts: [p, p] };
+      send({ k: 'down', x: p.x, y: p.y, c: cur.c, w: cur.w, tool: tool });
+      render();
+    }
+    function move(ev) {
+      if (!active) return;
+      var p = at(ev);
+      if (erasing) {
+        if (ev.buttons && eraseAt(p)) snap();
+        return;
+      }
+      if (!cur) return;
+      ev.preventDefault();
+      if (cur.ghost) {
+        var dx = p.x - cur.from.x, dy = p.y - cur.from.y;
+        cur.pts = cur.base.map(function (q) { return { x: q.x + dx, y: q.y + dy }; });
+        render(); return;                          // relayed whole, on release
+      }
+      if (cur.k === 'free') cur.pts.push(p); else cur.pts[1] = p;
+      send({ k: 'move', x: p.x, y: p.y }); render();
+    }
+    function up() {
+      if (!cur) return;
+      // a shape needs two distinct corners; a tap is not a rectangle
+      var a = cur.pts[0], b = cur.pts[cur.pts.length - 1];
+      var ok = cur.ghost ? Math.hypot(b.x - a.x, b.y - a.y) >= 0
+             : cur.k === 'free' ? cur.pts.length > 1
+             : Math.hypot(b.x - a.x, b.y - a.y) > 4;
+      if (cur.ghost) {
+        var moved = cur.pts.length && cur.base.length &&
+                    Math.hypot(cur.pts[0].x - cur.base[0].x, cur.pts[0].y - cur.base[0].y) > 4;
+        if (moved) {
+          var g = { k: cur.k, c: cur.c, w: cur.w, size: cur.size, txt: cur.txt, ghost: true, pts: cur.pts };
+          push({ t: 'add', s: g }); snap();
+        }
+        cur = null; render(); paintBar(); return;
+      }
+      if (ok) { push({ t: 'add', s: cur }); cur = null; snap(); }
+      else { cur = null; send({ k: 'cancel' }); }
+      render(); paintBar();
+    }
+    // the projected window rebuilds the same stroke from the relayed points
+    function apply(m) {
+      if (!m) return;
+      ensure();
+      // v25: the other window's stroke in progress lives in rcur, never in cur, so a stroke
+      // drawn on each screen at once cannot merge into one
+      if (m.k === 'down') { rcur = { c: m.c, w: m.w, k: m.tool || 'free', pts: [{ x: m.x, y: m.y }, { x: m.x, y: m.y }] }; render(); return; }
+      if (m.k === 'move') { if (rcur) { if (rcur.k === 'free') rcur.pts.push({ x: m.x, y: m.y }); else rcur.pts[1] = { x: m.x, y: m.y }; render(); } return; }
+      if (m.k === 'cancel') { rcur = null; render(); return; }
+      if (m.k === 'snap') {
+        ops[m.key] = m.ops || []; undone[m.key] = m.undone || []; rcur = null;
+        render(); paintBar(); return;
+      }
+      if (m.k === 'req')  { snapAll(); return; }
+      // a window still on v24 or older sends these; keep them working during a mixed reload
+      if (m.k === 'up')   { if (rcur) push({ t: 'add', s: rcur }); rcur = null; render(); return; }
+      if (m.k === 'full') { if (m.s) { push({ t: 'add', s: m.s }); render(); } return; }
+      if (m.k === 'erase'){ eraseAt({ x: m.x, y: m.y }); return; }
+      if (m.k === 'undo') { undo(true); return; }
+      if (m.k === 'redo') { redo(true); return; }
+      if (m.k === 'clear'){ clear(true); return; }
+      if (m.k === 'mode') { setActive(m.on, true); return; }
+    }
+    function undo(q) {
+      var k = skey(), o = ops[k] || [];
+      if (!o.length) return;
+      (undone[k] = undone[k] || []).push(o.pop());
+      render(); paintBar(); if (!q) snap();
+    }
+    function redo(q) {
+      var k = skey(), u = undone[k] || [];
+      if (!u.length) return;
+      (ops[k] = ops[k] || []).push(u.pop());
+      render(); paintBar(); if (!q) snap();
+    }
+    function clear(q) {
+      var k = skey();
+      if (!(ops[k] || []).length) return;
+      undone[k] = (undone[k] || []).concat(ops[k]); ops[k] = [];
+      render(); paintBar(); if (!q) snap();
+    }
+    function setActive(v, q) {
+      active = !!v; ensure();
+      cv.style.pointerEvents = active ? 'auto' : 'none';
+      cv.style.cursor = active ? (erasing ? 'cell' : 'crosshair') : '';
+      if (bar) bar.style.display = active ? 'flex' : 'none';
+      if (btn) btn.style.opacity = active ? '1' : (current ? '.55' : '.18');
+      paintBar(); if (!q) send({ k: 'mode', on: active });
+    }
+
+    /* ---------- save a picture of the board ---------- */
+    // The slide is DOM, not a canvas, so the page cannot screenshot itself
+    // without help. html2canvas is fetched only when this is first pressed --
+    // no cost to a lecture that never uses it -- and if the CDN is unreachable
+    // the ink alone is still saved rather than nothing.
+    function stamp() {
+      var m = location.pathname.match(/\/([^\/]+)\/[^\/]*$/);
+      var n = document.querySelector('.reveal .slide-number');
+      return (m ? m[1] : 'slide') + '-' + (n ? n.textContent.replace(/\s+/g, '') : skey());
+    }
+    function download(blob) {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = stamp() + '.png';
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+    function inkOnly() {
+      var out = document.createElement('canvas');
+      out.width = cv.width; out.height = cv.height;
+      var c = out.getContext('2d');
+      c.fillStyle = '#fff'; c.fillRect(0, 0, out.width, out.height);
+      c.drawImage(cv, 0, 0);
+      out.toBlob(download);
+    }
+    function savePng() {
+      var reveal = document.querySelector('.reveal');
+      var go = function () {
+        window.html2canvas(reveal, { backgroundColor: '#ffffff', scale: 2, logging: false })
+          .then(function (base) {
+            var out = document.createElement('canvas');
+            out.width = base.width; out.height = base.height;
+            var c = out.getContext('2d');
+            c.drawImage(base, 0, 0);
+            var rr = reveal.getBoundingClientRect(), cr = cv.getBoundingClientRect();
+            var k = base.width / rr.width;
+            c.drawImage(cv, (cr.left - rr.left) * k, (cr.top - rr.top) * k, cr.width * k, cr.height * k);
+            out.toBlob(download);
+          })
+          .catch(inkOnly);
+      };
+      if (window.html2canvas) { go(); return; }
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload = go; s.onerror = inkOnly;
+      document.head.appendChild(s);
+    }
+
+    /* ---------- toolbar ---------- */
+    function paintBar() {
+      if (!bar) return;
+      [].forEach.call(bar.querySelectorAll('[data-pen]'), function (b) {
+        b.style.outline = (!erasing && +b.getAttribute('data-pen') === pi) ? '2px solid #111827' : '2px solid transparent';
+      });
+      [].forEach.call(bar.querySelectorAll('[data-size]'), function (b) {
+        var on = +b.getAttribute('data-size') === si;
+        b.style.background = on ? '#111827' : '#e5e7eb';
+        b.firstChild.style.background = on ? '#fff' : '#374151';
+      });
+      [].forEach.call(bar.querySelectorAll('[data-tool]'), function (b) {
+        var on = !erasing && b.getAttribute('data-tool') === tool;
+        b.style.background = on ? '#111827' : '#e5e7eb';
+        b.style.color = on ? '#fff' : '#374151';
+      });
+      var er = bar.querySelector('[data-a="erase"]');
+      if (er) { er.style.background = erasing ? '#111827' : '#e5e7eb'; er.style.color = erasing ? '#fff' : '#374151'; }
+      var k = skey();
+      var u = bar.querySelector('[data-a="undo"]'), rd = bar.querySelector('[data-a="redo"]'),
+          cl = bar.querySelector('[data-a="clear"]'), sv = bar.querySelector('[data-a="save"]');
+      if (u)  u.disabled  = !(ops[k] || []).length;
+      if (rd) rd.disabled = !(undone[k] || []).length;
+      if (cl) cl.disabled = !(ops[k] || []).length;
+      if (sv) sv.disabled = false;
+    }
+    function mount() {
+      if (bar) return;
+      btn = document.createElement('button');
+      btn.id = 'ti-pen'; btn.type = 'button'; btn.title = 'Draw on the slide (d)';
+      btn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+      var rest = current ? '.55' : '.18';
+      btn.style.cssText = 'position:fixed;left:' + (current ? 14 : 94) + 'px;bottom:12px;' +
+        'z-index:10001;width:34px;height:34px;' +
+        'border-radius:50%;display:flex;align-items:center;justify-content:center;' +
+        'background:rgba(255,255,255,.9);color:#6b8ba4;border:1px solid #e5e7eb;cursor:pointer;' +
+        'font-size:14px;padding:0;opacity:' + rest + ';transition:opacity .2s';
+      btn.addEventListener('mouseenter', function () { btn.style.opacity = '1'; });
+      btn.addEventListener('mouseleave', function () { if (!active) btn.style.opacity = rest; });
+      btn.addEventListener('click', function (e) { e.preventDefault(); setActive(!active); });
+      document.body.appendChild(btn);
+
+      bar = document.createElement('div');
+      bar.id = 'ti-ink-bar';
+      bar.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:10px;z-index:10003;' +
+        'display:none;gap:6px;align-items:center;padding:7px 10px;border-radius:11px;' +
+        'background:rgba(255,255,255,.97);box-shadow:0 2px 12px rgba(0,0,0,.22);' +
+        'font:600 12px system-ui,sans-serif;max-width:96vw;flex-wrap:wrap;justify-content:center';
+      var sep = '<span style="width:1px;height:20px;background:#e5e7eb"></span>';
+      var btnCss = 'border:0;border-radius:6px;padding:5px 8px;cursor:pointer;background:#e5e7eb;color:#374151;font:inherit';
+      var html = '';
+      PENS.forEach(function (p, i) {
+        html += '<button data-pen="' + i + '" type="button" title="' + p.n + '" style="width:22px;height:22px;' +
+                'border-radius:50%;border:0;cursor:pointer;padding:0;background:' + p.c + ';' +
+                'outline:2px solid transparent;outline-offset:2px"></button>';
+      });
+      html += sep;
+      SIZES.forEach(function (w, i) {
+        var d = 4 + i * 4;
+        html += '<button data-size="' + i + '" type="button" title="Tip ' + w + '" style="width:26px;height:22px;' +
+                'border:0;border-radius:6px;cursor:pointer;background:#e5e7eb;display:inline-flex;' +
+                'align-items:center;justify-content:center;padding:0">' +
+                '<span style="display:block;width:' + d + 'px;height:' + d + 'px;border-radius:50%;background:#374151"></span></button>';
+      });
+      html += sep;
+      TOOLS.forEach(function (t) {
+        html += '<button data-tool="' + t.k + '" type="button" title="' + t.t + '" style="' + btnCss + '">' +
+                '<i class="fa-solid ' + t.i + '"></i></button>';
+      });
+      html += sep +
+        '<button data-a="erase" type="button" title="Eraser (e)" style="' + btnCss + '">Erase</button>' +
+        '<button data-a="undo" type="button" title="Undo (z)" style="' + btnCss + '">Undo</button>' +
+        '<button data-a="redo" type="button" title="Redo (x)" style="' + btnCss + '">Redo</button>' +
+        '<button data-a="clear" type="button" title="Clear this slide (c)" style="' + btnCss + '">Clear</button>' +
+        '<button data-a="save" type="button" title="Save this slide as a PNG (p)" style="' + btnCss + '">' +
+        '<i class="fa-solid fa-camera"></i></button>' + sep +
+        '<button data-a="done" type="button" title="Stop drawing (d or Esc)" style="' + btnCss +
+        ';background:#111827;color:#fff">Done</button>';
+      bar.innerHTML = html;
+      bar.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+      bar.addEventListener('click', function (e) {
+        var t = e.target.closest('button'); if (!t) return;
+        e.preventDefault(); e.stopPropagation();
+        if (t.hasAttribute('data-pen'))  { pi = +t.getAttribute('data-pen'); erasing = false; setActive(true); return; }
+        if (t.hasAttribute('data-size')) { si = +t.getAttribute('data-size'); setActive(true); return; }
+        if (t.hasAttribute('data-tool')) { tool = t.getAttribute('data-tool'); erasing = false; setActive(true); return; }
+        var a = t.getAttribute('data-a');
+        if (a === 'erase') { erasing = !erasing; setActive(true); }
+        else if (a === 'undo') undo();
+        else if (a === 'redo') redo();
+        else if (a === 'clear') clear();
+        else if (a === 'save') savePng();
+        else if (a === 'done') setActive(false);
+      });
+      document.body.appendChild(bar);
+      ensure();
+      Reveal.on('resize', fit);
+      window.addEventListener('resize', fit);
+      Reveal.on('slidechanged', function () { cur = null; rcur = null; fit(); paintBar(); });
+      paintBar();
+    }
+
+    function keys(e) {
+      // v26: the system shortcuts too, while the pen is on -- Cmd/Ctrl-Z undo,
+      // Cmd/Ctrl-Shift-Z or Ctrl-Y redo. With the pen off they pass through untouched.
+      if (active && (e.metaKey || e.ctrlKey) && !e.altKey) {
+        var kk = (e.key || '').toLowerCase();
+        if (kk === 'z' || kk === 'y') {
+          e.preventDefault(); e.stopPropagation();
+          if (kk === 'y' || e.shiftKey) redo(); else undo();
+          return;
+        }
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target, tag = t && t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+      var k = e.key;
+      if (k === 'd' || k === 'D') { e.preventDefault(); e.stopPropagation(); setActive(!active); return; }
+      if (!active) return;                    // every other key is scoped to draw mode
+      var stop = function () { e.preventDefault(); e.stopPropagation(); };
+      if (k === 'Escape') { stop(); setActive(false); return; }
+      if (k === 'e' || k === 'E') { stop(); erasing = !erasing; setActive(true); return; }
+      if (k === 'z' || k === 'Z') { stop(); undo(); return; }
+      if (k === 'x' || k === 'X') { stop(); redo(); return; }
+      if (k === 'c' || k === 'C') { stop(); clear(); return; }
+      if (k === 'p' || k === 'P') { stop(); savePng(); return; }
+      if (k === '[') { stop(); si = Math.max(0, si - 1); setActive(true); return; }
+      if (k === ']') { stop(); si = Math.min(SIZES.length - 1, si + 1); setActive(true); return; }
+      // NOT "t": that is the poll open/close key, and it has to keep working
+      // while the pen is armed so a poll slide can be annotated and still
+      // opened for voting. Triangle takes "y" instead.
+      var map = { f: 'free', l: 'line', a: 'arrow', r: 'rect', s: 'shade', y: 'tri', g: 'guide',
+                  n: 'label', h: 'ghost' };
+      var want = map[k.toLowerCase && k.toLowerCase()];
+      if (want) { stop(); tool = want; erasing = false; setActive(true); }
+    }
+
+    return {
+      mount: mount, apply: apply, fit: fit, keys: keys, ask: function () { send({ k: 'req' }); },
+      on: function () { return active; },
+      relayTo: function (fn) { relay = fn; }
+    };
+  })();
+
+  // ---- full screen ----------------------------------------------------
+  // requestFullscreen needs TRANSIENT user activation IN THE WINDOW THAT GOES
+  // FULL SCREEN, so only a click (or "f") inside the projected window can do
+  // it. The speaker-view button and the click-anywhere target that used to work
+  // around that are GONE: they worked, but two windows and two clicks to reach
+  // full screen was never worth it. "m" then "f" does the same job from the
+  // keyboard -- see swapFocus below.
+  function goFull() {
+    var el = document.documentElement;
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    try {
+      var p = el.requestFullscreen();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+
+  function fsButton() {                 // projector window: the one-click path
+    if (document.getElementById('ti-fs')) return;
+    var b = document.createElement('button');
+    b.id = 'ti-fs'; b.type = 'button'; b.title = 'Full screen (f)';
+    b.innerHTML = '<i class="fa-solid fa-expand"></i>';
+    b.style.cssText = 'position:fixed;left:54px;bottom:12px;z-index:10001;width:34px;height:34px;' +
+      'border-radius:50%;display:flex;align-items:center;justify-content:center;' +
+      'background:rgba(255,255,255,.9);color:#6b8ba4;border:1px solid #e5e7eb;cursor:pointer;' +
+      'font-size:14px;padding:0;opacity:.18;transition:opacity .2s';
+    b.addEventListener('mouseenter', function () { b.style.opacity = '1'; });
+    b.addEventListener('mouseleave', function () { b.style.opacity = '.18'; });
+    b.addEventListener('click', function (e) { e.preventDefault(); goFull(); });
+    document.addEventListener('fullscreenchange', function () {
+      b.innerHTML = document.fullscreenElement ? '<i class="fa-solid fa-compress"></i>'
+                                               : '<i class="fa-solid fa-expand"></i>';
+    });
+    document.body.appendChild(b);
+  }
+
+  function homeLink() {            // presenter only: a faint way back to the chapter list
+    if (document.getElementById('ti-home')) return;
+    var a = document.createElement('a');
+    a.id = 'ti-home'; a.href = '../index.html'; a.title = 'Chapter list';
+    a.innerHTML = '<i class="fa-solid fa-house"></i>';
+    a.style.cssText = 'position:fixed;left:14px;bottom:12px;z-index:10001;width:34px;height:34px;' +
+      'border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);' +
+      'color:#6b8ba4;border:1px solid #e5e7eb;text-decoration:none;font-size:15px;opacity:.18;transition:opacity .2s';
+    a.addEventListener('mouseenter', function () { a.style.opacity = '1'; });
+    a.addEventListener('mouseleave', function () { a.style.opacity = '.18'; });
+    document.body.appendChild(a);
+  }
+  function start() {
+    homeLink(); fsButton(); Ink.mount();
+    document.addEventListener('keydown', Ink.keys, true);
+  }
+  if (Reveal.isReady()) start(); else Reveal.on('ready', start);
+})();
+</script>
+</body>
+</html>
