@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a18b7646ba135f1ada2905ec16fd19fb">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=32763e5e0d8b55d6af1b102926a7e629">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Causal Inference I: A/B Testing in Tech</title>
@@ -328,9 +328,9 @@
           <p style="font-size: 16pt; margin: 0;">The intuition students arrive with: <em>"people who volunteer for a programme are motivated, so selection bias makes programmes look better than they are."</em></p>
         </div>
         <div class="fragment fade-up" style="background: #fdf0ea; border-left: 4px solid var(--danger-color); border-radius: 10px; padding: 18px 24px; margin-top: 18px;">
-          <p style="font-size: 16pt; margin: 0;">Here it runs the other way. The men who enrolled were <strong>far more disadvantaged</strong> than a general&#8209;population sample &mdash; so \(E[Y_i(0) \mid D_i{=}1] < E[Y_i(0) \mid D_i{=}0]\), the bias term is large and <em>negative</em>, and an effective programme looks actively harmful.</p>
+          <p style="font-size: 16pt; margin: 0;">If that were the whole story, the general&#8209;population comparison would make this programme look <em>better</em> than the experiment does. It came out about <strong>$15,000 below zero</strong>, against the experiment's +$1,794.</p>
         </div>
-        <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 18px; color: var(--accent-color); font-weight: 600;"><i class="fa-solid fa-arrow-right"></i> Selection bias has no default sign. You have to reason about the specific comparison you made.</p>
+        <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 18px; color: var(--accent-color); font-weight: 600;"><i class="fa-solid fa-arrow-right"></i> What would have to be true of the two groups for that to happen? Vote on the next slide.</p>
       </div>
     </section>
 
@@ -356,6 +356,7 @@
           <div style="background: #eef5ee; border-left: 4px solid var(--success-color); padding: 13px 20px; border-radius: 8px; margin-top: 14px;">
             <p style="font-size: 14pt; margin: 0;"><strong>Why A is tempting but wrong:</strong> the randomised estimate is the one that identifies harm or benefit, and it is <em>positive</em>. The negative number is a property of the comparison group, not of the programme.</p>
           </div>
+          <p style="font-size: 14.5pt; margin-top: 12px; color: var(--accent-color); font-weight: 600;"><i class="fa-solid fa-arrow-right"></i> Selection bias has no default sign. Reason about the comparison you made.</p>
         </div>
       </section>
     </section>
