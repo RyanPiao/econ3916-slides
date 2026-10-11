@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a3034abd733a8f4929f0236bc87080f9">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6a72003b76756de00f109bf035b67b40">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Correlation & Causality: Causal Logic and DAGs</title>
@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../mock-cell.css">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
@@ -154,23 +155,11 @@
         <p style="font-size: 14.5pt; margin-top: 10px; line-height: 1.5;">Three upward-sloping clouds. Three correlations inside a band of <strong>0.03</strong>. In <strong>one</strong> the true effect is 2.0. In the other two it is <strong>exactly zero</strong>. Point at the one that is real.</p>
       </div>
     </section>
-    <section id="three-worlds-table" style="padding: 30px 55px;">
-      <h2><i class="fa-solid fa-table" style="color: var(--secondary-color);"></i> The Same Three Worlds, as Numbers</h2>
+    <section id="three-worlds-table" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 12px; font-size: 22pt;"><i class="fa-solid fa-table" style="color: var(--secondary-color);"></i> The Same Three Worlds, as Numbers</h2>
       <div class="content">
-        <table class="table-standard" style="width: 100%;">
-          <thead>
-            <tr><th>World</th><th style="text-align: center;">True effect</th><th style="text-align: center;">corr(\(D\), \(Y\))</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><strong>1</strong> &mdash; \(D\) causes \(Y\)</td><td style="text-align: center; color: var(--secondary-color); font-weight: 700;">2.0</td><td style="text-align: center; font-weight: 700;">0.654</td></tr>
-            <tr><td><strong>2</strong> &mdash; \(U\) causes both; \(D\) does nothing</td><td style="text-align: center; color: var(--accent-color); font-weight: 700;">0.0</td><td style="text-align: center; font-weight: 700;">0.664</td></tr>
-            <tr><td><strong>3</strong> &mdash; \(D\) and \(Y\) independent; we see only \(D - Y &gt; 1.2\)</td><td style="text-align: center; color: var(--danger-color); font-weight: 700;">0.0</td><td style="text-align: center; font-weight: 700;">0.632</td></tr>
-          </tbody>
-        </table>
-        <div style="background: #f7eeee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 15px 22px; margin-top: 16px;">
-          <p style="font-size: 15pt; line-height: 1.55;"><strong>The column on the right is useless to you.</strong> Three correlations inside a band of 0.03, and the effect column reads 2.0, 0.0, 0.0. Row 3 has <em>no causal arrow at all</em> &mdash; the filter alone manufactured a 0.632 association out of two independent variables.</p>
-        </div>
-        <p style="font-size: 12pt; color: var(--muted-color); margin-top: 12px; font-style: italic;">Source: <code>lab-ch10-guided.ipynb</code> Step 2, executed. These are the numbers your lab will print.</p>
+        <div class="mock colab" data-src="cells/ch10.json" data-cell="5" data-lines="5-8,10-13,15-17,19-20" data-size="10.4pt" style="max-width: 1100px;"></div>
+        <p class="mk-caption" style="font-size: 13.5pt; line-height: 1.45; margin: 8px 0 0; color: var(--primary-color);">Three near-identical correlations. World 3 has <strong>no causal arrow at all</strong>: the filter alone made its correlation out of two independent variables.</p>
       </div>
     </section>
 
@@ -497,23 +486,11 @@ Adjust for earn74, educ, U:  True</code></pre>
       </div>
     </section>
 
-    <section id="good-control-fig" style="padding: 26px 50px;">
-      <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> It Works: Blocking the One Backdoor Path</h2>
+    <section id="good-control-fig" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 12px; font-size: 22pt;"><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> It Works: Blocking the One Backdoor Path</h2>
       <div class="content">
-        <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 22px; align-items: center;">
-          <img src="figures/figure_004_good_control.png" alt="Bar chart of a fork DGP with true effect zero: the unadjusted estimate is 0.658 while adjusting for the confounder U collapses it to 0.014" style="width: 100%; border-radius: 6px;">
-          <div>
-            <p style="font-size: 15pt; line-height: 1.55;">World 2 again &mdash; \(U\) caused both \(D\) and \(Y\), and the true effect of \(D\) on \(Y\) was <strong>exactly zero</strong>. This time \(U\) is measured.</p>
-            <div style="background: #f7eeee; border-radius: 8px; padding: 13px 18px; margin-top: 12px; border-left: 4px solid var(--danger-color);">
-              <p style="font-size: 14.5pt;">Unadjusted: <strong>0.658</strong>, with a standard error small enough that you would reject a zero effect without hesitation.</p>
-            </div>
-            <div style="background: #eef5ee; border-radius: 8px; padding: 13px 18px; margin-top: 10px; border-left: 4px solid var(--success-color);">
-              <p style="font-size: 14.5pt;">Adjusted: <strong>0.014</strong> &mdash; indistinguishable from the true zero.</p>
-            </div>
-            <p style="font-size: 12pt; color: var(--muted-color); margin-top: 12px; font-style: italic;">Chapter &sect;10.3 code, executed.</p>
-          </div>
-        </div>
-        <p style="font-size: 15pt; margin-top: 12px; color: var(--accent-color); font-weight: 600;"><i class="fa-solid fa-arrow-right"></i> Keep this in mind. We are about to run code that looks almost identical and does the opposite.</p>
+        <div class="mock colab" data-src="cells/ch10.json" data-cell="15" data-lines="3-6,8-9,14-15" data-size="11.5pt" style="max-width: 1100px;"></div>
+        <p class="mk-caption" style="font-size: 13.5pt; line-height: 1.45; margin: 8px 0 0; color: var(--primary-color);">U is measured here, so the regression can hold it fixed. <strong style="color: var(--accent-color);">Keep this in mind: the next code looks almost identical and does the opposite.</strong></p>
       </div>
     </section>
 
@@ -537,6 +514,21 @@ Adjust for earn74, educ, U:  True</code></pre>
     </section>
 
     <section>
+      <section id="room-two-numbers" style="padding: 34px 50px;">
+        <h2><i class="fa-solid fa-mobile-screen" style="color: var(--secondary-color);"></i> Two Numbers From Your Phone</h2>
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 14px 22px; margin-top: 10px;"><p style="font-size: 15.5pt; line-height: 1.55; margin: 0;">Send two numbers. <strong>They have nothing to do with each other.</strong> We use them later this hour.</p></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px;">
+          <div style="background: #f0f5f8; border-radius: 10px; padding: 16px 22px; border-top: 5px solid var(--secondary-color);">
+            <p style="font-size: 15.5pt; font-weight: 700; margin: 0 0 10px;">1. The last two digits of your phone number</p>
+            <div class="poll-number" data-poll-id="ch10-econ3916-poll-5" data-poll-voting data-min="0" data-max="99" data-step="1"></div>
+          </div>
+          <div style="background: #fdf0ea; border-radius: 10px; padding: 16px 22px; border-top: 5px solid var(--accent-color);">
+            <p style="font-size: 15.5pt; font-weight: 700; margin: 0 0 10px;">2. Your phone's battery right now</p>
+            <div class="poll-number" data-poll-id="ch10-econ3916-poll-6" data-poll-voting data-min="0" data-max="100" data-step="1" data-unit="%"></div>
+          </div>
+        </div>
+        <p class="rs-count" style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 16px;"></p>
+      </section>
       <section id="poll-3" style="padding: 34px 50px;">
         <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: Predict Before I Run It</h2>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 10px;">
@@ -551,15 +543,12 @@ Adjust for earn74, educ, U:  True</code></pre>
           <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) A large <strong>positive</strong> coefficient, highly significant</div>
         </div>
       </section>
-      <section id="poll-3-reveal" data-poll-results="ch10-econ3916-poll-3" style="padding: 28px 50px;">
-        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; &minus;0.593, \(p &lt; 0.001\)</h2>
-        <div class="poll-results-chart" data-poll-id="ch10-econ3916-poll-3" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:8px 60px 32px;"></div>
-        <div style="padding: 0 42px;">
-          <pre style="font-size: 12pt; background: #2D2D2D; color: #f2efe9; border-radius: 8px; padding: 12px 16px; line-height: 1.6; margin: 0;"><code>No control          estimate = -0.012  p = 0.212   (truth = 0.000)
-Controlling for C   estimate = -0.593  p = 0.000   (truth = 0.000)</code></pre>
-          <div style="background: #eef5ee; border-left: 4px solid var(--success-color); padding: 12px 20px; border-radius: 8px; margin-top: 12px;">
-            <p style="font-size: 14pt; margin: 0;"><strong>Why A is the reasonable wrong answer.</strong> Almost everyone picks it, for a <em>good</em> reason: an irrelevant regressor normally costs precision, not correctness. That intuition is right for every case except this one.</p>
-          </div>
+      <section id="poll-3-reveal" data-poll-results="ch10-econ3916-poll-3" style="padding: 20px 40px;">
+        <h2 style="margin-bottom: 12px; font-size: 22pt;"><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; A Large Negative Coefficient</h2>
+        <div class="poll-results-chart" data-poll-id="ch10-econ3916-poll-3" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:112px; margin:0 60px 30px;"></div>
+        <div class="content">
+          <div class="mock colab" data-src="cells/ch10.json" data-cell="20" data-lines="4-6,8-9" data-size="11pt" style="max-width: 1100px;"></div>
+          <p class="mk-caption" style="font-size: 13.5pt; line-height: 1.45; margin: 8px 0 0; color: var(--primary-color);"><strong>Why A is the reasonable wrong answer:</strong> an irrelevant control normally costs precision, not correctness. A control that both D and Y cause is the exception.</p>
         </div>
       </section>
     </section>
@@ -587,28 +576,29 @@ Controlling for C   estimate = -0.593  p = 0.000   (truth = 0.000)</code></pre>
     <section id="the-hinge" style="padding: 24px 42px;">
       <h2><i class="fa-solid fa-code-compare" style="color: var(--danger-color);"></i> One Line of Difference</h2>
       <div class="content">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
           <div>
-            <p style="font-size: 13.5pt; font-weight: 700; color: var(--success-color); margin-bottom: 6px;">GOOD CONTROL &mdash; a fork</p>
-            <img src="figures/figure_004_good_control.png" alt="Bar chart: unadjusted estimate 0.658 versus adjusted estimate 0.014 against a true effect of zero, showing the confounder adjustment removing the bias" style="max-width: 100%; max-height: 340px; display: block; margin: 0 auto; border-radius: 6px;">
-            <pre style="font-size: 10.5pt; background: #eef5ee; border-radius: 6px; padding: 9px 12px; margin: 8px 0 0; line-height: 1.4;"><code>u = rng.normal(0,1,n)
-d = 1.4*u + eps
-y = 1.4*u + eps
-OLS(y, [d, u])  ->  0.014</code></pre>
+            <p style="font-size: 13.5pt; font-weight: 700; color: var(--success-color); margin-bottom: 2px;">GOOD CONTROL &mdash; a fork (Step 5)</p>
+            <div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 520 132" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block;" role="img" aria-label="A fork: U causes both D and Y, and D causes Y. U is the control."><defs><marker id="hg-fork" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs><line x1="238" y1="44" x2="150" y2="86" stroke="#c0612b" stroke-width="3" marker-end="url(#hg-fork)"/><line x1="282" y1="44" x2="370" y2="86" stroke="#c0612b" stroke-width="3" marker-end="url(#hg-fork)"/><line x1="152" y1="100" x2="366" y2="100" stroke="#2c3e50" stroke-width="3" marker-end="url(#hg-fork)"/><rect x="230" y="4" width="60" height="60" rx="8" fill="none" stroke="#c0612b" stroke-width="2.5" stroke-dasharray="6 4"/><circle cx="260" cy="34" r="22" fill="#fff" stroke="#c0612b" stroke-width="3"/><text x="260" y="41" text-anchor="middle" font-size="20" font-weight="700" fill="#c0612b">U</text><circle cx="126" cy="100" r="22" fill="#fff" stroke="#2c3e50" stroke-width="3"/><text x="126" y="107" text-anchor="middle" font-size="20" font-weight="700" fill="#2c3e50">D</text><circle cx="394" cy="100" r="22" fill="#fff" stroke="#2c3e50" stroke-width="3"/><text x="394" y="107" text-anchor="middle" font-size="20" font-weight="700" fill="#2c3e50">Y</text><text x="322" y="30" font-size="16" fill="#c0612b">controlled: a common cause</text></svg></div>
+            <pre style="font-size: 11.5pt; background: #eef5ee; border-radius: 6px; padding: 9px 12px; margin: 6px 0 0; line-height: 1.45;"><code data-cell-code="15" data-lines="4,5,6">u = rng.normal(0, 1, n)
+d = 0.8 * u + rng.normal(0, 1, n)
+y = 1.5 * d + 2.0 * u + rng.normal(0, 1, n)</code></pre>
+            <p style="font-size: 15pt; margin: 8px 0 0;"><code>OLS(y, [d, u])</code> &rarr; <strong style="color: var(--success-color);"><span data-cell-out="15" data-re="adjusted\)\s+([-\d.]+)">1.500</span></strong> &nbsp;&middot;&nbsp; truth 1.5</p>
           </div>
           <div>
-            <p style="font-size: 13.5pt; font-weight: 700; color: var(--danger-color); margin-bottom: 6px;">BAD CONTROL &mdash; a collider</p>
-            <img src="figures/figure_005_bad_control.png" alt="Bar chart: uncontrolled estimate minus 0.012 with p equals 0.212 versus collider-controlled estimate minus 0.593 with p below 0.001, against a true effect of zero" style="max-width: 100%; max-height: 340px; display: block; margin: 0 auto; border-radius: 6px;">
-            <pre style="font-size: 10.5pt; background: #f7eeee; border-radius: 6px; padding: 9px 12px; margin: 8px 0 0; line-height: 1.4;"><code>d = rng.normal(0,1,n)
-y = rng.normal(0,1,n)
-c = 1.2*d + 1.2*y + eps
-OLS(y, [d, c])  -> -0.593</code></pre>
+            <p style="font-size: 13.5pt; font-weight: 700; color: var(--danger-color); margin-bottom: 2px;">BAD CONTROL &mdash; a collider (Step 6)</p>
+            <div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 520 132" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block;" role="img" aria-label="A collider: D and Y both cause C, with no arrow between D and Y. C is the control."><defs><marker id="hg-collider" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker></defs><line x1="148" y1="46" x2="236" y2="88" stroke="#a94442" stroke-width="3" marker-end="url(#hg-collider)"/><line x1="372" y1="46" x2="284" y2="88" stroke="#a94442" stroke-width="3" marker-end="url(#hg-collider)"/><line x1="152" y1="34" x2="368" y2="34" stroke="#b8b2a7" stroke-width="2" stroke-dasharray="5 6"/><text x="260" y="24" text-anchor="middle" font-size="16" fill="#777">no arrow</text><circle cx="126" cy="34" r="22" fill="#fff" stroke="#2c3e50" stroke-width="3"/><text x="126" y="41" text-anchor="middle" font-size="20" font-weight="700" fill="#2c3e50">D</text><circle cx="394" cy="34" r="22" fill="#fff" stroke="#2c3e50" stroke-width="3"/><text x="394" y="41" text-anchor="middle" font-size="20" font-weight="700" fill="#2c3e50">Y</text><rect x="230" y="68" width="60" height="60" rx="8" fill="none" stroke="#a94442" stroke-width="2.5" stroke-dasharray="6 4"/><circle cx="260" cy="98" r="22" fill="#fff" stroke="#a94442" stroke-width="3"/><text x="260" y="105" text-anchor="middle" font-size="20" font-weight="700" fill="#a94442">C</text><text x="304" y="118" font-size="16" fill="#a94442">controlled: a common effect</text></svg></div>
+            <pre style="font-size: 11.5pt; background: #f7eeee; border-radius: 6px; padding: 9px 12px; margin: 6px 0 0; line-height: 1.45;"><code data-cell-code="20" data-lines="4,5,6">d = rng.normal(0, 1, n)
+y = rng.normal(0, 1, n)
+c = 1.2 * d + 1.2 * y + rng.normal(0, 1, n)</code></pre>
+            <p style="font-size: 15pt; margin: 8px 0 0;"><code>OLS(y, [d, c])</code> &rarr; <strong style="color: var(--danger-color);"><span data-cell-out="20" data-re="collider!\)\s+([-\d.]+)">&minus;0.592</span></strong> &nbsp;&middot;&nbsp; truth 0</p>
           </div>
         </div>
-        <div style="background: #f8f6f3; border-left: 4px solid var(--primary-color); border-radius: 8px; padding: 12px 20px; margin-top: 12px;">
+        <div style="background: #f8f6f3; border-left: 4px solid var(--primary-color); border-radius: 8px; padding: 12px 20px; margin-top: 14px;">
           <p style="font-size: 15pt; line-height: 1.45;">Same estimator. Same syntax. Same number of controls. <strong>Opposite outcome.</strong> The only thing that changed is <strong style="color: var(--accent-color);">which way the arrows point</strong> &mdash; and that is not in the data.</p>
         </div>
       </div>
+      <div class="footnote">Code and estimates are Lab 10's Steps 5 and 6, as just run.</div>
     </section>
 
     <section id="restaurant" style="padding: 32px 58px;">
@@ -630,20 +620,25 @@ OLS(y, [d, c])  -> -0.593</code></pre>
       </div>
     </section>
 
-    <section id="collider-slice" style="padding: 26px 48px;">
-      <h2><i class="fa-solid fa-layer-group" style="color: var(--danger-color);"></i> Look Inside a Slice of the Collider</h2>
-      <div class="content">
-        <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: center;">
-          <img src="figures/figure_006_collider_slice.png" alt="Two scatterplots of independent D and Y: the full sample shows a circular cloud with correlation minus 0.017, while a thin slice holding the collider C fixed shows a clear downward tilt with correlation minus 0.596" style="width: 100%; border-radius: 6px;">
-          <div>
-            <p style="font-size: 14.5pt; line-height: 1.55;">Inside a narrow band of \(C\), a high \(D\) <strong>must</strong> be offset by a low \(Y\) to keep \(C\) the same.</p>
-            <div style="background: #f7eeee; border-radius: 8px; padding: 13px 18px; margin-top: 12px; border-left: 4px solid var(--danger-color);">
-              <p style="font-size: 14.5pt;"><strong>That trade-off <em>is</em> the manufactured correlation.</strong> Nothing about the world changed &mdash; only which units are being compared.</p>
-            </div>
-            <p style="font-size: 12pt; color: var(--muted-color); margin-top: 12px; font-style: italic;"><code>lab-ch10-guided.ipynb</code> Step 7, executed. \(n = 1{,}366\) in the band.</p>
+    <section>
+      <section id="room-slice" style="padding: 26px 48px;">
+        <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> The Room's Slice</h2>
+        <div class="content">
+          <div class="rs-plot mathjax_ignore tex2jax_ignore" style="margin-top: 2px;"></div>
+          <p class="rs-wait" style="font-size: 15pt; text-align: center; color: var(--muted-color); margin-top: 60px;">Waiting for both numbers from at least 8 of you.</p>
+          <div class="fragment fade-up" style="background: #f7eeee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 12px 20px; margin-top: 8px;">
+            <p style="font-size: 15pt; line-height: 1.45; margin: 0;">Nobody's battery depends on their phone number. Among the <strong class="rs-k">&ndash;</strong> of you whose two numbers give about the same combined score, a high one <strong>has to</strong> come with a low other. I changed nobody's numbers; I chose whom to compare.</p>
           </div>
         </div>
-      </div>
+        <div class="footnote">Your numbers, read live. Each is put on one scale (standard deviations from the room's mean) and the two are added; the slice is the third of the room closest to the middle total. Each device counts once: its first answer.</div>
+      </section>
+      <section id="collider-slice" style="padding: 20px 40px;">
+        <h2 style="margin-bottom: 12px; font-size: 22pt;"><i class="fa-solid fa-layer-group" style="color: var(--danger-color);"></i> Look Inside a Slice of the Collider</h2>
+        <div class="content">
+          <div class="mock colab" data-src="cells/ch10.json" data-cell="22" data-lines="4-7" data-size="11pt" data-img-height="300" style="max-width: 1100px;"></div>
+          <p class="mk-caption" style="font-size: 13.5pt; line-height: 1.45; margin: 8px 0 0; color: var(--primary-color);">Inside a narrow band of C, a high D <strong>must</strong> be offset by a low Y to keep C the same. That trade-off is the manufactured correlation.</p>
+        </div>
+      </section>
     </section>
 
     <section id="conditioning-opens" style="padding: 28px 52px;">
@@ -1050,6 +1045,179 @@ OLS(y, [d, c])  -> -0.593</code></pre>
     .reset-btn{display:none}body.instructor-mode .reset-btn{display:inline-block}
   </style>
   <script src="../poll.js" data-checkin></script>
+  <script src="../mock-cell.js"></script>
+<script>
+/* ============================================================
+   Topic 10, two deck-local helpers.
+
+   1. CELL FILL. A number or a code line shown OUTSIDE a mocked cell (One Line of Difference) is
+      read from cells/ch10.json, the same runner output the mocked cells show:
+        <span data-cell-out="20" data-re="collider!\)\s+([-\d.]+)">  first capture group of the regex,
+                                                                      matched on the cell's printed text
+        <code data-cell-code="15" data-lines="4,5,6">                 those lines of the cell, trailing
+                                                                      comments dropped
+      The text already in the element is the same value, written by the build from the same JSON, so
+      a deck opened from disk (no fetch) still shows it.
+
+   2. THE ROOM'S SLICE. Each student types two unrelated numbers (ch10-econ3916-poll-5 and -6).
+      Both go on one scale (z-scores, n - 1 SD), are added into a combined score C, and the slice
+      is the third of the room whose C is closest to the room's median C (at least 5 students).
+      corr(D, Y) is drawn for everyone and for the slice: Lab 10 Step 7, with the room's numbers.
+      Reads poll_votes; never writes. window.RoomSlice.paint(rows) takes planted rows for a test.
+   ============================================================ */
+(function () {
+  "use strict";
+
+  /* ---------- 1. cell fill ---------- */
+  function fillCells(j) {
+    var by = {};
+    (j.cells || []).forEach(function (c) { by[c.name] = c; });
+    function text(c) { return (c.parts || []).filter(function (p) { return p.type === "stream"; }).map(function (p) { return p.text || ""; }).join(""); }
+    [].forEach.call(document.querySelectorAll("[data-cell-out]"), function (el) {
+      var c = by[el.getAttribute("data-cell-out")]; if (!c) return;
+      var m = new RegExp(el.getAttribute("data-re"), "m").exec(text(c));
+      if (m) el.textContent = m[1].replace(/^-/, "−");
+    });
+    [].forEach.call(document.querySelectorAll("[data-cell-code]"), function (el) {
+      var c = by[el.getAttribute("data-cell-code")]; if (!c) return;
+      var src = c.code.split("\n");
+      var want = el.getAttribute("data-lines").split(",").map(function (n) { return src[+n - 1]; });
+      if (want.some(function (l) { return l === undefined; })) return;
+      el.textContent = want.map(function (l) { return l.replace(/\s+#.*$/, ""); }).join("\n");
+    });
+  }
+  if (location.protocol !== "file:") {
+    fetch("cells/ch10.json").then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { if (j) fillCells(j); }).catch(function () {});
+  }
+
+  /* ---------- 2. the room's slice ---------- */
+  var ID_D = "ch10-econ3916-poll-5", ID_Y = "ch10-econ3916-poll-6";
+  var NUM = /^\s*(?:[oe]\*?:)?\s*(-?\d+(?:\.\d+)?)\s*$/;
+  var MIN_N = 8, MIN_K = 5;
+  var RANGE = {}; RANGE[ID_D] = [0, 99]; RANGE[ID_Y] = [0, 100];
+
+  // rows -> [{d, y}], one per device that sent BOTH numbers (its first of each), in device order
+  function pairs(rows) {
+    var first = {};
+    (rows || []).slice().sort(function (a, b) { return String(a.created_at || "") < String(b.created_at || "") ? -1 : 1; })
+      .forEach(function (r) {
+        if (!r || !RANGE[r.poll_id]) return;
+        var m = NUM.exec(String(r.choice)); if (!m) return;
+        var v = +m[1], rg = RANGE[r.poll_id]; if (v < rg[0] || v > rg[1]) return;
+        var f = first[r.voter_id] = first[r.voter_id] || {};
+        if (f[r.poll_id] === undefined) f[r.poll_id] = v;
+      });
+    return Object.keys(first).sort().filter(function (k) { return first[k][ID_D] !== undefined && first[k][ID_Y] !== undefined; })
+      .map(function (k) { return { d: first[k][ID_D], y: first[k][ID_Y] }; });
+  }
+  function mean(a) { var t = 0; a.forEach(function (x) { t += x; }); return t / a.length; }
+  function sd(a) { var m = mean(a), ss = 0; a.forEach(function (x) { ss += (x - m) * (x - m); }); return Math.sqrt(ss / (a.length - 1)); }
+  function median(a) { var s = a.slice().sort(function (x, y) { return x - y; }), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+  function corr(P) {
+    if (P.length < 3) return null;
+    var dx = P.map(function (p) { return p.d; }), dy = P.map(function (p) { return p.y; });
+    var mx = mean(dx), my = mean(dy), sxy = 0, sxx = 0, syy = 0;
+    P.forEach(function (p) { sxy += (p.d - mx) * (p.y - my); sxx += (p.d - mx) * (p.d - mx); syy += (p.y - my) * (p.y - my); });
+    return (sxx > 0 && syy > 0) ? sxy / Math.sqrt(sxx * syy) : null;
+  }
+  function analyse(P) {
+    var n = P.length, out = { n: n, ready: false, both: n };
+    if (n < MIN_N) return out;
+    var sdD = sd(P.map(function (p) { return p.d; })), sdY = sd(P.map(function (p) { return p.y; }));
+    if (!(sdD > 0) || !(sdY > 0)) return out;
+    var mD = mean(P.map(function (p) { return p.d; })), mY = mean(P.map(function (p) { return p.y; }));
+    P.forEach(function (p, i) { p.i = i; p.c = (p.d - mD) / sdD + (p.y - mY) / sdY; });
+    var med = median(P.map(function (p) { return p.c; }));
+    var k = Math.max(MIN_K, Math.ceil(n / 3));
+    var order = P.slice().sort(function (a, b) { return (Math.abs(a.c - med) - Math.abs(b.c - med)) || (a.i - b.i); });
+    P.forEach(function (p) { p.band = false; });
+    order.slice(0, k).forEach(function (p) { p.band = true; });
+    var B = P.filter(function (p) { return p.band; });
+    out.rAll = corr(P); out.rBand = corr(B); out.k = k; out.P = P; out.B = B;
+    out.ready = out.rAll !== null && out.rBand !== null;
+    return out;
+  }
+  function f3(x) { return x.toFixed(3).replace("-", "−"); }
+  function fitLine(B) {   // least squares of y on d, inside the slice
+    var mx = mean(B.map(function (p) { return p.d; })), my = mean(B.map(function (p) { return p.y; })), sxy = 0, sxx = 0;
+    B.forEach(function (p) { sxy += (p.d - mx) * (p.y - my); sxx += (p.d - mx) * (p.d - mx); });
+    if (!(sxx > 0)) return null;
+    var b = sxy / sxx; return { a: my - b * mx, b: b };
+  }
+  function plot(r) {
+    var W = 1160, H = 316, top = 44, bot = 268, pw = 430, x0 = [92, 664];
+    var X = function (k, v) { return x0[k] + v / 100 * pw; }, Y = function (v) { return bot - v / 100 * (bot - top); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" font-family="inherit" style="width:100%;display:block" role="img" aria-label="Two scatterplots of the room\'s two numbers: everyone, and the slice with the combined score held roughly fixed">';
+    var titles = ["Everyone: corr = " + f3(r.rAll) + "  (n = " + r.n + ")",
+                  "Combined score held roughly fixed: corr = " + f3(r.rBand) + "  (n = " + r.k + ")"];
+    [0, 1].forEach(function (k) {
+      s += '<rect x="' + x0[k] + '" y="' + top + '" width="' + pw + '" height="' + (bot - top) + '" fill="#fbfaf8" stroke="#d9d4cb"/>';
+      [0, 25, 50, 75, 100].forEach(function (t) {
+        s += '<line x1="' + X(k, t) + '" x2="' + X(k, t) + '" y1="' + top + '" y2="' + bot + '" stroke="#ece8e1"/>' +
+             '<text x="' + X(k, t) + '" y="' + (bot + 20) + '" text-anchor="middle" font-size="15" fill="#777">' + t + '</text>' +
+             '<line x1="' + x0[k] + '" x2="' + (x0[k] + pw) + '" y1="' + Y(t) + '" y2="' + Y(t) + '" stroke="#ece8e1"/>' +
+             '<text x="' + (x0[k] - 8) + '" y="' + (Y(t) + 5) + '" text-anchor="end" font-size="15" fill="#777">' + t + '</text>';
+      });
+      s += '<text x="' + (x0[k] + pw / 2) + '" y="' + (top - 14) + '" text-anchor="middle" font-size="19" font-weight="700" fill="' + (k ? "#a02c2c" : "#2f4f4f") + '">' + titles[k] + '</text>' +
+           '<text x="' + (x0[k] + pw / 2) + '" y="' + (H - 6) + '" text-anchor="middle" font-size="16" fill="#555">last two digits of phone number</text>';
+    });
+    s += '<text transform="translate(26 ' + ((top + bot) / 2) + ') rotate(-90)" text-anchor="middle" font-size="16" fill="#555">battery, %</text>';
+    r.P.forEach(function (p) {
+      s += '<circle cx="' + X(0, p.d) + '" cy="' + Y(p.y) + '" r="7" fill="' + (p.band ? "#b22222" : "#2f4f4f") + '" fill-opacity="' + (p.band ? 0.85 : 0.45) + '"/>';
+    });
+    var L = fitLine(r.B);
+    if (L) {
+      var ds = r.B.map(function (p) { return p.d; }), lo = Math.min.apply(null, ds), hi = Math.max.apply(null, ds);
+      var cl = function (v) { return Math.max(0, Math.min(100, v)); };
+      s += '<line x1="' + X(1, lo) + '" y1="' + Y(cl(L.a + L.b * lo)) + '" x2="' + X(1, hi) + '" y2="' + Y(cl(L.a + L.b * hi)) + '" stroke="#b22222" stroke-width="2.5" stroke-dasharray="7 5" opacity="0.7"/>';
+    }
+    r.B.forEach(function (p) { s += '<circle cx="' + X(1, p.d) + '" cy="' + Y(p.y) + '" r="8" fill="#b22222" fill-opacity="0.85"/>'; });
+    return s + '</svg>';
+  }
+  function setAll(sel, txt) { [].forEach.call(document.querySelectorAll(sel), function (e) { e.textContent = txt; }); }
+  var last = null;
+  function paint(rows) {
+    var P = pairs(rows), r = analyse(P);
+    setAll(".rs-count", P.length ? P.length + " of you " + (P.length === 1 ? "has" : "have") + " sent both numbers" : "");
+    var host = document.querySelector("#room-slice .rs-plot"), wait = document.querySelector("#room-slice .rs-wait");
+    if (!host) return r;
+    if (!r.ready) {
+      host.innerHTML = ""; last = null; setAll(".rs-k", "–");
+      if (wait) { wait.style.display = ""; wait.textContent = "Waiting for both numbers from at least " + MIN_N + " of you" + (P.length ? " (" + P.length + " so far)." : "."); }
+      return r;
+    }
+    var key = P.map(function (p) { return p.d + "," + p.y; }).join("|");
+    if (key === last) return r;
+    last = key;
+    if (wait) wait.style.display = "none";
+    setAll(".rs-k", String(r.k));
+    host.innerHTML = plot(r);
+    return r;
+  }
+  window.RoomSlice = { pairs: pairs, analyse: analyse, paint: paint };   // planted-data tests; never writes
+
+  var SU = "https://dpntbrsorgbivmntwmod.supabase.co";
+  var SK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
+  function fetchRows() {
+    if (location.protocol === "file:") return;
+    var url = SU + "/rest/v1/poll_votes?poll_id=in.(" + ID_D + "," + ID_Y + ")&select=poll_id,choice,voter_id,created_at" +
+              (window.Poll ? Poll.q() : "");
+    fetch(url, { headers: { apikey: SK, Authorization: "Bearer " + SK, "Cache-Control": "no-cache, no-store" } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (rows) { if (rows) paint(rows); })
+      .catch(function () {});
+  }
+  var HERE = ["room-two-numbers", "room-slice"];
+  function onRoom() {
+    var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide();
+    return !!(s && HERE.indexOf(s.id) >= 0);
+  }
+  setInterval(function () { if (!document.hidden && onRoom()) fetchRows(); }, 4000);
+  if (window.Reveal && Reveal.on) Reveal.on("slidechanged", function () { if (onRoom()) fetchRows(); });
+  setTimeout(fetchRows, 900);
+})();
+</script>
 <script>
   (function(){
     var SU="https://dpntbrsorgbivmntwmod.supabase.co",SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
