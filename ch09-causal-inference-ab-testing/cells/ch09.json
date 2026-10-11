@@ -1,9 +1,9 @@
 {
  "src": "ch09.py",
- "sha256": "8242d2eeaa1dfcb832718280d7ead389f71e6d5e35f2abe0278305118173326f",
- "notebook": "https://colab.research.google.com/github/RyanPiao/econ3916-student-notebooks/blob/main/3916/lab-ch09-guided.ipynb",
- "source": "/Users/openclaw/Resilio Sync/documents/econ-project-book/econ-data-machine-learning/book/3916/labs/lab-ch09-guided.ipynb",
- "generated": "2026-10-10T22:58:40-0400",
+ "sha256": "4b42978cbe45f6219213ac1b179edc36f8efb77b080663a3bafd57f453534def",
+ "notebook": "https://colab.research.google.com/github/RyanPiao/econ3916-student-notebooks/blob/cb83a4e73597232201bf8e62024ba8019a8d66ca/3916/lab-ch09-guided.ipynb",
+ "source": "/Users/openclaw/Resilio Sync/documents/econ-lecture-material/econ3916-applied-data-analytics/ch09-econ3916-causal-inference-ab-testing/cells/lab-ch09-guided.published-cb83a4e.ipynb",
+ "generated": "2026-10-11T14:20:11-0400",
  "python": "3.12.11",
  "versions": {
   "pandas": "2.2.2",
@@ -23,7 +23,7 @@
    "error": "",
    "traceback": "",
    "warnings": [
-    "DeprecationWarning: This process (pid=76076) is multi-threaded, use of forkpty() may lead to deadlocks in the child."
+    "DeprecationWarning: This process (pid=88612) is multi-threaded, use of forkpty() may lead to deadlocks in the child."
    ],
    "count": 1,
    "tokens": [
@@ -429,7 +429,7 @@
     },
     {
      "type": "stderr",
-     "text": "DeprecationWarning: This process (pid=76076) is multi-threaded, use of forkpty() may lead to deadlocks in the child.\n"
+     "text": "DeprecationWarning: This process (pid=88612) is multi-threaded, use of forkpty() may lead to deadlocks in the child.\n"
     }
    ]
   },
