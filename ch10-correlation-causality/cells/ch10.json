@@ -1,9 +1,9 @@
 {
  "src": "ch10.py",
- "sha256": "a159f68f7670fa1622953bd0c1b33cdf46bfc55eee93f19fccca4d90c6845645",
- "notebook": "https://colab.research.google.com/github/RyanPiao/econ3916-student-notebooks/blob/main/3916/lab-ch10-guided.ipynb",
- "source": "/Users/openclaw/Resilio Sync/documents/econ-project-book/econ-data-machine-learning/book/3916/labs/lab-ch10-guided.ipynb",
- "generated": "2026-10-11T13:12:33-0400",
+ "sha256": "ade2dd39e78dec5fc101c2a31f43aa668eba0f0625d6dc739343fcbed1ca6809",
+ "notebook": "https://colab.research.google.com/github/RyanPiao/econ3916-student-notebooks/blob/cb83a4e73597232201bf8e62024ba8019a8d66ca/3916/lab-ch10-guided.ipynb",
+ "source": "/Users/openclaw/Resilio Sync/documents/econ-lecture-material/econ3916-applied-data-analytics/ch10-econ3916-correlation-causality/cells/lab-ch10-guided.published-cb83a4e.ipynb",
+ "generated": "2026-10-12T00:12:51-0400",
  "python": "3.12.11",
  "versions": {
   "pandas": "2.2.2",
