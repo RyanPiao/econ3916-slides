@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=7bf9e8d8967f6ba54290f34be47da092">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=124ee752d1f12f3e51eadd0664e0fa21">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hypothesis Testing: T-Tests and Comparison Logic</title>
@@ -286,17 +286,12 @@
       <p style="font-size: 17pt; color: var(--muted-color); margin-top: 18px; font-style: italic;">Example 2 of 4</p>
     </section>
 
-    <section id="one-sample-setup" style="padding: 36px 55px;">
-      <h2><i class="fa-solid fa-code" style="color: var(--secondary-color);"></i> Did the U.S. Add 150,000 Jobs a Month?</h2>
+    <section id="one-sample-setup" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 10px; font-size: 22pt;"><i class="fa-solid fa-code" style="color: var(--secondary-color);"></i> Did the U.S. Add 150,000 Jobs a Month?</h2>
       <div class="content">
-        <p style="font-size: 15pt;">The one-sample t-test asks whether one group's mean differs from a fixed value.</p>
-        <pre style="margin-top: 14px;"><code class="language-python" data-trim data-noescape>from scipy import stats
-
-# H0: mu = 150 (thousands)   |   H1: mu != 150
-t_stat, p_value = stats.ttest_1samp(job_gains, popmean=150)</code></pre>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 14px; border-left: 4px solid var(--secondary-color);">
-          <p style="font-size: 14.5pt; line-height: 1.6;"><strong>Data Snapshot &mdash; FRED <code>PAYEMS</code>.</strong> Monthly change in total U.S. nonfarm employment, published by the BLS. January 2023 &ndash; December 2025: <strong>36 monthly observations</strong>, pulled with the keyless CSV endpoint from Chapter 2. Payroll figures are revised, sometimes substantially.</p>
-        </div>
+        <p style="font-size: 14pt; margin: 0 0 8px;">The one-sample t-test asks whether one group&rsquo;s mean differs from a fixed value. Chapter 8&rsquo;s code, run on FRED <code>PAYEMS</code>:</p>
+        <div class="mock colab" data-src="cells/ch08ch.json" data-cell="payems" data-lines="10,12,19-21,23-28" data-size="10.5pt" data-live="off" style="max-width: 1100px;"></div>
+        <p class="mk-caption" style="font-size: 13pt; line-height: 1.45; margin: 8px 0 0; color: var(--primary-color);"><strong>Data:</strong> monthly change in U.S. nonfarm jobs (BLS), Jan 2023 &ndash; Dec 2025; figures are revised. Lab 8 Step 5 makes the same call on the control group.</p>
       </div>
     </section>
 
@@ -403,20 +398,31 @@ P-value:     0.0665</code></pre>
     <section id="room-test-reveal" style="padding: 20px 46px;">
       <h2 style="margin-bottom: 8px; font-size: 22pt;"><i class="fa-solid fa-scale-balanced" style="color: var(--accent-color);"></i> Your Room, Tested: Odd NUIDs Against Even</h2>
       <div class="content">
-        <div style="display: grid; grid-template-columns: 1fr 238px; gap: 20px; align-items: start;">
-          <div class="poll-number-results" data-poll-id="ch08-econ3916-poll-5" data-min="0" data-max="240" data-unit="min" data-arm="nuid-parity" data-label-odd="Odd NUID" data-label-even="Even NUID" data-waiting="Waiting for the Room Poll &mdash; this slide runs on the room&rsquo;s own minutes."></div>
+        <div style="display: grid; grid-template-columns: 236px 1fr; gap: 20px; align-items: start;">
           <div style="background: #f4f7f4; border-radius: 8px; padding: 10px 14px;">
             <p style="font-size: 12.5pt; font-weight: 700; margin: 0 0 4px; color: #3A3632;">Your guess, before the data</p>
             <div class="poll-choice-tally" data-poll-id="ch08-econ3916-poll-6" data-choices="A=Higher|B=Lower|C=About the same"></div>
-            <p style="font-size: 12.5pt; margin: 10px 0 0; color: #3A3632;">Actual gap, odd minus even: <strong><span data-poll-fill="ch08-econ3916-poll-5" data-key="diff.mean">&mdash;</span> min</strong></p>
+            <p style="font-size: 12.5pt; margin: 10px 0 0; color: #3A3632;">Actual gap, odd minus even:</p>
+            <p style="font-size: 20pt; font-weight: 700; margin: 0; color: #3A3632;"><span data-poll-fill="ch08-econ3916-poll-5" data-key="diff.mean">&mdash;</span> min</p>
           </div>
+          <div class="poll-number-results" data-poll-id="ch08-econ3916-poll-5" data-min="0" data-max="240" data-unit="min" data-arm="nuid-parity" data-label-odd="Odd NUID" data-label-even="Even NUID" data-waiting="Waiting for the Room Poll &mdash; this slide runs on the room&rsquo;s own minutes."></div>
         </div>
-        <div class="fragment fade-up" style="background: #f0f5f8; border-radius: 8px; padding: 9px 18px; margin-top: 8px; font-size: 14pt; line-height: 1.5;">
-          <strong>Welch&#x27;s t</strong> = (mean<sub style="font-size:.68em;vertical-align:-.25em">odd</sub> &minus; mean<sub style="font-size:.68em;vertical-align:-.25em">even</sub>) / &radic;(SD<sub style="font-size:.68em;vertical-align:-.25em">odd</sub>&sup2;/n<sub style="font-size:.68em;vertical-align:-.25em">odd</sub> + SD<sub style="font-size:.68em;vertical-align:-.25em">even</sub>&sup2;/n<sub style="font-size:.68em;vertical-align:-.25em">even</sub>)
-          = (<span data-poll-fill="ch08-econ3916-poll-5" data-key="mean.odd">&mdash;</span> &minus; <span data-poll-fill="ch08-econ3916-poll-5" data-key="mean.even">&mdash;</span>) / &radic;(<span data-poll-fill="ch08-econ3916-poll-5" data-key="sd.odd">&mdash;</span>&sup2;/<span data-poll-fill="ch08-econ3916-poll-5" data-key="n.odd">&mdash;</span> + <span data-poll-fill="ch08-econ3916-poll-5" data-key="sd.even">&mdash;</span>&sup2;/<span data-poll-fill="ch08-econ3916-poll-5" data-key="n.even">&mdash;</span>) = <span data-poll-fill="ch08-econ3916-poll-5" data-key="diff.mean">&mdash;</span> / <span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.se">&mdash;</span> = <strong><span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.t">&mdash;</span></strong> &nbsp;&middot;&nbsp; df <span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.df">&mdash;</span> &nbsp;&middot;&nbsp; <strong>p = <span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.p">&mdash;</span></strong>
-        </div>
-        <div class="fragment fade-up" style="background: #f8f6f3; border-left: 4px solid var(--accent-color); border-radius: 8px; padding: 9px 18px; margin-top: 8px; font-size: 14pt; line-height: 1.5;">
-          <strong>Cohen&#x27;s d</strong> = <span data-poll-fill="ch08-econ3916-poll-5" data-key="diff.mean">&mdash;</span> / <span data-poll-fill="ch08-econ3916-poll-5" data-key="cohen.sp">&mdash;</span> (pooled SD) = <strong><span data-poll-fill="ch08-econ3916-poll-5" data-key="cohen.d">&mdash;</span></strong> &nbsp;&middot;&nbsp; <span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.decision">&hellip;</span>
+        <div style="display: grid; grid-template-columns: 2.1fr 1fr; gap: 14px; margin-top: 10px;">
+          <div class="fragment fade-up" style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 10px 18px;">
+            <p style="font-size: 13pt; font-weight: 700; margin: 0 0 4px; color: var(--secondary-color);">Welch&#x27;s t-test, odd minus even</p>
+            <div style="display: flex; gap: 34px; align-items: flex-end;">
+              <div><p style="font-size:12pt;color:var(--muted-color);margin:0;">t</p><span style="font-size:30pt;font-weight:700;line-height:1.05;"><span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.t">&mdash;</span></span></div>
+              <div><p style="font-size:12pt;color:var(--muted-color);margin:0;">p-value</p><span style="font-size:30pt;font-weight:700;line-height:1.05;"><span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.p">&mdash;</span></span></div>
+              <div><p style="font-size:12pt;color:var(--muted-color);margin:0;">df</p><span style="font-size:18pt;font-weight:600;"><span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.df">&mdash;</span></span></div>
+            </div>
+            <p style="font-size: 14pt; font-weight: 600; margin: 6px 0 0;"><span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.decision">&hellip;</span></p>
+            <p style="font-size: 12pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.4;">t = (<span data-poll-fill="ch08-econ3916-poll-5" data-key="mean.odd">&mdash;</span> &minus; <span data-poll-fill="ch08-econ3916-poll-5" data-key="mean.even">&mdash;</span>) / &radic;(<span data-poll-fill="ch08-econ3916-poll-5" data-key="sd.odd">&mdash;</span>&sup2;/<span data-poll-fill="ch08-econ3916-poll-5" data-key="n.odd">&mdash;</span> + <span data-poll-fill="ch08-econ3916-poll-5" data-key="sd.even">&mdash;</span>&sup2;/<span data-poll-fill="ch08-econ3916-poll-5" data-key="n.even">&mdash;</span>) = <span data-poll-fill="ch08-econ3916-poll-5" data-key="diff.mean">&mdash;</span> / <span data-poll-fill="ch08-econ3916-poll-5" data-key="welch.se">&mdash;</span>: the gap, measured in standard errors</p>
+          </div>
+          <div class="fragment fade-up" style="background: #f8f6f3; border-left: 4px solid var(--accent-color); border-radius: 8px; padding: 10px 18px;">
+            <p style="font-size: 13pt; font-weight: 700; margin: 0 0 4px; color: var(--accent-color);">Cohen&#x27;s d</p>
+            <span style="font-size:30pt;font-weight:700;line-height:1.05;"><span data-poll-fill="ch08-econ3916-poll-5" data-key="cohen.d">&mdash;</span></span>
+            <p style="font-size: 12pt; color: var(--muted-color); margin: 6px 0 0; line-height: 1.4;">= <span data-poll-fill="ch08-econ3916-poll-5" data-key="diff.mean">&mdash;</span> / <span data-poll-fill="ch08-econ3916-poll-5" data-key="cohen.sp">&mdash;</span> (pooled SD): the size of the gap, not its chance</p>
+          </div>
         </div>
       </div>
     </section>
@@ -738,7 +744,9 @@ Cohen's d:   0.2727
             <p style="font-size: 14.5pt; line-height: 1.55; margin-top: 8px;">Controls the <strong>false discovery rate</strong> &mdash; the expected <em>share</em> of your discoveries that are wrong.</p>
           </div>
         </div>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 16px; border-left: 4px solid var(--accent-color);">
+        <pre style="font-size: 12pt; background: #f7f7f7; border: 1px solid #e3e0da; border-radius: 8px; padding: 10px 16px; margin: 14px 0 0; line-height: 1.5; white-space: pre;"><code>reject, p_adj, _, _ = multipletests(p_values, alpha=0.05, method="bonferroni")
+reject, p_adj, _, _ = multipletests(p_values, alpha=0.05, method="fdr_bh")       # Benjamini-Hochberg</code></pre>
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 12px 24px; margin-top: 12px; border-left: 4px solid var(--accent-color);">
           <p style="font-size: 15pt; line-height: 1.6;"><strong>In English.</strong> Bonferroni says <em>&ldquo;I will tolerate no false findings at all, and I accept that I will miss real ones.&rdquo;</em> BH says <em>&ldquo;I accept that maybe 5% of what I report is wrong, in exchange for finding much more of what is real.&rdquo;</em></p>
         </div>
       </div>
