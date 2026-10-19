@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=90decb2eed02ddadeb9a1d48ce78d76c">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=57bd820dd5badaa51867dec355288f34">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Causal Inference I: A/B Testing in Tech</title>
@@ -466,6 +466,20 @@
       </div>
     </section>
 
+    <section id="lab-perm-cell" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 14px; font-size: 22pt;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Step 5 in Your Lab: Shuffle the Labels 9,999 Times</h2>
+      <div class="content">
+        <div class="mock colab" data-src="cells/ch09.json" data-cell="14" data-lines="2,10-11,14-21,25" data-size="10.5pt" style="max-width: 1150px;"></div>
+      </div>
+    </section>
+
+      <section id="lab-perm-hist-cell" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 14px; font-size: 22pt;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Step 6 in Your Lab: Where $1,794 Sits Among the Shuffles</h2>
+      <div class="content">
+        <div class="mock colab" data-src="cells/ch09.json" data-cell="16" data-lines="2,7,10,12,25-26" data-size="10pt" data-img-height="300" style="max-width: 1150px;"></div>
+      </div>
+    </section>
+
     <section id="perm-result" style="padding: 26px 44px;">
       <h2><i class="fa-solid fa-chart-column" style="color: var(--secondary-color);"></i> What 9,999 Shuffles Look Like</h2>
       <div class="content">
@@ -502,6 +516,13 @@
         </div>
       </div>
       <div class="footnote">Lab 9 Part 2, step 7. <code>scipy.stats.bootstrap</code>, method="BCa", seed 42.</div>
+    </section>
+
+    <section id="lab-boot-cell" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 14px; font-size: 22pt;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Step 7 in Your Lab: The Bootstrap Interval</h2>
+      <div class="content">
+        <div class="mock colab" data-src="cells/ch09.json" data-cell="18" data-lines="2,7-14,21" data-size="11pt" style="max-width: 1150px;"></div>
+      </div>
     </section>
 
     <section>
@@ -556,6 +577,20 @@
           <p style="font-size: 15.5pt; margin: 0;">Chapter example: a 2&#8209;percentage&#8209;point lift on a 10% conversion baseline needs about <strong>3,500 users per group</strong> &mdash; 7,000 total, a week at a thousand visitors a day. Shrink the target to 1 point and you need roughly <strong>14,000 per group</strong>.</p>
         </div>
         <p class="fragment fade-up" style="font-size: 16pt; margin-top: 18px; color: #7C3A5F; font-weight: 600; text-align: center;">The useful question is whether an effect this small is worth the traffic it takes to detect.</p>
+      </div>
+    </section>
+
+    <section id="lab-power-cell" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 14px; font-size: 22pt;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Step 8 in Your Lab: The Power This Study Had</h2>
+      <div class="content">
+        <div class="mock colab" data-src="cells/ch09.json" data-cell="23" data-lines="2,10-11,14-20,26" data-size="10.5pt" style="max-width: 1150px;"></div>
+      </div>
+    </section>
+
+      <section id="lab-n-cell" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 14px; font-size: 22pt;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Step 8, Continued: How Many People Each Effect Needs</h2>
+      <div class="content">
+        <div class="mock colab" data-src="cells/ch09.json" data-cell="25" data-lines="2,8-16,21" data-size="10.5pt" style="max-width: 1150px;"></div>
       </div>
     </section>
 
@@ -629,6 +664,13 @@
           <p style="font-size: 15.5pt; margin: 0;">The t&#8209;test's error guarantee is conditional on a <strong>fixed sample size</strong>. Checking repeatedly and stopping at the first crossing is a different procedure with a different error rate &mdash; and the p&#8209;value does not account for it.</p>
         </div>
         <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 16px;">So let us measure the error rate. The lab runs <strong>1,000 A/A tests</strong> &mdash; both arms drawn from the same 10% conversion distribution, no true effect anywhere &mdash; and peeks at n = 50, 100, 200, 500.</p>
+      </div>
+    </section>
+
+    <section id="lab-peek-cell" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 14px; font-size: 22pt;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Step 14 in Your Lab: Peeking, 1,000 Times</h2>
+      <div class="content">
+        <div class="mock colab" data-src="cells/ch09.json" data-cell="48" data-lines="2,12-15,26-30,32-34" data-size="10pt" style="max-width: 1150px;"></div>
       </div>
     </section>
 
