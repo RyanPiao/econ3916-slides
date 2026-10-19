@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=57bd820dd5badaa51867dec355288f34">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=52e2d3ac47b57946ee123bd39c83cdef">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Causal Inference I: A/B Testing in Tech</title>
@@ -1009,7 +1009,7 @@
           <p style="font-size: 14.5pt; margin: 0;">Cookie Cats has <strong class="fx-k">&ndash;</strong> times as many people, and its interval is <strong class="fx-wr">&ndash;</strong> times narrower. The square root of <span class="fx-k">&ndash;</span> is <strong class="fx-sk">&ndash;</strong>: width falls with the square root of n.</p>
         </div>
       </div>
-      <div class="footnote">Room: your votes from the start of the hour, percentile bootstrap. Cookie Cats: <i>The Interval Contains Zero</i>, BCa bootstrap; Lab 9 Part 4.</div>
+      <div class="footnote">Room: your votes on <i>Poll: Two Programmes</i>, percentile bootstrap. Cookie Cats: <i>The Interval Contains Zero</i>, BCa bootstrap; Lab 9 Part 4.</div>
     </section>
 
     <section id="discussion-3" style="padding: 30px 55px;">
@@ -1268,7 +1268,13 @@
       out.containsZero = out.lo <= 0 && out.hi >= 0;
       return out;
     }
-    return { rng: rng, tally: tally, analyse: analyse, quantile: quantile };
+    // Keep only the rows of the newest session_key (keys start with the date, so they sort).
+    function latest(rows) {
+      var top = "";
+      rows.forEach(function (r) { if (String(r.session_key || "") > top) top = String(r.session_key); });
+      return rows.filter(function (r) { return String(r.session_key || "") === top; });
+    }
+    return { rng: rng, tally: tally, analyse: analyse, quantile: quantile, latest: latest };
   })();
   /* framing-stats:end */
   window.FramingStats = FramingStats;
@@ -1392,13 +1398,19 @@
 
   var SU = "https://dpntbrsorgbivmntwmod.supabase.co";
   var SK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
+  // #room-vs-cookie can come a meeting after the vote (a topic split over two meetings), so there
+  // it reads this course's LATEST session that voted, not today's: the votes of Mon 19 Oct 2026
+  // would otherwise be empty, since the room voted on Thu 15 Oct. The poll slides keep today's.
   function fetchRows() {
     if (location.protocol === "file:") return;
+    var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide();
+    var today = window.Poll ? Poll.q() : "";        // "&session_key=eq.<date>-<am|pm>-<course>", or ""
+    var latest = !!(s && s.id === "room-vs-cookie" && today);
     var url = SU + "/rest/v1/poll_votes?poll_id=in.(" + ID_A + "," + ID_B + ")&select=poll_id,choice,voter_id,created_at" +
-              (window.Poll ? Poll.q() : "");
+              (latest ? ",session_key&session_key=like.*-" + today.split("-").pop() : today);
     fetch(url, { headers: { apikey: SK, Authorization: "Bearer " + SK, "Cache-Control": "no-cache, no-store" } })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (rows) { if (rows) paint(rows); })
+      .then(function (rows) { if (rows) paint(latest ? FramingStats.latest(rows) : rows); })
       .catch(function () {});
   }
   var HERE = ["framing-poll", "framing-reveal", "room-vs-cookie"];
