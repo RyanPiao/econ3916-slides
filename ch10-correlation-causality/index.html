@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=d76da07041ae225f1f3309560d3e2fca">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=cf69219e11381168b5349b9834be539f">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Correlation & Causality: Causal Logic and DAGs</title>
@@ -720,25 +720,24 @@ c = 1.2 * d + 1.2 * y + rng.normal(0, 1, n)</code></pre>
       </div>
     </section>
 
-    <section>
-      <section id="room-slice" style="padding: 26px 48px;">
-        <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> The Room's Slice</h2>
-        <div class="content">
-          <div class="rs-plot mathjax_ignore tex2jax_ignore" style="margin-top: 2px;"></div>
-          <p class="rs-wait" style="font-size: 15pt; text-align: center; color: var(--muted-color); margin-top: 60px;">Waiting for both numbers from at least 8 of you.</p>
-          <div class="fragment fade-up" style="background: #f7eeee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 12px 20px; margin-top: 8px;">
-            <p style="font-size: 15pt; line-height: 1.45; margin: 0;">Nobody's battery depends on their phone number. Among the <strong class="rs-k">&ndash;</strong> of you whose two numbers give about the same combined score, a high one <strong>has to</strong> come with a low other. I changed nobody's numbers; I chose whom to compare.</p>
-          </div>
+    <section id="room-slice" style="padding: 26px 48px;">
+      <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> The Room's Slice</h2>
+      <div class="content">
+        <div class="rs-plot mathjax_ignore tex2jax_ignore" style="margin-top: 2px;"></div>
+        <p class="rs-wait" style="font-size: 15pt; text-align: center; color: var(--muted-color); margin-top: 60px;">Waiting for both numbers from at least 8 of you.</p>
+        <div class="fragment fade-up" style="background: #f7eeee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 12px 20px; margin-top: 8px;">
+          <p style="font-size: 15pt; line-height: 1.45; margin: 0;">Nobody's battery depends on their phone number. Among the <strong class="rs-k">&ndash;</strong> of you whose two numbers give about the same combined score, a high one <strong>has to</strong> come with a low other. I changed nobody's numbers; I chose whom to compare.</p>
         </div>
-        <div class="footnote">Your numbers, read live. Both are put on one scale and added; the slice is the third of the room closest to the middle total. One answer per device.</div>
-      </section>
-      <section id="collider-slice" style="padding: 20px 40px;">
-        <h2 style="margin-bottom: 12px; font-size: 22pt;"><i class="fa-solid fa-layer-group" style="color: var(--danger-color);"></i> Look Inside a Slice of the Collider</h2>
-        <div class="content">
-          <div class="mock colab" data-src="cells/ch10.json" data-cell="22" data-lines="4-7" data-size="11pt" data-img-height="300" style="max-width: 1100px;"></div>
-          <p class="mk-caption" style="font-size: 13.5pt; line-height: 1.45; margin: 8px 0 0; color: var(--primary-color);">Inside a narrow band of C, a high D <strong>must</strong> be offset by a low Y to keep C the same. That trade-off is the manufactured correlation.</p>
-        </div>
-      </section>
+      </div>
+      <div class="footnote">Your numbers, read live. Both are put on one scale and added; the slice is the third of the room closest to the middle total. One answer per device.</div>
+    </section>
+
+    <section id="collider-slice" style="padding: 20px 40px;">
+      <h2 style="margin-bottom: 12px; font-size: 22pt;"><i class="fa-solid fa-layer-group" style="color: var(--danger-color);"></i> Look Inside a Slice of the Collider</h2>
+      <div class="content">
+        <div class="mock colab" data-src="cells/ch10.json" data-cell="22" data-lines="4-7" data-size="11pt" data-img-height="300" style="max-width: 1100px;"></div>
+        <p class="mk-caption" style="font-size: 13.5pt; line-height: 1.45; margin: 8px 0 0; color: var(--primary-color);">Inside a narrow band of C, a high D <strong>must</strong> be offset by a low Y to keep C the same. That trade-off is the manufactured correlation.</p>
+      </div>
     </section>
 
     <section id="conditioning-opens" style="padding: 28px 52px;">
