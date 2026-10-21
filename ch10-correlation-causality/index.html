@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=4bcae06ef49847455527161dac0b326a">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=830fe6612b4360d7379cd8eb41fcabd0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Correlation & Causality: Causal Logic and DAGs</title>
@@ -273,14 +273,68 @@
       </div>
     </section>
 
-    <section id="building-blocks" style="padding: 26px 45px;">
-      <h2><i class="fa-solid fa-shapes" style="color: var(--secondary-color);"></i> Everything Is Built From Three Configurations</h2>
-      <div class="content">
-        <div style="position: relative;"><img src="figures/figure_001_three_structures.png" alt="Three directed graphs: a chain D to M to Y in green, a fork with U pointing into both D and Y in blue, and a collider with D and Y both pointing into C in terracotta, each captioned with what conditioning does to it" style="width: 100%; border-radius: 6px;"><div class="fragment fade-out" data-fragment-index="1" style="position:absolute; top:0; bottom:0; left:34.5%; width:31.5%; background:#ffffff;"></div><div class="fragment fade-out" data-fragment-index="2" style="position:absolute; top:0; bottom:0; left:66%; width:34%; background:#ffffff;"></div></div>
-        <div class="fragment" style="background: #f8f6f3; border-left: 4px solid var(--primary-color); border-radius: 8px; padding: 15px 24px; margin-top: 12px;" data-fragment-index="3">
-          <p style="font-size: 16.5pt; line-height: 1.5;">Conditioning on a variable &mdash; controlling for it, stratifying on it, filtering to one of its values &mdash; <strong style="color: var(--success-color);">closes chains and forks</strong>. It <strong style="color: var(--accent-color);">opens colliders</strong>.</p>
+    <section>
+      <section id="building-blocks" style="padding: 26px 45px;">
+        <h2><i class="fa-solid fa-shapes" style="color: var(--secondary-color);"></i> Everything Is Built From Three Configurations</h2>
+        <div class="content">
+          <div style="position: relative;"><img src="figures/figure_001_three_structures.png" alt="Three directed graphs: a chain D to M to Y in green, a fork with U pointing into both D and Y in blue, and a collider with D and Y both pointing into C in terracotta, each captioned with what conditioning does to it" style="width: 100%; border-radius: 6px;"><div class="fragment fade-out" data-fragment-index="1" style="position:absolute; top:0; bottom:0; left:34.5%; width:31.5%; background:#ffffff;"></div><div class="fragment fade-out" data-fragment-index="2" style="position:absolute; top:0; bottom:0; left:66%; width:34%; background:#ffffff;"></div></div>
+          <div class="fragment" style="background: #f8f6f3; border-left: 4px solid var(--primary-color); border-radius: 8px; padding: 15px 24px; margin-top: 12px;" data-fragment-index="3">
+            <p style="font-size: 16.5pt; line-height: 1.5;">Conditioning on a variable &mdash; controlling for it, stratifying on it, filtering to one of its values &mdash; <strong style="color: var(--success-color);">closes chains and forks</strong>. It <strong style="color: var(--accent-color);">opens colliders</strong>.</p>
+          </div>
         </div>
-      </div>
+      </section>
+      <section id="chain-example" style="padding: 24px 46px;">
+        <h2><i class="fa-solid fa-arrow-right-long" style="color: #5b8a6a;"></i> Chain, With an Example</h2>
+        <div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:700px; display:block; margin:0 auto 4px;" role="img" aria-label="chain: Tutoring (D), Homework done (M), Exam score (Y)"><defs><marker id="chain-example-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5b8a6a"/></marker></defs><line x1="150" y1="98" x2="226" y2="62" stroke="#5b8a6a" stroke-width="3" marker-end="url(#chain-example-arr)"/><line x1="374" y1="62" x2="448" y2="98" stroke="#5b8a6a" stroke-width="3" marker-end="url(#chain-example-arr)"/><rect x="0" y="97.0" width="200" height="46" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.4"/><text x="100" y="126" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Tutoring (D)</text><rect x="200" y="17.0" width="200" height="46" rx="10" fill="#fff" stroke="#5b8a6a" stroke-width="3.2"/><text x="300" y="46" text-anchor="middle" font-size="19" font-weight="700" fill="#5b8a6a">Homework done (M)</text><rect x="400" y="97.0" width="200" height="46" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.4"/><text x="500" y="126" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Exam score (Y)</text></svg></div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 6px;">
+          <div style="background:#f8f6f3; border-left:5px solid #b9b2a8; border-radius:8px; padding:12px 18px;">
+            <p style="font-size:12pt; color:#7a7067; margin:0 0 4px;"><strong>AS IT STANDS</strong></p>
+            <p style="font-size:14pt; line-height:1.5; margin:0;">Tutoring gets more homework done, and homework raises the score. The link from <strong>D</strong> to <strong>Y</strong> is the real effect, carried through M.</p>
+            <span style="display:inline-block;background:#7a7067;color:#fff;font-size:11pt;font-weight:700;padding:2px 10px;border-radius:5px;margin-top:8px;">OPEN · THE EFFECT YOU WANT</span>
+          </div>
+          <div class="fragment" data-fragment-index="1" style="background:#fbf3ee; border-left:5px solid #5b8a6a; border-radius:8px; padding:12px 18px;">
+            <p style="font-size:12pt; color:#5b8a6a; margin:0 0 4px;"><strong>HOLD M FIXED</strong></p>
+            <p style="font-size:14pt; line-height:1.5; margin:0;">Compare students who did the <strong>same homework</strong>. Tutoring now looks useless: you cut the channel it works through.</p>
+            <span style="display:inline-block;background:#5b8a6a;color:#fff;font-size:11pt;font-weight:700;padding:2px 10px;border-radius:5px;margin-top:8px;">CLOSED</span>
+          </div>
+        </div>
+        <p class="fragment" data-fragment-index="1" style="font-size:15pt; margin:12px 0 0; text-align:center;"><strong>Don&rsquo;t control for a mediator when you want the total effect.</strong></p>
+      </section>
+      <section id="fork-example" style="padding: 24px 46px;">
+        <h2><i class="fa-solid fa-code-fork" style="color: #3d6a8a;"></i> Fork, With an Example</h2>
+        <div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:700px; display:block; margin:0 auto 4px;" role="img" aria-label="fork: Ice-cream sales (D), Temperature (U), Drownings (Y)"><defs><marker id="fork-example-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#3d6a8a"/></marker></defs><line x1="226" y1="62" x2="152" y2="98" stroke="#3d6a8a" stroke-width="3" marker-end="url(#fork-example-arr)"/><line x1="374" y1="62" x2="448" y2="98" stroke="#3d6a8a" stroke-width="3" marker-end="url(#fork-example-arr)"/><rect x="0" y="97.0" width="200" height="46" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.4"/><text x="100" y="126" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Ice-cream sales (D)</text><rect x="200" y="17.0" width="200" height="46" rx="10" fill="#fff" stroke="#3d6a8a" stroke-width="3.2"/><text x="300" y="46" text-anchor="middle" font-size="19" font-weight="700" fill="#3d6a8a">Temperature (U)</text><rect x="400" y="97.0" width="200" height="46" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.4"/><text x="500" y="126" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Drownings (Y)</text></svg></div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 6px;">
+          <div style="background:#f8f6f3; border-left:5px solid #b9b2a8; border-radius:8px; padding:12px 18px;">
+            <p style="font-size:12pt; color:#7a7067; margin:0 0 4px;"><strong>AS IT STANDS</strong></p>
+            <p style="font-size:14pt; line-height:1.5; margin:0;">Hot days sell more ice cream and bring more drownings. Ice cream and drownings move together, with <strong>no causal link</strong> between them.</p>
+            <span style="display:inline-block;background:#7a7067;color:#fff;font-size:11pt;font-weight:700;padding:2px 10px;border-radius:5px;margin-top:8px;">OPEN · NO CAUSAL CONTENT</span>
+          </div>
+          <div class="fragment" data-fragment-index="1" style="background:#fbf3ee; border-left:5px solid #3d6a8a; border-radius:8px; padding:12px 18px;">
+            <p style="font-size:12pt; color:#3d6a8a; margin:0 0 4px;"><strong>HOLD U FIXED</strong></p>
+            <p style="font-size:14pt; line-height:1.5; margin:0;">Compare days with the <strong>same temperature</strong>. The link between ice cream and drownings disappears.</p>
+            <span style="display:inline-block;background:#3d6a8a;color:#fff;font-size:11pt;font-weight:700;padding:2px 10px;border-radius:5px;margin-top:8px;">CLOSED</span>
+          </div>
+        </div>
+        <p class="fragment" data-fragment-index="1" style="font-size:15pt; margin:12px 0 0; text-align:center;"><strong>Good control: this is the backdoor you want shut.</strong></p>
+      </section>
+      <section id="collider-example" style="padding: 24px 46px;">
+        <h2><i class="fa-solid fa-arrows-to-dot" style="color: #c0612b;"></i> Collider, With an Example</h2>
+        <div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 600 160" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:700px; display:block; margin:0 auto 4px;" role="img" aria-label="collider: Food quality (D), People go there (C), Location (Y)"><defs><marker id="collider-example-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c0612b"/></marker></defs><line x1="150" y1="62" x2="224" y2="104" stroke="#c0612b" stroke-width="3" marker-end="url(#collider-example-arr)"/><line x1="450" y1="62" x2="376" y2="104" stroke="#c0612b" stroke-width="3" marker-end="url(#collider-example-arr)"/><rect x="0" y="17.0" width="200" height="46" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.4"/><text x="100" y="46" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Food quality (D)</text><rect x="200" y="102.0" width="200" height="46" rx="10" fill="#fff" stroke="#c0612b" stroke-width="3.2"/><text x="300" y="131" text-anchor="middle" font-size="19" font-weight="700" fill="#c0612b">People go there (C)</text><rect x="400" y="17.0" width="200" height="46" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.4"/><text x="500" y="46" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Location (Y)</text></svg></div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 6px;">
+          <div style="background:#f8f6f3; border-left:5px solid #b9b2a8; border-radius:8px; padding:12px 18px;">
+            <p style="font-size:12pt; color:#7a7067; margin:0 0 4px;"><strong>AS IT STANDS</strong></p>
+            <p style="font-size:14pt; line-height:1.5; margin:0;">Across all 140 restaurants, food and location have nothing to do with each other: correlation <strong>0.00</strong>.</p>
+            <span style="display:inline-block;background:#7a7067;color:#fff;font-size:11pt;font-weight:700;padding:2px 10px;border-radius:5px;margin-top:8px;">CLOSED · NOTHING FLOWS</span>
+          </div>
+          <div class="fragment" data-fragment-index="1" style="background:#fbf3ee; border-left:5px solid #c0612b; border-radius:8px; padding:12px 18px;">
+            <p style="font-size:12pt; color:#c0612b; margin:0 0 4px;"><strong>HOLD C FIXED: ONLY PLACES PEOPLE VISIT</strong></p>
+            <p style="font-size:14pt; line-height:1.5; margin:0;">Among the 93 people visit, a bad location comes with good food: correlation <strong>&minus;0.45</strong>. The poor-food, poor-location places never reached your data.</p>
+            <span style="display:inline-block;background:#c0612b;color:#fff;font-size:11pt;font-weight:700;padding:2px 10px;border-radius:5px;margin-top:8px;">OPEN · A LINK YOU MADE</span>
+          </div>
+        </div>
+        <p class="fragment" data-fragment-index="1" style="font-size:15pt; margin:12px 0 0; text-align:center;"><strong>Bad control: filtering on a collider manufactures a relationship.</strong></p>
+        <div class="fragment" data-fragment-index="2" style="background:#eef5ee; border-left:5px solid var(--success-color); border-radius:8px; padding:10px 18px; margin-top:10px;"><p style="font-size:14.5pt; margin:0;"><strong>The rule on the next slide:</strong> keep the causal chain open, close every backdoor fork, and leave colliders alone.</p></div>
+      </section>
     </section>
 
     <section id="paths-blocking" style="padding: 30px 55px;">
