@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=4aa9c5895989430609d76ffe495f2b28">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=4ddd3493ae26ea53268a755b5025c406">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Correlation & Causality: Causal Logic and DAGs</title>
@@ -124,6 +124,30 @@
       <p class="subtitle">Section 10.1 &bull; and why no test tells them apart</p>
     </section>
 
+    <section>
+      <section id="worlds-poll" style="padding: 26px 44px;">
+        <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: Which One Shows D Causing Y?</h2>
+        <p style="font-size: 14.5pt; margin: 4px 0 6px;">Three datasets we collected. In each, <strong>D</strong> goes up and <strong>Y</strong> goes up with it.</p>
+        <img src="figures/figure_002b_three_worlds_blind.png" alt="Three upward-sloping scatterplots: tutoring hours and exam score (correlation 0.654), ice-cream sales and drownings (0.664), and approved borrowers' income and debt (0.632)" style="display:block; margin: 0 auto; max-height: 410px; max-width: 100%; width: auto;">
+        <div class="poll-grid" data-poll-id="ch10-econ3916-poll-7" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; font-size: 13.5pt;">
+          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 11px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) 1 &middot; tutoring</div>
+          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 11px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) 2 &middot; ice cream</div>
+          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 11px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) 3 &middot; borrowers</div>
+          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 11px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Can&rsquo;t tell from the picture</div>
+        </div>
+      </section>
+      <section id="worlds-poll-reveal" data-poll-results="ch10-econ3916-poll-7" style="padding: 30px 50px;">
+        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: 1 &mdash; But Not From the Picture</h2>
+        <div class="poll-results-chart" data-poll-id="ch10-econ3916-poll-7" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:165px; margin:10px 60px 28px;"></div>
+        <div style="padding: 0 45px;">
+          <p style="font-size: 15pt; line-height: 1.6;">Only World 1 has a real effect. But nothing in its cloud says so: the three correlations are <strong>0.654</strong>, <strong>0.664</strong> and <strong>0.632</strong>. You knew from the <strong>story</strong> on top, not from the data.</p>
+          <div style="background: #eef5ee; border-left: 4px solid var(--success-color); padding: 14px 20px; border-radius: 8px; margin-top: 12px;">
+            <p style="font-size: 14pt; margin: 0;"><strong>Strip the labels</strong> and the three are the same picture. The next slide names the three ways an upward slope gets made.</p>
+          </div>
+        </div>
+      </section>
+    </section>
+
     <section id="three-explanations" style="padding: 32px 55px;">
       <h2><i class="fa-solid fa-code-branch" style="color: var(--secondary-color);"></i> Your Scatterplot Slopes Upward. Why?</h2>
       <div class="content">
@@ -149,6 +173,7 @@
           <p style="font-size: 15pt; line-height: 1.55; margin-top: 10px; color: var(--muted-color);">Any claim to have distinguished them is a claim about <em>structure</em> &mdash; and structure is not something you compute from a spreadsheet. It is something you <strong>assert, and then defend.</strong></p>
         </div>
       </div>
+              <p style="font-size: 11.5pt; color: var(--muted-color); margin: 8px 0 0;">Two lines that rise together by luck and a search: <a href="https://www.tylervigen.com/spurious-correlations" target="_blank" rel="noopener">tylervigen.com/spurious-correlations</a> (Amazon&rsquo;s stock price against babies named Stevie).</p>
     </section>
 
     <section id="three-worlds-fig" style="padding: 28px 45px;">
