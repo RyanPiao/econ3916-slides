@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=080bf755ca1fe10a72d72f2056172be4">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2aa3fa2258bf1f9829862e8b18903248">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL for Economists</title>
@@ -133,7 +133,7 @@
       <h2><i class="fa-solid fa-code-branch" style="color: var(--secondary-color);"></i> SQL and pandas Share an Ancestor</h2>
       <div class="content">
         <p class="text-lg" style="line-height: 1.55;">You have spent ten chapters filtering rows, selecting columns, grouping, aggregating, sorting and merging. <strong>Those six operations are essentially all of SQL.</strong></p>
-        <p style="font-size: 15pt; line-height: 1.55; margin-top: 12px;">In 1970 Edgar Codd proposed organising data into <strong>relations</strong> &mdash; tables &mdash; manipulated by a small formal algebra. SQL was built directly on it. Pandas was built four decades later, by people who had spent their careers using SQL.</p>
+        <p style="font-size: 15pt; line-height: 1.55; margin-top: 12px;">In 1970 Edgar Codd proposed organising data into <strong>relations</strong> &mdash; tables &mdash; manipulated by a small formal algebra. SQL was built directly on it. Pandas came four decades later and borrowed the same operations.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 18px;">
           <div style="background: #f0f5f8; border-radius: 12px; padding: 18px 22px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 17pt; font-weight: 700; color: var(--secondary-color);">pandas is <em>procedural</em></p>
@@ -427,7 +427,7 @@ FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id</code></pre
         <div style="padding: 0 50px;">
           <p style="font-size: 15pt; line-height: 1.6;">Every customer appears once <strong>per order</strong>, with their revenue repeated verbatim each time.</p>
           <div style="background: #fdf0ea; border-left: 4px solid var(--danger-color); padding: 13px 20px; border-radius: 8px; margin-top: 12px;">
-            <p style="font-size: 14pt; margin: 0;"><strong>A is the tempting wrong answer</strong> and usually wins the room. <code>LEFT JOIN</code> guarantees the left rows <em>survive</em> &mdash; not that they stay <em>unique</em>. D is what a join with no <code>ON</code> clause would give you: a cross join.</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>A is the tempting wrong answer</strong> and usually wins the room. <code>LEFT JOIN</code> guarantees the left rows <em>survive</em> &mdash; not that they stay <em>unique</em>. D is what a <code>CROSS JOIN</code> gives you: every customer paired with every order.</p>
           </div>
         </div>
       </section>
@@ -464,11 +464,11 @@ Fanned out (1/order)   n = 4,033   diff = 12.30   SE = 3.57   t = 3.44   p = 0.0
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
           <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 22px;">
             <p style="font-size: 20pt; text-align: center;">$\text{SE} \propto \sigma/\sqrt{n}$</p>
-            <p style="font-size: 14pt; line-height: 1.5; margin-top: 10px;"><strong>In words:</strong> the standard error divides by the square root of the sample size. Multiply the rows by 6.72 and the SE shrinks by $\sqrt{6.72} \approx 2.6$ &mdash; exactly the factor you see.</p>
+            <p style="font-size: 14pt; line-height: 1.5; margin-top: 10px;"><strong>In words:</strong> the standard error divides by the square root of the sample size. Multiply the rows by 6.72 and the SE shrinks by $\sqrt{6.72} \approx 2.6$ &mdash; about the factor you see.</p>
           </div>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 22px;">
             <p style="font-size: 20pt; text-align: center;">$t = \bar{d} \,/\, \text{SE}$</p>
-            <p style="font-size: 14pt; line-height: 1.5; margin-top: 10px;"><strong>In words:</strong> the $t$-statistic is the difference divided by the standard error. The difference did not move. The denominator shrank. So $t$ inflated <em>on its own</em>.</p>
+            <p style="font-size: 14pt; line-height: 1.5; margin-top: 10px;"><strong>In words:</strong> the $t$-statistic is the difference divided by the standard error. The difference barely moved, 11.31 to 12.30. The denominator shrank. So $t$ inflated <em>on its own</em>.</p>
           </div>
         </div>
         <div style="background: #fdf0ea; border-left: 4px solid var(--danger-color); border-radius: 10px; padding: 16px 24px; margin-top: 18px;">
@@ -738,7 +738,7 @@ ORDER BY year</code></pre>
         <div style="padding: 0 50px;">
           <p style="font-size: 15pt; line-height: 1.6;"><code>NULL != 'cancelled'</code> evaluates to <strong>unknown</strong>, not true &mdash; and <code>WHERE</code> keeps only true. The two unknown-status rows were dropped.</p>
           <div style="background: #f7e3e3; border-left: 4px solid var(--danger-color); padding: 13px 20px; border-radius: 8px; margin-top: 14px;">
-            <p style="font-size: 14pt; margin: 0;">They took <strong>&#92;$300 of revenue</strong> with them &mdash; <strong>30% of the table's total</strong> &mdash; out of a query whose author believed they were excluding cancellations. No error. No warning.</p>
+            <p style="font-size: 14pt; margin: 0;">They took <strong>&#92;$300 of revenue</strong> with them &mdash; <strong>30% of the revenue the query meant to keep</strong> &mdash; out of a query whose author believed they were excluding cancellations. No error. No warning.</p>
           </div>
         </div>
       </section>
@@ -869,7 +869,7 @@ con.execute(f"""
 <pre style="font-size: 11.5pt; background: #eef5ee; border-radius: 8px; padding: 13px 17px; margin: 0;"><code> n_trips  mean_miles  mean_fare
  2870158        3.73      18.49</code></pre>
             <div style="background: #f0f5f8; border-radius: 10px; padding: 13px 18px; margin-top: 12px;">
-              <p style="font-size: 13.5pt; line-height: 1.5;">Aggregated in about a second, over the network. <strong>Three columns read out of nineteen.</strong> The filters applied inside the scan. What reaches your Python process is a single row.</p>
+              <p style="font-size: 13.5pt; line-height: 1.5;">Aggregated in about a second, over the network. <strong>Two columns read out of nineteen.</strong> The filters applied inside the scan. What reaches your Python process is a single row.</p>
             </div>
             <p style="font-size: 13pt; color: var(--muted-color); margin-top: 10px; font-style: italic;">NYC Taxi &amp; Limousine Commission, January 2024. Public Parquet.</p>
           </div>
