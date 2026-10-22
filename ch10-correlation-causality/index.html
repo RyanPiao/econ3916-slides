@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=8d3ffad431f28248fd19589c0086fc86">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=11cfaba873ec698db54d086d6dd13f06">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Correlation & Causality: Causal Logic and DAGs</title>
@@ -909,6 +909,20 @@ c = 1.2 * d + 1.2 * y + rng.normal(0, 1, n)</code></pre>
       </div>
     </section>
 
+    <section>
+    <section id="risk-ratio" style="padding: 30px 55px;">
+      <h2><i class="fa-solid fa-scale-unbalanced" style="color: var(--secondary-color);"></i> First: The Risk Ratio</h2>
+      <div class="content">
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 4px 24px; text-align: center;">
+          <p style="font-size: 15pt;">$$RR = \frac{P(\text{outcome} \mid \text{treatment group})}{P(\text{outcome} \mid \text{control group})}$$</p>
+        </div>
+        <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 10px 20px; margin-top: 12px;">
+          <p style="font-size: 15pt; line-height: 1.45; margin: 0;"><strong>Example.</strong> 15 of 100 treated people and 10 of 100 controls get the outcome: \(RR = 0.15 / 0.10 = 1.5\). The outcome is 1.5 times as likely in the treatment group, 50% more.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 12px;"><div style="background:#f8f6f3; border-left:4px solid #5d6d7e; border-radius:8px; padding:10px 16px;"><p style="font-size:14pt; line-height:1.4; margin:0;"><strong>\(RR = 1\):</strong> no difference between the groups.</p></div><div style="background:#fdf0ea; border-left:4px solid #c0612b; border-radius:8px; padding:10px 16px;"><p style="font-size:14pt; line-height:1.4; margin:0;"><strong>\(RR &gt; 1\):</strong> more likely with the treatment.</p></div><div style="background:#eef5ee; border-left:4px solid #2f7d4f; border-radius:8px; padding:10px 16px;"><p style="font-size:14pt; line-height:1.4; margin:0;"><strong>\(RR &lt; 1\):</strong> less likely (protective). Flip it to read its strength: 0.5 counts like 2.</p></div></div>
+        <p style="font-size: 14pt; line-height: 1.45; margin-top: 12px;">Slide 44&rsquo;s ICU numbers: 10.7% against 16.1% gives \(RR \approx 0.66\), which looks protective. And \(RR\) is what you <em>found</em> in the data; it is not a rule you set before you look, the way you set \(\alpha\).</p>
+      </div>
+    </section>
     <section id="e-value" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-shield-halved" style="color: var(--secondary-color);"></i> The Answerable Question</h2>
       <div class="content">
@@ -920,7 +934,7 @@ c = 1.2 * d + 1.2 * y + rng.normal(0, 1, n)</code></pre>
             <p style="font-size: 14.5pt; line-height: 1.5;"><strong>The answer you can defend.</strong> "<em>How strong</em> would an unmeasured confounder have to be to overturn this result?"</p>
           </div>
         </div>
-        <p style="font-size: 14pt; line-height: 1.45; margin-top: 10px;"><strong>A sensitivity analysis.</strong> \(RR\), the <strong>risk ratio</strong>: how many times more likely the outcome is in the treatment group than in the control group; 1.5 means 50% more likely. It is what you <em>found</em>, not a rule you set like \(\alpha\). The <strong>E-value</strong>: how strong a hidden confounder must be to explain it away.</p>
+        <p style="font-size: 14.5pt; line-height: 1.45; margin-top: 10px;"><strong>A sensitivity analysis.</strong> How strong would a hidden confounder have to be to explain your \(RR\) away? That strength is the <strong>E-value</strong>.</p>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 2px 24px; margin-top: 6px; text-align: center;">
           <p style="font-size: 15pt;">$$\text{E-value} = RR + \sqrt{RR \times (RR - 1)}$$</p>
         </div>
@@ -931,6 +945,17 @@ c = 1.2 * d + 1.2 * y + rng.normal(0, 1, n)</code></pre>
         <p style="font-size: 14.5pt; margin-top: 10px; line-height: 1.45;">Whether such a variable plausibly exists is a question for <strong>domain expertise</strong> &mdash; which is the point. <strong style="color: var(--accent-color);">The statistic hands the argument back to the economist rather than pretending to settle it.</strong></p>
         <p style="font-size: 11.5pt; color: var(--muted-color); margin-top: 6px; font-style: italic;">VanderWeele, T. &amp; Ding, P. (2017). <em>Annals of Internal Medicine</em> 167(4), 268&ndash;274.</p>
       </div>
+    </section>
+    <section id="e-value-examples" style="padding: 30px 55px;">
+      <h2><i class="fa-solid fa-list-check" style="color: var(--secondary-color);"></i> Reading E-Values in Real Studies</h2>
+      <div class="content">
+        <table style="width:100%; border-collapse:collapse; font-size:13.5pt;"><thead><tr style="background:#f3f1ec;"><th style="padding:8px 12px; text-align:left;">Study</th><th style="padding:8px 12px;">\(RR\)</th><th style="padding:8px 12px;">E-value</th><th style="padding:8px 12px; text-align:left;">How to read it</th></tr></thead><tbody><tr><td style="padding:7px 12px; border-top:1px solid #e5e1da;">COVID ICU deaths and nicotine (slide 44)</td><td style="padding:7px 12px; border-top:1px solid #e5e1da; text-align:center;">0.90 (11.4% vs 12.7%)</td><td style="padding:7px 12px; border-top:1px solid #e5e1da; text-align:center;"><strong>1.48</strong></td><td style="padding:7px 12px; border-top:1px solid #e5e1da;">fragile: a modest confounder could do it</td></tr><tr><td style="padding:7px 12px; border-top:1px solid #e5e1da;">Processed meat and colorectal cancer (IARC, 2015: +18% per 50 g a day)</td><td style="padding:7px 12px; border-top:1px solid #e5e1da; text-align:center;">1.18</td><td style="padding:7px 12px; border-top:1px solid #e5e1da; text-align:center;"><strong>1.64</strong></td><td style="padding:7px 12px; border-top:1px solid #e5e1da;">easy to imagine: diet goes with exercise, smoking, income</td></tr><tr><td style="padding:7px 12px; border-top:1px solid #e5e1da;">Smoking and lung cancer (CDC: 15 to 30 times as likely)</td><td style="padding:7px 12px; border-top:1px solid #e5e1da; text-align:center;">15 to 30</td><td style="padding:7px 12px; border-top:1px solid #e5e1da; text-align:center;"><strong>29.5 to 59.5</strong></td><td style="padding:7px 12px; border-top:1px solid #e5e1da;">no plausible hidden factor is that strong</td></tr></tbody></table>
+        <div class="fragment" style="background: #f7eeee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 10px 18px; margin-top: 14px;">
+          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Bigger is harder to explain away, but it is not a pass mark.</strong> Observational studies of hormone therapy found \(RR = 0.61\) for heart disease (E-value 2.66); the randomized trial (Women&rsquo;s Health Initiative) found no protection. Women who chose the therapy were healthier to begin with.</p>
+        </div>
+        <p style="font-size: 11.5pt; color: var(--muted-color); margin-top: 8px; font-style: italic;">IARC press release 240 (2015); CDC, Lung cancer risk factors; Nurses&rsquo; Health Study, RR 0.61 (2000 analysis). E-values computed from these risk ratios with the formula on the previous slide.</p>
+      </div>
+    </section>
     </section>
 
     <section id="e-value-curve" style="padding: 26px 48px;">
