@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2b4dec27e56e9a2a17d4afbcd4d7bfc0">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=46ce4a55903cea47f26f88ca61ddc514">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Correlation & Causality: Causal Logic and DAGs</title>
@@ -1313,13 +1313,36 @@ c = 1.2 * d + 1.2 * y + rng.normal(0, 1, n)</code></pre>
 
   var SU = "https://dpntbrsorgbivmntwmod.supabase.co";
   var SK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
+  // On The Room's Slice it reads this course's LATEST session with enough pairs, not only today's
+  // (22 Oct 2026: the room sent its numbers on Wed 21 Oct and the slice ran on Thu 22 Oct, so a
+  // today-only read showed nothing). The vote slide keeps today's count. Same idea as T9's room-vs-cookie.
+  function bestSession(rows) {
+    var by = {};
+    rows.forEach(function (r) { var k = String(r.session_key || ""); (by[k] = by[k] || []).push(r); });
+    var keys = Object.keys(by).sort().reverse(), pick = keys[0] || "";
+    for (var i = 0; i < keys.length; i++) { if (pairs(by[keys[i]]).length >= MIN_N) { pick = keys[i]; break; } }
+    return { key: pick, rows: by[pick] || [] };
+  }
   function fetchRows() {
     if (location.protocol === "file:") return;
+    var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide();
+    var today = window.Poll ? Poll.q() : "";        // "&session_key=eq.<date>-<am|pm>-<course>", or ""
+    var latest = !!(s && s.id === "room-slice" && today);
     var url = SU + "/rest/v1/poll_votes?poll_id=in.(" + ID_D + "," + ID_Y + ")&select=poll_id,choice,voter_id,created_at" +
-              (window.Poll ? Poll.q() : "");
+              (latest ? ",session_key&session_key=like.*-" + today.split("-").pop() : today);
     fetch(url, { headers: { apikey: SK, Authorization: "Bearer " + SK, "Cache-Control": "no-cache, no-store" } })
       .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (rows) { if (rows) paint(rows); })
+      .then(function (rows) {
+        if (!rows) return;
+        if (!latest) { paint(rows); return; }
+        var b = bestSession(rows); paint(b.rows);
+        var m = b.key.match(/^(\d{4})-(\d{2})-(\d{2})/), todayKey = today.split("eq.").pop();
+        if (m && b.key !== decodeURIComponent(todayKey)) {
+          var mon = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+m[2] - 1];
+          [].forEach.call(document.querySelectorAll("#room-slice .rs-count"), function (e) {
+            if (e.textContent) e.textContent += " (numbers from " + (+m[3]) + " " + mon + ")"; });
+        }
+      })
       .catch(function () {});
   }
   var HERE = ["room-two-numbers", "room-slice"];
