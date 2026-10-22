@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6eaf2a0a3c5eceed923159ddd3277984">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=726d440cf10ffcb48a7ffb92ed15f7e3">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Correlation & Causality: Causal Logic and DAGs</title>
@@ -749,10 +749,12 @@ c = 1.2 * d + 1.2 * y + rng.normal(0, 1, n)</code></pre>
     <section id="room-slice" style="padding: 26px 48px;">
       <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> The Room's Slice</h2>
       <div class="content">
+        <p style="font-size: 13.5pt; line-height: 1.4; margin: 0 0 2px; color: #5d5d5d;"><strong style="color: #2c3e50;">What we did:</strong> you sent two unrelated numbers; we added them into one score and kept only the third of the room nearest the middle score.</p>
         <div class="rs-plot mathjax_ignore tex2jax_ignore" style="margin-top: 2px;"></div>
         <p class="rs-wait" style="font-size: 15pt; text-align: center; color: var(--muted-color); margin-top: 60px;">Waiting for both numbers from at least 8 of you.</p>
-        <div class="fragment fade-up" style="background: #f7eeee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 12px 20px; margin-top: 8px;">
-          <p style="font-size: 15pt; line-height: 1.45; margin: 0;">Nobody's battery depends on their phone number. Among the <strong class="rs-k">&ndash;</strong> of you whose two numbers give about the same combined score, a high one <strong>has to</strong> come with a low other. I changed nobody's numbers; I chose whom to compare.</p>
+        <div class="fragment fade-up" style="background: #f7eeee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 8px 18px; margin-top: 6px; display: grid; grid-template-columns: 250px 1fr; gap: 18px; align-items: center;">
+          <div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 300 146" xmlns="http://www.w3.org/2000/svg" style="width:100%; max-width:250px; display:block;" role="img" aria-label="Phone digits and battery both point into the combined score; the score is held roughly fixed, so it is a collider held fixed."><defs><marker id="rs-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5d6d7e"/></marker></defs><line x1="70" y1="40" x2="125" y2="80" stroke="#5d6d7e" stroke-width="2.6" marker-end="url(#rs-ar)"/><line x1="230" y1="40" x2="175" y2="80" stroke="#5d6d7e" stroke-width="2.6" marker-end="url(#rs-ar)"/><rect x="-2.0" y="2" width="128" height="38" rx="9" fill="#fff" stroke="#2c3e50" stroke-width="2.4"/><text x="62" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#2c3e50">Phone digits</text><rect x="184.0" y="2" width="108" height="38" rx="9" fill="#fff" stroke="#2c3e50" stroke-width="2.4"/><text x="238" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#2c3e50">Battery</text><rect x="75.0" y="81" width="150" height="38" rx="9" fill="#fff" stroke="#c0612b" stroke-width="2.4" stroke-dasharray="6 4"/><text x="150" y="105" text-anchor="middle" font-size="16" font-weight="700" fill="#c0612b">Combined score</text><text x="150" y="142" text-anchor="middle" font-size="15" font-weight="700" fill="#c0612b">held roughly fixed: a collider</text></svg></div>
+          <p style="font-size: 14.5pt; line-height: 1.42; margin: 0;">Nobody's battery depends on their phone number. Among the <strong class="rs-k">&ndash;</strong> of you whose two numbers give about the same combined score, a high one <strong>has to</strong> come with a low other. I changed nobody's numbers; I chose whom to compare. <strong>That is a collider held fixed</strong>, the same shape as the restaurants people visit.</p>
         </div>
       </div>
       <div class="footnote">Your numbers, read live. Both are put on one scale and added; the slice is the third of the room closest to the middle total. One answer per device.</div>
