@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=726d440cf10ffcb48a7ffb92ed15f7e3">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=762e878bedcbb05bbe7fff86880ad704">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Correlation & Causality: Causal Logic and DAGs</title>
@@ -920,7 +920,7 @@ c = 1.2 * d + 1.2 * y + rng.normal(0, 1, n)</code></pre>
             <p style="font-size: 14.5pt; line-height: 1.5;"><strong>The answer you can defend.</strong> "<em>How strong</em> would an unmeasured confounder have to be to overturn this result?"</p>
           </div>
         </div>
-        <p style="font-size: 14pt; line-height: 1.45; margin-top: 10px;"><strong>A sensitivity analysis.</strong> \(RR\), the <strong>risk ratio</strong>, is how many times more likely the outcome is with the treatment than without: \(RR = 1.5\) means 50% more likely. The <strong>E-value</strong> is how strong a hidden confounder would have to be to explain that away.</p>
+        <p style="font-size: 14pt; line-height: 1.45; margin-top: 10px;"><strong>A sensitivity analysis.</strong> \(RR\), the <strong>risk ratio</strong>: how many times more likely the outcome is with the treatment (\(RR = 1.5\): 50% more likely). It is what you <em>found</em>, not a rule you set like \(\alpha\). The <strong>E-value</strong>: how strong a hidden confounder must be to explain it away.</p>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 2px 24px; margin-top: 6px; text-align: center;">
           <p style="font-size: 15pt;">$$\text{E-value} = RR + \sqrt{RR \times (RR - 1)}$$</p>
         </div>
