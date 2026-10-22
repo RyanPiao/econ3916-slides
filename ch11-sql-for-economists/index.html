@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2aa3fa2258bf1f9829862e8b18903248">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=11bcb57c851eef4de4c16cfd694b23c0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL for Economists</title>
@@ -112,7 +112,7 @@
             <p style="font-size: 13pt; color: #7a4a2f; margin-top: 8px;">of BIRD's &ldquo;correct&rdquo; answers contained errors</p>
           </div>
           <div class="fragment fade-up" style="background: linear-gradient(135deg, #f7e3e3, #f0d3d3); border-radius: 12px; padding: 20px; text-align: center;">
-            <p style="font-size: 44pt; font-weight: 700; color: var(--danger-color); line-height: 1;">66.1%</p>
+            <p style="font-size: 44pt; font-weight: 700; color: var(--danger-color); line-height: 1;">62.8%</p>
             <p style="font-size: 13pt; color: #7a3f3f; margin-top: 8px;">in Spider 2.0-Snow</p>
           </div>
         </div>
@@ -152,7 +152,55 @@
       <h2><i class="fa-solid fa-list-ol" style="color: var(--accent-color);"></i> The Order You Write It Is Not the Order It Runs</h2>
       <div class="content">
         <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 26px; align-items: center;">
-          <img src="figures/figure_001_execution_order.png" alt="Two columns of SQL clause boxes with arrows crossing between them: written order SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY maps to execution order FROM first, then WHERE, GROUP BY, HAVING, SELECT fifth, ORDER BY last" style="width: 100%; border-radius: 6px;">
+          <div class="mathjax_ignore tex2jax_ignore">
+<svg viewBox="0 0 636 472" width="100%" role="img" aria-label="Two ladders of SQL clauses. As written: SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY. As run: FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY. Arrows cross from each written clause to its place in the run order." style="display:block; overflow:visible;">
+<defs>
+<marker id="eo-arr-mu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8C8580"/></marker>
+<marker id="eo-arr-da" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A85C5C"/></marker>
+<marker id="eo-arr-ac" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C47B5A"/></marker>
+</defs>
+<text x="135.0" y="24" text-anchor="middle" font-size="20" font-weight="700" fill="#6B8BA4">As written</text>
+<text x="501.0" y="24" text-anchor="middle" font-size="20" font-weight="700" fill="#C47B5A">As run</text>
+<line x1="244" y1="70.0" x2="390" y2="318.0" stroke="#A85C5C" stroke-width="3.2" marker-end="url(#eo-arr-da)"/>
+<line x1="244" y1="132.0" x2="390" y2="70.0" stroke="#C47B5A" stroke-width="3.2" marker-end="url(#eo-arr-ac)"/>
+<line x1="244" y1="194.0" x2="390" y2="132.0" stroke="#8C8580" stroke-width="2" marker-end="url(#eo-arr-mu)"/>
+<line x1="244" y1="256.0" x2="390" y2="194.0" stroke="#8C8580" stroke-width="2" marker-end="url(#eo-arr-mu)"/>
+<line x1="244" y1="318.0" x2="390" y2="256.0" stroke="#8C8580" stroke-width="2" marker-end="url(#eo-arr-mu)"/>
+<line x1="244" y1="380.0" x2="390" y2="380.0" stroke="#8C8580" stroke-width="2" marker-end="url(#eo-arr-mu)"/>
+<rect x="30" y="46" width="210" height="48" rx="7" fill="#f7e3e3" stroke="#A85C5C" stroke-width="2"/>
+<text x="135.0" y="77.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#A85C5C">SELECT</text>
+<rect x="30" y="108" width="210" height="48" rx="7" fill="#fdf0ea" stroke="#C47B5A" stroke-width="2"/>
+<text x="135.0" y="139.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#C47B5A">FROM</text>
+<rect x="30" y="170" width="210" height="48" rx="7" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="135.0" y="201.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#3A3632">WHERE</text>
+<rect x="30" y="232" width="210" height="48" rx="7" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="135.0" y="263.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#3A3632">GROUP BY</text>
+<rect x="30" y="294" width="210" height="48" rx="7" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="135.0" y="325.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#3A3632">HAVING</text>
+<rect x="30" y="356" width="210" height="48" rx="7" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="135.0" y="387.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#3A3632">ORDER BY</text>
+<rect x="396" y="46" width="210" height="48" rx="7" fill="#fdf0ea" stroke="#C47B5A" stroke-width="2"/>
+<text x="501.0" y="77.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#C47B5A">FROM</text>
+<text x="620" y="76.0" text-anchor="middle" font-size="16" font-weight="700" fill="#8C8580">1</text>
+<rect x="396" y="108" width="210" height="48" rx="7" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="501.0" y="139.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#3A3632">WHERE</text>
+<text x="620" y="138.0" text-anchor="middle" font-size="16" font-weight="700" fill="#8C8580">2</text>
+<rect x="396" y="170" width="210" height="48" rx="7" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="501.0" y="201.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#3A3632">GROUP BY</text>
+<text x="620" y="200.0" text-anchor="middle" font-size="16" font-weight="700" fill="#8C8580">3</text>
+<rect x="396" y="232" width="210" height="48" rx="7" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="501.0" y="263.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#3A3632">HAVING</text>
+<text x="620" y="262.0" text-anchor="middle" font-size="16" font-weight="700" fill="#8C8580">4</text>
+<rect x="396" y="294" width="210" height="48" rx="7" fill="#f7e3e3" stroke="#A85C5C" stroke-width="2"/>
+<text x="501.0" y="325.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#A85C5C">SELECT</text>
+<text x="620" y="324.0" text-anchor="middle" font-size="16" font-weight="700" fill="#8C8580">5</text>
+<rect x="396" y="356" width="210" height="48" rx="7" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="501.0" y="387.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="19" font-weight="700" fill="#3A3632">ORDER BY</text>
+<text x="620" y="386.0" text-anchor="middle" font-size="16" font-weight="700" fill="#8C8580">6</text>
+<text x="318" y="442" text-anchor="middle" font-size="16" fill="#8C8580"><tspan font-weight="700" fill="#3A3632">The logical order, fixed by SQL&#8217;s rules.</tspan> The engine may</text>
+<text x="318" y="464" text-anchor="middle" font-size="16" fill="#8C8580">reorder the physical work for speed; it never changes the answer.</text>
+</svg>
+          </div>
           <div>
             <p style="font-size: 15pt; line-height: 1.55;"><code>FROM</code> runs first &mdash; you cannot filter a table you have not named.</p>
             <div style="background: #fdf0ea; border-left: 4px solid var(--accent-color); border-radius: 8px; padding: 14px 18px; margin-top: 14px;">
@@ -163,6 +211,7 @@
           </div>
         </div>
       </div>
+      
     </section>
 
     <section id="where-having" style="padding: 32px 55px;">
@@ -437,7 +486,87 @@ FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id</code></pre
       <h2><i class="fa-solid fa-clone" style="color: var(--danger-color);"></i> Fanout &mdash; and Nothing Warned You</h2>
       <div class="content">
         <div style="display: grid; grid-template-columns: 1.35fr 1fr; gap: 22px; align-items: center;">
-          <img src="figures/figure_002_fanout.png" alt="Diagram: a 600-row customers table on the left, joined to orders, becomes a 4033-row table on the right in which customer 42's identical revenue figure is repeated across seven consecutive rows" style="width: 100%; border-radius: 6px;">
+          <div class="mathjax_ignore tex2jax_ignore">
+<svg viewBox="0 0 665 482" width="100%" role="img" aria-label="Fanout. The customers table has 600 rows, one per customer. Customer 42, West, revenue 488.10, passes through LEFT JOIN orders and comes out as seven identical rows, one per order. 600 rows become 4,033 rows, 6.72 rows per customer." style="display:block; overflow:visible;">
+<defs><marker id="fo-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#A85C5C"/></marker></defs>
+<text x="8" y="22" font-size="20" font-weight="700" fill="#6B8BA4">customers</text>
+<text x="8" y="48" font-size="16" fill="#8C8580">600 rows · one per customer</text>
+<rect x="8" y="60" width="225" height="34" rx="6" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.5"/>
+<text x="22" y="83.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">id</text>
+<text x="70" y="83.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">region</text>
+<text x="220" y="83.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">revenue</text>
+<rect x="8" y="104" width="225" height="34" rx="6" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="22" y="127.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">41</text>
+<text x="70" y="127.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">East</text>
+<text x="220" y="127.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">512.40</text>
+<rect x="8" y="144" width="225" height="34" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="2.2"/>
+<text x="22" y="167.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#A85C5C">42</text>
+<text x="70" y="167.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#A85C5C">West</text>
+<text x="220" y="167.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#A85C5C">488.10</text>
+<rect x="8" y="184" width="225" height="34" rx="6" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="22" y="207.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">43</text>
+<text x="70" y="207.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">East</text>
+<text x="220" y="207.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">533.90</text>
+<circle cx="120" cy="236" r="2.6" fill="#8C8580"/>
+<circle cx="120" cy="246" r="2.6" fill="#8C8580"/>
+<circle cx="120" cy="256" r="2.6" fill="#8C8580"/>
+<text x="384" y="22" font-size="20" font-weight="700" fill="#A85C5C">after the LEFT JOIN</text>
+<text x="384" y="48" font-size="16" fill="#8C8580">4,033 rows · one per <tspan font-weight="700" fill="#A85C5C">order</tspan></text>
+<rect x="384" y="60" width="225" height="34" rx="6" fill="#f7e3e3" stroke="#A85C5C" stroke-width="1.5"/>
+<text x="398" y="83.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">id</text>
+<text x="446" y="83.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">region</text>
+<text x="596" y="83.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">revenue</text>
+<rect x="384" y="104" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
+<text x="398" y="126.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
+<text x="446" y="126.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
+<text x="596" y="126.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
+<rect x="384" y="142" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
+<text x="398" y="164.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
+<text x="446" y="164.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
+<text x="596" y="164.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
+<rect x="384" y="180" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
+<text x="398" y="202.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
+<text x="446" y="202.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
+<text x="596" y="202.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
+<rect x="384" y="218" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
+<text x="398" y="240.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
+<text x="446" y="240.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
+<text x="596" y="240.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
+<rect x="384" y="256" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
+<text x="398" y="278.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
+<text x="446" y="278.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
+<text x="596" y="278.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
+<rect x="384" y="294" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
+<text x="398" y="316.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
+<text x="446" y="316.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
+<text x="596" y="316.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
+<rect x="384" y="332" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
+<text x="398" y="354.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
+<text x="446" y="354.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
+<text x="596" y="354.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
+<circle cx="496" cy="378" r="2.6" fill="#8C8580"/>
+<circle cx="496" cy="388" r="2.6" fill="#8C8580"/>
+<circle cx="496" cy="398" r="2.6" fill="#8C8580"/>
+<path d="M617,104 h8 V226.0 l7,8 l-7,8 V364 h-8" fill="none" stroke="#A85C5C" stroke-width="2"/>
+<text x="637" y="241.0" font-size="20" font-weight="700" fill="#A85C5C">×7</text>
+<path d="M237,161 C 300,161 320,234.0 378,234.0" fill="none" stroke="#A85C5C" stroke-width="3" marker-end="url(#fo-arr)"/>
+<path d="M350,234.0 L380,120" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
+<path d="M350,234.0 L380,158" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
+<path d="M350,234.0 L380,196" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
+<path d="M350,234.0 L380,234" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
+<path d="M350,234.0 L380,272" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
+<path d="M350,234.0 L380,310" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
+<path d="M350,234.0 L380,348" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
+<text x="300" y="268.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="#A85C5C">LEFT JOIN</text>
+<text x="300" y="287.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="#A85C5C">orders</text>
+<text x="8" y="298" font-size="17" fill="#A85C5C"><tspan font-weight="700">Customer 42 placed 7 orders.</tspan></text>
+<text x="8" y="322" font-size="17" fill="#A85C5C">Revenue repeated 7 times,</text>
+<text x="8" y="346" font-size="17" fill="#A85C5C">verbatim.</text>
+<line x1="8" y1="404" x2="657" y2="404" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="332" y="442" text-anchor="middle" font-size="28" font-weight="700" fill="#2D2D2D">600 rows <tspan fill="#A85C5C">→ 4,033 rows</tspan></text>
+<text x="332" y="474" text-anchor="middle" font-size="16" fill="#8C8580">6.72 rows per customer. Nothing errored. Nothing warned.</text>
+</svg>
+          </div>
           <div>
             <p style="font-size: 15pt; line-height: 1.55;">The join <strong>did exactly what you asked.</strong> The bug is in what you do next: compute a statistic as though each row were an independent customer.</p>
             <div style="background: #fdf0ea; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 14px 18px; margin-top: 14px;">
@@ -447,6 +576,7 @@ FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id</code></pre
           </div>
         </div>
       </div>
+      
     </section>
 
     <section id="ttest-inversion" style="padding: 22px 45px;">
@@ -523,7 +653,45 @@ aggregate-then-join: 600</code></pre>
             </div>
           </div>
         </div>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 8px;">
+<svg viewBox="0 0 1180 171" width="100%" role="img" aria-label="Aggregate, then join. orders has 4,033 rows, several per customer. GROUP BY customer_id collapses it to order_counts, 600 rows, one per customer. Each customer row then meets exactly one order_counts row, a 1 to 1 join, and the result has 600 rows." style="display:block; overflow:visible;">
+<defs><marker id="cte-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6A8E6B"/></marker></defs>
+<text x="0" y="20" font-size="18" font-weight="700" fill="#2D2D2D"><tspan font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17">orders</tspan><tspan dx="10" fill="#A85C5C">4,033 rows</tspan></text>
+<rect x="0" y="31" width="200" height="14" rx="3" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/>
+<rect x="0" y="48" width="200" height="14" rx="3" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/>
+<rect x="0" y="65" width="200" height="14" rx="3" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/>
+<rect x="0" y="82" width="200" height="14" rx="3" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.6"/>
+<rect x="0" y="99" width="200" height="14" rx="3" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.6"/>
+<rect x="0" y="116" width="200" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
+<rect x="0" y="133" width="200" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
+<text x="0" y="165" font-size="15" fill="#8C8580">several rows per customer</text>
+<line x1="214" y1="89.5" x2="372" y2="89.5" stroke="#6A8E6B" stroke-width="3" marker-end="url(#cte-arr)"/>
+<text x="293" y="77.5" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="#6A8E6B">GROUP BY</text>
+<text x="293" y="113.5" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="#6A8E6B">customer_id</text>
+<text x="386" y="20" font-size="18" font-weight="700" fill="#2D2D2D"><tspan font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17">order_counts</tspan><tspan dx="10" fill="#6A8E6B">600 rows</tspan></text>
+<rect x="386" y="65.5" width="190" height="14" rx="3" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/>
+<rect x="386" y="82.5" width="190" height="14" rx="3" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.6"/>
+<rect x="386" y="99.5" width="190" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
+<text x="386" y="165" font-size="15" fill="#8C8580">one row per customer</text>
+<text x="613" y="53.5" text-anchor="middle" font-size="16" font-weight="700" fill="#6A8E6B">1 : 1</text>
+<line x1="580" y1="72.5" x2="646" y2="72.5" stroke="#6A8E6B" stroke-width="2"/>
+<line x1="580" y1="89.5" x2="646" y2="89.5" stroke="#6A8E6B" stroke-width="2"/>
+<line x1="580" y1="106.5" x2="646" y2="106.5" stroke="#6A8E6B" stroke-width="2"/>
+<text x="650" y="20" font-size="18" font-weight="700" fill="#2D2D2D"><tspan font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17">customers</tspan><tspan dx="10" fill="#6B8BA4">600 rows</tspan></text>
+<rect x="650" y="65.5" width="190" height="14" rx="3" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/>
+<rect x="650" y="82.5" width="190" height="14" rx="3" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.6"/>
+<rect x="650" y="99.5" width="190" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
+<text x="650" y="165" font-size="15" fill="#8C8580">LEFT JOIN on customer_id</text>
+<line x1="852" y1="89.5" x2="952" y2="89.5" stroke="#6A8E6B" stroke-width="3" marker-end="url(#cte-arr)"/>
+<text x="966" y="20" font-size="18" font-weight="700" fill="#2D2D2D"><tspan font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17">result</tspan><tspan dx="10" fill="#6A8E6B">600 rows</tspan></text>
+<rect x="966" y="65.5" width="212" height="14" rx="3" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/>
+<rect x="966" y="82.5" width="212" height="14" rx="3" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.6"/>
+<rect x="966" y="99.5" width="212" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
+<text x="966" y="165" font-size="15" font-weight="700" fill="#6A8E6B">nothing to fan out</text>
+</svg>
+        </div>
       </div>
+      
     </section>
 
     <section id="distinct-misconception" style="padding: 36px 60px;">
@@ -560,8 +728,105 @@ aggregate-then-join: 600</code></pre>
         </div>
         <p style="font-size: 15.5pt; margin-top: 16px;">In pandas you already know the line:</p>
 <pre style="font-size: 13.5pt; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; margin-top: 8px;"><code>df["prev_gdp"] = df.groupby("country")["gdp"].shift(1)</code></pre>
-        <p style="font-size: 15pt; margin-top: 12px; color: var(--muted-color); font-style: italic;"><code>groupby(...).shift(1)</code> does not collapse. It computes within groups and returns something <strong>the same length</strong> as the input.</p>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 12px;">
+<svg viewBox="0 0 1170 198" width="100%" role="img" aria-label="Left: a six-row panel, two countries by three years, goes through GROUP BY country and comes out as two rows of averages. Right: groupby country shift 1 keeps all six rows and adds a prev_gdp column, NaN in each country's first year. Illustrative numbers." style="display:block; overflow:visible;">
+<defs><marker id="gbc-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8C8580"/></marker></defs>
+<text x="0" y="17" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17" font-weight="700" fill="#6B8BA4">GROUP BY country</text>
+<text x="190" y="17" font-size="16" fill="#8C8580">6 rows in, 2 rows out</text>
+<rect x="0" y="34" width="194" height="21" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.2"/>
+<text x="74" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">country</text>
+<text x="134" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">year</text>
+<text x="186" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">gdp</text>
+<rect x="0" y="55" width="194" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<text x="74" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
+<text x="134" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2021</text>
+<text x="186" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">100</text>
+<rect x="0" y="76" width="194" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<text x="74" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
+<text x="134" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2022</text>
+<text x="186" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">103</text>
+<rect x="0" y="97" width="194" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<text x="74" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
+<text x="134" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2023</text>
+<text x="186" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">106</text>
+<rect x="0" y="118" width="194" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
+<text x="74" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
+<text x="134" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2021</text>
+<text x="186" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">50</text>
+<rect x="0" y="139" width="194" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
+<text x="74" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
+<text x="134" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2022</text>
+<text x="186" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">52</text>
+<rect x="0" y="160" width="194" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
+<text x="74" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
+<text x="134" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2023</text>
+<text x="186" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">57</text>
+<line x1="206" y1="107.5" x2="274" y2="107.5" stroke="#8C8580" stroke-width="2.4" marker-end="url(#gbc-arr)"/>
+<rect x="286" y="76" width="168" height="21" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.2"/>
+<text x="360" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">country</text>
+<text x="446" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">avg_gdp</text>
+<rect x="286" y="97" width="168" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<text x="360" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
+<text x="446" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">103</text>
+<rect x="286" y="118" width="168" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
+<text x="360" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
+<text x="446" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">53</text>
+<text x="286" y="157" font-size="15" fill="#8C8580">one row per country:</text>
+<text x="286" y="179" font-size="15" fill="#8C8580">the years are gone</text>
+<line x1="486" y1="4" x2="486" y2="186" stroke="#D5CEC7" stroke-width="1.5"/>
+<text x="520" y="17" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17" font-weight="700" fill="#C47B5A">groupby("country").shift(1)</text>
+<text x="820" y="17" font-size="16" fill="#8C8580">6 rows in, 6 rows out</text>
+<rect x="520" y="34" width="290" height="21" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.2"/>
+<text x="594" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">country</text>
+<text x="654" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">year</text>
+<text x="706" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">gdp</text>
+<text x="802" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#A85C5C">prev_gdp</text>
+<rect x="520" y="55" width="290" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<text x="594" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
+<text x="654" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2021</text>
+<text x="706" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">100</text>
+<rect x="714" y="55" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
+<text x="802" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">NaN</text>
+<rect x="520" y="76" width="290" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<text x="594" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
+<text x="654" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2022</text>
+<text x="706" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">103</text>
+<rect x="714" y="76" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
+<text x="802" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">100</text>
+<rect x="520" y="97" width="290" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<text x="594" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
+<text x="654" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2023</text>
+<text x="706" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">106</text>
+<rect x="714" y="97" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
+<text x="802" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">103</text>
+<rect x="520" y="118" width="290" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
+<text x="594" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
+<text x="654" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2021</text>
+<text x="706" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">50</text>
+<rect x="714" y="118" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
+<text x="802" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">NaN</text>
+<rect x="520" y="139" width="290" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
+<text x="594" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
+<text x="654" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2022</text>
+<text x="706" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">52</text>
+<rect x="714" y="139" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
+<text x="802" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">50</text>
+<rect x="520" y="160" width="290" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
+<text x="594" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
+<text x="654" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2023</text>
+<text x="706" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">57</text>
+<rect x="714" y="160" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
+<text x="802" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">52</text>
+<text x="828" y="80" font-size="16" font-weight="700" fill="#A85C5C">a new column</text>
+<text x="828" y="102" font-size="15" fill="#8C8580">computed within</text>
+<text x="828" y="124" font-size="15" fill="#8C8580">each country, the</text>
+<text x="828" y="146" font-size="15" fill="#8C8580"><tspan font-weight="700" fill="#3A3632">same length</tspan> as</text>
+<text x="828" y="168" font-size="15" fill="#8C8580">the input</text>
+<text x="1165" y="189" text-anchor="end" font-size="14" font-style="italic" fill="#8C8580">illustrative numbers</text>
+</svg>
+        </div>
       </div>
+      
     </section>
 
     <section id="lag-over" style="padding: 32px 55px;">
@@ -698,23 +963,51 @@ ORDER BY year</code></pre>
       <h2><i class="fa-solid fa-circle-half-stroke" style="color: var(--secondary-color);"></i> Three Truth Values, Not Two</h2>
       <div class="content">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-          <div style="background: #f0f5f8; border-radius: 12px; padding: 18px 24px;">
+          <div style="background: #f0f5f8; border-radius: 12px; padding: 14px 24px;">
             <p style="font-size: 15pt; color: var(--muted-color);">In Python</p>
-            <p style="font-size: 20pt; font-family: monospace; margin-top: 8px;">None == None</p>
-            <p style="font-size: 22pt; font-weight: 700; color: var(--success-color); margin-top: 8px;">True</p>
+            <p style="font-size: 20pt; font-family: monospace; margin-top: 6px;">None == None</p>
+            <p style="font-size: 22pt; font-weight: 700; color: var(--success-color); margin-top: 6px;">True</p>
           </div>
-          <div style="background: #f7e3e3; border-radius: 12px; padding: 18px 24px;">
+          <div style="background: #f7e3e3; border-radius: 12px; padding: 14px 24px;">
             <p style="font-size: 15pt; color: var(--muted-color);">In SQL</p>
-            <p style="font-size: 20pt; font-family: monospace; margin-top: 8px;">NULL = NULL</p>
-            <p style="font-size: 22pt; font-weight: 700; color: var(--danger-color); margin-top: 8px;">NULL</p>
+            <p style="font-size: 20pt; font-family: monospace; margin-top: 6px;">NULL = NULL</p>
+            <p style="font-size: 22pt; font-weight: 700; color: var(--danger-color); margin-top: 6px;">NULL</p>
           </div>
         </div>
-        <p style="font-size: 15.5pt; line-height: 1.6; margin-top: 18px;">The reasoning is sound. <code>NULL</code> means <strong>unknown</strong>, and two unknowns are not necessarily the <em>same</em> unknown. Asking whether one unknown equals another correctly returns &ldquo;unknown&rdquo;.</p>
-        <div style="background: #fdf0ea; border-left: 4px solid var(--danger-color); border-radius: 10px; padding: 16px 24px; margin-top: 16px;">
-          <p style="font-size: 16pt; line-height: 1.55;">So SQL has three truth values &mdash; <strong>true, false, unknown</strong> &mdash; and a <code>WHERE</code> clause keeps only rows where the condition is <strong>true</strong>. Rows evaluating to <em>unknown</em> are discarded exactly as if they were false.</p>
+        <p style="font-size: 15.5pt; line-height: 1.6; margin-top: 14px;">The reasoning is sound. <code>NULL</code> means <strong>unknown</strong>, and two unknowns are not necessarily the <em>same</em> unknown. Asking whether one unknown equals another correctly returns &ldquo;unknown&rdquo;.</p>
+        <p style="font-size: 15.5pt; line-height: 1.5; margin-top: 12px;">So SQL has three truth values, and a <code>WHERE</code> clause keeps only rows where the condition is <strong>true</strong>:</p>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 6px;">
+<svg viewBox="0 0 1170 190" width="100%" role="img" aria-label="A WHERE decision on income &gt; 50000. A row with income 72,000 evaluates TRUE and is kept. A row with income 30,000 evaluates FALSE and is discarded. A row whose income is NULL evaluates UNKNOWN and is discarded exactly as if FALSE." style="display:block; overflow:visible;">
+<defs>
+<marker id="tvl-arr-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6A8E6B"/></marker>
+<marker id="tvl-arr-mu" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8C8580"/></marker>
+<marker id="tvl-arr-da" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#A85C5C"/></marker>
+</defs>
+<rect x="0" y="64" width="330" height="62" rx="10" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="2"/>
+<text x="165" y="101" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17" font-weight="700" fill="#2D2D2D">WHERE income &gt; 50000</text>
+<path d="M332,95 C 380,95 380,24 420,24 L584,24" fill="none" stroke="#6A8E6B" stroke-width="2" marker-end="url(#tvl-arr-ok)"/>
+<text x="502.0" y="15" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" fill="#6A8E6B">income 72,000</text>
+<rect x="590" y="0" width="224" height="48" rx="8" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
+<text x="702.0" y="31" text-anchor="middle" font-size="20" font-weight="700" fill="#6A8E6B">TRUE</text>
+<line x1="818" y1="24" x2="864" y2="24" stroke="#6A8E6B" stroke-width="2" marker-end="url(#tvl-arr-ok)"/>
+<text x="872" y="31" font-size="20" font-weight="700" fill="#6A8E6B">kept</text>
+<path d="M332,95 C 380,95 380,95 420,95 L584,95" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#tvl-arr-mu)"/>
+<text x="502.0" y="86" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" fill="#3A3632">income 30,000</text>
+<rect x="590" y="71" width="224" height="48" rx="8" fill="#f8f6f3" stroke="#8C8580" stroke-width="1.6"/>
+<text x="702.0" y="102" text-anchor="middle" font-size="20" font-weight="700" fill="#3A3632">FALSE</text>
+<line x1="818" y1="95" x2="864" y2="95" stroke="#8C8580" stroke-width="2" marker-end="url(#tvl-arr-mu)"/>
+<text x="872" y="102" font-size="20" font-weight="700" fill="#3A3632">discarded</text>
+<path d="M332,95 C 380,95 380,166 420,166 L584,166" fill="none" stroke="#A85C5C" stroke-width="3" marker-end="url(#tvl-arr-da)"/>
+<text x="502.0" y="157" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" fill="#A85C5C">income NULL</text>
+<rect x="590" y="142" width="224" height="48" rx="8" fill="#f7e3e3" stroke="#A85C5C" stroke-width="2.2"/>
+<text x="702.0" y="173" text-anchor="middle" font-size="20" font-weight="700" fill="#A85C5C">UNKNOWN (NULL)</text>
+<line x1="818" y1="166" x2="864" y2="166" stroke="#A85C5C" stroke-width="3" marker-end="url(#tvl-arr-da)"/>
+<text x="872" y="173" font-size="20" font-weight="700" fill="#A85C5C">discarded, exactly as if FALSE</text>
+</svg>
         </div>
-        <p style="font-size: 15.5pt; margin-top: 14px; text-align: center; font-style: italic;">That last sentence is where the money goes missing.</p>
+        <p style="font-size: 15.5pt; margin-top: 8px; text-align: center; font-style: italic;">That last branch is where the money goes missing.</p>
       </div>
+      
     </section>
 
     <section>
@@ -835,7 +1128,140 @@ FROM orders
     <section id="columnar" style="padding: 20px 45px;">
       <h2><i class="fa-solid fa-layer-group" style="color: var(--secondary-color);"></i> Parquet: Storing by Column, Skipping What You Don't Need</h2>
       <div class="content">
-        <img src="figures/figure_005_columnar.png" alt="Two grids of table cells: in row storage every cell is highlighted as read, 48 of 48; in columnar storage with pushdown only the two requested columns within the surviving row-group are highlighted, 8 of 48" style="width: 62%; display: block; margin: 2px auto 0; border-radius: 6px;">
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 2px;">
+<svg viewBox="0 0 1190 421" width="100%" role="img" aria-label="Row storage versus columnar storage. In row storage each row is stored as one record, so every field of every row is read: 48 of 48 cells. In Parquet the same cells are stored as column blocks inside chunks. The query WHERE year = 2024 asking for dist and fare skips chunk 1, whose metadata says year min 2019 max 2019, and reads only the dist and fare blocks of chunk 2: 8 of 48 cells." style="display:block; overflow:visible;">
+<text x="220" y="20" text-anchor="middle" font-size="20" font-weight="700" fill="#2D2D2D">Row storage</text>
+<text x="220" y="45" text-anchor="middle" font-size="15" fill="#8C8580">each row is one record, stored end to end</text>
+<text x="95.0" y="69" text-anchor="middle" font-size="14" fill="#3A3632">year</text>
+<text x="145.0" y="69" text-anchor="middle" font-size="14" fill="#3A3632">dist</text>
+<text x="195.0" y="69" text-anchor="middle" font-size="14" fill="#3A3632">fare</text>
+<text x="245.0" y="69" text-anchor="middle" font-size="14" fill="#3A3632">tip</text>
+<text x="295.0" y="69" text-anchor="middle" font-size="14" fill="#3A3632">zone</text>
+<text x="345.0" y="69" text-anchor="middle" font-size="14" fill="#3A3632">vendor</text>
+<rect x="70" y="82" width="300" height="23" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="120" y1="82" x2="120" y2="105" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="170" y1="82" x2="170" y2="105" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="220" y1="82" x2="220" y2="105" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="270" y1="82" x2="270" y2="105" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="320" y1="82" x2="320" y2="105" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="70" y="111" width="300" height="23" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="120" y1="111" x2="120" y2="134" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="170" y1="111" x2="170" y2="134" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="220" y1="111" x2="220" y2="134" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="270" y1="111" x2="270" y2="134" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="320" y1="111" x2="320" y2="134" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="70" y="140" width="300" height="23" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="120" y1="140" x2="120" y2="163" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="170" y1="140" x2="170" y2="163" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="220" y1="140" x2="220" y2="163" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="270" y1="140" x2="270" y2="163" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="320" y1="140" x2="320" y2="163" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="70" y="169" width="300" height="23" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="120" y1="169" x2="120" y2="192" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="170" y1="169" x2="170" y2="192" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="220" y1="169" x2="220" y2="192" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="270" y1="169" x2="270" y2="192" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="320" y1="169" x2="320" y2="192" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="70" y="198" width="300" height="23" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="120" y1="198" x2="120" y2="221" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="170" y1="198" x2="170" y2="221" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="220" y1="198" x2="220" y2="221" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="270" y1="198" x2="270" y2="221" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="320" y1="198" x2="320" y2="221" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="70" y="227" width="300" height="23" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="120" y1="227" x2="120" y2="250" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="170" y1="227" x2="170" y2="250" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="220" y1="227" x2="220" y2="250" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="270" y1="227" x2="270" y2="250" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="320" y1="227" x2="320" y2="250" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="70" y="256" width="300" height="23" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="120" y1="256" x2="120" y2="279" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="170" y1="256" x2="170" y2="279" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="220" y1="256" x2="220" y2="279" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="270" y1="256" x2="270" y2="279" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="320" y1="256" x2="320" y2="279" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="70" y="285" width="300" height="23" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="120" y1="285" x2="120" y2="308" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="170" y1="285" x2="170" y2="308" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="220" y1="285" x2="220" y2="308" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="270" y1="285" x2="270" y2="308" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="320" y1="285" x2="320" y2="308" stroke="#6B8BA4" stroke-width="0.8"/>
+<text x="220" y="341" text-anchor="middle" font-size="16" fill="#A85C5C">every field of every row is read</text>
+<text x="220" y="367" text-anchor="middle" font-size="17" font-weight="700" fill="#A85C5C">48 of 48 cells touched</text>
+<text x="695.0" y="20" text-anchor="middle" font-size="20" font-weight="700" fill="#2D2D2D">Columnar (Parquet)</text>
+<text x="695.0" y="45" text-anchor="middle" font-size="15" fill="#8C8580">each column a block, inside chunks of rows</text>
+<text x="545.0" y="69" text-anchor="middle" font-size="14" fill="#8C8580">year</text>
+<text x="605.0" y="69" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">dist</text>
+<text x="665.0" y="69" text-anchor="middle" font-size="14" font-weight="700" fill="#2D2D2D">fare</text>
+<text x="725.0" y="69" text-anchor="middle" font-size="14" fill="#8C8580">tip</text>
+<text x="785.0" y="69" text-anchor="middle" font-size="14" fill="#8C8580">zone</text>
+<text x="845.0" y="69" text-anchor="middle" font-size="14" fill="#8C8580">vendor</text>
+<rect x="512" y="76" width="366" height="104" rx="7" fill="none" stroke="#D5CEC7" stroke-width="1.6" stroke-dasharray="6 4"/>
+<rect x="520" y="82" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="520" y1="105" x2="570" y2="105" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="520" y1="128" x2="570" y2="128" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="520" y1="151" x2="570" y2="151" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="580" y="82" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="580" y1="105" x2="630" y2="105" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="580" y1="128" x2="630" y2="128" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="580" y1="151" x2="630" y2="151" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="640" y="82" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="640" y1="105" x2="690" y2="105" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="640" y1="128" x2="690" y2="128" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="640" y1="151" x2="690" y2="151" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="700" y="82" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="700" y1="105" x2="750" y2="105" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="700" y1="128" x2="750" y2="128" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="700" y1="151" x2="750" y2="151" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="760" y="82" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="760" y1="105" x2="810" y2="105" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="760" y1="128" x2="810" y2="128" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="760" y1="151" x2="810" y2="151" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="820" y="82" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="820" y1="105" x2="870" y2="105" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="820" y1="128" x2="870" y2="128" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="820" y1="151" x2="870" y2="151" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="894" y="86" width="262" height="84" rx="6" fill="#f7e3e3" stroke="#A85C5C" stroke-width="1.4"/>
+<text x="906" y="108" font-size="15" font-weight="700" fill="#3A3632">chunk 1 metadata</text>
+<text x="906" y="130" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">year: min 2019, max 2019</text>
+<text x="906" y="152" font-size="15" font-weight="700" fill="#A85C5C">skipped, never read</text>
+<line x1="879" y1="128" x2="894" y2="128" stroke="#A85C5C" stroke-width="1.4"/>
+<rect x="512" y="198" width="366" height="104" rx="7" fill="none" stroke="#6A8E6B" stroke-width="1.6" stroke-dasharray="none"/>
+<rect x="520" y="204" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="520" y1="227" x2="570" y2="227" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="520" y1="250" x2="570" y2="250" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="520" y1="273" x2="570" y2="273" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="580" y="204" width="50" height="92" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="580" y1="227" x2="630" y2="227" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="580" y1="250" x2="630" y2="250" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="580" y1="273" x2="630" y2="273" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="640" y="204" width="50" height="92" rx="3" fill="#e3ecf2" stroke="#6B8BA4" stroke-width="1.6"/>
+<line x1="640" y1="227" x2="690" y2="227" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="640" y1="250" x2="690" y2="250" stroke="#6B8BA4" stroke-width="0.8"/>
+<line x1="640" y1="273" x2="690" y2="273" stroke="#6B8BA4" stroke-width="0.8"/>
+<rect x="700" y="204" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="700" y1="227" x2="750" y2="227" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="700" y1="250" x2="750" y2="250" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="700" y1="273" x2="750" y2="273" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="760" y="204" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="760" y1="227" x2="810" y2="227" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="760" y1="250" x2="810" y2="250" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="760" y1="273" x2="810" y2="273" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="820" y="204" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
+<line x1="820" y1="227" x2="870" y2="227" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="820" y1="250" x2="870" y2="250" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="820" y1="273" x2="870" y2="273" stroke="#D5CEC7" stroke-width="0.8"/>
+<rect x="894" y="208" width="262" height="84" rx="6" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.4"/>
+<text x="906" y="230" font-size="15" font-weight="700" fill="#3A3632">chunk 2 metadata</text>
+<text x="906" y="252" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">year: min 2024, max 2024</text>
+<text x="906" y="274" font-size="15" font-weight="700" fill="#6A8E6B">read: dist and fare only</text>
+<line x1="879" y1="250" x2="894" y2="250" stroke="#6A8E6B" stroke-width="1.4"/>
+<text x="755.0" y="341" text-anchor="middle" font-size="16" fill="#6A8E6B">projection: 2 of 6 columns · predicate: chunk 1 skipped</text>
+<text x="755.0" y="367" text-anchor="middle" font-size="17" font-weight="700" fill="#6A8E6B">8 of 48 cells touched</text>
+<text x="595" y="392" text-anchor="middle" font-size="15" fill="#3A3632">The metadata on each chunk says what is inside it, so the engine can skip what the <tspan font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14">WHERE</tspan> clause rules out,</text>
+<text x="595" y="415" text-anchor="middle" font-size="15" fill="#3A3632">without reading it, and without the file ever being on your machine.</text>
+</svg>
+        </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
           <div style="background: #f0f5f8; border-radius: 10px; padding: 10px 16px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 13pt;"><strong>Predicate pushdown</strong> &mdash; ask for <code>WHERE year = 2024</code> and the engine skips any chunk whose metadata says it holds only 2019 data, <em>without reading it</em>.</p>
@@ -845,6 +1271,7 @@ FROM orders
           </div>
         </div>
       </div>
+      
     </section>
 
     <section id="remote-query" style="padding: 28px 45px;">
