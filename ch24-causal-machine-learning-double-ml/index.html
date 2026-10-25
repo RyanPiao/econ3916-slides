@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2d57bed0f3854608867a6925c8c0f385">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=dfe09a788a987b6363dbb575f93fb3bb">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Causal ML: Double Machine Learning</title>
@@ -312,8 +312,8 @@ dml_plr.fit()</code></pre>
       </section>
 
       <section id="lalonde" style="padding: 40px 60px;">
-        <h2><i class="fa-solid fa-timeline" style="color: var(--accent-color);"></i> The Lalonde Callback: Full Circle</h2>
-        <p style="font-size: 15pt; color: var(--muted-color); margin-top: 10px;">Same data, three chapters, increasingly sophisticated analysis</p>
+        <h2><i class="fa-solid fa-timeline" style="color: var(--accent-color);"></i> The Lalonde Callback: How Close Does DML Get?</h2>
+        <p style="font-size: 15pt; color: var(--muted-color); margin-top: 10px;">Same men, four chapters, increasingly sophisticated analysis</p>
         <table class="table-standard" style="margin-top: 18px; width: 100%; border-collapse: collapse;">
           <thead>
             <tr style="background: var(--secondary-color); color: white;">
@@ -336,15 +336,27 @@ dml_plr.fit()</code></pre>
               <td style="padding: 12px 14px; font-size: 14pt;">$1,794 (ATE)</td>
               <td style="padding: 12px 14px; font-size: 14pt;">Randomization makes it causal</td>
             </tr>
+            <tr style="background: #f8f6f3;">
+              <td style="padding: 12px 14px; font-size: 14pt;">Ch 10</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">OLS + 8 covariates (CPS)</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">&minus;$8,498 &rarr; +$699</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">Controls fix only measured confounders</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px; font-size: 14pt;">Ch 10</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">Propensity score matching</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">$854&ndash;$1,860 by spec and rule</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">Closest, and most fragile</td>
+            </tr>
             <tr style="background: #E8F5E9; font-weight: 600;">
               <td style="padding: 12px 14px; font-size: 14pt;">Ch 24</td>
-              <td style="padding: 12px 14px; font-size: 14pt;">DML</td>
-              <td style="padding: 12px 14px; font-size: 14pt;">~$1,600-$2,100</td>
-              <td style="padding: 12px 14px; font-size: 14pt;">Recovers benchmark from observational data</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">DML (ATT), same CPS data</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">$1,228&ndash;$1,525 by learner</td>
+              <td style="padding: 12px 14px; font-size: 14pt;">Closer and steadier; every 95% CI includes $0</td>
             </tr>
           </tbody>
         </table>
-        <p style="font-size: 15pt; line-height: 1.7; margin-top: 16px; text-align: center;"><strong>The causal inference toolkit has come full circle.</strong></p>
+        <p style="font-size: 15pt; line-height: 1.7; margin-top: 16px; text-align: center;"><strong>DML adjusts for the confounders you measured. Only an experiment handles the ones you didn&rsquo;t.</strong></p>
       </section>
 
       <section>
