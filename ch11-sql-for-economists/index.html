@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=133b884101c9db923e5405f73162c854">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=f4bf7041fae673b4b0a9678e38c16a74">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL for Economists</title>
@@ -1737,22 +1737,25 @@ con.execute(f"""
     <section id="grain-check" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-stopwatch" style="color: var(--success-color);"></i> Check 1, in Fifteen Seconds</h2>
       <div class="content">
-<pre style="font-size: 13pt; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; margin: 0;"><code>SELECT COUNT(*)                    AS rows,
-       COUNT(DISTINCT customer_id) AS distinct_customers,
-       COUNT(*) * 1.0 / COUNT(DISTINCT customer_id) AS rows_per_customer
+<pre style="font-size: 13pt; line-height: 1.7; background: #f8f6f3; border-radius: 8px; padding: 12px 20px; margin: 0;"><code>SELECT <span class="fragment sqlhl" data-fragment-index="1">COUNT(*)</span>                    AS rows,
+       <span class="fragment sqlhl" data-fragment-index="2">COUNT(DISTINCT customer_id)</span> AS distinct_customers,
+       <span class="fragment sqlhl" data-fragment-index="3">COUNT(*) * 1.0 / COUNT(DISTINCT customer_id)</span> AS rows_per_customer
 FROM fanned</code></pre>
-<pre style="font-size: 13pt; background: #f7e3e3; border-radius: 8px; padding: 14px 20px; margin-top: 12px;"><code> rows | distinct_customers | rows_per_customer
+<pre style="font-size: 13pt; line-height: 1.7; background: #f7e3e3; border-radius: 8px; padding: 12px 20px; margin-top: 10px;"><code> rows | distinct_customers | rows_per_customer
 ------+--------------------+-------------------
- 4033 |                600 |              6.72</code></pre>
-        <div style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 10px; padding: 16px 24px; margin-top: 18px;">
-          <p style="font-size: 17pt; line-height: 1.55;"><code>rows_per_customer</code> is <strong>6.72, not 1.</strong> That is the whole diagnosis.</p>
-          <p style="font-size: 13pt; margin-top: 6px; color: var(--muted-color);"><code>COUNT(DISTINCT customer_id)</code> is <code>nunique()</code>: how many different customers. <code>fanned</code> is the customers&ndash;orders join from the Fanout slide.</p>
+ <span class="fragment sqlhl" data-fragment-index="1">4033</span> |                <span class="fragment sqlhl" data-fragment-index="2">600</span> |              <span class="fragment sqlhl" data-fragment-index="3">6.72</span></code></pre>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px">
+          <div class="fragment fade-up" data-fragment-index="1" style="background:#f8f6f3;border-left:4px solid var(--secondary-color);border-radius:8px;padding:8px 14px"><p style="font-size:13.5pt;line-height:1.4"><code>COUNT(*)</code> counts <strong>rows</strong>: 4,033.</p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background:#f8f6f3;border-left:4px solid var(--secondary-color);border-radius:8px;padding:8px 14px"><p style="font-size:13.5pt;line-height:1.4"><code>COUNT(DISTINCT customer_id)</code> is <code>nunique()</code>: <strong>600</strong> different customers.</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background:#eef5ee;border-left:4px solid var(--success-color);border-radius:8px;padding:8px 14px"><p style="font-size:13.5pt;line-height:1.4">Rows per customer is <strong>6.72, not 1.</strong> That is the whole diagnosis.</p></div>
         </div>
-        <p style="font-size: 16pt; margin-top: 16px; text-align: center; color: var(--accent-color); font-weight: 600;">Run it after every join you did not write yourself.</p>
+        <p style="font-size: 13pt; margin-top: 10px; color: var(--muted-color);"><code>fanned</code> is the customers&ndash;orders join from the Fanout slide. At the customer grain the ratio is 1.</p>
+        <p style="font-size: 16pt; margin-top: 10px; text-align: center; color: var(--accent-color); font-weight: 600;">Run it after every join you did not write yourself.</p>
       </div>
     </section>
 
-    <section id="discussion-3" style="padding: 26px 50px;">
+    <section>
+      <section id="discussion-3" style="padding: 26px 50px;">
       <h2><i class="fa-solid fa-comments" style="color: var(--secondary-color);"></i> Discussion: Audit This Query</h2>
       <div class="content">
         <p style="font-size: 14.5pt;">An LLM was given the <code>customers</code> / <code>orders</code> schema and asked for <em>&ldquo;average revenue per customer by region.&rdquo;</em> It returned:</p>
@@ -1767,23 +1770,59 @@ GROUP BY c.region</code></pre>
                 <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>2</strong> to start the timer.</p>
         </div>
     </section>
+      <section id="discussion-3-debrief" style="padding: 26px 50px;">
+        <style>#discussion-3-debrief table.d3t td,#discussion-3-debrief table.d3t th{padding:1px 10px !important;line-height:1.4;text-align:center}#discussion-3-debrief table.d3t th{background:#e3e0da !important;color:#333 !important}</style>
+        <h2><i class="fa-solid fa-magnifying-glass-chart" style="color: var(--success-color);"></i> Debrief: Which Number to Trust</h2>
+        <div class="content">
+          <p style="font-size: 14.5pt;">A tiny example: customer A (revenue 100, 1 order) and customer B (revenue 400, 3 orders), both East. After the join, B appears three times.</p>
+          <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:18px;margin-top:8px;align-items:start">
+            <div>
+              <table class="d3t" style="font-size:12pt;font-family:monospace;border-collapse:collapse"><tr><th>customer</th><th>region</th><th>c.revenue</th><th>o.order_value</th></tr><tr><td>A</td><td>East</td><td>100</td><td>30</td></tr><tr style="background:#fbe3d3"><td>B</td><td>East</td><td>400</td><td>50</td></tr><tr style="background:#fbe3d3"><td>B</td><td>East</td><td>400</td><td>70</td></tr><tr style="background:#fbe3d3"><td>B</td><td>East</td><td>400</td><td>80</td></tr></table>
+              <p style="font-size:11.5pt;color:var(--muted-color);margin-top:4px">Illustrative numbers.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="fragment fade-up" data-fragment-index="1" style="background:#eef5ee;border-left:4px solid var(--success-color);border-radius:8px;padding:8px 14px"><p style="font-size:13.5pt;line-height:1.4"><code>COUNT(DISTINCT c.customer_id)</code> = <strong>2</strong>. Right: duplicates are counted once.</p></div>
+              <div class="fragment fade-up" data-fragment-index="2" style="background:#eef5ee;border-left:4px solid var(--success-color);border-radius:8px;padding:8px 14px"><p style="font-size:13.5pt;line-height:1.4"><code>SUM(o.order_value)</code> = 30 + 50 + 70 + 80 = <strong>230</strong>. Right: order value lives at the order grain, one row per order.</p></div>
+              <div class="fragment fade-up" data-fragment-index="3" style="background:#f7e3e3;border-left:4px solid var(--danger-color);border-radius:8px;padding:8px 14px"><p style="font-size:13.5pt;line-height:1.4"><code>AVG(c.revenue)</code> = (100 + 400 + 400 + 400) / 4 = <strong>325</strong>. Wrong: the average per customer is (100 + 400) / 2 = 250. B counts three times.</p></div>
+            </div>
+          </div>
+          <div class="fragment fade-up" data-fragment-index="4" style="margin-top:10px">
+<pre style="font-size: 11.5pt; line-height: 1.55; background: #f8f6f3; border-radius: 8px; padding: 8px 16px; margin: 0;"><code>WITH o AS (SELECT customer_id, SUM(order_value) AS total FROM orders GROUP BY customer_id)
+SELECT c.region, COUNT(*) AS customers, AVG(c.revenue) AS avg_revenue, SUM(o.total) AS total_orders
+FROM customers c LEFT JOIN o ON c.customer_id = o.customer_id
+GROUP BY c.region</code></pre>
+            <p style="font-size:13.5pt;margin-top:6px;line-height:1.4"><strong>The fix:</strong> aggregate orders to one row per customer first; then all three numbers are right. <strong>A correct count beside a corrupted average looks consistent, and this query would pass code review at most companies.</strong></p>
+          </div>
+        </div>
+      </section>
+    </section>
 
     <section id="ai-practices" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-robot" style="color: var(--accent-color);"></i> Three Practices That Make LLM SQL Safe</h2>
       <div class="content">
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <div style="background: #f0f5f8; border-radius: 10px; padding: 14px 22px; border-left: 4px solid var(--secondary-color);">
-            <p style="font-size: 15.5pt;"><strong>Give it the schema, not just the question.</strong> Most hallucinated joins come from a model guessing at column names and relationships. Paste the <code>DESCRIBE</code> output (column names and types) for every table involved.</p>
+        <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:16px;align-items:start">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div class="fragment fade-up" data-fragment-index="1" style="background:#f0f5f8;border-left:4px solid var(--secondary-color);border-radius:8px;padding:8px 14px"><p style="font-size:14pt;line-height:1.4"><strong>1. Give it the schema, not just the question.</strong> Most made-up joins come from a model guessing at column names and how the tables relate. Paste the <code>DESCRIBE</code> output for every table involved.</p></div>
+            <div class="fragment fade-up" data-fragment-index="2" style="background:#fdf0ea;border-left:4px solid var(--accent-color);border-radius:8px;padding:8px 14px"><p style="font-size:14pt;line-height:1.4"><strong>2. Ask it to state the grain.</strong> &ldquo;What does one row of your result represent?&rdquo; If the answer is wrong, or missing, check every join.</p></div>
+            <div class="fragment fade-up" data-fragment-index="3" style="background:#eef5ee;border-left:4px solid var(--success-color);border-radius:8px;padding:8px 14px"><p style="font-size:14pt;line-height:1.4"><strong>3. Verify on a subset with a known answer.</strong> Ten hand-checked customers is enough: fanout and <code>NULL</code> bugs both show up at small scale.</p></div>
           </div>
-          <div style="background: #fdf0ea; border-radius: 10px; padding: 14px 22px; border-left: 4px solid var(--accent-color);">
-            <p style="font-size: 15.5pt;"><strong>Ask it to state the grain.</strong> &ldquo;What does one row of your result represent?&rdquo; A model that cannot answer that has not thought about cardinality &mdash; and neither has its query.</p>
-          </div>
-          <div style="background: #eef5ee; border-radius: 10px; padding: 14px 22px; border-left: 4px solid var(--success-color);">
-            <p style="font-size: 15.5pt;"><strong>Verify on a subset with a known answer.</strong> Ten hand-checked customers is enough &mdash; cardinality bugs and <code>NULL</code> bugs both show up at small scale.</p>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+<pre class="fragment fade-up" data-fragment-index="1" style="font-size: 11pt; line-height: 1.45; background: #f8f6f3; border-radius: 8px; padding: 8px 14px; margin: 0;"><code>DESCRIBE customers;
+customer_id  INTEGER
+region       VARCHAR
+revenue      DOUBLE
+DESCRIBE orders;
+order_id     INTEGER
+customer_id  INTEGER
+order_value  DOUBLE</code></pre>
+<pre class="fragment fade-up" data-fragment-index="2" style="font-size: 11pt; line-height: 1.5; background: #fdf0ea; border-radius: 8px; padding: 8px 14px; margin: 0;"><code>You:   What does one row of your result represent?
+Model: One order.
+You:   I asked for one per customer: the join fans out.</code></pre>
+<div class="fragment fade-up" data-fragment-index="3"><pre style="font-size: 11pt; background: #eef5ee; border-radius: 8px; padding: 8px 14px; margin: 0;"><code>... WHERE c.customer_id &lt; 10</code></pre><p style="font-size:12pt;color:var(--muted-color);margin-top:4px">Run it on ten customers you can check by hand, then compare each row with your own count.</p></div>
           </div>
         </div>
-        <div style="background: #f8f6f3; border-left: 4px solid var(--primary-color); border-radius: 10px; padding: 16px 24px; margin-top: 18px;">
-          <p style="font-size: 16pt; line-height: 1.55;">The tool is fast and unreliable, so your job shifts <strong>from production to verification.</strong> Deciding whether an answer is correct has always been the harder and more valuable half.</p>
+        <div class="fragment fade-up" data-fragment-index="4" style="background: #f8f6f3; border-left: 4px solid var(--primary-color); border-radius: 10px; padding: 10px 20px; margin-top: 12px;">
+          <p style="font-size: 15pt; line-height: 1.5;">The tool is fast and unreliable, so your job shifts <strong>from writing the query to checking it.</strong> Deciding whether an answer is correct has always been the harder and more valuable half.</p>
         </div>
       </div>
     </section>
