@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=912a30eff6e706e9c7cdc02c2a22fd91">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=133b884101c9db923e5405f73162c854">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL for Economists</title>
@@ -1533,7 +1533,7 @@ FROM orders
       <h2><i class="fa-solid fa-layer-group" style="color: var(--secondary-color);"></i> Parquet: Storing by Column, Skipping What You Don't Need</h2>
       <div class="content">
         <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 2px;">
-<svg viewBox="0 0 1190 421" width="100%" role="img" aria-label="Row storage versus columnar storage. In row storage each row is stored as one record, so every field of every row is read: 48 of 48 cells. In Parquet the same cells are stored as column blocks inside chunks. The query WHERE year = 2024 asking for dist and fare skips chunk 1, whose metadata says year min 2019 max 2019, and reads only the dist and fare blocks of chunk 2: 8 of 48 cells." style="display:block; overflow:visible;">
+<svg viewBox="0 0 1190 378" width="100%" role="img" aria-label="Row storage versus columnar storage. In row storage each row is stored as one record, so every field of every row is read: 48 of 48 cells. In Parquet the same cells are stored as column blocks inside chunks. The query WHERE year = 2024 asking for dist and fare skips chunk 1, whose metadata says year min 2019 max 2019, and reads only the dist and fare blocks of chunk 2: 8 of 48 cells." style="display:block; overflow:visible;">
 <text x="220" y="20" text-anchor="middle" font-size="20" font-weight="700" fill="#2D2D2D">Row storage</text>
 <text x="220" y="45" text-anchor="middle" font-size="15" fill="#8C8580">each row is one record, stored end to end</text>
 <text x="95.0" y="69" text-anchor="middle" font-size="14" fill="#3A3632">year</text>
@@ -1592,6 +1592,7 @@ FROM orders
 <line x1="320" y1="285" x2="320" y2="308" stroke="#6B8BA4" stroke-width="0.8"/>
 <text x="220" y="341" text-anchor="middle" font-size="16" fill="#A85C5C">every field of every row is read</text>
 <text x="220" y="367" text-anchor="middle" font-size="17" font-weight="700" fill="#A85C5C">48 of 48 cells touched</text>
+<g class="fragment" data-fragment-index="1">
 <text x="695.0" y="20" text-anchor="middle" font-size="20" font-weight="700" fill="#2D2D2D">Columnar (Parquet)</text>
 <text x="695.0" y="45" text-anchor="middle" font-size="15" fill="#8C8580">each column a block, inside chunks of rows</text>
 <text x="545.0" y="69" text-anchor="middle" font-size="14" fill="#8C8580">year</text>
@@ -1625,10 +1626,6 @@ FROM orders
 <line x1="820" y1="105" x2="870" y2="105" stroke="#D5CEC7" stroke-width="0.8"/>
 <line x1="820" y1="128" x2="870" y2="128" stroke="#D5CEC7" stroke-width="0.8"/>
 <line x1="820" y1="151" x2="870" y2="151" stroke="#D5CEC7" stroke-width="0.8"/>
-<rect x="894" y="86" width="262" height="84" rx="6" fill="#f7e3e3" stroke="#A85C5C" stroke-width="1.4"/>
-<text x="906" y="108" font-size="15" font-weight="700" fill="#3A3632">chunk 1 metadata</text>
-<text x="906" y="130" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">year: min 2019, max 2019</text>
-<text x="906" y="152" font-size="15" font-weight="700" fill="#A85C5C">skipped, never read</text>
 <line x1="879" y1="128" x2="894" y2="128" stroke="#A85C5C" stroke-width="1.4"/>
 <rect x="512" y="198" width="366" height="104" rx="7" fill="none" stroke="#6A8E6B" stroke-width="1.6" stroke-dasharray="none"/>
 <rect x="520" y="204" width="50" height="92" rx="3" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
@@ -1655,54 +1652,53 @@ FROM orders
 <line x1="820" y1="227" x2="870" y2="227" stroke="#D5CEC7" stroke-width="0.8"/>
 <line x1="820" y1="250" x2="870" y2="250" stroke="#D5CEC7" stroke-width="0.8"/>
 <line x1="820" y1="273" x2="870" y2="273" stroke="#D5CEC7" stroke-width="0.8"/>
+<line x1="879" y1="250" x2="894" y2="250" stroke="#6A8E6B" stroke-width="1.4"/>
+</g>
+<g class="fragment" data-fragment-index="2">
+<rect x="894" y="86" width="262" height="84" rx="6" fill="#f7e3e3" stroke="#A85C5C" stroke-width="1.4"/>
+<text x="906" y="108" font-size="15" font-weight="700" fill="#3A3632">chunk 1 metadata</text>
+<text x="906" y="130" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">year: min 2019, max 2019</text>
+<text x="906" y="152" font-size="15" font-weight="700" fill="#A85C5C">skipped, never read</text>
 <rect x="894" y="208" width="262" height="84" rx="6" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.4"/>
 <text x="906" y="230" font-size="15" font-weight="700" fill="#3A3632">chunk 2 metadata</text>
 <text x="906" y="252" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">year: min 2024, max 2024</text>
 <text x="906" y="274" font-size="15" font-weight="700" fill="#6A8E6B">read: dist and fare only</text>
-<line x1="879" y1="250" x2="894" y2="250" stroke="#6A8E6B" stroke-width="1.4"/>
 <text x="755.0" y="341" text-anchor="middle" font-size="16" fill="#6A8E6B">projection: 2 of 6 columns · predicate: chunk 1 skipped</text>
 <text x="755.0" y="367" text-anchor="middle" font-size="17" font-weight="700" fill="#6A8E6B">8 of 48 cells touched</text>
-<text x="595" y="392" text-anchor="middle" font-size="15" fill="#3A3632">The metadata on each chunk says what is inside it, so the engine can skip what the <tspan font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14">WHERE</tspan> clause rules out,</text>
-<text x="595" y="415" text-anchor="middle" font-size="15" fill="#3A3632">without reading it, and without the file ever being on your machine.</text>
+</g>
 </svg>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
-          <div style="background: #f0f5f8; border-radius: 10px; padding: 10px 16px; border-left: 4px solid var(--secondary-color);">
-            <p style="font-size: 13pt;"><strong>Predicate pushdown</strong> &mdash; ask for <code>WHERE year = 2024</code> and the engine skips any chunk whose metadata says it holds only 2019 data, <em>without reading it</em>.</p>
-          </div>
-          <div style="background: #eef5ee; border-radius: 10px; padding: 10px 16px; border-left: 4px solid var(--success-color);">
-            <p style="font-size: 13pt;"><strong>Projection pushdown</strong> &mdash; ask for two columns out of forty and it reads two.</p>
-          </div>
-        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 6px;"><div class="fragment fade-up" data-fragment-index="1" style="background:#eef5ee;border-left:4px solid var(--success-color);border-radius:8px;padding:7px 13px"><p style="font-size:13pt;line-height:1.4"><strong>1. Projection pushdown.</strong> Each column is its own block, so ask for two columns and the engine reads two: <strong>2 of 6</strong> here, 2 of 19 in the taxi file.</p></div><div class="fragment fade-up" data-fragment-index="2" style="background:#f0f5f8;border-left:4px solid var(--secondary-color);border-radius:8px;padding:7px 13px"><p style="font-size:13pt;line-height:1.4"><strong>2. Predicate pushdown.</strong> If the file stores each chunk&rsquo;s min and max, <code>WHERE year = 2024</code> skips a chunk that holds only 2019, <em>without reading it</em>. The taxi file stores none, so there only step 1 helps.</p></div></div>
       </div>
-      
     </section>
 
     <section id="remote-query" style="padding: 28px 45px;">
       <h2><i class="fa-solid fa-cloud-arrow-down" style="color: var(--accent-color);"></i> 2.87 Million Trips. Nothing Downloaded.</h2>
       <div class="content">
-        <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; align-items: start;">
-<pre style="font-size: 11.5pt; background: #f8f6f3; border-radius: 8px; padding: 13px 17px; margin: 0;"><code>con = duckdb.connect()
+        <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; align-items: start;">
+<pre style="font-size: 11.5pt; line-height: 1.55; background: #f8f6f3; border-radius: 8px; padding: 12px 16px; margin: 0;"><code>con = duckdb.connect()
 con.execute("INSTALL httpfs; LOAD httpfs;")
 
-url = ("https://d37ci6vzurychx.cloudfront.net/"
-       "trip-data/yellow_tripdata_2024-01.parquet")
+<span class="fragment sqlhl" data-fragment-index="1">url = ("https://d37ci6vzurychx.cloudfront.net/"
+       "trip-data/yellow_tripdata_2024-01.parquet")</span>
 
 con.execute(f"""
     SELECT COUNT(*)                      AS n_trips,
-           ROUND(AVG(trip_distance), 2)  AS mean_miles,
-           ROUND(AVG(fare_amount), 2)    AS mean_fare
-    FROM '{url}'
-    WHERE trip_distance &gt; 0
-      AND fare_amount BETWEEN 0 AND 500
+           ROUND(AVG(<span class="fragment sqlhl" data-fragment-index="2">trip_distance</span>), 2)  AS mean_miles,
+           ROUND(AVG(<span class="fragment sqlhl" data-fragment-index="2">fare_amount</span>), 2)    AS mean_fare
+    FROM <span class="fragment sqlhl" data-fragment-index="1">'{url}'</span>
+    <span class="fragment sqlhl" data-fragment-index="3">WHERE trip_distance &gt; 0
+      AND fare_amount BETWEEN 0 AND 500</span>
 """).df()</code></pre>
-          <div>
-<pre style="font-size: 11.5pt; background: #eef5ee; border-radius: 8px; padding: 13px 17px; margin: 0;"><code> n_trips  mean_miles  mean_fare
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="fragment fade-up" data-fragment-index="1" style="background:#f0f5f8;border-left:4px solid var(--secondary-color);border-radius:8px;padding:7px 13px"><p style="font-size:13pt;line-height:1.4"><strong>1. Where the data is:</strong> a public server. <code>httpfs</code> lets DuckDB read the file over the web; nothing is downloaded first.</p></div>
+            <div class="fragment fade-up" data-fragment-index="2"><div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 400 74" width="100%" style="display:block" role="img" aria-label="The file&#39;s 19 columns as blocks; only trip_distance and fare_amount are read."><rect x="0" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>VendorID</title></rect><rect x="19" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>tpep_pickup_datetime</title></rect><rect x="38" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>tpep_dropoff_datetime</title></rect><rect x="57" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>passenger_count</title></rect><rect x="76" y="6" width="16" height="34" rx="2" fill="#ffe08a" stroke="#c9a200"><title>trip_distance</title></rect><text x="84.0" y="56" font-size="10" text-anchor="middle" fill="#6b5600" font-family="monospace">distance</text><rect x="95" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>RatecodeID</title></rect><rect x="114" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>store_and_fwd_flag</title></rect><rect x="133" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>PULocationID</title></rect><rect x="152" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>DOLocationID</title></rect><rect x="171" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>payment_type</title></rect><rect x="190" y="6" width="16" height="34" rx="2" fill="#ffe08a" stroke="#c9a200"><title>fare_amount</title></rect><text x="198.0" y="56" font-size="10" text-anchor="middle" fill="#6b5600" font-family="monospace">fare</text><rect x="209" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>extra</title></rect><rect x="228" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>mta_tax</title></rect><rect x="247" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>tip_amount</title></rect><rect x="266" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>tolls_amount</title></rect><rect x="285" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>improvement_surcharge</title></rect><rect x="304" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>total_amount</title></rect><rect x="323" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>congestion_surcharge</title></rect><rect x="342" y="6" width="16" height="34" rx="2" fill="#e9e6e1" stroke="#d0cbc3"><title>Airport_fee</title></rect><text x="358" y="70" font-size="11" text-anchor="end" fill="#8C8580">19 columns in the file; 2 read</text></svg></div><div class="fragment fade-up" data-fragment-index="2" style="background:#fffbe8;border-left:4px solid #e0b400;border-radius:8px;padding:7px 13px"><p style="font-size:13pt;line-height:1.4"><strong>2. Only the named columns.</strong> Parquet stores each column as its own block, so DuckDB reads <strong>2 of 19</strong>.</p></div></div>
+            <div class="fragment fade-up" data-fragment-index="3" style="background:#eef5ee;border-left:4px solid var(--success-color);border-radius:8px;padding:7px 13px"><p style="font-size:13pt;line-height:1.4"><strong>3. The filters run during that read</strong>, inside DuckDB, before anything reaches Python.</p></div>
+            <div class="fragment fade-up" data-fragment-index="4">
+<pre style="font-size: 11.5pt; background: #eef5ee; border-radius: 8px; padding: 8px 14px; margin: 0;"><code> n_trips  mean_miles  mean_fare
  2870158        3.73      18.49</code></pre>
-            <div style="background: #f0f5f8; border-radius: 10px; padding: 13px 18px; margin-top: 12px;">
-              <p style="font-size: 13.5pt; line-height: 1.5;">Aggregated in about a second, over the network. Parquet stores each column as its own block, so DuckDB read <strong>2 columns of 19</strong>. The filters ran during that read. What reaches your Python process is a single row.</p>
+              <p style="font-size: 12.5pt; margin-top: 6px; line-height: 1.4"><strong>4. One row reaches Python</strong>, in about a second. <span style="color: var(--muted-color);">NYC Taxi &amp; Limousine Commission, January 2024, public Parquet.</span></p>
             </div>
-            <p style="font-size: 13pt; color: var(--muted-color); margin-top: 10px; font-style: italic;">NYC Taxi &amp; Limousine Commission, January 2024. Public Parquet.</p>
           </div>
         </div>
       </div>
@@ -1711,15 +1707,13 @@ con.execute(f"""
     <section id="push-down" style="padding: 36px 60px;">
       <h2><i class="fa-solid fa-down-long" style="color: var(--success-color);"></i> The Pattern to Internalise</h2>
       <div class="content">
-        <div style="background: linear-gradient(135deg, #eef5ee, #dfeadf); border-radius: 12px; padding: 22px 30px; text-align: center;">
-          <p style="font-size: 22pt; font-weight: 700; color: var(--primary-color); line-height: 1.4;">Do the heavy work where the data is.<br>Bring back only the small result.</p>
+        <div style="background: linear-gradient(135deg, #eef5ee, #dfeadf); border-radius: 12px; padding: 14px 26px; text-align: center;">
+          <p style="font-size: 20pt; font-weight: 700; color: var(--primary-color); line-height: 1.35;">Do the heavy work where the data is.<br>Bring back only the small result.</p>
         </div>
-        <p style="font-size: 15.5pt; line-height: 1.6; margin-top: 18px;">Filter, join and aggregate <em>in SQL</em> until the output is small enough to hold. <strong>Then</strong> call <code>.df()</code> and do your econometrics in pandas and statsmodels on a few thousand rows.</p>
-        <div style="background: #f8f6f3; border-left: 4px solid var(--secondary-color); border-radius: 10px; padding: 16px 24px; margin-top: 16px;">
-          <p style="font-size: 16pt; line-height: 1.55;"><code>.df()</code> is <strong>the boundary between the two worlds</strong>, and putting it as late as possible is most of what &ldquo;working with large data&rdquo; means in practice.</p>
-        </div>
-        <div style="background: #fdf0ea; border-radius: 10px; padding: 14px 24px; margin-top: 16px;">
-          <p style="font-size: 14.5pt; line-height: 1.55;"><strong>Misconception:</strong> &ldquo;you need Spark (a cluster of machines) for data bigger than RAM.&rdquo; Clusters do matter at some scale, but an engine that reads only the columns and rows a query needs streams and spills through files far larger than memory. Most economic data &mdash; including most administrative microdata you will ever touch &mdash; fits here. <strong>Reach for a cluster when you have measured that you need one.</strong></p>
+        <div style="margin-top: 14px;"><div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 1160 124" width="100%" style="display:block" role="img" aria-label="The taxi query as a pipeline: on the server, 2,964,624 trips in 19 columns, about 50 MB; SQL reads two columns, filters to 2,870,158 trips and aggregates to one row; .df() hands that row to pandas and statsmodels."><defs><marker id="pd-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3F8A4F"/></marker></defs><rect x="0" y="10" width="250" height="104" rx="10" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.6"/><text x="125.0" y="38" font-size="15" font-weight="700" text-anchor="middle" fill="#2b2b2b">On the server</text><text x="125.0" y="62" font-size="13" text-anchor="middle" fill="#4A4F57">2,964,624 trips</text><text x="125.0" y="82" font-size="13" text-anchor="middle" fill="#4A4F57">19 columns, about 50 MB</text><g class="fragment" data-fragment-index="1"><line x1="258" y1="62" x2="388" y2="62" stroke="#3F8A4F" stroke-width="3" marker-end="url(#pd-ar)"/><text x="323.0" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#3F8A4F" font-family="monospace">SQL</text><rect x="396" y="10" width="280" height="104" rx="10" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/><text x="536.0" y="38" font-size="15" font-weight="700" text-anchor="middle" fill="#2b2b2b">Heavy work, still there</text><text x="536.0" y="62" font-size="13" text-anchor="middle" fill="#4A4F57">read 2 columns, filter</text><text x="536.0" y="82" font-size="13" text-anchor="middle" fill="#4A4F57">2,870,158 trips, then aggregate</text></g><g class="fragment" data-fragment-index="2"><line x1="684" y1="62" x2="804" y2="62" stroke="#C0662B" stroke-width="3" marker-end="url(#pd-ar)"/><text x="744.0" y="50" font-size="13" font-weight="700" text-anchor="middle" fill="#C0662B" font-family="monospace">.df()</text><rect x="812" y="10" width="348" height="104" rx="10" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/><text x="986.0" y="38" font-size="15" font-weight="700" text-anchor="middle" fill="#2b2b2b">Small result, in Python</text><text x="986.0" y="62" font-size="13" text-anchor="middle" fill="#4A4F57">1 row &#8594; pandas, statsmodels</text><text x="986.0" y="82" font-size="13" text-anchor="middle" fill="#4A4F57">.df() as late as possible</text></g></svg></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px">
+          <div class="fragment fade-up" data-fragment-index="2" style="background:#f8f6f3;border-left:4px solid var(--secondary-color);border-radius:8px;padding:7px 13px"><p style="font-size:13.5pt;line-height:1.4">Filter, join and aggregate <em>in SQL</em> until the output is small. <code>.df()</code> is <strong>the boundary between the two worlds</strong>; calling it as late as possible is most of what &ldquo;working with large data&rdquo; means.</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background:#fdf0ea;border-left:4px solid var(--danger-color);border-radius:8px;padding:7px 13px"><p style="font-size:13.5pt;line-height:1.4"><strong>Misconception:</strong> &ldquo;you need Spark (a cluster of machines) for data bigger than RAM.&rdquo; An engine that reads only the columns and rows a query needs streams through files far larger than memory. <strong>Reach for a cluster when you have measured that you need one.</strong></p></div>
         </div>
       </div>
     </section>
