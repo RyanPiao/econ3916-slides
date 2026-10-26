@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=7808947c46d1234a06ee3196b25d502c">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0e8ac77beeb79da191a80e60747b360b">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL for Economists</title>
@@ -18,6 +18,7 @@
     MathJax = {tex: {inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true}, svg: {fontCache: 'global'}};
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>/* step highlight (Ryan, 26 Oct): a code span lights up while its card is the current fragment */.reveal .slides section .fragment.sqlhl{opacity:1;visibility:inherit;transform:none;border-radius:3px;transition:background-color .25s,box-shadow .25s}.reveal .slides section .fragment.sqlhl.current-fragment{background:#ffe08a;box-shadow:0 0 0 2px #ffe08a}</style>
 </head>
 <body>
   <div class="reveal">
@@ -221,9 +222,9 @@
         <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; margin-top: 12px; align-items: start;">
 <pre style="font-size: 13pt; background: #f8f6f3; border-radius: 8px; padding: 14px 18px; margin: 0;"><code>SELECT category, SUM(revenue) AS rev
 FROM sales
-WHERE  month &gt;= '2025-12'
+<span class="fragment sqlhl" data-fragment-index="1">WHERE  month &gt;= '2025-12'</span>
 GROUP BY category
-HAVING SUM(revenue) &gt; 10000
+<span class="fragment sqlhl" data-fragment-index="2">HAVING SUM(revenue) &gt; 10000</span>
 ORDER BY category</code></pre>
 <pre style="font-size: 13pt; background: #eef5ee; border-radius: 8px; padding: 14px 18px; margin: 0;"><code>category |   rev
 ---------+---------
@@ -231,10 +232,10 @@ books    | 12000.0
 coffee   | 13000.0</code></pre>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px;">
-          <div style="background: #f0f5f8; border-radius: 10px; padding: 14px 20px; border-left: 4px solid var(--secondary-color);">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-radius: 10px; padding: 14px 20px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 14.5pt; line-height: 1.5;"><strong><code>WHERE</code> removes November</strong> before any summing. Without it, books total &#92;$16,000 and the answer covers the wrong period with no warning.</p>
           </div>
-          <div style="background: #fdf0ea; border-radius: 10px; padding: 14px 20px; border-left: 4px solid var(--accent-color);">
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #fdf0ea; border-radius: 10px; padding: 14px 20px; border-left: 4px solid var(--accent-color);">
             <p style="font-size: 14.5pt; line-height: 1.5;"><strong><code>HAVING</code> drops tools</strong> (&#92;$3,500) after grouping &mdash; which <code>WHERE</code> could not do, because at that point no total existed.</p>
           </div>
         </div>
@@ -374,20 +375,17 @@ duckdb.sql("""
     <section id="join-anatomy" style="padding: 32px 50px;">
       <h2><i class="fa-solid fa-magnifying-glass" style="color: var(--secondary-color);"></i> Join Anatomy &mdash; Four Pieces, One Line</h2>
       <div class="content">
-<pre style="font-size: 14pt; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; margin: 0;"><code>FROM customers c LEFT JOIN region_targets t ON c.region = t.region</code></pre>
+<pre style="font-size: 14pt; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; margin: 0;"><code>FROM <span class="fragment sqlhl" data-fragment-index="1">customers c</span> <span class="fragment sqlhl" data-fragment-index="2">LEFT JOIN region_targets t</span> <span class="fragment sqlhl" data-fragment-index="3">ON c.region = t.region</span></code></pre>
         <p style="font-size: 14pt; color: var(--muted-color); margin-top: 8px; text-align: center;">is exactly <code>customers.merge(region_targets, on="region", how="left")</code></p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
-          <div style="background: #f0f5f8; border-radius: 10px; padding: 13px 18px; border-left: 4px solid var(--secondary-color);">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-radius: 10px; padding: 13px 18px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 14.5pt;"><code>customers c</code> &mdash; <strong>alias.</strong> A nickname for the table, declared just by writing it. Now you say <code>c.revenue</code>. Pure convenience &mdash; until two tables share a column name, which is exactly what a join key is.</p>
           </div>
-          <div style="background: #f0f5f8; border-radius: 10px; padding: 13px 18px; border-left: 4px solid var(--secondary-color);">
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; padding: 13px 18px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 14.5pt;"><code>LEFT JOIN region_targets t</code> &mdash; <strong>the second table</strong>, aliased <code>t</code>.</p>
           </div>
-          <div style="background: #fdf0ea; border-radius: 10px; padding: 13px 18px; border-left: 4px solid var(--danger-color);">
+          <div class="fragment fade-up" data-fragment-index="3" style="grid-column: 1 / span 2; background: #fdf0ea; border-radius: 10px; padding: 13px 18px; border-left: 4px solid var(--danger-color);">
             <p style="font-size: 14.5pt;"><code>ON c.region = t.region</code> &mdash; <strong>the join key.</strong> The column that must match for two rows to be glued together. Name the wrong column and you get a <em>wrong answer</em>, not an error.</p>
-          </div>
-          <div style="background: #eef5ee; border-radius: 10px; padding: 13px 18px; border-left: 4px solid var(--success-color);">
-            <p style="font-size: 14.5pt;"><code>LEFT</code> &mdash; keep every left row even with no match, filling the right side with <code>NULL</code>, SQL&rsquo;s mark for a missing value. That is <code>how="left"</code>. Plain <code>JOIN</code> keeps only matched rows.</p>
           </div>
         </div>
       </div>
@@ -396,25 +394,114 @@ duckdb.sql("""
     <section id="safe-join" style="padding: 32px 55px;">
       <h2><i class="fa-solid fa-equals" style="color: var(--success-color);"></i> First, a Join That <em>Cannot</em> Multiply Anything</h2>
       <div class="content">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
-<pre style="font-size: 12.5pt; background: #f8f6f3; border-radius: 8px; padding: 14px 18px; margin: 0;"><code>SELECT c.customer_id, c.region,
-       c.revenue, t.target
-FROM customers c
-LEFT JOIN region_targets t
-       ON c.region = t.region
-WHERE c.customer_id &lt; 4
-ORDER BY c.customer_id</code></pre>
-<pre style="font-size: 12.5pt; background: #eef5ee; border-radius: 8px; padding: 14px 18px; margin: 0;"><code> id | region | revenue | target
-----+--------+---------+-------
-  0 | East   |  512.40 |    520
-  1 | West   |  488.10 |    480
-  2 | East   |  533.90 |    520
-  3 | West   |  501.20 |    480</code></pre>
+<pre style="font-size: 14pt; background: #f8f6f3; border-radius: 8px; padding: 12px 20px; margin: 0;"><code><span class="fragment sqlhl" data-fragment-index="1">FROM customers c</span> <span class="fragment sqlhl" data-fragment-index="3">LEFT</span> JOIN region_targets t <span class="fragment sqlhl" data-fragment-index="2">ON c.region = t.region</span></code></pre>
+<svg viewBox="0 0 1170 190" width="100%" style="display:block;margin-top:10px" role="img" aria-label="customers, four rows, each arrow into the result row with the same id; region_targets, East 520 and West 480, each arrow into the result rows of its region; the result has four rows with target 520 for East and 480 for West">
+<defs>
+<marker id="sj-ar-8a8580" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a8580"/></marker>
+<marker id="sj-ar-2E6DB4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2E6DB4"/></marker>
+<marker id="sj-ar-C0662B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0662B"/></marker>
+</defs>
+<text x="0" y="18" font-size="14" font-weight="700" fill="#4A4F57">customers (first 4 rows)</text>
+<rect x="0" y="30" width="320" height="28" fill="#eceae6"/>
+<text x="30.0" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">id</text>
+<text x="120.0" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">region</text>
+<text x="250.0" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">revenue</text>
+<rect x="0" y="58" width="60" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="30.0" y="78" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">0</text>
+<rect x="60" y="58" width="120" height="30" fill="#dbe8f4" stroke="#d8d4cc" stroke-width="1"/>
+<text x="120.0" y="78" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="180" y="58" width="140" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="250.0" y="78" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">512.40</text>
+<rect x="0" y="88" width="60" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="30.0" y="108" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">1</text>
+<rect x="60" y="88" width="120" height="30" fill="#fbe3d3" stroke="#d8d4cc" stroke-width="1"/>
+<text x="120.0" y="108" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="180" y="88" width="140" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="250.0" y="108" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="0" y="118" width="60" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="30.0" y="138" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2</text>
+<rect x="60" y="118" width="120" height="30" fill="#dbe8f4" stroke="#d8d4cc" stroke-width="1"/>
+<text x="120.0" y="138" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="180" y="118" width="140" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="250.0" y="138" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">533.90</text>
+<rect x="0" y="148" width="60" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="30.0" y="168" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="60" y="148" width="120" height="30" fill="#fbe3d3" stroke="#d8d4cc" stroke-width="1"/>
+<text x="120.0" y="168" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="180" y="148" width="140" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="250.0" y="168" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">501.20</text>
+<g>
+<text x="900" y="18" font-size="14" font-weight="700" fill="#4A4F57">region_targets</text>
+<rect x="900" y="30" width="270" height="28" fill="#eceae6"/>
+<text x="970.0" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">region</text>
+<text x="1105.0" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">target</text>
+<rect x="900" y="58" width="140" height="30" fill="#dbe8f4" stroke="#d8d4cc" stroke-width="1"/>
+<text x="970.0" y="78" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="1040" y="58" width="130" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="1105.0" y="78" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">520</text>
+<rect x="900" y="88" width="140" height="30" fill="#fbe3d3" stroke="#d8d4cc" stroke-width="1"/>
+<text x="970.0" y="108" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="1040" y="88" width="130" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="1105.0" y="108" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">480</text>
+</g>
+<g class="fragment" data-fragment-index="1">
+<text x="420" y="18" font-size="14" font-weight="700" fill="#4A4F57">result: 4 rows in, 4 rows out</text>
+<rect x="420" y="30" width="270" height="28" fill="#eceae6"/>
+<text x="445.0" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">id</text>
+<text x="525.0" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">region</text>
+<text x="635.0" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">revenue</text>
+<rect x="420" y="58" width="50" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="445.0" y="78" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">0</text>
+<rect x="470" y="58" width="110" height="30" fill="#dbe8f4" stroke="#d8d4cc" stroke-width="1"/>
+<text x="525.0" y="78" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="580" y="58" width="110" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="635.0" y="78" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">512.40</text>
+<rect x="420" y="88" width="50" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="445.0" y="108" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">1</text>
+<rect x="470" y="88" width="110" height="30" fill="#fbe3d3" stroke="#d8d4cc" stroke-width="1"/>
+<text x="525.0" y="108" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="580" y="88" width="110" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="635.0" y="108" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="420" y="118" width="50" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="445.0" y="138" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2</text>
+<rect x="470" y="118" width="110" height="30" fill="#dbe8f4" stroke="#d8d4cc" stroke-width="1"/>
+<text x="525.0" y="138" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="580" y="118" width="110" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="635.0" y="138" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">533.90</text>
+<rect x="420" y="148" width="50" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="445.0" y="168" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="470" y="148" width="110" height="30" fill="#fbe3d3" stroke="#d8d4cc" stroke-width="1"/>
+<text x="525.0" y="168" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="580" y="148" width="110" height="30" fill="#ffffff" stroke="#d8d4cc" stroke-width="1"/>
+<text x="635.0" y="168" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">501.20</text>
+<line x1="324" y1="73.0" x2="414" y2="73.0" stroke="#8a8580" stroke-width="2" marker-end="url(#sj-ar-8a8580)"/>
+<line x1="324" y1="103.0" x2="414" y2="103.0" stroke="#8a8580" stroke-width="2" marker-end="url(#sj-ar-8a8580)"/>
+<line x1="324" y1="133.0" x2="414" y2="133.0" stroke="#8a8580" stroke-width="2" marker-end="url(#sj-ar-8a8580)"/>
+<line x1="324" y1="163.0" x2="414" y2="163.0" stroke="#8a8580" stroke-width="2" marker-end="url(#sj-ar-8a8580)"/>
+<rect x="690" y="30" width="110" height="28" fill="#eceae6"/>
+<text x="745" y="49" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">target</text>
+</g>
+<g class="fragment" data-fragment-index="2">
+<rect x="690" y="58" width="110" height="30" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="745" y="78" font-size="14" text-anchor="middle" font-family="monospace" fill="#2b2b2b">520</text>
+<rect x="690" y="88" width="110" height="30" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="745" y="108" font-size="14" text-anchor="middle" font-family="monospace" fill="#2b2b2b">480</text>
+<rect x="690" y="118" width="110" height="30" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="745" y="138" font-size="14" text-anchor="middle" font-family="monospace" fill="#2b2b2b">520</text>
+<rect x="690" y="148" width="110" height="30" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="745" y="168" font-size="14" text-anchor="middle" font-family="monospace" fill="#2b2b2b">480</text>
+<line x1="896" y1="73.0" x2="806" y2="73.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#sj-ar-2E6DB4)"/>
+<line x1="896" y1="103.0" x2="806" y2="103.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#sj-ar-C0662B)"/>
+<line x1="896" y1="73.0" x2="806" y2="133.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#sj-ar-2E6DB4)"/>
+<line x1="896" y1="103.0" x2="806" y2="163.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#sj-ar-C0662B)"/>
+</g>
+</svg>
+        <div class="fragment fade-up" data-fragment-index="2" style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 10px; padding: 10px 20px; margin-top: 10px;">
+          <p style="font-size: 15pt; line-height: 1.45;"><strong>Four rows in, four rows out.</strong> <code>region_targets</code> has exactly <strong>one row per region</strong>, so nothing was duplicated. Hold on to that sentence.</p>
         </div>
-        <div style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 10px; padding: 16px 24px; margin-top: 18px;">
-          <p style="font-size: 17pt; line-height: 1.55;"><strong>Four rows in, four rows out.</strong> <code>region_targets</code> has exactly <strong>one row per region</strong>, so nothing was duplicated.</p>
+        <div class="fragment fade-up" data-fragment-index="3" style="background: #eef5ee; border-radius: 10px; padding: 10px 20px; border-left: 4px solid var(--success-color); margin-top: 10px;">
+          <p style="font-size: 14.5pt; line-height: 1.45;"><code>LEFT</code> &mdash; keep every left row even with no match, filling the right side with <code>NULL</code>, SQL&rsquo;s mark for a missing value. That is <code>how="left"</code>. Plain <code>JOIN</code> keeps only matched rows. <span style="color: var(--muted-color);">If <code>region_targets</code> had no West row, <code>LEFT JOIN</code> would keep customers 1 and 3 with target <code>NULL</code>; plain <code>JOIN</code> would return only 0 and 2.</span></p>
         </div>
-        <p style="font-size: 16pt; margin-top: 16px; text-align: center; color: var(--accent-color); font-weight: 600;">Hold on to that sentence. The next slides are what happens when it is not true.</p>
       </div>
     </section>
 
@@ -833,17 +920,17 @@ aggregate-then-join: 600</code></pre>
     <section id="lag-over" style="padding: 32px 55px;">
       <h2><i class="fa-solid fa-arrows-left-right-to-line" style="color: var(--accent-color);"></i> The Same Idea, Term by Term</h2>
       <div class="content">
-<pre style="font-size: 14pt; background: #f0f5f8; border-radius: 8px; padding: 13px 20px; margin: 0;"><code>df.groupby("country")["gdp"].shift(1)</code></pre>
+<pre style="font-size: 14pt; background: #f0f5f8; border-radius: 8px; padding: 13px 20px; margin: 0;"><code>df.<span class="fragment sqlhl" data-fragment-index="2">groupby("country")</span>["gdp"].shift(1)</code></pre>
         <p style="text-align: center; font-size: 20pt; color: var(--muted-color); margin: 6px 0;"><i class="fa-solid fa-arrow-down"></i></p>
-<pre style="font-size: 14pt; background: #fdf0ea; border-radius: 8px; padding: 13px 20px; margin: 0;"><code>LAG(gdp) OVER (PARTITION BY country ORDER BY year)</code></pre>
+<pre style="font-size: 14pt; background: #fdf0ea; border-radius: 8px; padding: 13px 20px; margin: 0;"><code>LAG(gdp) <span class="fragment sqlhl" data-fragment-index="1">OVER (<span class="fragment sqlhl" data-fragment-index="2">PARTITION BY country</span> <span class="fragment sqlhl" data-fragment-index="3">ORDER BY year</span>)</span></code></pre>
         <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; border-left: 4px solid var(--secondary-color);">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 14.5pt;"><code>OVER (...)</code> is what turns an ordinary aggregate into a <strong>window function</strong>. <code>SUM</code>, <code>AVG</code>, <code>COUNT</code>, <code>MIN</code>, <code>MAX</code> all take it. <strong>Rows in, same rows out, extra columns.</strong></p>
           </div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; border-left: 4px solid var(--secondary-color);">
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 14.5pt;"><code>PARTITION BY country</code> <strong>is</strong> <code>groupby("country")</code>. Omit it and the window is the entire table.</p>
           </div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; border-left: 4px solid var(--danger-color);">
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; border-left: 4px solid var(--danger-color);">
             <p style="font-size: 14.5pt;"><code>ORDER BY year</code> <em>inside</em> the <code>OVER (...)</code> tells the database what &ldquo;previous&rdquo; <strong>means</strong>. Pandas takes this from the DataFrame's row order &mdash; a source of hidden bugs. SQL makes you say it.</p>
           </div>
         </div>
@@ -1071,18 +1158,18 @@ kept |  total
       <div class="content">
         <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; align-items: start;">
 <pre style="font-size: 12.5pt; background: #f8f6f3; border-radius: 8px; padding: 13px 18px; margin: 0;"><code>SELECT
-  AVG(revenue)            AS avg_skips_nulls,
-  SUM(revenue)/COUNT(*)   AS avg_over_all_rows
+  <span class="fragment sqlhl" data-fragment-index="2">AVG(revenue)</span>            AS avg_skips_nulls,
+  SUM(revenue)/<span class="fragment sqlhl" data-fragment-index="1">COUNT(*)</span>   AS avg_over_all_rows
 FROM orders
 
  avg_skips_nulls | avg_over_all_rows
 -----------------+-------------------
        160.71    |      140.63</code></pre>
           <div>
-            <div style="background: #f0f5f8; border-radius: 10px; padding: 13px 18px;">
+            <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-radius: 10px; padding: 13px 18px;">
               <p style="font-size: 14pt; line-height: 1.5;"><code>COUNT(*)</code> counts <strong>rows</strong>. <code>COUNT(column)</code> counts <strong>non-null values in that column</strong>. Two different questions, one keystroke apart.</p>
             </div>
-            <div style="background: #fdf0ea; border-radius: 10px; padding: 13px 18px; margin-top: 12px;">
+            <div class="fragment fade-up" data-fragment-index="2" style="background: #fdf0ea; border-radius: 10px; padding: 13px 18px; margin-top: 12px;">
               <p style="font-size: 14pt; line-height: 1.5;"><code>AVG</code> ignores nulls, so it divides by <strong>7</strong>. The same sum over all <strong>8</strong> rows gives 140.63. A <strong>14% difference</strong> from nothing but a disagreement about the denominator.</p>
             </div>
           </div>
