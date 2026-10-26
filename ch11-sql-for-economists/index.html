@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=b5ab73aef39645451c29c03dce8923ac">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=bea9800e30ecba04636072392e71e75f">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL for Economists</title>
@@ -574,6 +574,150 @@ FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id</code></pre
           <p style="font-size: 15pt; line-height: 1.6;">Every customer appears once <strong>per order</strong>, with their revenue repeated verbatim each time.</p>
           <div style="background: #fdf0ea; border-left: 4px solid var(--danger-color); padding: 13px 20px; border-radius: 8px; margin-top: 12px;">
             <p style="font-size: 14pt; margin: 0;"><strong>A is the tempting wrong answer</strong> and usually wins the room. <code>LEFT JOIN</code> guarantees the left rows <em>survive</em> &mdash; not that they stay <em>unique</em>. D is what a <code>CROSS JOIN</code> gives you: every customer paired with every order.</p>
+          </div>
+        </div>
+      </section>
+      <section id="poll-2-tables" style="padding: 28px 50px;">
+        <h2><i class="fa-solid fa-diagram-project" style="color: var(--secondary-color);"></i> The Poll&rsquo;s Join, Drawn Out</h2>
+        <div class="content">
+<pre style="font-size: 13pt; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; margin: 0;"><code>SELECT c.customer_id, c.region, c.revenue
+<span class="fragment sqlhl" data-fragment-index="1">FROM customers c</span> <span class="fragment sqlhl" data-fragment-index="2">LEFT JOIN orders o ON c.customer_id = o.customer_id</span></code></pre>
+<svg viewBox="0 0 1170 230" width="100%" style="display:block;margin-top:8px" role="img" aria-label="Three customers and six orders: customer 1 has two orders, customer 2 one, customer 3 three; the LEFT JOIN result has six rows, one per order, each customer repeated once per order with the same revenue">
+<defs>
+<marker id="p2-ar-2E6DB4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2E6DB4"/></marker>
+<marker id="p2-ar-C0662B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0662B"/></marker>
+<marker id="p2-ar-3F8A4F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3F8A4F"/></marker>
+</defs>
+<text x="0" y="18" font-size="14" font-weight="700" fill="#4A4F57">customers (3 of 600)</text>
+<rect x="0" y="30" width="120" height="26" fill="#eceae6"/>
+<text x="60.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">customer_id</text>
+<rect x="120" y="30" width="90" height="26" fill="#eceae6"/>
+<text x="165.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">region</text>
+<rect x="210" y="30" width="100" height="26" fill="#eceae6"/>
+<text x="260.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">revenue</text>
+<rect x="0" y="56" width="120" height="28" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="60.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">1</text>
+<rect x="120" y="56" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="165.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="210" y="56" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="260.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">420.00</text>
+<rect x="0" y="84" width="120" height="28" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="60.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2</text>
+<rect x="120" y="84" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="165.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="210" y="84" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="260.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">515.50</text>
+<rect x="0" y="112" width="120" height="28" fill="#e1efe3" stroke="#d8d4cc"/>
+<text x="60.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="120" y="112" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="165.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="210" y="112" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="260.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">380.25</text>
+<text x="880" y="18" font-size="14" font-weight="700" fill="#4A4F57">orders (6 of 4,033)</text>
+<rect x="880" y="30" width="100" height="26" fill="#eceae6"/>
+<text x="930.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">order_id</text>
+<rect x="980" y="30" width="120" height="26" fill="#eceae6"/>
+<text x="1040.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">customer_id</text>
+<rect x="1100" y="30" width="70" height="26" fill="#eceae6"/>
+<text x="1135.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">value</text>
+<rect x="880" y="56" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">101</text>
+<rect x="980" y="56" width="120" height="28" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="1040.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">1</text>
+<rect x="1100" y="56" width="70" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">31.20</text>
+<rect x="880" y="84" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">102</text>
+<rect x="980" y="84" width="120" height="28" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="1040.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">1</text>
+<rect x="1100" y="84" width="70" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">54.80</text>
+<rect x="880" y="112" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">103</text>
+<rect x="980" y="112" width="120" height="28" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="1040.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2</text>
+<rect x="1100" y="112" width="70" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">12.50</text>
+<rect x="880" y="140" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="159" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">104</text>
+<rect x="980" y="140" width="120" height="28" fill="#e1efe3" stroke="#d8d4cc"/>
+<text x="1040.0" y="159" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="1100" y="140" width="70" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="159" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">40.00</text>
+<rect x="880" y="168" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="187" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">105</text>
+<rect x="980" y="168" width="120" height="28" fill="#e1efe3" stroke="#d8d4cc"/>
+<text x="1040.0" y="187" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="1100" y="168" width="70" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="187" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">22.10</text>
+<rect x="880" y="196" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="215" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">106</text>
+<rect x="980" y="196" width="120" height="28" fill="#e1efe3" stroke="#d8d4cc"/>
+<text x="1040.0" y="215" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="1100" y="196" width="70" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="215" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">65.30</text>
+<g class="fragment" data-fragment-index="1">
+<text x="430" y="18" font-size="14" font-weight="700" fill="#4A4F57">result: one row per order</text>
+<rect x="430" y="30" width="120" height="26" fill="#eceae6"/>
+<text x="490.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">customer_id</text>
+<rect x="550" y="30" width="90" height="26" fill="#eceae6"/>
+<text x="595.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">region</text>
+<rect x="640" y="30" width="100" height="26" fill="#eceae6"/>
+<text x="690.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">revenue</text>
+<rect x="430" y="56" width="120" height="28" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="490.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">1</text>
+<rect x="550" y="56" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="595.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="640" y="56" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="690.0" y="75" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">420.00</text>
+<rect x="430" y="84" width="120" height="28" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="490.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">1</text>
+<rect x="550" y="84" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="595.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="640" y="84" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="690.0" y="103" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">420.00</text>
+<rect x="430" y="112" width="120" height="28" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="490.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2</text>
+<rect x="550" y="112" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="595.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="640" y="112" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="690.0" y="131" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">515.50</text>
+<rect x="430" y="140" width="120" height="28" fill="#e1efe3" stroke="#d8d4cc"/>
+<text x="490.0" y="159" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="550" y="140" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="595.0" y="159" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="640" y="140" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="690.0" y="159" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">380.25</text>
+<rect x="430" y="168" width="120" height="28" fill="#e1efe3" stroke="#d8d4cc"/>
+<text x="490.0" y="187" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="550" y="168" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="595.0" y="187" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="640" y="168" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="690.0" y="187" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">380.25</text>
+<rect x="430" y="196" width="120" height="28" fill="#e1efe3" stroke="#d8d4cc"/>
+<text x="490.0" y="215" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">3</text>
+<rect x="550" y="196" width="90" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="595.0" y="215" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="640" y="196" width="100" height="28" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="690.0" y="215" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">380.25</text>
+<line x1="314" y1="70.0" x2="424" y2="70.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#p2-ar-2E6DB4)"/>
+<line x1="314" y1="70.0" x2="424" y2="98.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#p2-ar-2E6DB4)"/>
+<line x1="314" y1="98.0" x2="424" y2="126.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#p2-ar-C0662B)"/>
+<line x1="314" y1="126.0" x2="424" y2="154.0" stroke="#3F8A4F" stroke-width="1.8" marker-end="url(#p2-ar-3F8A4F)"/>
+<line x1="314" y1="126.0" x2="424" y2="182.0" stroke="#3F8A4F" stroke-width="1.8" marker-end="url(#p2-ar-3F8A4F)"/>
+<line x1="314" y1="126.0" x2="424" y2="210.0" stroke="#3F8A4F" stroke-width="1.8" marker-end="url(#p2-ar-3F8A4F)"/>
+</g>
+<g class="fragment" data-fragment-index="2">
+<line x1="876" y1="70.0" x2="746" y2="70.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#p2-ar-2E6DB4)"/>
+<line x1="876" y1="98.0" x2="746" y2="98.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#p2-ar-2E6DB4)"/>
+<line x1="876" y1="126.0" x2="746" y2="126.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#p2-ar-C0662B)"/>
+<line x1="876" y1="154.0" x2="746" y2="154.0" stroke="#3F8A4F" stroke-width="1.8" marker-end="url(#p2-ar-3F8A4F)"/>
+<line x1="876" y1="182.0" x2="746" y2="182.0" stroke="#3F8A4F" stroke-width="1.8" marker-end="url(#p2-ar-3F8A4F)"/>
+<line x1="876" y1="210.0" x2="746" y2="210.0" stroke="#3F8A4F" stroke-width="1.8" marker-end="url(#p2-ar-3F8A4F)"/>
+</g>
+</svg>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #fdf0ea; border-left: 4px solid var(--danger-color); border-radius: 10px; padding: 10px 20px; margin-top: 8px;">
+            <p style="font-size: 14.5pt; line-height: 1.45;">Every order finds its customer, so the result has <strong>one row per order</strong>: 6 orders here, <strong>4,033 in the poll (B)</strong>. Customer 3 now appears three times with the same revenue. <span style="color: var(--muted-color);">A, 600, is the customers table alone. C, 4,633, stacks the tables (600 + 4,033). D, 2,419,800, pairs every customer with every order (600 &times; 4,033).</span></p>
           </div>
         </div>
       </section>
