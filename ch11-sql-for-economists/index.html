@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=bea9800e30ecba04636072392e71e75f">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=fd58bd1af187bf956c6c84ac06a6ff32">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL for Economists</title>
@@ -726,98 +726,158 @@ FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id</code></pre
     <section id="fanout" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-clone" style="color: var(--danger-color);"></i> Fanout &mdash; and Nothing Warned You</h2>
       <div class="content">
-        <div style="display: grid; grid-template-columns: 1.35fr 1fr; gap: 22px; align-items: center;">
-          <div class="mathjax_ignore tex2jax_ignore">
-<svg viewBox="0 0 665 482" width="100%" role="img" aria-label="Fanout. The customers table has 600 rows, one per customer. Customer 42, West, revenue 488.10, passes through LEFT JOIN orders and comes out as seven identical rows, one per order. 600 rows become 4,033 rows, 6.72 rows per customer." style="display:block; overflow:visible;">
-<defs><marker id="fo-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#A85C5C"/></marker></defs>
-<text x="8" y="22" font-size="20" font-weight="700" fill="#6B8BA4">customers</text>
-<text x="8" y="48" font-size="16" fill="#8C8580">600 rows · one per customer</text>
-<rect x="8" y="60" width="225" height="34" rx="6" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.5"/>
-<text x="22" y="83.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">id</text>
-<text x="70" y="83.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">region</text>
-<text x="220" y="83.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">revenue</text>
-<rect x="8" y="104" width="225" height="34" rx="6" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
-<text x="22" y="127.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">41</text>
-<text x="70" y="127.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">East</text>
-<text x="220" y="127.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">512.40</text>
-<rect x="8" y="144" width="225" height="34" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="2.2"/>
-<text x="22" y="167.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#A85C5C">42</text>
-<text x="70" y="167.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#A85C5C">West</text>
-<text x="220" y="167.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#A85C5C">488.10</text>
-<rect x="8" y="184" width="225" height="34" rx="6" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1.5"/>
-<text x="22" y="207.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">43</text>
-<text x="70" y="207.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">East</text>
-<text x="220" y="207.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">533.90</text>
-<circle cx="120" cy="236" r="2.6" fill="#8C8580"/>
-<circle cx="120" cy="246" r="2.6" fill="#8C8580"/>
-<circle cx="120" cy="256" r="2.6" fill="#8C8580"/>
-<text x="384" y="22" font-size="20" font-weight="700" fill="#A85C5C">after the LEFT JOIN</text>
-<text x="384" y="48" font-size="16" fill="#8C8580">4,033 rows · one per <tspan font-weight="700" fill="#A85C5C">order</tspan></text>
-<rect x="384" y="60" width="225" height="34" rx="6" fill="#f7e3e3" stroke="#A85C5C" stroke-width="1.5"/>
-<text x="398" y="83.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">id</text>
-<text x="446" y="83.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">region</text>
-<text x="596" y="83.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" font-weight="700" fill="#2D2D2D">revenue</text>
-<rect x="384" y="104" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
-<text x="398" y="126.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
-<text x="446" y="126.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
-<text x="596" y="126.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
-<rect x="384" y="142" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
-<text x="398" y="164.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
-<text x="446" y="164.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
-<text x="596" y="164.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
-<rect x="384" y="180" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
-<text x="398" y="202.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
-<text x="446" y="202.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
-<text x="596" y="202.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
-<rect x="384" y="218" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
-<text x="398" y="240.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
-<text x="446" y="240.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
-<text x="596" y="240.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
-<rect x="384" y="256" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
-<text x="398" y="278.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
-<text x="446" y="278.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
-<text x="596" y="278.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
-<rect x="384" y="294" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
-<text x="398" y="316.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
-<text x="446" y="316.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
-<text x="596" y="316.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
-<rect x="384" y="332" width="225" height="32" rx="6" fill="#fdf0ea" stroke="#A85C5C" stroke-width="1.5"/>
-<text x="398" y="354.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">42</text>
-<text x="446" y="354.0" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">West</text>
-<text x="596" y="354.0" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="16" fill="#3A3632">488.10</text>
-<circle cx="496" cy="378" r="2.6" fill="#8C8580"/>
-<circle cx="496" cy="388" r="2.6" fill="#8C8580"/>
-<circle cx="496" cy="398" r="2.6" fill="#8C8580"/>
-<path d="M617,104 h8 V226.0 l7,8 l-7,8 V364 h-8" fill="none" stroke="#A85C5C" stroke-width="2"/>
-<text x="637" y="241.0" font-size="20" font-weight="700" fill="#A85C5C">×7</text>
-<path d="M237,161 C 300,161 320,234.0 378,234.0" fill="none" stroke="#A85C5C" stroke-width="3" marker-end="url(#fo-arr)"/>
-<path d="M350,234.0 L380,120" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
-<path d="M350,234.0 L380,158" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
-<path d="M350,234.0 L380,196" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
-<path d="M350,234.0 L380,234" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
-<path d="M350,234.0 L380,272" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
-<path d="M350,234.0 L380,310" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
-<path d="M350,234.0 L380,348" fill="none" stroke="#A85C5C" stroke-width="1.3" opacity="0.55"/>
-<text x="300" y="268.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="#A85C5C">LEFT JOIN</text>
-<text x="300" y="287.0" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="#A85C5C">orders</text>
-<text x="8" y="298" font-size="17" fill="#A85C5C"><tspan font-weight="700">Customer 42 placed 7 orders.</tspan></text>
-<text x="8" y="322" font-size="17" fill="#A85C5C">Revenue repeated 7 times,</text>
-<text x="8" y="346" font-size="17" fill="#A85C5C">verbatim.</text>
-<line x1="8" y1="404" x2="657" y2="404" stroke="#D5CEC7" stroke-width="1.5"/>
-<text x="332" y="442" text-anchor="middle" font-size="28" font-weight="700" fill="#2D2D2D">600 rows <tspan fill="#A85C5C">→ 4,033 rows</tspan></text>
-<text x="332" y="474" text-anchor="middle" font-size="16" fill="#8C8580">6.72 rows per customer. Nothing errored. Nothing warned.</text>
-</svg>
-          </div>
-          <div>
-            <p style="font-size: 15pt; line-height: 1.55;">The join <strong>did exactly what you asked.</strong> The bug is in what you do next: compute a statistic as though each row were an independent customer.</p>
-            <div style="background: #fdf0ea; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 14px 18px; margin-top: 14px;">
-              <p style="font-size: 14.5pt; line-height: 1.55;">It is dangerous rather than annoying because it is <strong>invisible.</strong> The table looks like customers. The IDs are real. The revenue is real. No missing data, no error, no warning.</p>
-            </div>
-            <p style="font-size: 15pt; line-height: 1.55; margin-top: 14px;">The only symptom is that there are more rows than there should be &mdash; <strong>and nobody counts rows.</strong></p>
+<div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 1170 245" width="100%" style="display:block" role="img" aria-label="Fanout. Customers 41, 42 and 43; customer 42, West, revenue 488.10, placed 7 orders. After the LEFT JOIN, customer 42 comes out as 7 identical rows, one per order, each order pointing at its own row. 600 rows become 4,033, 6.72 per customer.">
+<defs><marker id="fo2-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A85C5C"/></marker></defs>
+<text x="0" y="18" font-size="14" font-weight="700" fill="#4A4F57">customers (3 of 600)</text>
+<rect x="0" y="30" width="120" height="26" fill="#eceae6"/>
+<text x="60.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">customer_id</text>
+<rect x="120" y="30" width="90" height="26" fill="#eceae6"/>
+<text x="165.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">region</text>
+<rect x="210" y="30" width="100" height="26" fill="#eceae6"/>
+<text x="260.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">revenue</text>
+<rect x="0" y="56" width="120" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="60.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">41</text>
+<rect x="120" y="56" width="90" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="165.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="210" y="56" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="260.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">512.40</text>
+<rect x="0" y="82" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="60.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="120" y="82" width="90" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="165.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="210" y="82" width="100" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="260.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="0" y="108" width="120" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="60.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">43</text>
+<rect x="120" y="108" width="90" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="165.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">East</text>
+<rect x="210" y="108" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="260.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">533.90</text>
+<text x="880" y="18" font-size="14" font-weight="700" fill="#4A4F57">orders: customer 42&#8217;s 7 (of 4,033)</text>
+<rect x="880" y="30" width="100" height="26" fill="#eceae6"/>
+<text x="930.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">order_id</text>
+<rect x="980" y="30" width="120" height="26" fill="#eceae6"/>
+<text x="1040.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">customer_id</text>
+<rect x="1100" y="30" width="70" height="26" fill="#eceae6"/>
+<text x="1135.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">value</text>
+<rect x="880" y="56" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">4201</text>
+<rect x="980" y="56" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="1040.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="1100" y="56" width="70" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">22.40</text>
+<rect x="880" y="82" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">4202</text>
+<rect x="980" y="82" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="1040.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="1100" y="82" width="70" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">61.10</text>
+<rect x="880" y="108" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">4203</text>
+<rect x="980" y="108" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="1040.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="1100" y="108" width="70" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">35.00</text>
+<rect x="880" y="134" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="152" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">4204</text>
+<rect x="980" y="134" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="1040.0" y="152" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="1100" y="134" width="70" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="152" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">18.75</text>
+<rect x="880" y="160" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="178" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">4205</text>
+<rect x="980" y="160" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="1040.0" y="178" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="1100" y="160" width="70" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="178" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">49.90</text>
+<rect x="880" y="186" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="204" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">4206</text>
+<rect x="980" y="186" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="1040.0" y="204" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="1100" y="186" width="70" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="204" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">27.30</text>
+<rect x="880" y="212" width="100" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="930.0" y="230" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">4207</text>
+<rect x="980" y="212" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="1040.0" y="230" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="1100" y="212" width="70" height="26" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="1135.0" y="230" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">40.60</text>
+<g class="fragment" data-fragment-index="1">
+<text x="430" y="18" font-size="14" font-weight="700" fill="#A85C5C">after the LEFT JOIN: 42 seven times</text>
+<rect x="430" y="30" width="120" height="26" fill="#eceae6"/>
+<text x="490.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">customer_id</text>
+<rect x="550" y="30" width="90" height="26" fill="#eceae6"/>
+<text x="595.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">region</text>
+<rect x="640" y="30" width="100" height="26" fill="#eceae6"/>
+<text x="690.0" y="48" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">revenue</text>
+<rect x="430" y="56" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="490.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="550" y="56" width="90" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="595.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="640" y="56" width="100" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="690.0" y="74" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="430" y="82" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="490.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="550" y="82" width="90" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="595.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="640" y="82" width="100" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="690.0" y="100" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="430" y="108" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="490.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="550" y="108" width="90" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="595.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="640" y="108" width="100" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="690.0" y="126" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="430" y="134" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="490.0" y="152" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="550" y="134" width="90" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="595.0" y="152" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="640" y="134" width="100" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="690.0" y="152" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="430" y="160" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="490.0" y="178" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="550" y="160" width="90" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="595.0" y="178" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="640" y="160" width="100" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="690.0" y="178" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="430" y="186" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="490.0" y="204" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="550" y="186" width="90" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="595.0" y="204" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="640" y="186" width="100" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="690.0" y="204" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<rect x="430" y="212" width="120" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="490.0" y="230" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">42</text>
+<rect x="550" y="212" width="90" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="595.0" y="230" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">West</text>
+<rect x="640" y="212" width="100" height="26" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="690.0" y="230" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">488.10</text>
+<line x1="314" y1="95.0" x2="424" y2="69.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="314" y1="95.0" x2="424" y2="95.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="314" y1="95.0" x2="424" y2="121.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="314" y1="95.0" x2="424" y2="147.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="314" y1="95.0" x2="424" y2="173.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="314" y1="95.0" x2="424" y2="199.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="314" y1="95.0" x2="424" y2="225.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+</g>
+<g class="fragment" data-fragment-index="2">
+<line x1="876" y1="69.0" x2="746" y2="69.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="876" y1="95.0" x2="746" y2="95.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="876" y1="121.0" x2="746" y2="121.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="876" y1="147.0" x2="746" y2="147.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="876" y1="173.0" x2="746" y2="173.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="876" y1="199.0" x2="746" y2="199.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+<line x1="876" y1="225.0" x2="746" y2="225.0" stroke="#A85C5C" stroke-width="1.8" marker-end="url(#fo2-ar)"/>
+</g>
+</svg></div>
+        <div class="fragment fade-up" data-fragment-index="3" style="margin-top: 6px;">
+          <p style="font-size: 15.5pt; text-align: center; margin: 0 0 8px;">Revenue repeated 7 times, verbatim. Across the table: <strong>600 rows &rarr; 4,033 rows</strong>, 6.72 per customer.</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div style="background: #f8f6f3; border-radius: 8px; padding: 10px 16px;"><p style="font-size: 14pt; line-height: 1.45;">The join <strong>did exactly what you asked.</strong> The bug is in what you do next: compute a statistic as though each row were an independent customer.</p></div>
+            <div style="background: #fdf0ea; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 10px 16px;"><p style="font-size: 14pt; line-height: 1.45;">It is <strong>invisible.</strong> The IDs are real, the revenue is real; no error, no warning. The only symptom is more rows than there should be, <strong>and nobody counts rows.</strong></p></div>
           </div>
         </div>
       </div>
-      
     </section>
 
     <section id="ttest-inversion" style="padding: 22px 45px;">
@@ -874,30 +934,24 @@ Fanned out (1/order)   n = 4,033   diff = 12.30   SE = 3.57   t = 3.44   p = 0.0
     <section id="cte-fix" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-wrench" style="color: var(--success-color);"></i> The Fix: Aggregate Before You Join</h2>
       <div class="content">
-        <p style="font-size: 15pt;">A <strong>common table expression</strong> is nothing more exotic than <em>naming an intermediate DataFrame</em> &mdash; which you have done in pandas since Lab 1.</p>
-        <div style="display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; margin-top: 12px; align-items: start;">
-<pre style="font-size: 12.5pt; background: #f8f6f3; border-radius: 8px; padding: 14px 18px; margin: 0;"><code>WITH order_counts AS (        -- name it
+        <p style="font-size: 15pt;">A <strong>common table expression</strong> (CTE) names an in-between table, like saving a <code>groupby</code> result to a variable in pandas.</p>
+        <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 18px; margin-top: 10px; align-items: start;">
+<pre style="font-size: 12.5pt; background: #f8f6f3; border-radius: 8px; padding: 12px 18px; margin: 0;"><code><span class="fragment sqlhl" data-fragment-index="1">WITH order_counts AS (
     SELECT customer_id, COUNT(*) AS n_orders
     FROM orders
-    GROUP BY customer_id      -- ONE row per customer
-)
-SELECT c.customer_id, c.region,
-       c.revenue, oc.n_orders
+    GROUP BY customer_id
+)</span>
+SELECT c.customer_id, c.region, c.revenue, oc.n_orders
 FROM customers c
-LEFT JOIN order_counts oc
-       ON c.customer_id = oc.customer_id</code></pre>
-          <div>
-<pre style="font-size: 13pt; background: #eef5ee; border-radius: 8px; padding: 14px 18px; margin: 0;"><code>Rows after
-aggregate-then-join: 600</code></pre>
-            <div style="background: #eef5ee; border-radius: 10px; padding: 14px 18px; margin-top: 14px; border-left: 4px solid var(--success-color);">
-              <p style="font-size: 14.5pt; line-height: 1.5;">The <code>WITH</code> block collapses orders to one row per customer <em>first</em>. The join then <strong>cannot</strong> fan out, because there is exactly one matching row.</p>
-              <p style="font-size: 14.5pt; line-height: 1.5; margin-top: 10px;">The grain is preserved <strong>by construction</strong> rather than by luck.</p>
-            </div>
+<span class="fragment sqlhl" data-fragment-index="2">LEFT JOIN order_counts oc ON c.customer_id = oc.customer_id</span></code></pre>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="fragment fade-up" data-fragment-index="1" style="background: #fdf0ea; border-radius: 10px; padding: 10px 16px; border-left: 4px solid var(--accent-color);"><p style="font-size: 14pt; line-height: 1.45;"><strong>1. The <code>WITH</code> block</strong> collapses orders to one row per customer and names it <code>order_counts</code>: <strong>4,033 &rarr; 600</strong>.</p></div>
+            <div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; padding: 10px 16px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 14pt; line-height: 1.45;"><strong>2. The join</strong> meets exactly one <code>order_counts</code> row per customer, 1 : 1, so <strong>600 in, 600 out</strong>.</p></div>
+            <div class="fragment fade-up" data-fragment-index="3" style="background: #eef5ee; border-radius: 10px; padding: 10px 16px; border-left: 4px solid var(--success-color);"><p style="font-size: 14pt; line-height: 1.45;">The grain holds <strong>by construction</strong>, not by luck. Lost? Read it bottom up: the final query needs one row per customer, and the block above makes it.</p></div>
           </div>
         </div>
-        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 8px;">
-<svg viewBox="0 0 1180 171" width="100%" role="img" aria-label="Aggregate, then join. orders has 4,033 rows, several per customer. GROUP BY customer_id collapses it to order_counts, 600 rows, one per customer. Each customer row then meets exactly one order_counts row, a 1 to 1 join, and the result has 600 rows." style="display:block; overflow:visible;">
-<defs><marker id="cte-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6A8E6B"/></marker></defs>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 10px;">
+<svg viewBox="0 0 1180 171" width="100%" role="img" aria-label="Aggregate, then join. orders has 4,033 rows, several per customer. GROUP BY customer_id collapses it to order_counts, 600 rows, one per customer. Each customer row then meets exactly one order_counts row, a 1 to 1 join, and the result has 600 rows." style="display:block; overflow:visible;"><defs><marker id="cte-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6A8E6B"/></marker></defs>
 <text x="0" y="20" font-size="18" font-weight="700" fill="#2D2D2D"><tspan font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17">orders</tspan><tspan dx="10" fill="#A85C5C">4,033 rows</tspan></text>
 <rect x="0" y="31" width="200" height="14" rx="3" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/>
 <rect x="0" y="48" width="200" height="14" rx="3" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.6"/>
@@ -907,6 +961,7 @@ aggregate-then-join: 600</code></pre>
 <rect x="0" y="116" width="200" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
 <rect x="0" y="133" width="200" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
 <text x="0" y="165" font-size="15" fill="#8C8580">several rows per customer</text>
+<g class="fragment" data-fragment-index="1">
 <line x1="214" y1="89.5" x2="372" y2="89.5" stroke="#6A8E6B" stroke-width="3" marker-end="url(#cte-arr)"/>
 <text x="293" y="77.5" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="#6A8E6B">GROUP BY</text>
 <text x="293" y="113.5" text-anchor="middle" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="#6A8E6B">customer_id</text>
@@ -915,6 +970,8 @@ aggregate-then-join: 600</code></pre>
 <rect x="386" y="82.5" width="190" height="14" rx="3" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.6"/>
 <rect x="386" y="99.5" width="190" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
 <text x="386" y="165" font-size="15" fill="#8C8580">one row per customer</text>
+</g>
+<g class="fragment" data-fragment-index="2">
 <text x="613" y="53.5" text-anchor="middle" font-size="16" font-weight="700" fill="#6A8E6B">1 : 1</text>
 <line x1="580" y1="72.5" x2="646" y2="72.5" stroke="#6A8E6B" stroke-width="2"/>
 <line x1="580" y1="89.5" x2="646" y2="89.5" stroke="#6A8E6B" stroke-width="2"/>
@@ -930,10 +987,10 @@ aggregate-then-join: 600</code></pre>
 <rect x="966" y="82.5" width="212" height="14" rx="3" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.6"/>
 <rect x="966" y="99.5" width="212" height="14" rx="3" fill="#eef5ee" stroke="#6A8E6B" stroke-width="1.6"/>
 <text x="966" y="165" font-size="15" font-weight="700" fill="#6A8E6B">nothing to fan out</text>
+</g>
 </svg>
         </div>
       </div>
-      
     </section>
 
     <section id="distinct-misconception" style="padding: 36px 60px;">
@@ -963,112 +1020,151 @@ aggregate-then-join: 600</code></pre>
     <section id="group-by-collapses" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-compress" style="color: var(--secondary-color);"></i> <code>GROUP BY</code> Collapses. Sometimes You Need It Not To.</h2>
       <div class="content">
-        <p class="text-lg" style="line-height: 1.55;">Ten years of data for one country become one row containing the average. Usually what you want. <strong>Sometimes exactly what you do not want.</strong></p>
-        <div style="background: #f0f5f8; border-radius: 12px; padding: 18px 26px; margin-top: 16px;">
-          <p style="font-size: 15.5pt; line-height: 1.55;">A panel of countries and years. You need each country's <strong>GDP growth</strong>: this year's GDP minus last year's, <em>within</em> country.</p>
-          <p style="font-size: 15.5pt; line-height: 1.55; margin-top: 10px;"><code>GROUP BY</code> cannot do it &mdash; you want to <strong>keep</strong> every country-year row and merely attach a new column to it.</p>
-        </div>
-        <p style="font-size: 15.5pt; margin-top: 16px;">In pandas you already know the line:</p>
-<pre style="font-size: 13.5pt; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; margin-top: 8px;"><code>df["prev_gdp"] = df.groupby("country")["gdp"].shift(1)</code></pre>
-        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 12px;">
-<svg viewBox="0 0 1170 198" width="100%" role="img" aria-label="Left: a six-row panel, two countries by three years, goes through GROUP BY country and comes out as two rows of averages. Right: groupby country shift 1 keeps all six rows and adds a prev_gdp column, NaN in each country's first year. Illustrative numbers." style="display:block; overflow:visible;">
-<defs><marker id="gbc-arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8C8580"/></marker></defs>
-<text x="0" y="17" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17" font-weight="700" fill="#6B8BA4">GROUP BY country</text>
-<text x="190" y="17" font-size="16" fill="#8C8580">6 rows in, 2 rows out</text>
-<rect x="0" y="34" width="194" height="21" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.2"/>
-<text x="74" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">country</text>
-<text x="134" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">year</text>
-<text x="186" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">gdp</text>
-<rect x="0" y="55" width="194" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
-<text x="74" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
-<text x="134" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2021</text>
-<text x="186" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">100</text>
-<rect x="0" y="76" width="194" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
-<text x="74" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
-<text x="134" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2022</text>
-<text x="186" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">103</text>
-<rect x="0" y="97" width="194" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
-<text x="74" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
-<text x="134" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2023</text>
-<text x="186" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">106</text>
-<rect x="0" y="118" width="194" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
-<text x="74" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
-<text x="134" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2021</text>
-<text x="186" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">50</text>
-<rect x="0" y="139" width="194" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
-<text x="74" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
-<text x="134" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2022</text>
-<text x="186" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">52</text>
-<rect x="0" y="160" width="194" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
-<text x="74" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
-<text x="134" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2023</text>
-<text x="186" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">57</text>
-<line x1="206" y1="107.5" x2="274" y2="107.5" stroke="#8C8580" stroke-width="2.4" marker-end="url(#gbc-arr)"/>
-<rect x="286" y="76" width="168" height="21" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="1.2"/>
-<text x="360" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">country</text>
-<text x="446" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">avg_gdp</text>
-<rect x="286" y="97" width="168" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
-<text x="360" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
-<text x="446" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">103</text>
-<rect x="286" y="118" width="168" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
-<text x="360" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
-<text x="446" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">53</text>
-<text x="286" y="157" font-size="15" fill="#8C8580">one row per country:</text>
-<text x="286" y="179" font-size="15" fill="#8C8580">the years are gone</text>
-<line x1="486" y1="4" x2="486" y2="186" stroke="#D5CEC7" stroke-width="1.5"/>
-<text x="520" y="17" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="17" font-weight="700" fill="#C47B5A">groupby("country").shift(1)</text>
-<text x="820" y="17" font-size="16" fill="#8C8580">6 rows in, 6 rows out</text>
-<rect x="520" y="34" width="290" height="21" fill="#fdf0ea" stroke="#C47B5A" stroke-width="1.2"/>
-<text x="594" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">country</text>
-<text x="654" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">year</text>
-<text x="706" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#2D2D2D">gdp</text>
-<text x="802" y="49" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="700" fill="#A85C5C">prev_gdp</text>
-<rect x="520" y="55" width="290" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
-<text x="594" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
-<text x="654" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2021</text>
-<text x="706" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">100</text>
-<rect x="714" y="55" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
-<text x="802" y="70" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">NaN</text>
-<rect x="520" y="76" width="290" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
-<text x="594" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
-<text x="654" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2022</text>
-<text x="706" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">103</text>
-<rect x="714" y="76" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
-<text x="802" y="91" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">100</text>
-<rect x="520" y="97" width="290" height="21" fill="#f8f6f3" stroke="#D5CEC7" stroke-width="1"/>
-<text x="594" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">A</text>
-<text x="654" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2023</text>
-<text x="706" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">106</text>
-<rect x="714" y="97" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
-<text x="802" y="112" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">103</text>
-<rect x="520" y="118" width="290" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
-<text x="594" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
-<text x="654" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2021</text>
-<text x="706" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">50</text>
-<rect x="714" y="118" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
-<text x="802" y="133" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">NaN</text>
-<rect x="520" y="139" width="290" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
-<text x="594" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
-<text x="654" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2022</text>
-<text x="706" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">52</text>
-<rect x="714" y="139" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
-<text x="802" y="154" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">50</text>
-<rect x="520" y="160" width="290" height="21" fill="#ffffff" stroke="#D5CEC7" stroke-width="1"/>
-<text x="594" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">B</text>
-<text x="654" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">2023</text>
-<text x="706" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#3A3632">57</text>
-<rect x="714" y="160" width="96" height="21" fill="#fdf0ea" stroke="#D5CEC7" stroke-width="1"/>
-<text x="802" y="175" text-anchor="end" font-family="'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#A85C5C">52</text>
-<text x="828" y="80" font-size="16" font-weight="700" fill="#A85C5C">a new column</text>
-<text x="828" y="102" font-size="15" fill="#8C8580">computed within</text>
-<text x="828" y="124" font-size="15" fill="#8C8580">each country, the</text>
-<text x="828" y="146" font-size="15" fill="#8C8580"><tspan font-weight="700" fill="#3A3632">same length</tspan> as</text>
-<text x="828" y="168" font-size="15" fill="#8C8580">the input</text>
-<text x="1165" y="189" text-anchor="end" font-size="14" font-style="italic" fill="#8C8580">illustrative numbers</text>
-</svg>
+        <p style="font-size: 15.5pt; line-height: 1.5;">A panel of countries and years. GDP growth needs <strong>last year&rsquo;s GDP on every row</strong>, within country: keep every row and add a column. <code>GROUP BY</code> cannot do that.</p>
+<pre style="font-size: 13.5pt; line-height: 1.75; background: #f8f6f3; border-radius: 8px; padding: 10px 20px; margin-top: 10px;"><code><span class="fragment sqlhl" data-fragment-index="1">df.groupby("country")["gdp"].mean()</span>
+<span class="fragment sqlhl" data-fragment-index="2">df["prev_gdp"] = df.groupby("country")["gdp"].shift(1)</span></code></pre>
+        <div style="margin-top: 10px;">
+<div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 1170 226" width="100%" style="display:block" role="img" aria-label="Left: six rows, countries A and B by three years, go through GROUP BY country and come out as two rows, A average 103 and B average 53. Right: the same six rows through groupby country shift 1 come out as six rows with a prev_gdp column; each year&#39;s gdp moves down to the next year&#39;s prev_gdp within the country, and each first year is NaN.">
+<defs>
+<marker id="gb-ar-2E6DB4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2E6DB4"/></marker>
+<marker id="gb-ar-C0662B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C0662B"/></marker>
+</defs>
+<text x="0" y="18" font-size="14" font-weight="700" fill="#4A4F57">the panel: 6 rows</text>
+<rect x="0" y="30" width="80" height="24" fill="#eceae6"/>
+<text x="40.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">country</text>
+<rect x="80" y="30" width="70" height="24" fill="#eceae6"/>
+<text x="115.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">year</text>
+<rect x="150" y="30" width="60" height="24" fill="#eceae6"/>
+<text x="180.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">gdp</text>
+<rect x="0" y="54" width="80" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="40.0" y="71" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">A</text>
+<rect x="80" y="54" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="115.0" y="71" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2021</text>
+<rect x="150" y="54" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="180.0" y="71" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">100</text>
+<rect x="0" y="78" width="80" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="40.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">A</text>
+<rect x="80" y="78" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="115.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2022</text>
+<rect x="150" y="78" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="180.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">103</text>
+<rect x="0" y="102" width="80" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="40.0" y="119" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">A</text>
+<rect x="80" y="102" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="115.0" y="119" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2023</text>
+<rect x="150" y="102" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="180.0" y="119" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">106</text>
+<rect x="0" y="126" width="80" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="40.0" y="143" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">B</text>
+<rect x="80" y="126" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="115.0" y="143" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2021</text>
+<rect x="150" y="126" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="180.0" y="143" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">50</text>
+<rect x="0" y="150" width="80" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="40.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">B</text>
+<rect x="80" y="150" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="115.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2022</text>
+<rect x="150" y="150" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="180.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">52</text>
+<rect x="0" y="174" width="80" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="40.0" y="191" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">B</text>
+<rect x="80" y="174" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="115.0" y="191" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2023</text>
+<rect x="150" y="174" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="180.0" y="191" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">57</text>
+<g class="fragment" data-fragment-index="1">
+<text x="330" y="18" font-size="14" font-weight="700" fill="#4A4F57">GROUP BY: 6 rows in, 2 out</text>
+<rect x="330" y="30" width="80" height="24" fill="#eceae6"/>
+<text x="370.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">country</text>
+<rect x="410" y="30" width="90" height="24" fill="#eceae6"/>
+<text x="455.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">avg_gdp</text>
+<rect x="330" y="78" width="80" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="370.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">A</text>
+<rect x="410" y="78" width="90" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="455.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">103</text>
+<rect x="330" y="150" width="80" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="370.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">B</text>
+<rect x="410" y="150" width="90" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="455.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">53</text>
+<line x1="214" y1="66.0" x2="324" y2="90.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#gb-ar-2E6DB4)"/>
+<line x1="214" y1="90.0" x2="324" y2="90.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#gb-ar-2E6DB4)"/>
+<line x1="214" y1="114.0" x2="324" y2="90.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#gb-ar-2E6DB4)"/>
+<line x1="214" y1="138.0" x2="324" y2="162.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#gb-ar-C0662B)"/>
+<line x1="214" y1="162.0" x2="324" y2="162.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#gb-ar-C0662B)"/>
+<line x1="214" y1="186.0" x2="324" y2="162.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#gb-ar-C0662B)"/>
+<text x="330" y="214" font-size="13" fill="#8C8580">one row per country: the years are gone</text>
+</g>
+<g class="fragment" data-fragment-index="2">
+<text x="620" y="18" font-size="14" font-weight="700" fill="#4A4F57">.shift(1): 6 rows in, 6 out, one new column</text>
+<rect x="620" y="30" width="80" height="24" fill="#eceae6"/>
+<text x="660.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">country</text>
+<rect x="700" y="30" width="70" height="24" fill="#eceae6"/>
+<text x="735.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">year</text>
+<rect x="770" y="30" width="60" height="24" fill="#eceae6"/>
+<text x="800.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">gdp</text>
+<rect x="830" y="30" width="90" height="24" fill="#eceae6"/>
+<text x="875.0" y="47" font-size="13" font-weight="700" text-anchor="middle" fill="#4A4F57" font-family="monospace">prev_gdp</text>
+<rect x="620" y="54" width="80" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="660.0" y="71" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">A</text>
+<rect x="700" y="54" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="735.0" y="71" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2021</text>
+<rect x="770" y="54" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="800.0" y="71" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">100</text>
+<rect x="830" y="54" width="90" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="875.0" y="71" font-size="14" text-anchor="middle" fill="#A85C5C" font-style="italic" font-family="monospace">NaN</text>
+<rect x="620" y="78" width="80" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="660.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">A</text>
+<rect x="700" y="78" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="735.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2022</text>
+<rect x="770" y="78" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="800.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">103</text>
+<rect x="830" y="78" width="90" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="875.0" y="95" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">100</text>
+<rect x="620" y="102" width="80" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="660.0" y="119" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">A</text>
+<rect x="700" y="102" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="735.0" y="119" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2023</text>
+<rect x="770" y="102" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="800.0" y="119" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">106</text>
+<rect x="830" y="102" width="90" height="24" fill="#dbe8f4" stroke="#d8d4cc"/>
+<text x="875.0" y="119" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">103</text>
+<rect x="620" y="126" width="80" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="660.0" y="143" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">B</text>
+<rect x="700" y="126" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="735.0" y="143" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2021</text>
+<rect x="770" y="126" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="800.0" y="143" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">50</text>
+<rect x="830" y="126" width="90" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="875.0" y="143" font-size="14" text-anchor="middle" fill="#A85C5C" font-style="italic" font-family="monospace">NaN</text>
+<rect x="620" y="150" width="80" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="660.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">B</text>
+<rect x="700" y="150" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="735.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2022</text>
+<rect x="770" y="150" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="800.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">52</text>
+<rect x="830" y="150" width="90" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="875.0" y="167" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">50</text>
+<rect x="620" y="174" width="80" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="660.0" y="191" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">B</text>
+<rect x="700" y="174" width="70" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="735.0" y="191" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">2023</text>
+<rect x="770" y="174" width="60" height="24" fill="#ffffff" stroke="#d8d4cc"/>
+<text x="800.0" y="191" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">57</text>
+<rect x="830" y="174" width="90" height="24" fill="#fbe3d3" stroke="#d8d4cc"/>
+<text x="875.0" y="191" font-size="14" text-anchor="middle" fill="#2b2b2b" font-family="monospace">52</text>
+<line x1="825" y1="66.0" x2="850" y2="90.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#gb-ar-2E6DB4)"/>
+<line x1="825" y1="90.0" x2="850" y2="114.0" stroke="#2E6DB4" stroke-width="1.8" marker-end="url(#gb-ar-2E6DB4)"/>
+<line x1="825" y1="138.0" x2="850" y2="162.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#gb-ar-C0662B)"/>
+<line x1="825" y1="162.0" x2="850" y2="186.0" stroke="#C0662B" stroke-width="1.8" marker-end="url(#gb-ar-C0662B)"/>
+<text x="930" y="70" font-size="13" fill="#A85C5C">&#8592; NaN: no earlier year</text>
+<text x="930" y="142" font-size="13" fill="#A85C5C">&#8592; NaN: B starts again</text>
+<text x="930" y="108" font-size="13" fill="#8C8580">last year&#8217;s gdp, moved down</text>
+<text x="930" y="124" font-size="13" fill="#8C8580">one row, within the country</text>
+</g>
+<text x="1168" y="222" font-size="12" text-anchor="end" fill="#8C8580">illustrative numbers</text>
+</svg></div>
         </div>
       </div>
-      
     </section>
 
     <section id="lag-over" style="padding: 32px 55px;">
