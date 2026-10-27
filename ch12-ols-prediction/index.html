@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=659462bd39a4a3316627c38b2c40168d">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=ae2eb4ff5601bd470ad7111ddab9f610">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Predictive Modeling: OLS as the Line of Best Fit</title>
@@ -368,7 +368,7 @@ Slope     (beta_1 hat): 0.4179</code></pre>
         </div>
         <p style="text-align: center; font-size: 16pt; margin: 14px 0 4px;">$$\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2, \qquad \text{RMSE} = \sqrt{\text{MSE}} \qquad\qquad R^2 = 1 - \frac{\sum_{i=1}^n (y_i - \hat{y}_i)^2}{\sum_{i=1}^n (y_i - \bar{y})^2}$$</p>
         <div class="key-result" style="margin-top: 8px;">
-          <p style="font-size: 14.5pt; line-height: 1.6;"><strong>Reading:</strong> MSE is the average squared miss; square-root it and you are back in the outcome's units. \(R^2\) is your squared error divided by the dumb baseline's, subtracted from one. \(R^2 = 0.5\) means half the baseline's squared error; \(R^2 = 0\) means no better than the mean. <strong>On <em>test</em> data \(R^2\) can go negative</strong> &mdash; which sounds impossible until you meet an overfitted model.</p>
+          <p style="font-size: 14.5pt; line-height: 1.6;"><strong>Reading:</strong> MSE is the average squared miss; square-root it and you are back in the outcome's units. \(R^2\) is your squared error divided by the dumb baseline's, subtracted from one. \(R^2 = 0.5\) means half the baseline's squared error; \(R^2 = 0\) means no better than the mean. <strong>On <em>test</em> data \(R^2\) can go negative</strong> &mdash; which happens to a model that has memorised the noise in its training rows. We build one later today.</p>
         </div>
       </div>
     </section>
@@ -588,7 +588,7 @@ for degree in [1, 2, 3, 5, 7, 9]:
             <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Falls too, to roughly 0.6 &mdash; flexibility helps</div>
             <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Stays about the same, near 0.85</div>
             <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Rises somewhat, to about 1.5</div>
-            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Rises to roughly 45 &mdash; a typical error of &#36;4.5 million</div>
+            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Rises to roughly 45 &mdash; an RMSE of about &#36;4.5 million</div>
           </div>
         </div>
       </section>
@@ -609,14 +609,14 @@ for degree in [1, 2, 3, 5, 7, 9]:
           </table>
           <div>
             <p style="font-size: 14.5pt; line-height: 1.55;"><strong>Read the two columns in opposite directions.</strong> Training RMSE falls monotonically &mdash; it <em>has</em> to. This is the "\(R^2\) cannot decrease" result, seen from the other side.</p>
-            <p style="font-size: 14.5pt; line-height: 1.55; margin-top: 8px;">Test RMSE is flat through degree 3, then <strong>shoots up</strong>. At degree 9 the typical error is roughly <strong>&#36;4.5 million on houses worth around &#36;180,000</strong>. Predicting the training mean for every house (test RMSE 1.14) would have been about 39 times better.</p>
+            <p style="font-size: 14.5pt; line-height: 1.55; margin-top: 8px;">Test RMSE is flat through degree 3, then <strong>shoots up</strong>. At degree 9 the RMSE is about <strong>&#36;4.5 million</strong>, almost all of it from the 40 test block groups outside the training rows&rsquo; income range; the median miss is still about &#36;48,000, as for the straight line. Predicting the training mean for every house (test RMSE 1.14) would have been about 39 times better.</p>
           </div>
         </div>
       </section>
     </section>
 
     <section id="fig-overfit" style="padding: 24px 42px;">
-      <h2 style="font-size: 24pt;"><i class="fa-solid fa-explosion" style="color: var(--danger-color);"></i> Every In-Sample Diagnostic Selects the Worst Model Here</h2>
+      <h2 style="font-size: 24pt;"><i class="fa-solid fa-explosion" style="color: var(--danger-color);"></i> Training Error and R² Select the Worst Model Here</h2>
       <div class="content" style="text-align: center;">
         <img src="figures/figure_004_overfitting.png" alt="Training RMSE and test RMSE against polynomial degree on a logarithmic vertical axis. Training RMSE creeps down from 0.6186 to 0.5863 across degrees 1 to 9, while test RMSE is flat near 0.85 through degree 3 then rises to 1.5008, 7.1108 and finally 45.0271." style="max-height: 440px; width: auto;">
         <p style="font-size: 14pt; margin-top: 8px; line-height: 1.5;">The high-degree model bends to pass close to each of those 60 training points &mdash; <strong>including the part of each point that is noise</strong>. Noise does not repeat in the test set, so the bends do not help there. They hurt, because a wiggly curve <strong>extrapolates wildly</strong> the moment it meets an \(x\) outside its training range.</p>
@@ -700,7 +700,7 @@ pred = ols.get_prediction(new).summary_frame(alpha=0.05)</code></pre>
           <div style="background: #fdf0ea; border-radius: 10px; padding: 14px 18px; text-align: center;"><p style="font-size: 26pt; font-weight: 700; color: var(--accent-color); line-height: 1.1;">&#36;328,000</p><p style="font-size: 13pt; color: var(--muted-color); margin-top: 4px;">PI width &mdash; more than a hundred times wider</p></div>
         </div>
         <div class="fragment fade-up misconception" style="margin-top: 14px;">
-          <p style="font-size: 15.5pt; line-height: 1.55;">Report the CI to someone deciding what to pay for a specific property and you have told them you know the price to within &#36;3,000, when your actual predictive uncertainty runs from &#36;90,000 to &#36;418,000. <strong>That is a different claim altogether.</strong></p>
+          <p style="font-size: 15.5pt; line-height: 1.55;">Report the CI to someone deciding what to pay in one block group and you have told them you know the price to within &#36;3,000, when your actual predictive uncertainty runs from &#36;90,000 to &#36;418,000. <strong>That is a different claim altogether.</strong></p>
         </div>
       </div>
     </section>
@@ -828,7 +828,7 @@ Improvement:                       26.4%</code></pre>
           <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--secondary-color);">1</p><p style="font-size: 14.5pt; line-height: 1.45;">A regression can <strong>estimate a parameter</strong> or <strong>generate a prediction</strong>; the algebra is identical and almost everything else differs &mdash; which variables belong, which metric decides success, what you report.</p></div>
           <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--secondary-color);">2</p><p style="font-size: 14.5pt; line-height: 1.45;">OLS minimises <strong>squared vertical distances</strong>, which gives it a closed form, forces it through the sample means, and makes it as outlier-sensitive as the arithmetic mean.</p></div>
           <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--accent-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--accent-color);">3</p><p style="font-size: 14.5pt; line-height: 1.45;">In-sample \(R^2\) <strong>cannot decrease</strong> when a predictor is added &mdash; not even a column of random noise &mdash; so in-sample fit measures flexibility as much as accuracy. <strong>Adjusted \(R^2\) is not the fix.</strong></p></div>
-          <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--danger-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--danger-color);">4</p><p style="font-size: 14.5pt; line-height: 1.45;">Holding out a test set reveals what in-sample error conceals: <strong>training error falls monotonically while test error eventually explodes</strong>, and every in-sample diagnostic will select the worst model in that sequence.</p></div>
+          <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--danger-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--danger-color);">4</p><p style="font-size: 14.5pt; line-height: 1.45;">Holding out a test set reveals what in-sample error conceals: <strong>training error falls monotonically while test error eventually explodes</strong>, and training error and R² will select the worst model in that sequence.</p></div>
           <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--success-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--success-color);">5</p><p style="font-size: 14.5pt; line-height: 1.45;">A prediction needs an uncertainty statement, and the <strong>prediction interval is far wider than the confidence interval</strong> &mdash; more data shrinks the second and barely touches the first.</p></div>
         </div>
       </div>

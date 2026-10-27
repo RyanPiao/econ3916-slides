@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=f4bf7041fae673b4b0a9678e38c16a74">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=9b487359fb2a67945d6574148b5128bc">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL for Economists</title>
@@ -1181,7 +1181,7 @@ FROM customers c
             <p style="font-size: 14.5pt;"><code>PARTITION BY country</code> <strong>is</strong> <code>groupby("country")</code>. Omit it and the window is the entire table.</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; border-left: 4px solid var(--danger-color);">
-            <p style="font-size: 14.5pt;"><code>ORDER BY year</code> <em>inside</em> the <code>OVER (...)</code> tells the database what &ldquo;previous&rdquo; <strong>means</strong>. Pandas takes this from the DataFrame's row order &mdash; a source of hidden bugs. SQL makes you say it.</p>
+            <p style="font-size: 14.5pt;"><code>ORDER BY year</code> <em>inside</em> the <code>OVER (...)</code> tells the database what &ldquo;previous&rdquo; <strong>means</strong>. Pandas takes this from the DataFrame's row order &mdash; a source of hidden bugs. SQL lets you say it, and you should: leave <code>ORDER BY</code> out and &ldquo;previous&rdquo; follows whatever order the rows happen to be in, with no error.</p>
           </div>
         </div>
         <p style="font-size: 13.5pt; margin-top: 12px; color: var(--muted-color); font-style: italic; text-align: center;">That inner <code>ORDER BY</code> is unrelated to the query's own <code>ORDER BY</code> at the bottom, which only controls how the output prints.</p>
@@ -1433,7 +1433,7 @@ ORDER BY year</code></pre>
         <div class="poll-grid" data-poll-id="ch11-econ3916-poll-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 16px; font-size: 15pt;">
           <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) 8 &mdash; nothing was excluded</div>
           <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) 6 &mdash; the two cancelled orders were removed</div>
-          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) 4 &mdash; the cancelled rows <em>and</em> the unknown-status rows</div>
+          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) 4 &mdash; both the cancelled <em>and</em> the unknown-status rows are dropped</div>
           <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) 2 &mdash; only the cancelled rows survive</div>
         </div>
       </section>
