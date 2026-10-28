@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=67cb969551ab247bd44f6e271e24663b">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=d7eaa5b22d36285ab55c4ff42f855af7">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Predictive Modeling: OLS as the Line of Best Fit</title>
@@ -77,7 +77,7 @@
         <div style="background: #f8f6f3; border-radius: 10px; padding: 20px 26px;">
           <p class="text-lg"><strong>Quick Check 2 &mdash; Ch 6.</strong> What is <em>data leakage</em>, and what does it do to a reported error?</p>
         </div>
-        <p style="margin-top: 18px; color: var(--accent-color); font-weight: 600; font-size: 16pt;"><i class="fa-solid fa-arrow-right"></i> Hold both. Today one becomes <strong>irrelevant</strong> and the other becomes <strong>the entire point</strong>.</p>
+        <p style="margin-top: 18px; color: var(--accent-color); font-weight: 600; font-size: 16pt;"><i class="fa-solid fa-arrow-right"></i> Hold both. Today one becomes <strong>irrelevant</strong> and the other becomes <strong>the main point</strong>.</p>
       </div>
     </section>
 
@@ -129,7 +129,7 @@
           <div style="background: #f8f6f3; border-radius: 8px; padding: 13px 22px; border-left: 4px solid var(--success-color);"><p style="font-size: 15pt;">Every diagnostic you would run on the fitted model still passes.</p></div>
         </div>
         <div class="fragment fade-up misconception" style="margin-top: 20px;">
-          <p style="font-size: 16pt;">Because every one of those diagnostics is computed on <strong>the data the model was fitted to</strong> &mdash; and the model fits that data beautifully. It always did.</p>
+          <p style="font-size: 16pt;">Because every one of those diagnostics is computed on <strong>the data the model was fitted to</strong> &mdash; and the model fits that data well. It always did.</p>
         </div>
         <p class="fragment fade-up text-xl" style="margin-top: 18px; color: var(--accent-color); font-weight: 600;"><i class="fa-solid fa-arrow-right"></i> The failure is invisible from inside the sample. Today is about the one number that can see it: <strong>the error your model makes on data it has never seen.</strong></p>
       </div>
@@ -600,7 +600,7 @@ mean residual elsewhere:   -0.063</code></pre>
         </div>
         <div class="fragment fade-up" style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px;">
           <div style="background: #f9f0ee; border-radius: 10px; padding: 15px 20px; border-left: 4px solid var(--danger-color);"><p style="font-size: 14.5pt; line-height: 1.55;">A model that has <strong>memorised</strong> the particular noise in those particular observations does well on them and badly on new draws &mdash; <em>because the noise does not repeat.</em></p></div>
-          <div style="background: #eef5ee; border-radius: 10px; padding: 15px 20px; border-left: 4px solid var(--success-color);"><p style="font-size: 14.5pt; line-height: 1.55;">A model that has captured <strong>genuine structure</strong> does about as well on both &mdash; <em>because the structure does repeat.</em></p></div>
+          <div style="background: #eef5ee; border-radius: 10px; padding: 15px 20px; border-left: 4px solid var(--success-color);"><p style="font-size: 14.5pt; line-height: 1.55;">A model that has captured <strong>real structure</strong> does about as well on both &mdash; <em>because the structure does repeat.</em></p></div>
         </div>
         <p class="fragment fade-up text-lg" style="margin-top: 14px; color: var(--accent-color); font-weight: 600;"><i class="fa-solid fa-arrow-right"></i> Comparing the two errors therefore tells you which kind of model you have.</p>
       </div>
@@ -668,7 +668,7 @@ for degree in [1, 2, 3, 5, 7, 9]:
           </table>
           <div>
             <p style="font-size: 14.5pt; line-height: 1.55;"><strong>Read the two columns in opposite directions.</strong> Training RMSE falls monotonically &mdash; it <em>has</em> to. This is the "\(R^2\) cannot decrease" result, seen from the other side.</p>
-            <p style="font-size: 14.5pt; line-height: 1.55; margin-top: 8px;">Test RMSE is flat through degree 3, then <strong>shoots up</strong>. At degree 9 the RMSE is about <strong>&#36;4.5 million</strong>, almost all of it from the 40 test block groups outside the training rows&rsquo; income range; the median miss is still about &#36;48,000, as for the straight line. Predicting the training mean for every house (test RMSE 1.14) would have been about 39 times better.</p>
+            <p style="font-size: 14.5pt; line-height: 1.55; margin-top: 8px;">Test RMSE is flat through degree 3, then <strong>rises sharply</strong>. At degree 9 the RMSE is about <strong>&#36;4.5 million</strong>, almost all of it from the 40 test block groups outside the training rows&rsquo; income range; the median miss is still about &#36;48,000, as for the straight line. Predicting the training mean for every house (test RMSE 1.14) would have been about 39 times better.</p>
           </div>
         </div>
       </section>
@@ -678,7 +678,7 @@ for degree in [1, 2, 3, 5, 7, 9]:
       <h2 style="font-size: 24pt;"><i class="fa-solid fa-explosion" style="color: var(--danger-color);"></i> Training Error and R² Select the Worst Model Here</h2>
       <div class="content" style="text-align: center;">
         <img src="figures/figure_004_overfitting.png" alt="Training RMSE and test RMSE against polynomial degree on a logarithmic vertical axis. Training RMSE creeps down from 0.6186 to 0.5863 across degrees 1 to 9, while test RMSE is flat near 0.85 through degree 3 then rises to 1.5008, 7.1108 and finally 45.0271." style="max-height: 440px; width: auto;">
-        <p style="font-size: 14pt; margin-top: 8px; line-height: 1.5;">The high-degree model bends to pass close to each of those 60 training points &mdash; <strong>including the part of each point that is noise</strong>. Noise does not repeat in the test set, so the bends do not help there. They hurt, because a wiggly curve <strong>extrapolates wildly</strong> the moment it meets an \(x\) outside its training range.</p>
+        <p style="font-size: 14pt; margin-top: 8px; line-height: 1.5;">The high-degree model bends to pass close to each of those 60 training points &mdash; <strong>including the part of each point that is noise</strong>. Noise does not repeat in the test set, so the bends do not help there. They hurt, because a wiggly curve <strong>gives extreme predictions</strong> the moment it meets an \(x\) outside its training range.</p>
       </div>
     </section>
 
@@ -759,7 +759,7 @@ pred = ols.get_prediction(new).summary_frame(alpha=0.05)</code></pre>
           <div style="background: #fdf0ea; border-radius: 10px; padding: 14px 18px; text-align: center;"><p style="font-size: 26pt; font-weight: 700; color: var(--accent-color); line-height: 1.1;">&#36;328,000</p><p style="font-size: 13pt; color: var(--muted-color); margin-top: 4px;">PI width &mdash; more than a hundred times wider</p></div>
         </div>
         <div class="fragment fade-up misconception" style="margin-top: 14px;">
-          <p style="font-size: 15.5pt; line-height: 1.55;">Report the CI to someone deciding what to pay in one block group and you have told them you know the price to within &#36;3,000, when your actual predictive uncertainty runs from &#36;90,000 to &#36;418,000. <strong>That is a different claim altogether.</strong></p>
+          <p style="font-size: 15.5pt; line-height: 1.55;">Report the CI to someone deciding what to pay in one block group and you have told them you know the price to within &#36;3,000, when your actual predictive uncertainty runs from &#36;90,000 to &#36;418,000. <strong>That is a much stronger claim than the data support.</strong></p>
         </div>
       </div>
     </section>
@@ -809,7 +809,7 @@ pred = ols.get_prediction(new).summary_frame(alpha=0.05)</code></pre>
         <div class="misconception" style="margin-top: 14px;">
           <p style="font-size: 15.5pt; line-height: 1.55;"><strong>No such block group exists.</strong> The lowest median income anywhere in the data is <strong>0.4999</strong> &mdash; about &#36;5,000 &mdash; and the mean is 3.87, roughly &#36;38,700. So &#36;45,090 is not a prediction about any place in California. It is the value the fitted line happens to take when extended back to a point <strong>well outside the range of the data</strong>.</p>
         </div>
-        <p class="fragment fade-up text-lg" style="line-height: 1.6; margin-top: 14px;">Extrapolating a line beyond where you observed data is <strong>exactly what the degree-9 polynomial did so catastrophically</strong> &mdash; and the intercept is a mild, permanent instance of it sitting in every regression output you will ever read.</p>
+        <p class="fragment fade-up text-lg" style="line-height: 1.6; margin-top: 14px;">Extrapolating a line beyond where you observed data is <strong>exactly what the degree-9 polynomial did so badly</strong> &mdash; and the intercept is a mild, permanent instance of it sitting in every regression output you will ever read.</p>
         <div class="fragment fade-up key-result" style="margin-top: 14px;">
           <p style="font-size: 15pt; line-height: 1.55;"><strong>The standard fix:</strong> <em>centre the feature</em> &mdash; replace \(x_i\) with \(x_i - \bar{x}\) &mdash; and the intercept becomes the predicted outcome at the <em>average</em> income of &#36;38,700, a real interpretable quantity about a kind of place that exists. Nothing else changes: not the slope, not any prediction. It matters more in Chapter 13.</p>
         </div>
@@ -887,7 +887,7 @@ Improvement:                       26.4%</code></pre>
           <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--secondary-color);">1</p><p style="font-size: 14.5pt; line-height: 1.45;">A regression can <strong>estimate a parameter</strong> or <strong>generate a prediction</strong>; the algebra is identical and almost everything else differs &mdash; which variables belong, which metric decides success, what you report.</p></div>
           <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--secondary-color);">2</p><p style="font-size: 14.5pt; line-height: 1.45;">OLS minimises <strong>squared vertical distances</strong>, which gives it a closed form, forces it through the sample means, and makes it as outlier-sensitive as the arithmetic mean.</p></div>
           <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--accent-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--accent-color);">3</p><p style="font-size: 14.5pt; line-height: 1.45;">In-sample \(R^2\) <strong>cannot decrease</strong> when a predictor is added &mdash; not even a column of random noise &mdash; so in-sample fit measures flexibility as much as accuracy. <strong>Adjusted \(R^2\) is not the fix.</strong></p></div>
-          <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--danger-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--danger-color);">4</p><p style="font-size: 14.5pt; line-height: 1.45;">Holding out a test set reveals what in-sample error conceals: <strong>training error falls monotonically while test error eventually explodes</strong>, and training error and R² will select the worst model in that sequence.</p></div>
+          <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--danger-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--danger-color);">4</p><p style="font-size: 14.5pt; line-height: 1.45;">Holding out a test set reveals what in-sample error conceals: <strong>training error falls monotonically while test error eventually rises sharply</strong>, and training error and R² will select the worst model in that sequence.</p></div>
           <div style="display: grid; grid-template-columns: 44px 1fr; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 11px 18px; border-left: 4px solid var(--success-color);"><p style="font-size: 17pt; font-weight: 700; color: var(--success-color);">5</p><p style="font-size: 14.5pt; line-height: 1.45;">A prediction needs an uncertainty statement, and the <strong>prediction interval is far wider than the confidence interval</strong> &mdash; more data shrinks the second and barely touches the first.</p></div>
         </div>
       </div>
@@ -896,7 +896,7 @@ Improvement:                       26.4%</code></pre>
     <section id="close-okun" style="padding: 40px 60px;">
       <h2><i class="fa-solid fa-arrow-rotate-left" style="color: var(--danger-color);"></i> Back Where We Started</h2>
       <div class="content">
-        <p class="text-xl" style="line-height: 1.6;">Okun's Law fitted beautifully in-sample. Coefficient significant. \(R^2\) exactly as always. Every diagnostic passing.</p>
+        <p class="text-xl" style="line-height: 1.6;">Okun's Law fitted well in-sample. Coefficient significant. \(R^2\) exactly as always. Every diagnostic passing.</p>
         <div style="display: grid; grid-template-columns: 330px 1fr; gap: 30px; align-items: center; margin-top: 22px;">
           <div style="background: linear-gradient(135deg, #fdf0ea, #f8ded1); border-radius: 12px; padding: 26px; text-align: center;">
             <p style="font-size: 44pt; font-weight: 700; color: var(--accent-color); line-height: 1;">3.2M</p>
