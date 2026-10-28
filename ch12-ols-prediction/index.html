@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a61fed0da4bd6176c807fbb217b74e67">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=48713cf2bf987edc23440eb012a660c1">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Predictive Modeling: OLS as the Line of Best Fit</title>
@@ -485,7 +485,7 @@ In-sample R^2:  0.4734</code></pre>
         <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--accent-color);"></i> Poll 2 &mdash; What Does Adjusted \(R^2\) Do?</h2>
         <div class="content">
           <p class="text-lg" style="line-height: 1.6;">We take the California training data, bolt on <strong>20 columns of pure random numbers</strong>, and refit. In-sample \(R^2\) rises from <strong>0.47699</strong> to <strong>0.47788</strong> &mdash; it has to.</p>
-          <p class="text-lg" style="line-height: 1.6; margin-top: 10px;">Now: what does <strong>adjusted</strong> \(R^2\) do? It exists precisely to penalise extra parameters.</p>
+          <p class="text-lg" style="line-height: 1.6; margin-top: 10px;">Now: what does <strong>adjusted</strong> \(R^2\) do? Adjusted \(R^2\) is \(R^2\) minus a <strong>charge for every column</strong> you add.</p>
           <div class="poll-grid" data-poll-id="ch12-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 15pt;">
             <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Falls &mdash; that is what the penalty is for</div>
             <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Stays essentially flat</div>
@@ -498,7 +498,8 @@ In-sample R^2:  0.4734</code></pre>
         <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C in This Draw &mdash; 0.47696 &rarr; 0.47722</h2>
         <div class="poll-results-chart" data-poll-id="ch12-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:8px 60px 32px;"></div>
         <div style="padding: 0 45px;">
-          <p style="font-size: 15pt; line-height: 1.6;">In this draw the penalty for twenty useless columns was <strong>not large enough</strong> to cancel their chance gain. With pure noise, adjusted \(R^2\) rises in roughly 4 to 5 draws of 10.</p>
+          <p style="font-size: 14.5pt; line-height: 1.5; margin: 0;">Gain from 20 noise columns: 0.47788 &minus; 0.47699 = <strong>0.00089</strong>. Charge for 20 columns on 16,512 rows: (1 &minus; 0.477) &times; 20 &divide; 16,490 &asymp; <strong>0.00063</strong>. The gain beat the charge, so adjusted \(R^2\) rose, by 0.00026.</p>
+          <p style="font-size: 14.5pt; line-height: 1.5; margin: 8px 0 0;">The charge is about what a noise column gains <strong>on average</strong>, so with pure noise it is close to a coin flip: up in 87 of 200 fresh draws. <strong>B is fair too:</strong> +0.00026 is flat for any practical purpose.</p>
           <div style="background: #f9f0ee; border-left: 4px solid var(--danger-color); padding: 13px 20px; border-radius: 8px; margin-top: 12px;">
             <p style="font-size: 14.5pt; margin: 0;">Adjusted \(R^2\) <strong>is</strong> a real improvement over raw \(R^2\), and it is <strong>not</strong> a solution. It is a within-sample correction applied to a within-sample quantity &mdash; and the question a prediction problem asks is not answerable within the sample at all.</p>
           </div>
@@ -518,6 +519,7 @@ In-sample R^2:  0.4734</code></pre>
    20     0.4739    0.4734
   100     0.4758    0.4732</code></pre>
           <p style="font-size: 14pt; line-height: 1.55; margin-top: 12px;">\(R^2\) climbs with <strong>every</strong> column. Adjusted \(R^2\) wobbles &mdash; <strong>up</strong> at 5 columns, down by 100.</p>
+          <p style="font-size: 12pt; line-height: 1.45; margin-top: 8px; color: #666;">All 20,640 rows here, so it starts at 0.4734, not the poll&rsquo;s 0.47699 (training rows only). At 20 columns adjusted \(R^2\) is flat: answer B.</p>
           <p style="font-size: 14pt; line-height: 1.55; margin-top: 8px; color: var(--danger-color); font-weight: 600;">It is not monotone and it is not a safe selection rule. From inside the sample you cannot tell which direction it should have gone.</p>
         </div>
       </div>
