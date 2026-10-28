@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=48713cf2bf987edc23440eb012a660c1">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=b30091b873f52c8adaf1463cb48bb4e7">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Predictive Modeling: OLS as the Line of Best Fit</title>
@@ -292,7 +292,11 @@
             <div class="poll-number" data-poll-id="ch12-econ3916-poll-6" data-poll-voting data-min="0" data-max="100" data-step="0.1" data-unit="mi"></div>
           </div>
         </div>
-        <p class="rt-count" style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 16px;"></p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: center; background: #f4f4f1; border-radius: 10px; padding: 10px 22px; margin-top: 14px;">
+          <p style="font-size: 14pt; font-weight: 700; margin: 0;">3. Your initials <span style="font-weight: 400; color: var(--muted-color);">(optional: shown on screen only if you are drawn)</span></p>
+          <div class="poll-number" data-poll-id="ch12-econ3916-poll-7" data-poll-voting data-kind="initials" data-placeholder="e.g. JK"></div>
+        </div>
+        <p class="rt-count" style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 12px;"></p>
       </section>
 
       <section id="room-mean" style="padding: 24px 46px;">
@@ -1030,25 +1034,32 @@ Improvement:                       26.4%</code></pre>
    ============================================================ */
 (function () {
   "use strict";
-  var ID_Y = "ch12-econ3916-poll-5", ID_X = "ch12-econ3916-poll-6";
+  var ID_Y = "ch12-econ3916-poll-5", ID_X = "ch12-econ3916-poll-6", ID_I = "ch12-econ3916-poll-7";   // poll-7: optional initials, 1-3 letters
   var NUM = /^\s*(?:[oe]\*?:)?\s*(-?\d+(?:\.\d+)?)\s*$/;
   var MIN_N = 8, RANGE = {}; RANGE[ID_Y] = [0, 180]; RANGE[ID_X] = [0, 100];
   // made-up practice numbers (minutes, miles), shown only when the room has not sent enough and Q is pressed
   var PRACTICE = [[12,0.6],[25,3],[40,8],[8,0.3],[55,12],[30,4.5],[20,2],[65,20],[15,1],[35,6],[45,3],[10,0.8],[28,5],[25,15],[18,2.5],[70,25],[40,1.5]];
+  var PRACTICE_INI = ["AB", "", "CD", "EF", "", "GH", "", "IJ", "", "KL", "", "MN", "", "OP", "", "QR", "ST"];   // made up, like the numbers
   var practice = false, rows0 = [], last = null;
 
   function pairs(rows) {
     var first = {};
     (rows || []).slice().sort(function (a, b) { return String(a.created_at || "") < String(b.created_at || "") ? -1 : 1; })
       .forEach(function (r) {
-        if (!r || !RANGE[r.poll_id]) return;
+        if (!r) return;
+        if (r.poll_id === ID_I) {
+          var ini = String(r.choice || "").toUpperCase(), fi = first[r.voter_id] = first[r.voter_id] || {};
+          if (/^[A-Z]{1,3}$/.test(ini) && fi.ini === undefined) fi.ini = ini;
+          return;
+        }
+        if (!RANGE[r.poll_id]) return;
         var m = NUM.exec(String(r.choice)); if (!m) return;
         var v = +m[1], rg = RANGE[r.poll_id]; if (v < rg[0] || v > rg[1]) return;
         var f = first[r.voter_id] = first[r.voter_id] || {};
         if (f[r.poll_id] === undefined) f[r.poll_id] = v;
       });
     return Object.keys(first).sort().filter(function (k) { return first[k][ID_Y] !== undefined && first[k][ID_X] !== undefined; })
-      .map(function (k) { return { y: first[k][ID_Y], x: first[k][ID_X] }; });
+      .map(function (k) { return { y: first[k][ID_Y], x: first[k][ID_X], ini: first[k].ini || "" }; });
   }
   function mean(a) { var t = 0; a.forEach(function (v) { t += v; }); return t / a.length; }
   function fit(P) {
@@ -1100,6 +1111,7 @@ Improvement:                       26.4%</code></pre>
       var lit = pk.slice(0, Math.min(step, 3)).indexOf(i) >= 0, all = step >= 4;
       if (lit || all) s += '<line x1="' + X(r) + '" x2="' + X(r) + '" y1="' + Y(P[i].y) + '" y2="' + Y(F.my) + '" stroke="#b22222" stroke-width="' + (lit ? 3 : 1.5) + '" opacity="' + (lit ? 0.9 : 0.45) + '"/>';
       s += '<circle cx="' + X(r) + '" cy="' + Y(P[i].y) + '" r="' + (lit ? 9 : 7) + '" fill="' + (lit ? "#b22222" : "#2f4f4f") + '" fill-opacity="' + (lit ? 0.9 : 0.55) + '"/>';
+      if (lit && P[i].ini) s += iniTag(X(r), Y(P[i].y), P[i].ini);
     });
     return s + '</svg>';
   }
@@ -1114,6 +1126,7 @@ Improvement:                       26.4%</code></pre>
       var lit = pk.slice(0, Math.min(step, 3)).indexOf(i) >= 0, all = step >= 4;
       if (lit || all) s += '<line x1="' + X(p.x) + '" x2="' + X(p.x) + '" y1="' + Y(p.y) + '" y2="' + Y(F.a + F.b * p.x) + '" stroke="#1f6fb2" stroke-width="' + (lit ? 3 : 1.5) + '" opacity="' + (lit ? 0.9 : 0.45) + '"/>';
       s += '<circle cx="' + X(p.x) + '" cy="' + Y(p.y) + '" r="' + (lit ? 9 : 7) + '" fill="' + (lit ? "#b22222" : "#2f4f4f") + '" fill-opacity="' + (lit ? 0.9 : 0.55) + '"/>';
+      if (lit && p.ini) s += iniTag(X(p.x), Y(p.y), p.ini);
     });
     return s + '</svg>';
   }
@@ -1129,10 +1142,15 @@ Improvement:                       26.4%</code></pre>
     s += '<text x="' + ((L + R) / 2) + '" y="' + (H - 2) + '" text-anchor="middle" font-size="14" fill="#555">R² of the line after the miles were shuffled across the room</text>';
     return s + '</svg>';
   }
+  function iniTag(cx, cy, ini) {             // a drawn student's initials beside the dot (letters only, checked in pairs())
+    var x = Math.min(R - 30, cx + 14), y = cy < T + 24 ? cy + 22 : cy - 12;
+    return '<text x="' + x + '" y="' + y + '" font-size="17" font-weight="700" fill="#b22222" stroke="#fff" stroke-width="5" paint-order="stroke">' + ini + '</text>';
+  }
+  function who(p) { return p.ini ? " (" + p.ini + ")" : ""; }
   function stepOf(sec) { return sec ? sec.querySelectorAll(".rt-step.visible").length : 0; }
   function draw(rows) {
     if (rows) rows0 = rows;
-    var P = practice ? PRACTICE.map(function (q) { return { y: q[0], x: q[1] }; }) : pairs(rows0);
+    var P = practice ? PRACTICE.map(function (q, i) { return { y: q[0], x: q[1], ini: PRACTICE_INI[i] || "" }; }) : pairs(rows0);
     var F = P.length >= MIN_N ? fit(P) : null;
     [].forEach.call(document.querySelectorAll(".rt-count"), function (e) {
       e.textContent = P.length ? P.length + (practice ? " practice pairs (made up)" : " of you " + (P.length === 1 ? "has" : "have") + " sent both numbers") : ""; });
@@ -1144,12 +1162,12 @@ Improvement:                       26.4%</code></pre>
       var step = stepOf(sec), pk = picks(P), tag = practice ? ' <span style="color:#a06000">(practice numbers, made up)</span>' : "";
       if (pr[1] === "mean") {
         host.innerHTML = plotMean(P, F, step, pk);
-        var lines = pk.slice(0, Math.min(step, 3)).map(function (i, k) { var e = P[i].y - F.my; return "Draw " + (k + 1) + ": " + f0(P[i].y) + " min, the mean guesses " + f1(F.my) + ": miss " + f1(e) + ", squared " + f0(e * e); });
+        var lines = pk.slice(0, Math.min(step, 3)).map(function (i, k) { var e = P[i].y - F.my; return "Draw " + (k + 1) + who(P[i]) + ": " + f0(P[i].y) + " min, the mean guesses " + f1(F.my) + ": miss " + f1(e) + ", squared " + f0(e * e); });
         if (step >= 4) lines.push("<strong>All " + F.n + " of you: sum of squares around the mean = " + f0(F.ssm) + "</strong>");
         out.innerHTML = (lines.join("<br>") || "Click to draw a student.") + tag;
       } else if (pr[1] === "line") {
         host.innerHTML = plotLine(P, F, step, pk);
-        var l2 = pk.slice(0, Math.min(step, 3)).map(function (i, k) { var g = F.a + F.b * P[i].x, e = P[i].y - g, e0 = P[i].y - F.my; return "Draw " + (k + 1) + ": " + f1(P[i].x) + " mi, " + f0(P[i].y) + " min. Mean misses by " + f1(e0) + "; the line guesses " + f1(g) + ", misses by " + f1(e); });
+        var l2 = pk.slice(0, Math.min(step, 3)).map(function (i, k) { var g = F.a + F.b * P[i].x, e = P[i].y - g, e0 = P[i].y - F.my; return "Draw " + (k + 1) + who(P[i]) + ": " + f1(P[i].x) + " mi, " + f0(P[i].y) + " min. Mean misses by " + f1(e0) + "; the line guesses " + f1(g) + ", misses by " + f1(e); });
         if (step >= 4) l2.push("<strong>Sum of squares: around the mean " + f0(F.ssm) + ", around the line " + f0(F.ssf) + ". R² = (" + f0(F.ssm) + " − " + f0(F.ssf) + ") ÷ " + f0(F.ssm) + " = " + f2(F.r2) + "</strong>",
                                "Typical miss (root of the average squared miss): the mean " + f1(Math.sqrt(F.ssm / F.n)) + " min, the line " + f1(Math.sqrt(F.ssf / F.n)) + " min.",
                                "Line: minutes ≈ " + f1(F.a) + " + " + f1(F.b) + " × miles. Each extra mile " + (F.b >= 0 ? "adds about " + f1(F.b) : "takes off about " + f1(-F.b)) + " minutes.");
@@ -1179,7 +1197,7 @@ Improvement:                       26.4%</code></pre>
     var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide();
     var today = window.Poll ? Poll.q() : "";
     var latest = !!(s && s.id !== "room-trip" && today);
-    var url = SU + "/rest/v1/poll_votes?poll_id=in.(" + ID_Y + "," + ID_X + ")&select=poll_id,choice,voter_id,created_at" +
+    var url = SU + "/rest/v1/poll_votes?poll_id=in.(" + ID_Y + "," + ID_X + "," + ID_I + ")&select=poll_id,choice,voter_id,created_at" +
               (latest ? ",session_key&session_key=like.*-" + today.split("-").pop() : today);
     fetch(url, { headers: { apikey: SK, Authorization: "Bearer " + SK, "Cache-Control": "no-cache, no-store" } })
       .then(function (r) { return r.ok ? r.json() : null; })

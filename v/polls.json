@@ -57,11 +57,12 @@
   "ch11-econ3916-poll-3": "11-3",
   "ch11-econ3916-poll-4": "11-4",
   "ch12-econ3916-poll-1": "12-1",
-  "ch12-econ3916-poll-2": "12-4",
-  "ch12-econ3916-poll-3": "12-5",
-  "ch12-econ3916-poll-4": "12-6",
+  "ch12-econ3916-poll-2": "12-5",
+  "ch12-econ3916-poll-3": "12-6",
+  "ch12-econ3916-poll-4": "12-7",
   "ch12-econ3916-poll-5": "12-2",
   "ch12-econ3916-poll-6": "12-3",
+  "ch12-econ3916-poll-7": "12-4",
   "ch13-econ3916-poll-1": "13-1",
   "ch13-econ3916-poll-2": "13-3",
   "ch13-econ3916-poll-3": "13-4",
@@ -190,13 +191,17 @@
   ],
   "12-4": [
    "ch12-ols-prediction",
-   "ch12-econ3916-poll-2"
+   "ch12-econ3916-poll-7"
   ],
   "12-5": [
    "ch12-ols-prediction",
-   "ch12-econ3916-poll-3"
+   "ch12-econ3916-poll-2"
   ],
   "12-6": [
+   "ch12-ols-prediction",
+   "ch12-econ3916-poll-3"
+  ],
+  "12-7": [
    "ch12-ols-prediction",
    "ch12-econ3916-poll-4"
   ],
