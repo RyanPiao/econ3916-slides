@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=105bb5b0f3dd14a84fde68f38b96b0bd">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=fd7099550ae6b9c9c296177bdb857cc8">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multivariate OLS: Controlling for Confounders</title>
@@ -787,7 +787,7 @@
         <h2><i class="fa-solid fa-scale-unbalanced-flip" style="color: var(--danger-color);"></i> What It Changes, and What It Does Not</h2>
         <div class="content">
           <div style="display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 22px; align-items: start;">
-            <img class="figure" src="figures/figure_007_multicollinearity.png" alt="Top panel: the standard error on tenure rising from 28.1 alone to 147.2 once a near-duplicate predictor with VIF 48.82 joins the model. Bottom panel: R-squared identical at 0.80622 and the female coefficient identical at minus 2,746 both with and without the duplicate" style="width: 100%; max-height: 525px; object-fit: contain;">
+            <div style="height: 475px; overflow: hidden; border-radius: 8px; border: 1px solid #e6e1d9;"><iframe data-src="figures/vif_explorer.html" title="Interactive: a slider sets how closely a twin copies tenure; VIF, tenure's own variation, its standard error and the coefficient split change while R squared and the gender coefficient stay the same" loading="lazy" scrolling="no" style="width: 111%; height: 111%; border: none; overflow: hidden; transform: scale(0.9); transform-origin: top left;"></iframe></div>
             <div>
               <div style="background: #f9f0ee; border-radius: 8px; padding: 12px 16px; border-left: 3px solid var(--danger-color);">
                 <p style="font-size: 14.5pt;"><strong>1. The standard error got much larger.</strong> 28.1 &rarr; 147.2, five times wider. The classic signature: a model that is clearly working, made of coefficients that individually look like nothing.</p>
