@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=67dcf24319da954b218ef3399f31b13d">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=c5e978a97ffa282ac3efead227494917">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multivariate OLS: Controlling for Confounders</title>
@@ -107,25 +107,46 @@
         </div>
       </section>
 
-      <section id="hook-two-questions" style="padding: 36px 50px;">
-        <h2><i class="fa-solid fa-circle-question" style="color: var(--accent-color);"></i> Both Are Right: Two Different Questions</h2>
-        <div class="content">
-          <p class="text-lg">They answered two different questions that sound identical in English:</p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 12px;">
-            <div style="border: 2px solid var(--secondary-color); border-radius: 10px; padding: 16px 20px;">
-              <p style="font-size: 16pt; font-weight: 600; color: var(--secondary-color);">Are men and women at these firms paid equally?</p>
-              <p style="font-size: 13.5pt; color: var(--muted-color); margin-top: 8px;">The total earnings difference between two people who walked in the same door on the same day.</p>
+      <section>
+        <section id="hook-two-questions" style="padding: 36px 50px;">
+          <h2><i class="fa-solid fa-circle-question" style="color: var(--accent-color);"></i> Both Are Right: Two Different Questions</h2>
+          <div class="content">
+            <p class="text-lg">They answered two different questions that sound identical in English:</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 12px;">
+              <div style="border: 2px solid var(--secondary-color); border-radius: 10px; padding: 16px 20px;">
+                <p style="font-size: 16pt; font-weight: 600; color: var(--secondary-color);">Are men and women at these firms paid equally?</p>
+                <p style="font-size: 13.5pt; color: var(--muted-color); margin-top: 8px;">The total earnings difference between two people who walked in the same door on the same day.</p>
+              </div>
+              <div style="border: 2px solid var(--danger-color); border-radius: 10px; padding: 16px 20px;">
+                <p style="font-size: 16pt; font-weight: 600; color: var(--danger-color);">Are they paid equally <em>for the same role</em>?</p>
+                <p style="font-size: 13.5pt; color: var(--muted-color); margin-top: 8px;">Equal pay for equal work, inside a pay band. A narrower claim.</p>
+              </div>
             </div>
-            <div style="border: 2px solid var(--danger-color); border-radius: 10px; padding: 16px 20px;">
-              <p style="font-size: 16pt; font-weight: 600; color: var(--danger-color);">Are they paid equally <em>for the same role</em>?</p>
-              <p style="font-size: 13.5pt; color: var(--muted-color); margin-top: 8px;">Equal pay for equal work, inside a pay band. A narrower claim.</p>
+            <div class="misconception fragment fade-up" style="margin-top: 16px;">
+              <p><strong>If women are promoted less often than men with the same experience</strong> &mdash; and the Boston Women's Workforce Council's data shows women holding a far smaller share of senior positions than of the workforce &mdash; then job title is <strong>part of what you are trying to measure</strong>, not neutral background.</p>
+            </div>
+            <p class="fragment fade-up text-lg" style="margin-top: 14px; text-align: center;">Adding a variable takes one keystroke. <strong>Deciding what belongs is a claim about how the world works.</strong></p>
+          </div>
+        </section>
+        <section id="room-trip" style="padding: 34px 50px;">
+          <h2><i class="fa-solid fa-person-walking" style="color: var(--secondary-color);"></i> Three Numbers About Your Trip Here</h2>
+          <div style="background: #f8f6f3; border-radius: 10px; padding: 14px 22px; margin-top: 10px;"><p style="font-size: 15.5pt; line-height: 1.55; margin: 0;">Send three numbers. Rough is fine. Later today we find out whether walking was hiding inside the minutes-per-mile slope.</p></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px;">
+            <div style="background: #f0f5f8; border-radius: 10px; padding: 16px 22px; border-top: 5px solid var(--secondary-color);">
+              <p style="font-size: 15.5pt; font-weight: 700; margin: 0 0 10px;">1. Minutes it took you to get here today</p>
+              <div class="poll-number" data-poll-id="ch13-econ3916-poll-8" data-poll-voting data-min="0" data-max="180" data-step="1" data-unit="min"></div>
+            </div>
+            <div style="background: #fdf0ea; border-radius: 10px; padding: 16px 22px; border-top: 5px solid var(--accent-color);">
+              <p style="font-size: 15.5pt; font-weight: 700; margin: 0 0 10px;">2. About how many miles you came</p>
+              <div class="poll-number" data-poll-id="ch13-econ3916-poll-9" data-poll-voting data-min="0" data-max="100" data-step="0.1" data-unit="mi"></div>
             </div>
           </div>
-          <div class="misconception fragment fade-up" style="margin-top: 16px;">
-            <p><strong>If women are promoted less often than men with the same experience</strong> &mdash; and the Boston Women's Workforce Council's data shows women holding a far smaller share of senior positions than of the workforce &mdash; then job title is <strong>part of what you are trying to measure</strong>, not neutral background.</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: center; background: #f1f6ee; border-radius: 10px; padding: 12px 22px; margin-top: 14px; border-left: 5px solid var(--success-color);">
+            <p style="font-size: 15.5pt; font-weight: 700; margin: 0;">3. Did you walk the whole way here? <span style="font-weight: 400;">1 = yes, 0 = no</span></p>
+            <div class="poll-number" data-poll-id="ch13-econ3916-poll-10" data-poll-voting data-min="0" data-max="1" data-step="1"></div>
           </div>
-          <p class="fragment fade-up text-lg" style="margin-top: 14px; text-align: center;">Adding a variable takes one keystroke. <strong>Deciding what belongs is a claim about how the world works.</strong></p>
-        </div>
+          <p class="ro-count" style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 14px;"></p>
+        </section>
       </section>
       <section id="divider-1" class="section-divider" data-state="is-section-divider">
         <h1>From a Line to a Plane</h1>
@@ -361,6 +382,17 @@
             <div class="fragment fade-up" style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 14px 20px; margin-top: 12px;">
               <p style="font-size: 15.5pt;">Step 2 printed <strong>5,126</strong> for education, against a truth of <strong>$2,500</strong>: roughly double. Step 3: &gamma; &times; &delta; = <strong>2,629</strong> predicted bias, 2,626 actual. With ability in the model, 2,546. Answer: <strong>C</strong>.</p>
             </div>
+          </div>
+        </section>
+        <section id="room-ovb" style="padding: 24px 46px;">
+          <h2><i class="fa-solid fa-person-walking" style="color: var(--secondary-color);"></i> Was Walking Hiding in the Slope?</h2>
+          <div class="content">
+            <p style="font-size: 13.5pt; line-height: 1.4; margin: 0 0 4px; color: #5d5d5d;">Your numbers. The <strong>short</strong> regression uses miles only; the <strong>long</strong> one adds walked (1 or 0). Before the click: when walked goes in, does the minutes-per-mile slope go up, go down, or stay?</p>
+            <div class="ro-plot mathjax_ignore tex2jax_ignore"></div>
+            <p class="ro-wait" style="font-size: 15pt; text-align: center; color: var(--muted-color); margin-top: 50px;">Waiting for at least 8 complete answers.</p>
+            <div class="ro-readout mathjax_ignore tex2jax_ignore" style="font-size: 14.5pt; line-height: 1.45; margin-top: 4px;"></div>
+            <span class="fragment ro-step" data-step="1" style="display:none"></span><span class="fragment ro-step" data-step="2" style="display:none"></span>
+            <p class="footnote" style="font-size: 11pt; color: var(--muted-color); margin-top: 10px; font-style: italic;">Short minus long equals walking&rsquo;s coefficient times the slope of walked on miles, exactly, on any data. About 20 people: a demonstration, not a finding.</p>
           </div>
         </section>
       </section>
@@ -1824,6 +1856,148 @@
     document.addEventListener('keydown', Ink.keys, true);
   }
   if (Reveal.isReady()) start(); else Reveal.on('ready', start);
+})();
+</script>
+<script>
+/* ============================================================
+   Topic 13: THE ROOM'S OMITTED VARIABLE (3916, 29 Oct 2026; built on the Topic 12 room regression). y = minutes
+   (ch13-econ3916-poll-8, 0-180), x = miles (ch13-econ3916-poll-9, 0-100), w = walked the whole way (ch13-econ3916-poll-10, 0 or 1).
+   Short regression y ~ x; long regression y ~ x + w; delta = slope of w on x. Short - long = c * delta exactly (the
+   omitted-variable identity in sample). Click 1 draws the long lines, click 2 reads the formula. Needs 8 complete
+   answers with at least 2 walkers and 2 non-walkers; otherwise Q (or ?practice=1) loads made-up practice numbers,
+   labelled. Reads poll_votes; never writes. window.RoomOVB.paint(rows) takes planted rows for a test.
+   ============================================================ */
+(function () {
+  "use strict";
+  var ID_Y = "ch13-econ3916-poll-8", ID_X = "ch13-econ3916-poll-9", ID_W = "ch13-econ3916-poll-10";
+  var NUM = /^\s*(?:[oe]\*?:)?\s*(-?\d+(?:\.\d+)?)\s*$/;
+  var MIN_N = 8, MIN_G = 2, RANGE = {}; RANGE[ID_Y] = [0, 180]; RANGE[ID_X] = [0, 100]; RANGE[ID_W] = [0, 1];
+  // made-up practice numbers (minutes, miles, walked), shown only when Q is pressed
+  var PRACTICE = [[12,0.6,1],[8,0.3,1],[15,0.8,1],[20,1.0,1],[10,0.5,1],[18,1.2,1],[25,3,0],[40,8,0],[55,12,0],[30,4.5,0],[20,2,0],[65,20,0],[35,6,0],[28,5,0],[45,10,0],[18,2.5,0],[70,25,0]];
+  var practice = false, rows0 = [];
+
+  function triples(rows) {
+    var first = {};
+    (rows || []).slice().sort(function (a, b) { return String(a.created_at || "") < String(b.created_at || "") ? -1 : 1; })
+      .forEach(function (r) {
+        if (!r || !RANGE[r.poll_id]) return;
+        var m = NUM.exec(String(r.choice)); if (!m) return;
+        var v = +m[1], rg = RANGE[r.poll_id]; if (v < rg[0] || v > rg[1]) return;
+        if (r.poll_id === ID_W && v !== 0 && v !== 1) return;
+        var f = first[r.voter_id] = first[r.voter_id] || {};
+        if (f[r.poll_id] === undefined) f[r.poll_id] = v;
+      });
+    return Object.keys(first).sort().filter(function (k) { var f = first[k]; return f[ID_Y] !== undefined && f[ID_X] !== undefined && f[ID_W] !== undefined; })
+      .map(function (k) { return { y: first[k][ID_Y], x: first[k][ID_X], w: first[k][ID_W] }; });
+  }
+  function mean(a) { var t = 0; a.forEach(function (v) { t += v; }); return t / a.length; }
+  function fit(P) {
+    var my = mean(P.map(function (p) { return p.y; })), mx = mean(P.map(function (p) { return p.x; })), mw = mean(P.map(function (p) { return p.w; }));
+    var sxx = 0, sww = 0, sxw = 0, sxy = 0, swy = 0;
+    P.forEach(function (p) { var x = p.x - mx, w = p.w - mw, y = p.y - my; sxx += x * x; sww += w * w; sxw += x * w; sxy += x * y; swy += w * y; });
+    var det = sxx * sww - sxw * sxw, k = P.filter(function (p) { return p.w === 1; }).length;
+    if (!(sxx > 0) || !(det > 1e-9 * sxx * sww) || k < MIN_G || P.length - k < MIN_G) return { ok: false, n: P.length, k: k };
+    var bs = sxy / sxx, as = my - bs * mx;
+    var b = (sww * sxy - sxw * swy) / det, c = (sxx * swy - sxw * sxy) / det, a = my - b * mx - c * mw;
+    return { ok: true, n: P.length, k: k, bs: bs, as: as, b: b, c: c, a: a, d: sxw / sxx };
+  }
+  function f1(v) { return (Math.round(v * 10) / 10).toFixed(1).replace("-", "−"); }
+  function f3(v) { return v.toFixed(3).replace("-", "−"); }
+  function f0(v) { return Math.round(v).toLocaleString("en-US").replace("-", "−"); }
+
+  var W = 1100, H = 300, L = 70, R = 1080, T = 18, B = 260, WALK = "#c8691c", RIDE = "#1f6fb2";
+  function plot(P, F, step) {
+    var ymax = Math.max(10, Math.ceil(Math.max.apply(null, P.map(function (p) { return p.y; })) / 20) * 20);
+    var xmax = Math.max(2, Math.ceil(Math.max.apply(null, P.map(function (p) { return p.x; })) / 2) * 2);
+    var X = function (v) { return L + (R - L) * v / xmax; }, Y = function (v) { return B - (B - T) * Math.max(0, Math.min(ymax, v)) / ymax; };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" font-family="inherit" style="width:100%;display:block" role="img" aria-label="minutes against miles, walkers and others, with the short and long regression lines">';
+    s += '<rect x="' + L + '" y="' + T + '" width="' + (R - L) + '" height="' + (B - T) + '" fill="#fbfaf8" stroke="#d9d4cb"/>';
+    for (var k = 0; k <= 4; k++) {
+      var yy = B - (B - T) * k / 4, xx = L + (R - L) * k / 4;
+      s += '<line x1="' + L + '" x2="' + R + '" y1="' + yy + '" y2="' + yy + '" stroke="#ece8e1"/><text x="' + (L - 8) + '" y="' + (yy + 5) + '" text-anchor="end" font-size="14" fill="#777">' + f0(ymax * k / 4) + '</text>';
+      s += '<text x="' + xx + '" y="' + (B + 20) + '" text-anchor="middle" font-size="14" fill="#777">' + f1(xmax * k / 4) + '</text>';
+    }
+    s += '<text transform="translate(18 ' + ((T + B) / 2) + ') rotate(-90)" text-anchor="middle" font-size="14" fill="#555">minutes to get here</text>';
+    s += '<text x="' + ((L + R) / 2) + '" y="' + (H - 2) + '" text-anchor="middle" font-size="14" fill="#555">miles you came</text>';
+    s += '<line x1="' + X(0) + '" x2="' + X(xmax) + '" y1="' + Y(F.as) + '" y2="' + Y(F.as + F.bs * xmax) + '" stroke="#2c3e50" stroke-width="' + (step >= 1 ? 2 : 3) + '" stroke-dasharray="8 6" opacity="' + (step >= 1 ? 0.5 : 0.9) + '"/>';
+    s += '<text x="' + (R - 6) + '" y="' + (Y(F.as + F.bs * xmax) - 8) + '" text-anchor="end" font-size="15" font-weight="700" fill="#2c3e50" opacity="' + (step >= 1 ? 0.6 : 1) + '">short: ' + f3(F.bs) + ' min per mile</text>';
+    if (step >= 1) {
+      [[0, RIDE, "others"], [1, WALK, "walked"]].forEach(function (g) {
+        var a0 = F.a + F.c * g[0];
+        s += '<line x1="' + X(0) + '" x2="' + X(xmax) + '" y1="' + Y(a0) + '" y2="' + Y(a0 + F.b * xmax) + '" stroke="' + g[1] + '" stroke-width="3"/>';
+      });
+      s += '<text x="' + (L + 10) + '" y="' + (T + 20) + '" font-size="15" font-weight="700" fill="#333">long: ' + f3(F.b) + ' min per mile, one slope for both groups</text>';
+    }
+    P.forEach(function (p) {
+      var col = p.w === 1 ? WALK : RIDE;
+      s += p.w === 1 ? '<rect x="' + (X(p.x) - 7) + '" y="' + (Y(p.y) - 7) + '" width="14" height="14" fill="' + col + '" fill-opacity="0.8"/>'
+                     : '<circle cx="' + X(p.x) + '" cy="' + Y(p.y) + '" r="7" fill="' + col + '" fill-opacity="0.65"/>';
+    });
+    s += '<rect x="' + (R - 250) + '" y="' + (B - 52) + '" width="12" height="12" fill="' + WALK + '"/><text x="' + (R - 232) + '" y="' + (B - 41) + '" font-size="14" fill="#555">walked</text>';
+    s += '<circle cx="' + (R - 244) + '" cy="' + (B - 22) + '" r="6" fill="' + RIDE + '"/><text x="' + (R - 232) + '" y="' + (B - 17) + '" font-size="14" fill="#555">others</text>';
+    return s + '</svg>';
+  }
+  function stepOf(sec) { return sec ? sec.querySelectorAll(".ro-step.visible").length : 0; }
+  function draw(rows) {
+    if (rows) rows0 = rows;
+    var P = practice ? PRACTICE.map(function (q) { return { y: q[0], x: q[1], w: q[2] }; }) : triples(rows0);
+    var k = P.filter(function (p) { return p.w === 1; }).length;
+    [].forEach.call(document.querySelectorAll(".ro-count"), function (e) {
+      e.textContent = P.length ? P.length + (practice ? " practice answers (made up)" : " of you " + (P.length === 1 ? "has" : "have") + " sent all three") + ", " + k + " walked" : ""; });
+    var sec = document.getElementById("room-ovb"); if (!sec) return;
+    var host = sec.querySelector(".ro-plot"), out = sec.querySelector(".ro-readout"), wait = sec.querySelector(".ro-wait");
+    var F = P.length >= MIN_N ? fit(P) : { ok: false, n: P.length, k: k };
+    if (!F.ok) {
+      host.innerHTML = ""; out.innerHTML = "";
+      if (wait) { wait.style.display = ""; wait.textContent = "Waiting for at least " + MIN_N + " complete answers with at least " + MIN_G + " walkers and " + MIN_G + " others (now " + P.length + ", " + k + " walked). Q switches on practice numbers."; }
+      return;
+    }
+    if (wait) wait.style.display = "none";
+    var step = stepOf(sec), tag = practice ? ' <span style="color:#a06000">(practice numbers, made up)</span>' : "", z = F.bs - F.b;
+    host.innerHTML = plot(P, F, step);
+    var L1 = ["<strong>Short</strong> (miles only): each extra mile goes with <strong>" + f3(F.bs) + "</strong> more minutes."];
+    if (step < 1) L1.push("Hands: when walked goes in, does that slope go up, go down, or stay?");
+    if (step >= 1) L1.push("<strong>Long</strong> (miles and walked): <strong>" + f3(F.b) + "</strong> minutes per mile; at the same distance, walking " + (F.c >= 0 ? "adds " + f1(F.c) : "saves " + f1(-F.c)) + " minutes.");
+    if (step >= 2) {
+      L1.push("<strong>Formula:</strong> walking&rsquo;s coefficient × δ = " + F.c.toFixed(2).replace("-", "−") + " × " + F.d.toFixed(4).replace("-", "−") + " = <strong>" + f3(F.c * F.d) + "</strong>. Short − long = " + f3(F.bs) + " − " + f3(F.b) + " = <strong>" + f3(z) + "</strong>.");
+      L1.push("δ is the slope of walked on miles: walkers live " + (F.d < 0 ? "closer" : "farther") + ". Walking " + (F.c >= 0 ? "adds" : "saves") + " time at a given distance. So leaving walked out made the miles slope " + (Math.abs(z) < 0.0005 ? "no different" : z > 0 ? "too big" : "too small") + ".");
+    }
+    out.innerHTML = L1.join("<br>") + tag;
+  }
+  window.RoomOVB = { triples: triples, fit: fit, paint: function (rows) { draw(rows); } };
+
+  var SU = "https://dpntbrsorgbivmntwmod.supabase.co";
+  var SK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
+  function bestSession(rows) {
+    var by = {};
+    rows.forEach(function (r) { var k = String(r.session_key || ""); (by[k] = by[k] || []).push(r); });
+    var keys = Object.keys(by).sort().reverse(), pick = keys[0] || "";
+    for (var i = 0; i < keys.length; i++) { if (fit(triples(by[keys[i]])).ok && triples(by[keys[i]]).length >= MIN_N) { pick = keys[i]; break; } }
+    return by[pick] || [];
+  }
+  var HERE = ["room-trip", "room-ovb"];
+  function onRoom() { var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide(); return !!(s && HERE.indexOf(s.id) >= 0); }
+  function fetchRows() {
+    if (location.protocol === "file:") return;
+    var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide();
+    var today = window.Poll ? Poll.q() : "";
+    var latest = !!(s && s.id !== "room-trip" && today);
+    var url = SU + "/rest/v1/poll_votes?poll_id=in.(" + ID_Y + "," + ID_X + "," + ID_W + ")&select=poll_id,choice,voter_id,created_at" +
+              (latest ? ",session_key&session_key=like.*-" + today.split("-").pop() : today);
+    fetch(url, { headers: { apikey: SK, Authorization: "Bearer " + SK, "Cache-Control": "no-cache, no-store" } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (rows) { if (rows) draw(latest ? bestSession(rows) : rows); })
+      .catch(function () {});
+  }
+  setInterval(function () { if (!document.hidden && onRoom()) fetchRows(); }, 4000);
+  if (window.Reveal && Reveal.on) {
+    Reveal.on("slidechanged", function () { if (onRoom()) { fetchRows(); draw(); } });
+    ["fragmentshown", "fragmenthidden"].forEach(function (ev) { Reveal.on(ev, function () { if (onRoom()) draw(); }); });
+  }
+  document.addEventListener("keydown", function (e) {           // Q: practice numbers on/off (P is Reveal's "previous")
+    var t = e.target; if ((e.key === "q" || e.key === "Q") && onRoom() && !(t && t.closest && t.closest("input,textarea"))) { practice = !practice; draw(); } });
+  if (/[?&]practice=1/.test(location.search)) practice = true;
+  setTimeout(fetchRows, 900);
 })();
 </script>
 </body>

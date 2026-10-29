@@ -63,13 +63,16 @@
   "ch12-econ3916-poll-5": "12-2",
   "ch12-econ3916-poll-6": "12-3",
   "ch12-econ3916-poll-7": "12-4",
-  "ch13-econ3916-poll-1": "13-1",
-  "ch13-econ3916-poll-2": "13-3",
-  "ch13-econ3916-poll-3": "13-4",
-  "ch13-econ3916-poll-4": "13-7",
-  "ch13-econ3916-poll-5": "13-2",
-  "ch13-econ3916-poll-6": "13-5",
-  "ch13-econ3916-poll-7": "13-6",
+  "ch13-econ3916-poll-1": "13-4",
+  "ch13-econ3916-poll-10": "13-3",
+  "ch13-econ3916-poll-2": "13-6",
+  "ch13-econ3916-poll-3": "13-7",
+  "ch13-econ3916-poll-4": "13-10",
+  "ch13-econ3916-poll-5": "13-5",
+  "ch13-econ3916-poll-6": "13-8",
+  "ch13-econ3916-poll-7": "13-9",
+  "ch13-econ3916-poll-8": "13-1",
+  "ch13-econ3916-poll-9": "13-2",
   "ch14-econ3916-poll-1": "14-1",
   "ch14-econ3916-poll-2": "14-2",
   "ch14-econ3916-poll-3": "14-3",
@@ -207,31 +210,43 @@
   ],
   "13-1": [
    "ch13-multivariate-ols",
-   "ch13-econ3916-poll-1"
+   "ch13-econ3916-poll-8"
+  ],
+  "13-10": [
+   "ch13-multivariate-ols",
+   "ch13-econ3916-poll-4"
   ],
   "13-2": [
    "ch13-multivariate-ols",
-   "ch13-econ3916-poll-5"
+   "ch13-econ3916-poll-9"
   ],
   "13-3": [
    "ch13-multivariate-ols",
-   "ch13-econ3916-poll-2"
+   "ch13-econ3916-poll-10"
   ],
   "13-4": [
    "ch13-multivariate-ols",
-   "ch13-econ3916-poll-3"
+   "ch13-econ3916-poll-1"
   ],
   "13-5": [
    "ch13-multivariate-ols",
-   "ch13-econ3916-poll-6"
+   "ch13-econ3916-poll-5"
   ],
   "13-6": [
    "ch13-multivariate-ols",
-   "ch13-econ3916-poll-7"
+   "ch13-econ3916-poll-2"
   ],
   "13-7": [
    "ch13-multivariate-ols",
-   "ch13-econ3916-poll-4"
+   "ch13-econ3916-poll-3"
+  ],
+  "13-8": [
+   "ch13-multivariate-ols",
+   "ch13-econ3916-poll-6"
+  ],
+  "13-9": [
+   "ch13-multivariate-ols",
+   "ch13-econ3916-poll-7"
   ],
   "14-1": [
    "ch14-ols-diagnostics",
