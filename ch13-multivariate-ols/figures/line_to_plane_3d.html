@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=e10fd2b3c8443b2bcea9f9340dce382f">
+<html lang="en"><head><meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=f8863e54f9a670c1fbdaa3ed4d4dd789">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Line to plane</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.27.0/plotly.min.js"></script>
@@ -16,7 +16,7 @@ b.r{color:#b22222}
 <div id="plot"></div>
 <div id="bar"><label for="r">Hold rooms at <b class="r" id="rv">5</b></label><input id="r" type="range" min="3" max="9" step="1" value="5">
 <button id="side">Income side</button><button id="reset">Back</button></div>
-<div id="cap"><b>Floor:</b> income (10,000s of dollars) and average rooms. <b>Up:</b> house value (100,000s). Each red line walks along income with rooms held fixed. Every line has the same slope: that slope is the income coefficient.</div>
+<div id="cap">Each red line walks along income with rooms held fixed. Every line has the same slope: that slope is the income coefficient.</div>
 </div>
 <script>
 // California Housing, 700 of 20,640 block groups (seed 42; rooms 2-10, income up to 10), and the OLS plane fitted on all
@@ -36,7 +36,10 @@ var layout={margin:{l:0,r:0,t:0,b:0},paper_bgcolor:"#fff",font:{family:"Source S
  scene:{camera:cam0,aspectmode:"manual",aspectratio:{x:1.35,y:1,z:0.8},
   xaxis:{title:{text:""},tickfont:{size:12},range:[0,10]},
   yaxis:{title:{text:""},tickfont:{size:12},range:[2,10]},
-  zaxis:{title:{text:""},tickfont:{size:12},range:[0,5.2]}}};
+  zaxis:{title:{text:""},tickfont:{size:12},range:[0,5.2]},
+  annotations:[{x:6.5,y:2,z:0,text:"<b>income</b> (10,000s of dollars)",showarrow:false,xshift:120,yshift:-38,font:{size:15,color:"#333"}},
+   {x:0,y:6.5,z:0,text:"<b>rooms</b>",showarrow:false,xshift:-92,yshift:-2,font:{size:15,color:"#333"}},
+   {x:0,y:10,z:5.2,text:"<b>house value</b> (100,000s)",showarrow:false,yshift:22,font:{size:15,color:"#333"}}]}};
 Plotly.newPlot("plot",traces(5),layout,{displayModeBar:false,responsive:true});
 var r=document.getElementById("r");
 r.addEventListener("input",function(){var v=+r.value;document.getElementById("rv").textContent=v;

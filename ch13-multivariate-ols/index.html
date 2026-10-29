@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=49d27d7fd4cdfddc315bf989deaf84d3">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=eaae5e7f162b34457a676350dd14ae09">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multivariate OLS: Controlling for Confounders</title>
@@ -186,25 +186,55 @@
         </div>
       </section>
 
-      <section id="the-formalism" style="padding: 32px 50px;">
-        <h2><i class="fa-solid fa-square-root-variable" style="color: var(--secondary-color);"></i> The Formalism, Once</h2>
-        <div class="content">
-          <p style="font-size: 20pt; text-align: center; margin: 4px 0;">\[ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_p x_{ip} + \varepsilon_i \]</p>
-          <p style="font-size: 14.5pt; text-align: center; color: var(--muted-color); font-style: italic;">Same line as Chapter 12, more slopes. Each \(\beta_j\) is one predictor's own slope.</p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 14px; align-items: start;">
-            <div style="background: #f0f5f8; border-radius: 10px; padding: 14px 20px;">
-              <p style="font-size: 19pt; text-align: center; margin: 2px 0;">\[ \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon} \]</p>
-              <p style="font-size: 13.5pt; margin-top: 8px;"><strong>X is the design matrix</strong> &mdash; a spreadsheet. One row per block group, one column per predictor, plus a leading column of ones for the intercept.</p>
+      <section>
+        <section id="the-formalism" style="padding: 32px 50px;">
+          <h2><i class="fa-solid fa-square-root-variable" style="color: var(--secondary-color);"></i> The Formalism, Once</h2>
+          <div class="content">
+            <p style="font-size: 20pt; text-align: center; margin: 4px 0;">\[ y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_p x_{ip} + \varepsilon_i \]</p>
+            <p style="font-size: 14.5pt; text-align: center; color: var(--muted-color); font-style: italic;">Same line as Chapter 12, more slopes. Each \(\beta_j\) is one predictor's own slope.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 14px; align-items: start;">
+              <div style="background: #f0f5f8; border-radius: 10px; padding: 14px 20px;">
+                <p style="font-size: 19pt; text-align: center; margin: 2px 0;">\[ \mathbf{y} = \mathbf{X}\boldsymbol{\beta} + \boldsymbol{\varepsilon} \]</p>
+                <p style="font-size: 13.5pt; margin-top: 8px;"><strong>X is the design matrix</strong> &mdash; a spreadsheet. One row per block group, one column per predictor, plus a leading column of ones for the intercept.</p>
+              </div>
+              <div style="background: #f9f3ee; border-radius: 10px; padding: 14px 20px;">
+                <p style="font-size: 19pt; text-align: center; margin: 2px 0;">\[ \boldsymbol{\hat{\beta}} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y} \]</p>
+                <p style="font-size: 13.5pt; margin-top: 8px;">Minimises the <em>same</em> sum of squared residuals as Ch 12. The inverse is what &ldquo;solve for all the slopes at once&rdquo; looks like. You will never compute it by hand.</p>
+              </div>
             </div>
-            <div style="background: #f9f3ee; border-radius: 10px; padding: 14px 20px;">
-              <p style="font-size: 19pt; text-align: center; margin: 2px 0;">\[ \boldsymbol{\hat{\beta}} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y} \]</p>
-              <p style="font-size: 13.5pt; margin-top: 8px;">Minimises the <em>same</em> sum of squared residuals as Ch 12. The inverse is what &ldquo;solve for all the slopes at once&rdquo; looks like. You will never compute it by hand.</p>
+            <div class="key-result fragment fade-up" style="margin-top: 14px;">
+              <p style="font-size: 15.5pt;"><strong>Watch the inverse.</strong> It exists only if no column of \(\mathbf{X}\) is an exact linear combination of the others. That condition is about to matter twice &mdash; <em>exactly</em>, on the next slide, and <em>nearly</em>, in Section 6.</p>
             </div>
           </div>
-          <div class="key-result fragment fade-up" style="margin-top: 14px;">
-            <p style="font-size: 15.5pt;"><strong>Watch the inverse.</strong> It exists only if no column of \(\mathbf{X}\) is an exact linear combination of the others. That condition is about to matter twice &mdash; <em>exactly</em>, on the next slide, and <em>nearly</em>, in Section 6.</p>
+        </section>
+        <section id="formalism-table" style="padding: 28px 50px;">
+          <h2><i class="fa-solid fa-table" style="color: var(--secondary-color);"></i> The Formula on a Table</h2>
+          <div class="content">
+            <style>#formalism-table td.xc{background:#f0f5f8;text-align:right;} #formalism-table th.xc{background:#e3edf4;color:#2c3e50;}</style>
+            <div style="display: grid; grid-template-columns: 36% 64%; gap: 18px; align-items: start;">
+              <div>
+                <table class="table-standard" style="font-size: 14pt;">
+                  <thead><tr><th style="text-align:right;">y<br><span style="font-weight:400;font-size:11pt;">value</span></th><th class="xc" style="text-align:right;">1</th><th class="xc" style="text-align:right;">income</th><th class="xc" style="text-align:right;">rooms</th></tr></thead>
+                  <tbody><tr><td style="text-align:right;">1.3</td><td class="xc">1</td><td class="xc">2</td><td class="xc">4</td></tr><tr><td style="text-align:right;">1.7</td><td class="xc">1</td><td class="xc">3</td><td class="xc">6</td></tr><tr><td style="text-align:right;">2.3</td><td class="xc">1</td><td class="xc">4</td><td class="xc">5</td></tr><tr><td style="text-align:right;">2.6</td><td class="xc">1</td><td class="xc">5</td><td class="xc">7</td></tr><tr><td style="text-align:right;">3.3</td><td class="xc">1</td><td class="xc">6</td><td class="xc">6</td></tr></tbody>
+                </table>
+                <p style="font-size: 12.5pt; color: var(--muted-color); margin-top: 6px;">Five made-up block groups: value in 100,000s, income in 10,000s. The white column is <strong>y</strong> (5 &times; 1); the blue block is <strong>X</strong> (5 &times; 3), with the column of ones for the intercept.</p>
+              </div>
+              <div style="font-size: 14pt;">
+                <div class="fragment fade-up" style="background:#f8f6f3;border-radius:8px;padding:6px 12px;">
+                  <p style="margin:0;">\(\mathbf{X}'\mathbf{X} = \begin{bmatrix} 5 & 20 & 28 \\ 20 & 90 & 117 \\ 28 & 117 & 162 \end{bmatrix} \qquad \mathbf{X}'\mathbf{y} = \begin{bmatrix} 11.2 \\ 49.7 \\ 64.9 \end{bmatrix}\)</p>
+                  <p style="font-size: 12.5pt; color:#555; margin:4px 0 0;">Every entry is a sum over the five rows: 5 rows, 20 = total income, 90 = sum of income squared, 117 = sum of income &times; rooms; 49.7 = sum of income &times; value.</p>
+                </div>
+                <div class="fragment fade-up" style="background:#eef4ee;border-radius:8px;padding:6px 12px;margin-top:8px;">
+                  <p style="margin:0;">\(\boldsymbol{\hat\beta} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y} = \begin{bmatrix} 0.64 \\ 0.54 \\ -0.10 \end{bmatrix}\) &nbsp;<span style="font-size:12.5pt;color:#555;">intercept, income, rooms</span></p>
+                  <p style="font-size: 12.5pt; color:#555; margin:4px 0 0;">Solving three equations for three unknowns at once. <code>LinearRegression().fit</code> on the same five rows gives 0.64, 0.54, &minus;0.10.</p>
+                </div>
+                <div class="fragment fade-up" style="background:#f9f0ee;border-radius:8px;padding:6px 12px;margin-top:8px;">
+                  <p style="margin:0;font-size:13.5pt;"><strong>When there is no inverse:</strong> if rooms were exactly 2 &times; income, the rooms column would copy the income column, \(\det(\mathbf{X}'\mathbf{X}) = 0\), and no unique \(\boldsymbol{\hat\beta}\) exists. That is the next slide&rsquo;s trap.</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       </section>
 
       <section id="dummy-trap" style="padding: 34px 50px;">
@@ -412,33 +442,6 @@
         </section>
       </section>
 
-      <section>
-        <section id="poll-2" style="padding: 38px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: Sign It Before You See It</h2>
-          <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 22px; margin-top: 10px;">
-            <p style="font-size: 15pt; line-height: 1.6;">Women in this simulated Greater Boston workforce have <strong>shorter tenure</strong>. Tenure <strong>raises pay</strong>. We regress wage on <code>female</code> alone, omitting tenure.</p>
-            <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">The measured gender gap will look &mdash;</p>
-          </div>
-          <div class="poll-grid" data-poll-id="ch13-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 16px; font-size: 14pt;">
-            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) <strong>Smaller</strong> than the truth &mdash; some of the &ldquo;gap&rdquo; is really tenure, and leaving tenure out lets the model take credit for it</div>
-            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) <strong>Larger</strong> than the truth</div>
-            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Unchanged &mdash; tenure is not part of the gender effect</div>
-            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Larger or smaller &mdash; the formula cannot sign it</div>
-          </div>
-        </section>
-        <section id="poll-2-reveal" data-poll-results="ch13-econ3916-poll-2" style="padding: 32px 50px;">
-          <h2><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> Answer: B &mdash; Larger</h2>
-          <div class="poll-results-chart" data-poll-id="ch13-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:140px; margin:8px 60px;"></div>
-          <div style="padding: 4px 40px;">
-            <p style="font-size: 16pt; text-align: center;">Estimate <strong>&minus;8,412</strong> against a truth of <strong>&minus;6,000</strong>.</p>
-            <p style="font-size: 15pt; margin-top: 8px;"><strong>Sign it:</strong> \(\beta_2 > 0\) (tenure raises wages) and \(\delta < 0\) (women have less tenure), so \(\beta_2\delta < 0\) &mdash; the bias pushes the coefficient <em>down</em>, i.e. more negative, i.e. a <strong>bigger</strong> apparent gap.</p>
-            <div class="misconception" style="margin-top: 10px;">
-              <p><strong>A is the majority answer in most rooms.</strong> Students assume omitted variables always <em>flatter</em> a result &mdash; that a real effect shrinks once you control properly. It goes whichever way the two signs send it.</p>
-              <p style="margin-top: 6px;"><strong>D is wrong for a specific reason:</strong> the formula signs the bias perfectly <em>once you commit to the two signs</em>. What you cannot do is sign it without an argument about the world.</p>
-            </div>
-          </div>
-        </section>
-      </section>
 
       <section id="ovb-verified" style="padding: 28px 50px;">
         <h2><i class="fa-solid fa-equals" style="color: var(--secondary-color);"></i> The Bias <em>Is</em> the Formula</h2>
@@ -518,32 +521,6 @@
         
       </section>
 
-      <section>
-        <section id="poll-3" style="padding: 40px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: What About the Standard Error?</h2>
-          <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 22px; margin-top: 12px;">
-            <p style="font-size: 15.5pt; line-height: 1.65;">FWL reproduced the coefficient to <strong>machine precision</strong>.</p>
-            <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">What about the <strong>standard error</strong> from that two-step route?</p>
-          </div>
-          <div class="poll-grid" data-poll-id="ch13-econ3916-poll-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
-            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Also identical &mdash; same coefficient, same data, same uncertainty</div>
-            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Too <strong>large</strong> &mdash; the two-step throws information away</div>
-            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Too <strong>small</strong> &mdash; the second stage does not know a variable was partialled out first</div>
-            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Undefined &mdash; you cannot get a standard error from a residual regression</div>
-          </div>
-        </section>
-        <section id="poll-3-reveal" data-poll-results="ch13-econ3916-poll-3" style="padding: 32px 50px;">
-          <h2><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> Answer: C &mdash; Too Small</h2>
-          <div class="poll-results-chart" data-poll-id="ch13-econ3916-poll-3" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:140px; margin:8px 60px;"></div>
-          <div style="padding: 4px 40px;">
-            <p style="font-size: 17pt; text-align: center;">SE from FWL <strong>258.33</strong> &nbsp;&bull;&nbsp; SE from the full regression <strong>258.38</strong></p>
-            <p style="font-size: 15pt; margin-top: 10px;">The second-stage regression does not know a variable was already used up, so it never adjusts its degrees of freedom for it &mdash; and reports slightly <strong>more confidence than the data supports</strong>. With one control, trivial. With fifty, not.</p>
-            <div class="key-result" style="margin-top: 12px;">
-              <p style="font-size: 16pt;"><i class="fa-solid fa-key" style="color: var(--secondary-color);"></i> <strong>Multi-step estimators transfer point estimates faithfully and standard errors carelessly.</strong> Use FWL to <em>understand</em> your model. Use the full regression to <em>report</em>.</p>
-            </div>
-          </div>
-        </section>
-      </section>
 
       <section id="fwl-why-matters" style="padding: 34px 50px;">
         <h2><i class="fa-solid fa-diagram-project" style="color: var(--secondary-color);"></i> Why FWL Matters Beyond the Algebra</h2>
