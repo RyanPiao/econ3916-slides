@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=c5e978a97ffa282ac3efead227494917">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=49d27d7fd4cdfddc315bf989deaf84d3">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multivariate OLS: Controlling for Confounders</title>
@@ -21,6 +21,7 @@
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <link rel="stylesheet" href="../mock-cell.css">
 </head>
 <body>
   <div class="reveal">
@@ -172,7 +173,7 @@
         <h2><i class="fa-solid fa-cube" style="color: var(--accent-color);"></i> The Geometry Changes</h2>
         <div class="content">
           <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 26px; align-items: start;">
-            <img class="figure" src="figures/figure_001_line_to_plane.png" alt="Schematic three-dimensional scatter of points with an OLS plane fitted through them; the plane tilts upward along the first predictor axis and downward along the second, illustrating that two predictors fit a surface rather than a line" style="width: 100%; max-height: 465px; object-fit: contain;">
+            <div style="height: 465px; overflow: hidden; border-radius: 8px; border: 1px solid #e6e1d9;"><iframe data-src="figures/line_to_plane_3d.html" title="Interactive: California Housing block groups as a 3-D cloud of income, rooms and house value, with the fitted OLS plane; a slider holds rooms fixed and draws that slice along income" loading="lazy" scrolling="no" style="width: 111%; height: 111%; border: none; overflow: hidden; transform: scale(0.9); transform-origin: top left;"></iframe></div>
             <div>
               <p style="font-size: 15pt; line-height: 1.65;"><strong>One</strong> predictor fits a <strong>line</strong> through a 2-D scatter. That was Chapter 12.</p>
               <p style="font-size: 15pt; line-height: 1.65; margin-top: 12px;"><strong>Two</strong> predictors fit a <strong>plane</strong> through a 3-D cloud.</p>
@@ -230,9 +231,9 @@
 
       <section>
         <section id="poll-1" style="padding: 40px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 1: Commit Before You See It</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: Commit Before You See It</h2>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 22px; margin-top: 12px;">
-            <p style="font-size: 15.5pt; line-height: 1.65;">Chapter 12's model <code>MedHouseVal ~ MedInc</code> gives a slope of <strong>0.4179</strong>. We now add <code>AveRooms</code> to the model.</p>
+            <p style="font-size: 15.5pt; line-height: 1.65;">Chapter 12's model <code>MedHouseVal ~ MedInc</code> gives a slope of <strong>0.4179</strong>. We now add <code>AveRooms</code> (average rooms per household) to the model.</p>
             <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">What happens to the coefficient on <code>MedInc</code>?</p>
           </div>
           <div class="poll-grid" data-poll-id="ch13-econ3916-poll-1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
@@ -299,25 +300,47 @@
         </div>
       </section>
 
-      <section id="discussion-1" style="padding: 36px 50px;">
-        <h2><i class="fa-solid fa-comments" style="color: var(--secondary-color);"></i> Discussion 1: Is the Model Broken?</h2>
-        <div class="content">
-          <div style="background: #f0f5f8; padding: 20px 26px; border-radius: 12px;">
-            <p class="text-xl" style="font-weight: 600;">A colleague looks at &minus;0.0381 and says: &ldquo;the sign is wrong, drop the variable.&rdquo;</p>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 18px;">
-            <div class="discussion-prompt" style="border-left-color: var(--success-color);">
-              <p class="bloom-level" style="color: var(--success-color);">Think about &mdash; L2 Understand</p>
-              <p>What is being held constant when you read that coefficient, and is holding it constant <strong>physically possible</strong>?</p>
+      <section>
+        <section id="discussion-1" style="padding: 36px 50px;">
+          <h2><i class="fa-solid fa-comments" style="color: var(--secondary-color);"></i> Discussion 1: Is the Model Broken?</h2>
+          <div class="content">
+            <div style="background: #f0f5f8; padding: 20px 26px; border-radius: 12px;">
+              <p class="text-xl" style="font-weight: 600;">A colleague looks at &minus;0.0381 and says: &ldquo;the sign is wrong, drop the variable.&rdquo;</p>
             </div>
-            <div class="discussion-prompt">
-              <p class="bloom-level">Consider &mdash; L4 Analyze</p>
-              <p>Give your colleague <strong>one sentence</strong> back. What population does the coefficient actually describe?</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 18px;">
+              <div class="discussion-prompt" style="border-left-color: var(--success-color);">
+                <p class="bloom-level" style="color: var(--success-color);">Think about &mdash; L2 Understand</p>
+                <p>What is being held constant when you read that coefficient, and is holding it constant <strong>physically possible</strong>?</p>
+              </div>
+              <div class="discussion-prompt">
+                <p class="bloom-level">Consider &mdash; L4 Analyze</p>
+                <p>Give your colleague <strong>one sentence</strong> back. What population does the coefficient actually describe?</p>
+              </div>
+            </div>
+            <p style="margin-top: 18px; text-align: center;"><span class="timer-badge"><i class="fa-solid fa-clock"></i> 1 min think &rarr; 2 min pairs &rarr; 1 min share</span></p>
+                    <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>1</strong> to start the think timer, then <strong>2</strong> for pairs.</p>
+          </div>
+        </section>
+        <section id="discussion-1-answers" style="padding: 34px 50px;">
+          <h2><i class="fa-solid fa-comments" style="color: var(--success-color);"></i> Discussion 1: What to Say Back</h2>
+          <div class="content">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 6px;">
+              <div class="discussion-prompt" style="border-left-color: var(--success-color);">
+                <p class="bloom-level" style="color: var(--success-color);">What is held constant?</p>
+                <p style="font-size: 15pt;"><strong>Median income</strong>, the other variable in the model. The coefficient compares block groups <em>with the same income</em> that differ in rooms per household.</p>
+                <p style="font-size: 15pt; margin-top: 10px;"><strong>Physically possible? No.</strong> You cannot add a room to a neighbourhood&rsquo;s houses and keep everything else about the neighbourhood the same. The model holds income fixed; the world does not.</p>
+              </div>
+              <div class="discussion-prompt">
+                <p class="bloom-level">One sentence back</p>
+                <p style="font-size: 15pt;">&ldquo;Among block groups with the same median income, those with one more room per household have median values about <strong>3,810 dollars lower</strong>, because they tend to be rural, low-density, cheaper-land places; it describes that comparison, not what a bedroom is worth.&rdquo;</p>
+                <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">&minus;0.0381 &times; 100,000 dollars per room. The population: California block groups, compared at the same income.</p>
+              </div>
+            </div>
+            <div class="key-result fragment fade-up" style="margin-top: 16px;">
+              <p style="font-size: 15pt;"><i class="fa-solid fa-key" style="color: var(--secondary-color);"></i> <strong>Do not drop it.</strong> A surprising sign is not an error. Dropping rooms puts the income coefficient back at 0.4179 and makes the forecast worse: test RMSE goes from 0.8379 back to 0.8421.</p>
             </div>
           </div>
-          <p style="margin-top: 18px; text-align: center;"><span class="timer-badge"><i class="fa-solid fa-clock"></i> 1 min think &rarr; 2 min pairs &rarr; 1 min share</span></p>
-                  <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>1</strong> to start the think timer, then <strong>2</strong> for pairs.</p>
-        </div>
+        </section>
       </section>
       <section id="divider-2" class="section-divider" data-state="is-section-divider">
         <h1>Omitted Variable Bias</h1>
@@ -328,16 +351,8 @@
         <h2><i class="fa-solid fa-magnet" style="color: var(--danger-color);"></i> What a Missing Variable Does</h2>
         <div class="content">
           <p class="text-lg">Leave out a variable that matters and <strong>the variables you did include absorb its effect.</strong></p>
-          <p style="font-size: 15.5pt; line-height: 1.65; margin-top: 10px;">If tenure raises wages, and men in your sample have longer tenure, then a regression of wages on gender <em>alone</em> attributes part of the tenure story to gender. There is nothing else in the model to hold it.</p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px;">
-            <div style="background: #f0f5f8; border-radius: 10px; padding: 16px 20px; border-left: 4px solid var(--secondary-color);">
-              <p style="font-size: 13pt; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;">Condition 1</p>
-              <p style="font-size: 16pt;">The omitted variable must <strong>affect the outcome</strong>.</p>
-            </div>
-            <div style="background: #f9f3ee; border-radius: 10px; padding: 16px 20px; border-left: 4px solid var(--accent-color);">
-              <p style="font-size: 13pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;">Condition 2</p>
-              <p style="font-size: 16pt;">It must be <strong>correlated with the predictor you care about</strong>.</p>
-            </div>
+          <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 12px;">
+            <svg viewBox="0 0 1160 262" xmlns="http://www.w3.org/2000/svg" font-family="inherit" fill="#3A3632" style="width:100%;display:block" role="img" aria-label="Triangle. Top: tenure, left out of the model, dashed. Bottom left: female. Bottom right: wage. Tenure to wage, tagged beta 2, is condition 1: affects the outcome, tenure raises wages. Tenure to and from female, tagged delta, is condition 2: moves with the predictor, men in the sample have longer tenure. Along the bottom, the regression of wages on gender alone."><defs><marker id="t13ovb-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B8BA4"/></marker><marker id="t13ovb-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C47B5A"/></marker><marker id="t13ovb-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8C8580"/></marker></defs><rect x="450" y="18" width="260" height="52" rx="8" fill="#f8f6f3" stroke="#8C8580" stroke-width="2" stroke-dasharray="8 6"/><text x="580" y="51" font-size="20" font-weight="600" text-anchor="middle">tenure (left out)</text><rect x="120" y="192" width="160" height="50" rx="8" fill="#ffffff" stroke="#3A3632" stroke-width="2"/><text x="200" y="224" font-size="20" font-weight="600" text-anchor="middle">female</text><rect x="880" y="192" width="160" height="50" rx="8" fill="#ffffff" stroke="#3A3632" stroke-width="2"/><text x="960" y="224" font-size="20" font-weight="600" text-anchor="middle">wage</text><line x1="282" y1="217" x2="876" y2="217" stroke="#8C8580" stroke-width="2.5" marker-end="url(#t13ovb-k)"/><text x="580" y="248" font-size="16" text-anchor="middle" fill="#8C8580">regression of wages on gender alone</text><line x1="690" y1="72" x2="925" y2="189" stroke="#6B8BA4" stroke-width="3" marker-end="url(#t13ovb-b)"/><circle cx="807" cy="130" r="19" fill="#ffffff" stroke="#6B8BA4" stroke-width="2"/><text x="807" y="137" font-size="19" font-weight="700" text-anchor="middle" fill="#6B8BA4">β<tspan dy="4" font-size="15">2</tspan></text><text x="862" y="90" font-size="19" font-weight="700" fill="#6B8BA4">Condition 1:</text><text x="862" y="118" font-size="19" font-weight="700" fill="#6B8BA4">affects the outcome</text><text x="862" y="142" font-size="15" font-style="italic" fill="#8C8580">tenure raises wages</text><line x1="470" y1="72" x2="235" y2="189" stroke="#C47B5A" stroke-width="3" stroke-dasharray="9 6" marker-start="url(#t13ovb-a)" marker-end="url(#t13ovb-a)"/><circle cx="353" cy="130" r="19" fill="#ffffff" stroke="#C47B5A" stroke-width="2"/><text x="353" y="137" font-size="19" font-weight="700" text-anchor="middle" fill="#C47B5A">δ</text><text x="298" y="90" font-size="19" font-weight="700" text-anchor="end" fill="#C47B5A">Condition 2:</text><text x="298" y="118" font-size="19" font-weight="700" text-anchor="end" fill="#C47B5A">moves with the predictor</text><text x="298" y="142" font-size="15" font-style="italic" text-anchor="end" fill="#8C8580">men in the sample have longer tenure</text></svg>
           </div>
           <div class="key-result fragment fade-up" style="margin-top: 16px;">
             <p style="font-size: 16pt;"><strong>Both must hold.</strong> Fail either and there is no bias &mdash; which is why not every unmeasured variable is a threat. Students over-correct after Chapter 10 and start treating every missing column as fatal. Most are not.</p>
@@ -365,7 +380,7 @@
         </div>
       </section>
         <section id="poll-5" style="padding: 38px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 5: How Wrong Is the Short Regression?</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: How Wrong Is the Short Regression?</h2>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 22px; margin-top: 10px;">
             <p style="font-size: 15pt; line-height: 1.6;">In this simulation the true return to a year of education is <strong>$2,500</strong>. Ability raises wages, and abler people stay in school longer. We leave ability out.</p>
             <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">The coefficient on education will be &mdash;</p>
@@ -375,12 +390,12 @@
           </div>
         </section>
         <section id="poll-5-reveal" data-poll-results="ch13-econ3916-poll-5" style="padding: 32px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 5: Where the Room Landed</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Results: How Wrong Is the Short Regression?</h2>
           <div class="poll-results-chart" data-poll-id="ch13-econ3916-poll-5" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:10px 60px 34px;"></div>
           <div style="padding: 4px 40px;">
             <p style="font-size: 15pt; text-align: center; color: #6b6b6b;">Now the lab runs it. Back here afterwards for the answer.</p>
             <div class="fragment fade-up" style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 14px 20px; margin-top: 12px;">
-              <p style="font-size: 15.5pt;">Step 2 printed <strong>5,126</strong> for education, against a truth of <strong>$2,500</strong>: roughly double. Step 3: &gamma; &times; &delta; = <strong>2,629</strong> predicted bias, 2,626 actual. With ability in the model, 2,546. Answer: <strong>C</strong>.</p>
+              <p style="font-size: 15.5pt;">Step 2 printed <strong>5,126</strong> for education, against a truth of <strong>$2,500</strong>: roughly double. Step 3: ability&rsquo;s effect &times; &delta; = 8,000 &times; 0.3286 = <strong>2,629</strong> predicted bias, 2,626 actual. With ability in the model, 2,546. Answer: <strong>C</strong>.</p>
             </div>
           </div>
         </section>
@@ -399,7 +414,7 @@
 
       <section>
         <section id="poll-2" style="padding: 38px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 2: Sign It Before You See It</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: Sign It Before You See It</h2>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 22px; margin-top: 10px;">
             <p style="font-size: 15pt; line-height: 1.6;">Women in this simulated Greater Boston workforce have <strong>shorter tenure</strong>. Tenure <strong>raises pay</strong>. We regress wage on <code>female</code> alone, omitting tenure.</p>
             <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">The measured gender gap will look &mdash;</p>
@@ -468,19 +483,8 @@
         <h2><i class="fa-solid fa-list-ol" style="color: var(--secondary-color);"></i> A Phrase Everyone Uses and Few Can Define</h2>
         <div class="content">
           <p class="text-lg">Here is what &ldquo;controlling for tenure&rdquo; is, as a procedure you can actually run:</p>
-          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
-            <div style="display: grid; grid-template-columns: 46px 1fr; align-items: center; background: #f0f5f8; border-radius: 8px; padding: 12px 18px; border-left: 4px solid var(--secondary-color);">
-              <p style="font-size: 20pt; font-weight: 700; color: var(--secondary-color);">1</p>
-              <p style="font-size: 15pt;">Take the part of <strong>wages</strong> that tenure cannot explain &mdash; the residuals from <code>wage ~ tenure</code>.</p>
-            </div>
-            <div class="fragment fade-up" style="display: grid; grid-template-columns: 46px 1fr; align-items: center; background: #f9f3ee; border-radius: 8px; padding: 12px 18px; border-left: 4px solid var(--accent-color);">
-              <p style="font-size: 20pt; font-weight: 700; color: var(--accent-color);">2</p>
-              <p style="font-size: 15pt;">Take the part of <strong>gender</strong> that tenure cannot explain &mdash; the residuals from <code>female ~ tenure</code>.</p>
-            </div>
-            <div class="fragment fade-up" style="display: grid; grid-template-columns: 46px 1fr; align-items: center; background: #eef2f0; border-radius: 8px; padding: 12px 18px; border-left: 4px solid var(--success-color);">
-              <p style="font-size: 20pt; font-weight: 700; color: var(--success-color);">3</p>
-              <p style="font-size: 15pt;">Regress <strong>leftover on leftover</strong>.</p>
-            </div>
+          <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 12px;">
+            <svg viewBox="0 0 1160 280" xmlns="http://www.w3.org/2000/svg" font-family="inherit" fill="#3A3632" style="width:100%;display:block" role="img" aria-label="Two lanes that merge. Lane 1: wage, regress on tenure and keep the residual, giving the part of wages tenure cannot explain. Lane 2: female, the same step, giving the part of gender tenure cannot explain. Both feed step 3: regress leftover on leftover; its slope is the multivariate coefficient."><defs><marker id="t13fwl-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B8BA4"/></marker><marker id="t13fwl-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C47B5A"/></marker><marker id="t13fwl-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6A8E6B"/></marker></defs><text x="10" y="22" font-size="19" font-weight="700" fill="#6B8BA4">1 · strip tenure out of wages</text><rect x="10" y="34" width="120" height="80" rx="8" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="2"/><text x="70" y="81" font-size="20" font-weight="700" text-anchor="middle">wage</text><line x1="132" y1="74" x2="163" y2="74" stroke="#6B8BA4" stroke-width="2.5" marker-end="url(#t13fwl-b)"/><rect x="165" y="34" width="360" height="80" rx="8" fill="#ffffff" stroke="#6B8BA4" stroke-width="2"/><text x="345" y="67" font-size="19" text-anchor="middle">regress on tenure, keep the residual</text><text x="345" y="96" font-size="16" text-anchor="middle" font-family="Menlo, Consolas, monospace" fill="#8C8580">wage ~ tenure</text><line x1="527" y1="74" x2="558" y2="74" stroke="#6B8BA4" stroke-width="2.5" marker-end="url(#t13fwl-b)"/><rect x="560" y="34" width="240" height="80" rx="8" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="2"/><text x="680" y="68" font-size="18" text-anchor="middle">the part of wages</text><text x="680" y="92" font-size="18" text-anchor="middle">tenure cannot explain</text><g class="fragment"><text x="10" y="172" font-size="19" font-weight="700" fill="#C47B5A">2 · strip tenure out of gender</text><rect x="10" y="184" width="120" height="80" rx="8" fill="#f9f3ee" stroke="#C47B5A" stroke-width="2"/><text x="70" y="231" font-size="20" font-weight="700" text-anchor="middle">female</text><line x1="132" y1="224" x2="163" y2="224" stroke="#C47B5A" stroke-width="2.5" marker-end="url(#t13fwl-a)"/><rect x="165" y="184" width="360" height="80" rx="8" fill="#ffffff" stroke="#C47B5A" stroke-width="2"/><text x="345" y="217" font-size="19" text-anchor="middle">regress on tenure, keep the residual</text><text x="345" y="246" font-size="16" text-anchor="middle" font-family="Menlo, Consolas, monospace" fill="#8C8580">female ~ tenure</text><line x1="527" y1="224" x2="558" y2="224" stroke="#C47B5A" stroke-width="2.5" marker-end="url(#t13fwl-a)"/><rect x="560" y="184" width="240" height="80" rx="8" fill="#f9f3ee" stroke="#C47B5A" stroke-width="2"/><text x="680" y="218" font-size="18" text-anchor="middle">the part of gender</text><text x="680" y="242" font-size="18" text-anchor="middle">tenure cannot explain</text></g><g class="fragment"><path d="M802,74 H824 V118 H846" fill="none" stroke="#6A8E6B" stroke-width="2.5" marker-end="url(#t13fwl-g)"/><path d="M802,224 H824 V180 H846" fill="none" stroke="#6A8E6B" stroke-width="2.5" marker-end="url(#t13fwl-g)"/><rect x="850" y="74" width="300" height="150" rx="10" fill="#eef2f0" stroke="#6A8E6B" stroke-width="2.5"/><text x="1000" y="116" font-size="20" font-weight="700" text-anchor="middle">3 · regress leftover</text><text x="1000" y="145" font-size="20" font-weight="700" text-anchor="middle">on leftover</text><text x="1000" y="182" font-size="16" text-anchor="middle">its slope = the multivariate</text><text x="1000" y="204" font-size="16" text-anchor="middle">coefficient</text></g></svg>
           </div>
           <div class="key-result fragment fade-up" style="margin-top: 16px;">
             <p style="font-size: 16.5pt;">That <em>is</em> the multivariate coefficient. Exactly, not approximately. This is the <strong>Frisch&ndash;Waugh&ndash;Lovell theorem</strong> (1933, 1963), and it turns a vague phrase into a three-line procedure.</p>
@@ -489,31 +493,34 @@
       </section>
 
       <section id="fwl-plot" style="padding: 28px 50px;">
-        <h2><i class="fa-solid fa-chart-scatter" style="color: var(--accent-color);"></i> The Same Number, Two Routes</h2>
+        <h2><i class="fa-solid fa-equals" style="color: var(--accent-color);"></i> The Same Number, Two Routes</h2>
         <div class="content">
-          <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; align-items: start;">
-            <img class="figure" src="figures/figure_004_fwl_partial.png" alt="Partial regression plot: residualised wage on the vertical axis against the residualised female indicator on the horizontal axis, with a fitted line whose slope is annotated as minus 5,906.5163, identical to the multivariate coefficient" style="width: 100%; max-height: 460px; object-fit: contain;">
-            <div>
-              <table class="table-standard">
-                <thead><tr><th>Route</th><th style="text-align:right;"><code>female</code> coef</th></tr></thead>
-                <tbody>
-                  <tr><td>FWL two-step</td><td style="text-align:right;">&minus;5,906.5163</td></tr>
-                  <tr><td>Full regression</td><td style="text-align:right;">&minus;5,906.5163</td></tr>
-                  <tr><td>Difference</td><td style="text-align:right;"><strong>0.00e+00</strong></td></tr>
-                </tbody>
-              </table>
-              <div class="key-result" style="margin-top: 12px;">
-                <p style="font-size: 15pt;"><strong>This is a partial regression plot.</strong> You cannot plot a multivariate relationship directly &mdash; too many dimensions. But you <em>can</em> plot the two residual series, and the slope of that scatter <em>is</em> the multivariate coefficient.</p>
-              </div>
-              <p style="font-size: 14pt; color: var(--muted-color); margin-top: 10px;">The only valid visual check of a controlled relationship. Chapter 3's rule &mdash; plot before you trust &mdash; applies with full force.</p>
+          <p style="font-size: 14pt; margin: 0 0 8px;">Two routes to the same coefficient on <code>female</code>, holding tenure fixed:</p>
+          <div style="display: grid; grid-template-columns: 42% 58%; gap: 14px; align-items: start;"><div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 9px 14px;">
+              <p style="font-size: 13.5pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 6px;">Route 1: one regression</p>
+              <p style="font-size: 13pt; margin: 0;">\(\text{wage} = \beta_0 + \beta_1\,\text{female} + \beta_2\,\text{tenure} + \varepsilon\)</p>
+              <p style="font-size: 12.5pt; margin: 6px 0 0; color: #555;">read off \(\hat\beta_1\)</p>
+            </div>
+            <div style="background: #eef4ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 9px 14px;">
+              <p style="font-size: 13.5pt; font-weight: 700; color: var(--success-color); margin: 0 0 6px;">Route 2: three regressions (FWL)</p>
+              <p style="font-size: 12.5pt; margin: 0; line-height: 1.55;">1. \(\text{wage} = a + b\,\text{tenure} + \tilde w\) &nbsp;<span style="color:#777">(tenure out of the outcome)</span><br>
+                 2. \(\text{female} = c + d\,\text{tenure} + \tilde f\) &nbsp;<span style="color:#777">(tenure out of the predictor)</span><br>
+                 3. \(\tilde w = \beta_1\,\tilde f + u\) &nbsp;<span style="color:#777">(leftover on leftover: the same \(\hat\beta_1\))</span></p>
             </div>
           </div>
+          <div class="mock colab" data-src="cells/ch13.json" data-cell="fwl" data-lines="4-6,9-10,12-15,17-22" data-size="9pt" data-live="off"></div>
+          </div>
+          <div class="after-mock-fwl" style="background: #eef4ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 9px 14px; margin-top: 8px;">
+            <p style="font-size: 13.5pt; margin: 0;"><strong>Identical, to floating-point precision.</strong> A coefficient uses <em>only the variation in gender that tenure cannot account for.</em> Leave tenure out and the coefficient is &minus;8,412, not &minus;5,907.</p>
+          </div>
         </div>
+        
       </section>
 
       <section>
         <section id="poll-3" style="padding: 40px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 3: What About the Standard Error?</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: What About the Standard Error?</h2>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 22px; margin-top: 12px;">
             <p style="font-size: 15.5pt; line-height: 1.65;">FWL reproduced the coefficient to <strong>machine precision</strong>.</p>
             <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">What about the <strong>standard error</strong> from that two-step route?</p>
@@ -569,17 +576,8 @@
         <section id="confounder-vs-mediator" style="padding: 36px 50px;">
         <h2><i class="fa-solid fa-code-branch" style="color: var(--accent-color);"></i> Chapter 10's Taxonomy, Priced in Dollars</h2>
         <div class="content">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 6px;">
-            <div style="background: #eef2f0; border-radius: 10px; padding: 18px 22px; border-left: 4px solid var(--success-color);">
-              <p style="font-size: 13pt; color: var(--success-color); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Confounder</p>
-              <p style="font-size: 16pt; line-height: 1.6;">Causes <strong>both</strong> the treatment and the outcome.</p>
-              <p style="font-size: 16pt; line-height: 1.6; margin-top: 10px;">Control it. That <strong>removes bias</strong>.</p>
-            </div>
-            <div style="background: #f9f0ee; border-radius: 10px; padding: 18px 22px; border-left: 4px solid var(--danger-color);">
-              <p style="font-size: 13pt; color: var(--danger-color); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Mediator</p>
-              <p style="font-size: 16pt; line-height: 1.6;">Sits <strong>on the causal path</strong> from treatment to outcome.</p>
-              <p style="font-size: 16pt; line-height: 1.6; margin-top: 10px;">Control it and you remove the part of the effect that travels through it. That is <strong>not a correction</strong>.</p>
-            </div>
+          <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 6px;">
+            <svg viewBox="0 0 1160 334" xmlns="http://www.w3.org/2000/svg" font-family="inherit" fill="#3A3632" style="width:100%;display:block" role="img" aria-label="Two causal diagrams. Left, confounder: a common cause points to the treatment and to the outcome, and the treatment points to the outcome, the effect we want; control it and that removes bias. Right, mediator: female lowers job level by 0.80 levels, each job level adds 9,000 to the wage, and female lowers the wage by 3,000 directly; the total is left for the class to compute."><defs><marker id="t13cm-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6A8E6B"/></marker><marker id="t13cm-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A85C5C"/></marker><marker id="t13cm-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8C8580"/></marker><marker id="t13cm-t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#3A3632"/></marker></defs><line x1="580" y1="8" x2="580" y2="326" stroke="#D5CEC7" stroke-width="1.5"/><text x="290" y="24" font-size="17" font-weight="700" letter-spacing="2" fill="#6A8E6B" text-anchor="middle">CONFOUNDER</text><rect x="190" y="50" width="200" height="48" rx="8" fill="#eef2f0" stroke="#6A8E6B" stroke-width="2"/><text x="290" y="81" font-size="20" font-weight="600" text-anchor="middle">common cause</text><rect x="30" y="192" width="170" height="48" rx="8" fill="#ffffff" stroke="#8C8580" stroke-width="2"/><text x="115" y="223" font-size="20" font-weight="600" text-anchor="middle">treatment</text><rect x="380" y="192" width="170" height="48" rx="8" fill="#ffffff" stroke="#8C8580" stroke-width="2"/><text x="465" y="223" font-size="20" font-weight="600" text-anchor="middle">outcome</text><line x1="240" y1="100" x2="141" y2="187" stroke="#6A8E6B" stroke-width="2.5" marker-end="url(#t13cm-g)"/><line x1="340" y1="100" x2="439" y2="187" stroke="#6A8E6B" stroke-width="2.5" marker-end="url(#t13cm-g)"/><line x1="202" y1="216" x2="376" y2="216" stroke="#8C8580" stroke-width="2.5" marker-end="url(#t13cm-k)"/><text x="289" y="205" font-size="15" text-anchor="middle" fill="#8C8580">effect we want</text><text x="290" y="268" font-size="18" text-anchor="middle">Causes both. Control it: <tspan font-weight="700" fill="#6A8E6B">removes bias.</tspan></text><text x="870" y="24" font-size="17" font-weight="700" letter-spacing="2" fill="#A85C5C" text-anchor="middle">MEDIATOR</text><rect x="785" y="50" width="170" height="48" rx="8" fill="#f9f0ee" stroke="#A85C5C" stroke-width="2"/><text x="870" y="81" font-size="20" font-weight="600" text-anchor="middle">job level</text><rect x="600" y="192" width="130" height="48" rx="8" fill="#ffffff" stroke="#8C8580" stroke-width="2"/><text x="665" y="223" font-size="20" font-weight="600" text-anchor="middle">female</text><rect x="1020" y="192" width="130" height="48" rx="8" fill="#ffffff" stroke="#8C8580" stroke-width="2"/><text x="1085" y="223" font-size="20" font-weight="600" text-anchor="middle">wage</text><line x1="690" y1="190" x2="804" y2="102" stroke="#A85C5C" stroke-width="2.5" marker-end="url(#t13cm-r)"/><line x1="936" y1="102" x2="1050" y2="190" stroke="#A85C5C" stroke-width="2.5" marker-end="url(#t13cm-r)"/><line x1="732" y1="216" x2="1016" y2="216" stroke="#3A3632" stroke-width="2.5" marker-end="url(#t13cm-t)"/><text x="732" y="142" font-size="17" font-weight="600" text-anchor="end" fill="#A85C5C">−0.80 levels</text><text x="1006" y="142" font-size="17" font-weight="600" fill="#A85C5C">+9,000 a level</text><text x="874" y="205" font-size="17" font-weight="600" text-anchor="middle">−3,000 direct</text><text x="870" y="268" font-size="18" text-anchor="middle">Sits on the path. Control it and you remove</text><text x="870" y="294" font-size="18" text-anchor="middle">the part of the effect that travels through it.</text><text x="870" y="324" font-size="21" font-weight="700" text-anchor="middle">total = ?</text></svg>
           </div>
           <div class="key-result fragment fade-up" style="margin-top: 18px;">
             <p style="font-size: 17pt;"><i class="fa-solid fa-key" style="color: var(--secondary-color);"></i> Controlling for a mediator is <strong>a change of question</strong>, not a fix.</p>
@@ -588,7 +586,7 @@
         </div>
       </section>
         <section id="poll-6" style="padding: 38px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 6: Add a Control, Get an Effect?</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: Add a Control, Get an Effect?</h2>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 22px; margin-top: 10px;">
             <p style="font-size: 15pt; line-height: 1.6;">We simulate d and y with <strong>no</strong> relationship at all. Then we build c, which both d and y push up. We regress y on d, and then on d <strong>and</strong> c.</p>
             <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">With c in the model, the coefficient on d &mdash;</p>
@@ -598,12 +596,12 @@
           </div>
         </section>
         <section id="poll-6-reveal" data-poll-results="ch13-econ3916-poll-6" style="padding: 32px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 6: Where the Room Landed</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Results: Add a Control, Get an Effect?</h2>
           <div class="poll-results-chart" data-poll-id="ch13-econ3916-poll-6" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:10px 60px 34px;"></div>
           <div style="padding: 4px 40px;">
             <p style="font-size: 15pt; text-align: center; color: #6b6b6b;">Now the lab runs it. Back here afterwards for the answer.</p>
             <div class="fragment fade-up" style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 14px 20px; margin-top: 12px;">
-              <p style="font-size: 15.5pt;">Step 5: <strong>0.001</strong> without c, <strong>&minus;0.596</strong> with c, on a truth of <strong>zero</strong>. Answer: <strong>C</strong>. Holding c fixed, a higher d has to come with a lower y, so controlling for a collider creates an effect that is not there.</p>
+              <p style="font-size: 15.5pt;">Step 5: <strong>0.001</strong> without c, <strong>&minus;0.596</strong> with c, on a truth of <strong>zero</strong>. Answer: <strong>C</strong>. c is a <strong>collider</strong>: both d and y cause it. Holding c fixed, a higher d has to come with a lower y, so controlling for it creates an effect that is not there.</p>
             </div>
           </div>
         </section>
@@ -698,18 +696,9 @@
       <section id="interaction-model" style="padding: 32px 50px;">
         <h2><i class="fa-solid fa-xmark" style="color: var(--accent-color);"></i> One Effect for Everybody?</h2>
         <div class="content">
-          <p style="font-size: 15.5pt; line-height: 1.6;">Every model so far assumed each predictor has <strong>one</strong> effect, the same for everyone. Suppose the return to experience differs by group. A single tenure slope cannot represent that &mdash; it fits <em>one compromise slope</em> through both groups and reports it as though it described either.</p>
           <p style="font-size: 19pt; text-align: center; margin: 12px 0 6px 0;">\[ y_i = \beta_0 + \beta_1 t_i + \beta_2 f_i + \beta_3 (t_i \times f_i) + \varepsilon_i \]</p>
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px;">
-            <div style="background: #f0f5f8; border-radius: 8px; padding: 12px 16px;">
-              <p style="font-size: 15pt;"><strong>\(\beta_1\)</strong> &mdash; the return to tenure for the <strong>reference group</strong> (men, coded zero).</p>
-            </div>
-            <div style="background: #f9f3ee; border-radius: 8px; padding: 12px 16px;">
-              <p style="font-size: 15pt;"><strong>\(\beta_2\)</strong> &mdash; the gap <strong>at tenure zero</strong>. Not the average gap.</p>
-            </div>
-            <div style="background: #eef2f0; border-radius: 8px; padding: 12px 16px;">
-              <p style="font-size: 15pt;"><strong>\(\beta_3\)</strong> &mdash; how much the return to tenure <em>differs</em> for women.</p>
-            </div>
+          <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 6px;">
+            <svg viewBox="0 0 1160 292" xmlns="http://www.w3.org/2000/svg" font-family="inherit" fill="#3A3632" style="width:100%;display:block" role="img" aria-label="Wage against years of tenure for two groups. The men's line is steep, slope beta 1. The women's line starts below it and is flatter, slope beta 1 plus beta 3, so the gap widens with tenure. A double arrow at tenure 0 marks beta 2, the gap at tenure 0. A dashed line between them is one slope for everyone, which describes neither group."><defs><marker id="t13ix-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#A85C5C"/></marker></defs><line x1="90" y1="258" x2="560" y2="258" stroke="#8C8580" stroke-width="1.5"/><line x1="90" y1="258" x2="90" y2="20" stroke="#8C8580" stroke-width="1.5"/><text x="80" y="30" font-size="16" text-anchor="end" fill="#8C8580">wage</text><line x1="120" y1="258" x2="120" y2="264" stroke="#8C8580" stroke-width="1.5"/><text x="120" y="282" font-size="15" text-anchor="middle" fill="#8C8580">0</text><text x="330" y="284" font-size="16" text-anchor="middle" fill="#8C8580">years of tenure</text><line x1="120" y1="175" x2="520" y2="45" stroke="#6B8BA4" stroke-width="4" stroke-linecap="round"/><line x1="120" y1="225" x2="520" y2="150" stroke="#C47B5A" stroke-width="4" stroke-linecap="round"/><line x1="130" y1="197" x2="520" y2="97" stroke="#8C8580" stroke-width="2.5" stroke-dasharray="9 7"/><text x="532" y="52" font-size="19" font-weight="700" fill="#6B8BA4">men: slope β<tspan dy="4" font-size="15">1</tspan></text><text x="532" y="157" font-size="19" font-weight="700" fill="#C47B5A">women: slope β<tspan dy="4" font-size="15">1</tspan><tspan dy="-4"> + </tspan>β<tspan dy="4" font-size="15">3</tspan></text><text x="532" y="96" font-size="15" fill="#8C8580">one slope for everyone:</text><text x="532" y="117" font-size="15" fill="#8C8580">describes neither group</text><line x1="120" y1="180" x2="120" y2="220" stroke="#A85C5C" stroke-width="2.5" marker-start="url(#t13ix-r)" marker-end="url(#t13ix-r)"/><text x="134" y="247" font-size="17" font-weight="600" fill="#A85C5C">β<tspan dy="4" font-size="14">2</tspan><tspan dy="-4"> = the gap at tenure 0</tspan></text><rect x="760" y="14" width="396" height="78" rx="8" fill="#f0f5f8"/><rect x="760" y="14" width="4" height="78" fill="#6B8BA4"/><text x="780" y="46" font-size="17"><tspan font-weight="700">β<tspan dy="4" font-size="14">1</tspan></tspan><tspan dy="-4"> — the return to tenure for the</tspan></text><text x="780" y="72" font-size="17">reference group (men, coded zero).</text><rect x="760" y="106" width="396" height="78" rx="8" fill="#f9f3ee"/><rect x="760" y="106" width="4" height="78" fill="#C47B5A"/><text x="780" y="138" font-size="17"><tspan font-weight="700">β<tspan dy="4" font-size="14">2</tspan></tspan><tspan dy="-4"> — the gap at tenure zero.</tspan></text><text x="780" y="164" font-size="17">Not the average gap.</text><rect x="760" y="198" width="396" height="78" rx="8" fill="#eef2f0"/><rect x="760" y="198" width="4" height="78" fill="#6A8E6B"/><text x="780" y="230" font-size="17"><tspan font-weight="700">β<tspan dy="4" font-size="14">3</tspan></tspan><tspan dy="-4"> — how much the return to tenure</tspan></text><text x="780" y="256" font-size="17">differs for women.</text></svg>
           </div>
           <div class="key-result" style="margin-top: 14px;">
             <p style="font-size: 16pt;">The return to tenure is \(\beta_1\) for men and \(\beta_1 + \beta_3\) for women. And the pay gap becomes <strong>\(\beta_2 + \beta_3 \times \text{tenure}\)</strong> &mdash; a <em>function</em>, not a number.</p>
@@ -767,9 +756,9 @@
         </div>
       </section>
         <section id="poll-7" style="padding: 38px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 7: What Does a Year Pay a Union Member?</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: What Does a Year Pay a Union Member?</h2>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 22px; margin-top: 10px;">
-            <p style="font-size: 15pt; line-height: 1.6;">For non-union workers a year of experience pays <strong>$900</strong>. The interaction term (experience &times; union) will come out at about <strong>&minus;400</strong>.</p>
+            <p style="font-size: 15pt; line-height: 1.6;">Lab 13&rsquo;s Step 7 fits wage on experience, union, and experience &times; union; the union premium at zero experience is about $6,000. For non-union workers a year of experience pays <strong>$900</strong>. The interaction term (experience &times; union) will come out at about <strong>&minus;400</strong>.</p>
             <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">For a union member, a year of experience pays &mdash;</p>
           </div>
           <div class="poll-grid" data-poll-id="ch13-econ3916-poll-7" style="display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 16px; font-size: 14pt;">
@@ -777,7 +766,7 @@
           </div>
         </section>
         <section id="poll-7-reveal" data-poll-results="ch13-econ3916-poll-7" style="padding: 32px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 7: Where the Room Landed</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Results: What Does a Year Pay a Union Member?</h2>
           <div class="poll-results-chart" data-poll-id="ch13-econ3916-poll-7" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:10px 60px 34px;"></div>
           <div style="padding: 4px 40px;">
             <p style="font-size: 15pt; text-align: center; color: #6b6b6b;">Now the lab runs it. Back here afterwards for the answer.</p>
@@ -843,7 +832,7 @@
 
       <section>
         <section id="poll-4" style="padding: 38px 50px;">
-          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll 4: What Actually Moved?</h2>
+          <h2><i class="fa-solid fa-chart-bar" style="color: var(--accent-color);"></i> Poll: What Actually Moved?</h2>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 22px; margin-top: 10px;">
             <p style="font-size: 15pt; line-height: 1.6;">We add <code>yrs_at_firm</code>, a near-duplicate of <code>tenure</code> (VIF 48.8), to a model whose real target is the <code>female</code> coefficient.</p>
             <p style="font-size: 16.5pt; font-weight: 600; margin-top: 10px;">What moved?</p>
@@ -1028,7 +1017,7 @@
             </div>
             <div style="display: grid; grid-template-columns: 42px 1fr; align-items: start; background: #f9f0ee; border-radius: 8px; padding: 13px 18px; border-left: 4px solid var(--danger-color);">
               <p style="font-size: 19pt;"><i class="fa-solid fa-shuffle" style="color: var(--danger-color);"></i></p>
-              <p style="font-size: 14.5pt;"><strong>Controlling for a mediator changes the question.</strong> Today it removed $7,386 of a $10,200 gap &mdash; and every dollar removed was real discrimination travelling through promotion.</p>
+              <p style="font-size: 14.5pt;"><strong>Controlling for a mediator changes the question.</strong> Today it removed $7,386 of a measured $10,133 gap &mdash; and every dollar removed was real discrimination travelling through promotion.</p>
             </div>
             <div style="display: grid; grid-template-columns: 42px 1fr; align-items: start; background: #eef2f0; border-radius: 8px; padding: 13px 18px; border-left: 4px solid var(--success-color);">
               <p style="font-size: 19pt;"><i class="fa-solid fa-clone" style="color: var(--success-color);"></i></p>
@@ -1165,6 +1154,22 @@
     .reset-btn{display:none}body.instructor-mode .reset-btn{display:inline-block}
   </style>
   <script src="../poll.js" data-checkin></script>
+  <script src="../mock-cell.js"></script>
+<script>
+/* T13 fwl-plot: the closing box waits for the mocked cell's own clicks (mock-cell.js adds them late). */
+(function () {
+  var tries = 0;
+  (function wait() {
+    var sec = document.getElementById("fwl-plot"); if (!sec) return;
+    if (sec.querySelectorAll(".mk-step").length >= 2 || tries++ > 60) {
+      [].forEach.call(sec.querySelectorAll(".after-mock-fwl"), function (e) { e.classList.add("fragment", "fade-up"); });
+      try { Reveal.syncFragments(); } catch (e) {}
+      return;
+    }
+    setTimeout(wait, 200);
+  })();
+})();
+</script>
 <script>
   (function(){
     var SU="https://dpntbrsorgbivmntwmod.supabase.co",SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
