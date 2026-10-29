@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=cd87ee490c5f87449206553a9eb22cea">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Add a control</title>
+<style>html,body{margin:0;height:100%;background:#fff;font-family:"Source Sans 3","Source Sans Pro",system-ui,sans-serif;color:#2b2b2b;overflow:hidden}
+button.t{font:inherit;font-size:16px;padding:5px 12px;border-radius:7px;border:2px solid #c9c2b8;background:#f8f6f3;cursor:pointer;margin-right:8px}
+button.t.on{border-color:#2e6db4;background:#e3edf4;color:#1d4f86;font-weight:700}
+.big{font-size:34px;font-weight:700} .mut{color:#666} .sm{font-size:14px} input[type=range]{accent-color:#b22222}</style></head><body>
+<div style="padding:8px 12px">
+ <div><span class="sm mut">Add controls to income alone:</span><br>
+  <button class="t" data-c="AveRooms">+ AveRooms</button><button class="t" data-c="HouseAge">+ HouseAge</button><button class="t" data-c="AveOccup">+ AveOccup</button></div>
+ <div style="margin-top:12px"><span class="sm mut">Income (MedInc) coefficient</span><br><span class="big" id="b"></span> <span id="d" class="sm"></span></div>
+ <div style="margin-top:6px;font-size:16px">R&sup2; <b id="r2"></b> &nbsp;&middot;&nbsp; test RMSE <b id="rm"></b> <span class="sm mut">(lower is better)</span></div>
+ <div id="cc" style="margin-top:6px;font-size:15px;min-height:22px"></div>
+ <svg id="line" viewBox="0 0 660 120" style="width:100%;margin-top:6px" role="img" aria-label="Income coefficient for all eight combinations of controls"></svg>
+ <div class="sm mut" style="margin-top:2px">Each dot is one of the eight combinations, fitted on all 20,640 block groups; test RMSE on a 20% hold-out (seed 42).</div>
+</div>
+<script>
+var SPEC={"none":{"b":0.4179,"r2":0.4734,"rmse":0.8421,"coefs":{}},"AveRooms":{"b":0.4342,"r2":0.4794,"rmse":0.8379,"coefs":{"AveRooms":-0.0381}},"HouseAge":{"b":0.4317,"r2":0.5091,"rmse":0.8142,"coefs":{"HouseAge":0.0174}},"AveOccup":{"b":0.4184,"r2":0.4748,"rmse":0.8412,"coefs":{"AveOccup":-0.0041}},"AveRooms,HouseAge":{"b":0.4428,"r2":0.5121,"rmse":0.8117,"coefs":{"AveRooms":-0.0272,"HouseAge":0.0168}},"AveRooms,AveOccup":{"b":0.4347,"r2":0.4808,"rmse":0.8371,"coefs":{"AveRooms":-0.0383,"AveOccup":-0.0042}},"HouseAge,AveOccup":{"b":0.4322,"r2":0.5107,"rmse":0.8134,"coefs":{"HouseAge":0.0175,"AveOccup":-0.0044}},"AveRooms,HouseAge,AveOccup":{"b":0.4433,"r2":0.5137,"rmse":0.8108,"coefs":{"AveRooms":-0.0273,"HouseAge":0.0169,"AveOccup":-0.0045}}}, on={AveRooms:false,HouseAge:false,AveOccup:false}, ORDER=["AveRooms","HouseAge","AveOccup"];
+function key(){var k=ORDER.filter(function(c){return on[c];});return k.length?k.join(","):"none";}
+function f4(v){return v.toFixed(4).replace("-","\u2212");}
+function draw(){var s=SPEC[key()],base=SPEC["none"].b;
+ document.getElementById("b").textContent=f4(s.b);
+ var dd=s.b-base;document.getElementById("d").textContent=key()==="none"?"(income alone)":(dd>=0?"up ":"down ")+f4(Math.abs(dd))+" from 0.4179";
+ document.getElementById("r2").textContent=f4(s.r2);document.getElementById("rm").textContent=f4(s.rmse);
+ var cc=Object.keys(s.coefs).map(function(c){var v=s.coefs[c];return c+" "+f4(v)+(c==="AveRooms"?' <span class="mut sm">(negative: the next slide)</span>':"");});
+ document.getElementById("cc").innerHTML=cc.length?"Controls&rsquo; own coefficients: "+cc.join(" &middot; "):'<span class="mut">No controls: Chapter 12&rsquo;s line.</span>';
+ var L=40,R=620,lo=0.414,hi=0.446,X=function(v){return L+(R-L)*(v-lo)/(hi-lo);},g='<line x1="'+L+'" x2="'+R+'" y1="60" y2="60" stroke="#bbb"/>';
+ [0.415,0.42,0.425,0.43,0.435,0.44,0.445].forEach(function(t){g+='<line x1="'+X(t)+'" x2="'+X(t)+'" y1="55" y2="65" stroke="#bbb"/><text x="'+X(t)+'" y="84" font-size="13" text-anchor="middle" fill="#777">'+t.toFixed(3)+'</text>';});
+ g+='<line x1="'+X(base)+'" x2="'+X(base)+'" y1="30" y2="66" stroke="#888" stroke-dasharray="4 3"/><text x="'+X(base)+'" y="24" font-size="13" text-anchor="middle" fill="#666">income alone</text>';
+ Object.keys(SPEC).forEach(function(k){var v=SPEC[k].b,cur=k===key();g+='<circle cx="'+X(v)+'" cy="60" r="'+(cur?10:5)+'" fill="'+(cur?"#b22222":"#9aaab8")+'" opacity="'+(cur?1:0.8)+'"/>';});
+ g+='<text x="'+X(s.b)+'" y="108" font-size="14" font-weight="700" text-anchor="middle" fill="#b22222">this model</text>';
+ document.getElementById("line").innerHTML=g;
+ [].forEach.call(document.querySelectorAll("button.t"),function(b){b.classList.toggle("on",on[b.dataset.c]);});}
+[].forEach.call(document.querySelectorAll("button.t"),function(b){b.onclick=function(){on[b.dataset.c]=!on[b.dataset.c];draw();};});
+draw();
+</script><script>document.addEventListener("keydown",function(e){var R=null;try{R=window.parent&&window.parent!==window&&window.parent.Reveal;}catch(_){}
+if(!R)return;if(e.target&&e.target.type==="range"&&(e.key==="ArrowLeft"||e.key==="ArrowRight"))return;
+var nx={"ArrowRight":1,"PageDown":1," ":1,"ArrowDown":1,"n":1},pv={"ArrowLeft":1,"PageUp":1,"ArrowUp":1,"p":1};
+if(nx[e.key]){e.preventDefault();R.next();}else if(pv[e.key]){e.preventDefault();R.prev();}});</script></body></html>

@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=71feba5f7c510c22d6a706ca1c62483e">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>One effect for everybody?</title>
+<style>html,body{margin:0;height:100%;background:#fff;font-family:"Source Sans 3","Source Sans Pro",system-ui,sans-serif;color:#2b2b2b;overflow:hidden}
+button.t{font:inherit;font-size:16px;padding:5px 12px;border-radius:7px;border:2px solid #c9c2b8;background:#f8f6f3;cursor:pointer;margin-right:8px}
+button.t.on{border-color:#2e6db4;background:#e3edf4;color:#1d4f86;font-weight:700}
+.big{font-size:34px;font-weight:700} .mut{color:#666} .sm{font-size:14px} input[type=range]{accent-color:#b22222}</style></head><body>
+<div style="display:grid;grid-template-columns:58% 42%;gap:14px;padding:4px 8px;align-items:start">
+ <svg id="c" viewBox="0 0 640 300" style="width:100%" role="img" aria-label="Wage against tenure: men's line and women's line, set by the sliders"></svg>
+ <div style="font-size:16px;line-height:1.35">
+  <div style="border-left:5px solid #6B8BA4;background:#f0f5f8;padding:7px 10px;border-radius:6px"><b>&beta;<sub>1</sub></b> &mdash; the return to tenure for the reference group (men, coded zero).</div>
+  <div style="border-left:5px solid #C47B5A;background:#f9f3ee;padding:7px 10px;border-radius:6px;margin-top:8px"><b>&beta;<sub>2</sub></b> &mdash; the gap at tenure zero. Not the average gap.<br>
+   <span class="sm mut">women start</span> <span class="sm">lower</span> <input id="b2" type="range" min="-12" max="12" step="1" value="-5" style="width:130px;vertical-align:middle"> <span class="sm">higher</span></div>
+  <div style="border-left:5px solid #5f8f6a;background:#eef4ee;padding:7px 10px;border-radius:6px;margin-top:8px"><b>&beta;<sub>3</sub></b> &mdash; how much the return to tenure differs for women.<br>
+   <span class="sm mut">women&rsquo;s slope</span> <span class="sm">flatter</span> <input id="b3" type="range" min="-1.2" max="1.2" step="0.1" value="-0.6" style="width:130px;vertical-align:middle"> <span class="sm">steeper</span></div>
+  <div id="say" style="margin-top:9px;font-size:15px"></div>
+ </div>
+</div>
+<script>
+var L=46,R=625,T=10,B=262,A=40,S1=2;
+function X(t){return L+(R-L)*t/20;} function Y(w){return B-(B-T)*(w-10)/(100-10);}
+function draw(){var b2=+document.getElementById("b2").value,b3=+document.getElementById("b3").value;
+ var m0=A,m20=A+S1*20,w0=A+b2,w20=A+b2+(S1+b3)*20;
+ var g='<line x1="'+L+'" y1="'+B+'" x2="'+R+'" y2="'+B+'" stroke="#888"/><line x1="'+L+'" y1="'+B+'" x2="'+L+'" y2="'+T+'" stroke="#888"/>';
+ g+='<text x="'+((L+R)/2)+'" y="'+(B+30)+'" font-size="15" text-anchor="middle" fill="#555">years of tenure</text><text x="'+L+'" y="'+(B+18)+'" font-size="14" text-anchor="middle" fill="#777">0</text><text transform="translate(18 '+((T+B)/2)+') rotate(-90)" font-size="15" text-anchor="middle" fill="#555">wage</text>';
+ g+='<line x1="'+X(0)+'" y1="'+Y(m0)+'" x2="'+X(20)+'" y2="'+Y(m20)+'" stroke="#6B8BA4" stroke-width="4"/><text x="'+X(14)+'" y="'+(Y(A+S1*14)+(w20<=m20?-22:32))+'" font-size="16" font-weight="700" text-anchor="middle" fill="#4f6d8a" stroke="#fff" stroke-width="5" paint-order="stroke">men: slope &beta;&#8321;</text>';
+ g+='<line x1="'+X(0)+'" y1="'+Y(w0)+'" x2="'+X(20)+'" y2="'+Y(w20)+'" stroke="#C47B5A" stroke-width="4"/><text x="'+X(14)+'" y="'+(Y(A+b2+(S1+b3)*14)+(w20<=m20?30:-14))+'" font-size="16" font-weight="700" text-anchor="middle" fill="#b0603d" stroke="#fff" stroke-width="5" paint-order="stroke">women: slope &beta;&#8321; + &beta;&#8323;</text>';
+ if(b2!==0){g+='<line x1="'+(X(0)+10)+'" y1="'+Y(m0)+'" x2="'+(X(0)+10)+'" y2="'+Y(w0)+'" stroke="#a0453f" stroke-width="2.5"/><text x="'+(X(0)+18)+'" y="'+((Y(m0)+Y(w0))/2+5)+'" font-size="15" font-weight="700" fill="#a0453f">&beta;&#8322;</text>';}
+ var s;
+ if(Math.abs(b3)<1e-9) s="<b>Parallel lines:</b> &beta;&#8323; = 0, so the gap is &beta;&#8322; at every tenure. Only then is there one pay gap.";
+ else{var tc=-b2/b3; s=(b3<0?"<b>Women&rsquo;s line is flatter:</b> the gap grows more negative with every year.":"<b>Women&rsquo;s line is steeper:</b> the gap shrinks or reverses with every year.");
+  if(tc>0&&tc<20) s+=" The lines cross at about "+tc.toFixed(1)+" years: before it, one group earns more; after it, the other.";}
+ s+='<br><span class="mut sm">Gap at tenure t = &beta;&#8322; + &beta;&#8323; &times; t.</span>';
+ document.getElementById("c").innerHTML=g; document.getElementById("say").innerHTML=s;}
+["b2","b3"].forEach(function(id){document.getElementById(id).addEventListener("input",draw);}); draw();
+</script><script>document.addEventListener("keydown",function(e){var R=null;try{R=window.parent&&window.parent!==window&&window.parent.Reveal;}catch(_){}
+if(!R)return;if(e.target&&e.target.type==="range"&&(e.key==="ArrowLeft"||e.key==="ArrowRight"))return;
+var nx={"ArrowRight":1,"PageDown":1," ":1,"ArrowDown":1,"n":1},pv={"ArrowLeft":1,"PageUp":1,"ArrowUp":1,"p":1};
+if(nx[e.key]){e.preventDefault();R.next();}else if(pv[e.key]){e.preventDefault();R.prev();}});</script></body></html>
