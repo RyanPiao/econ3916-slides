@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=e676745af7a547021c69154548cad9c1">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=105bb5b0f3dd14a84fde68f38b96b0bd">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Multivariate OLS: Controlling for Confounders</title>
@@ -339,11 +339,11 @@
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 18px;">
               <div class="discussion-prompt" style="border-left-color: var(--success-color);">
-                <p class="bloom-level" style="color: var(--success-color);">Think about &mdash; L2 Understand</p>
+                <p class="bloom-level" style="color: var(--success-color);">Think about</p>
                 <p>What is being held constant when you read that coefficient, and is holding it constant <strong>physically possible</strong>?</p>
               </div>
               <div class="discussion-prompt">
-                <p class="bloom-level">Consider &mdash; L4 Analyze</p>
+                <p class="bloom-level">Consider</p>
                 <p>Give your colleague <strong>one sentence</strong> back. What population does the coefficient actually describe?</p>
               </div>
             </div>
@@ -384,7 +384,7 @@
             <svg viewBox="0 0 1160 262" xmlns="http://www.w3.org/2000/svg" font-family="inherit" fill="#3A3632" style="width:100%;display:block" role="img" aria-label="Triangle. Top: tenure, left out of the model, dashed. Bottom left: female. Bottom right: wage. Tenure to wage, tagged beta 2, is condition 1: affects the outcome, tenure raises wages. Tenure to and from female, tagged delta, is condition 2: moves with the predictor, men in the sample have longer tenure. Along the bottom, the regression of wages on gender alone."><defs><marker id="t13ovb-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B8BA4"/></marker><marker id="t13ovb-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C47B5A"/></marker><marker id="t13ovb-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8C8580"/></marker></defs><rect x="450" y="18" width="260" height="52" rx="8" fill="#f8f6f3" stroke="#8C8580" stroke-width="2" stroke-dasharray="8 6"/><text x="580" y="51" font-size="20" font-weight="600" text-anchor="middle">tenure (left out)</text><rect x="120" y="192" width="160" height="50" rx="8" fill="#ffffff" stroke="#3A3632" stroke-width="2"/><text x="200" y="224" font-size="20" font-weight="600" text-anchor="middle">female</text><rect x="880" y="192" width="160" height="50" rx="8" fill="#ffffff" stroke="#3A3632" stroke-width="2"/><text x="960" y="224" font-size="20" font-weight="600" text-anchor="middle">wage</text><line x1="282" y1="217" x2="876" y2="217" stroke="#8C8580" stroke-width="2.5" marker-end="url(#t13ovb-k)"/><text x="580" y="248" font-size="16" text-anchor="middle" fill="#8C8580">regression of wages on gender alone</text><line x1="690" y1="72" x2="925" y2="189" stroke="#6B8BA4" stroke-width="3" marker-end="url(#t13ovb-b)"/><circle cx="807" cy="130" r="19" fill="#ffffff" stroke="#6B8BA4" stroke-width="2"/><text x="807" y="137" font-size="19" font-weight="700" text-anchor="middle" fill="#6B8BA4">β<tspan dy="4" font-size="15">2</tspan></text><text x="862" y="90" font-size="19" font-weight="700" fill="#6B8BA4">Condition 1:</text><text x="862" y="118" font-size="19" font-weight="700" fill="#6B8BA4">affects the outcome</text><text x="862" y="142" font-size="15" font-style="italic" fill="#8C8580">tenure raises wages</text><line x1="470" y1="72" x2="235" y2="189" stroke="#C47B5A" stroke-width="3" stroke-dasharray="9 6" marker-start="url(#t13ovb-a)" marker-end="url(#t13ovb-a)"/><circle cx="353" cy="130" r="19" fill="#ffffff" stroke="#C47B5A" stroke-width="2"/><text x="353" y="137" font-size="19" font-weight="700" text-anchor="middle" fill="#C47B5A">δ</text><text x="298" y="90" font-size="19" font-weight="700" text-anchor="end" fill="#C47B5A">Condition 2:</text><text x="298" y="118" font-size="19" font-weight="700" text-anchor="end" fill="#C47B5A">moves with the predictor</text><text x="298" y="142" font-size="15" font-style="italic" text-anchor="end" fill="#8C8580">men in the sample have longer tenure</text></svg>
           </div>
           <div class="key-result fragment fade-up" style="margin-top: 16px;">
-            <p style="font-size: 16pt;"><strong>Both must hold.</strong> Fail either and there is no bias &mdash; which is why not every unmeasured variable is a threat. Students over-correct after Chapter 10 and start treating every missing column as fatal. Most are not.</p>
+            <p style="font-size: 16pt;"><strong>Both must hold.</strong> Fail either and there is no bias &mdash; which is why not every unmeasured variable is a threat. After Chapter 10 it is tempting to treat every missing column as a source of bias. Most are not.</p>
           </div>
         </div>
       </section>
@@ -651,11 +651,11 @@
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 16px;">
             <div class="discussion-prompt" style="border-left-color: var(--secondary-color);">
-              <p class="bloom-level" style="color: var(--secondary-color);">You are the analyst &mdash; L5 Evaluate</p>
+              <p class="bloom-level" style="color: var(--secondary-color);">You are the analyst</p>
               <p>Which number, and what <strong>exactly</strong> must the footnote say?</p>
             </div>
             <div class="discussion-prompt">
-              <p class="bloom-level">You are the journalist &mdash; L4 Analyze</p>
+              <p class="bloom-level">You are the journalist</p>
               <p>What <strong>single question</strong> do you ask that exposes which number you were handed?</p>
             </div>
           </div>
@@ -784,13 +784,13 @@
       </section>
 
       <section id="multicollinearity-figure" style="padding: 22px 50px;">
-        <h2><i class="fa-solid fa-scale-unbalanced-flip" style="color: var(--danger-color);"></i> What It Wrecks, and What It Does Not</h2>
+        <h2><i class="fa-solid fa-scale-unbalanced-flip" style="color: var(--danger-color);"></i> What It Changes, and What It Does Not</h2>
         <div class="content">
           <div style="display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 22px; align-items: start;">
             <img class="figure" src="figures/figure_007_multicollinearity.png" alt="Top panel: the standard error on tenure rising from 28.1 alone to 147.2 once a near-duplicate predictor with VIF 48.82 joins the model. Bottom panel: R-squared identical at 0.80622 and the female coefficient identical at minus 2,746 both with and without the duplicate" style="width: 100%; max-height: 525px; object-fit: contain;">
             <div>
               <div style="background: #f9f0ee; border-radius: 8px; padding: 12px 16px; border-left: 3px solid var(--danger-color);">
-                <p style="font-size: 14.5pt;"><strong>1. The standard error exploded.</strong> 28.1 &rarr; 147.2, five times wider. The classic signature: a model that is clearly working, made of coefficients that individually look like nothing.</p>
+                <p style="font-size: 14.5pt;"><strong>1. The standard error got much larger.</strong> 28.1 &rarr; 147.2, five times wider. The classic signature: a model that is clearly working, made of coefficients that individually look like nothing.</p>
               </div>
               <div style="background: #f9f3ee; border-radius: 8px; padding: 12px 16px; border-left: 3px solid var(--accent-color); margin-top: 10px;">
                 <p style="font-size: 14.5pt;"><strong>2. The coefficients split arbitrarily.</strong> Tenure keeps 820.7, the twin takes 45.8 &mdash; and that division is essentially noise. Resample and it shifts, possibly changing signs.</p>
@@ -814,7 +814,7 @@
             <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) The standard error on <code>tenure</code>, and nothing else</div>
             <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) The standard error on <code>tenure</code>, <strong>and R&sup2; fell</strong> because the model is now redundant</div>
             <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Everything &mdash; a VIF of 48 corrupts the whole fit</div>
-            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Nothing that matters here &mdash; <code>female</code> and R&sup2; are unchanged; only <code>tenure</code>'s precision was wrecked</div>
+            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 13px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Nothing that matters here &mdash; <code>female</code> and R&sup2; are unchanged; only <code>tenure</code>'s precision fell</div>
           </div>
         </section>
         <section id="poll-4-reveal" data-poll-results="ch13-econ3916-poll-4" style="padding: 32px 50px;">
@@ -824,14 +824,14 @@
             <p style="font-size: 16.5pt; text-align: center;">SE on <code>tenure</code> <strong>28.1 &rarr; 147.2</strong> &nbsp;&bull;&nbsp; R&sup2; <strong>0.80622 &rarr; 0.80622</strong> &nbsp;&bull;&nbsp; <code>female</code> <strong>&minus;2,746 &rarr; &minus;2,746</strong></p>
             <div class="misconception" style="margin-top: 12px;">
               <p><strong>B is the tempting one</strong> &mdash; &ldquo;redundant variable&rdquo; sounds like it should cost you fit. But adding <em>any</em> column can only weakly <em>increase</em> in-sample R&sup2;, never decrease it. That was Chapter 12.</p>
-              <p style="margin-top: 6px;"><strong>C is the panic answer</strong>, and it is exactly why people delete variables they should keep. The right reading of a high VIF is narrow: <em>this particular coefficient</em> is now unanswerable with this data.</p>
+              <p style="margin-top: 6px;"><strong>C is the overreaction</strong>, and it is exactly why people delete variables they should keep. The right reading of a high VIF is narrow: <em>this particular coefficient</em> cannot be estimated precisely with this data.</p>
             </div>
           </div>
         </section>
       </section>
 
       <section id="multicollinearity-key" style="padding: 34px 50px;">
-        <h2><i class="fa-solid fa-key" style="color: var(--secondary-color);"></i> Fatal for One Job, Harmless for the Other</h2>
+        <h2><i class="fa-solid fa-key" style="color: var(--secondary-color);"></i> A Problem for One Job, Harmless for the Other</h2>
         <div class="content">
           <div class="key-result">
             <p style="font-size: 17pt;"><strong>Multicollinearity is a statement about <em>which questions your data can answer</em></strong>, not a data-quality problem or a modelling error. Correlated predictors leave little independent variation, so individual coefficients destabilise and their standard errors inflate. Aggregate fit is untouched, because the model still knows the combined relationship &mdash; it simply cannot <strong>attribute</strong> it.</p>
@@ -843,7 +843,7 @@
             </div>
             <div style="background: #f9f0ee; border-radius: 10px; padding: 16px 20px; border-left: 4px solid var(--danger-color); text-align: center;">
               <p style="font-size: 15pt; color: var(--danger-color); font-weight: 600;">Want to say what a year of tenure is worth?</p>
-              <p style="font-size: 18pt; margin-top: 6px;">Now <strong>useless</strong>.</p>
+              <p style="font-size: 18pt; margin-top: 6px;">Now <strong>too imprecise to use</strong>.</p>
             </div>
           </div>
           <p class="text-lg fragment fade-up" style="text-align: center; margin-top: 14px;"><strong>The same fitted object is simultaneously both.</strong> This is Chapter 12's explain-versus-predict distinction showing up in one table.</p>
@@ -993,7 +993,7 @@
             </div>
             <div style="display: grid; grid-template-columns: 42px 1fr; align-items: start; background: #eef2f0; border-radius: 8px; padding: 13px 18px; border-left: 4px solid var(--success-color);">
               <p style="font-size: 19pt;"><i class="fa-solid fa-clone" style="color: var(--success-color);"></i></p>
-              <p style="font-size: 14.5pt;"><strong>Multicollinearity is fatal for explanation and harmless for prediction.</strong> The same fitted model, the same output, is broken for one purpose and fine for the other.</p>
+              <p style="font-size: 14.5pt;"><strong>Multicollinearity is a problem for explanation and harmless for prediction.</strong> The same fitted model, the same output, fails one purpose and serves the other.</p>
             </div>
           </div>
           <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px; margin-top: 14px; text-align: center; border-left: 4px solid #7C3A5F;">

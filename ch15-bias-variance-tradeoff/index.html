@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=fb49a2ee6ecbcd283943ff2c2779899e">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=e34a4d0b4783feea33d8d93096b8c1a2">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The ML Shift: Bias-Variance Tradeoff</title>
@@ -389,7 +389,7 @@
       <h2><i class="fa-solid fa-comments" style="color: var(--accent-color);"></i> Discussion 1 &mdash; Diagnose This Model</h2>
       <div class="content">
         <div class="discussion-prompt">
-          <p class="bloom-level">Bloom L4 &bull; Analyze &bull; 4 minutes &bull; pairs</p>
+          <p class="bloom-level">4 minutes &bull; pairs</p>
           <p style="font-size: 16pt;">You inherit a colleague's rent-prediction model. <strong>Training RMSE $180. Validation RMSE $186.</strong> Your manager says: "it's clearly overfitting &mdash; use a simpler model."</p>
           <p style="font-size: 16pt; margin-top: 8px;">Is the manager right? What is the actual diagnosis, and what would you do instead?</p>
         </div>
@@ -662,7 +662,7 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
       <h2><i class="fa-solid fa-comments" style="color: var(--accent-color);"></i> Discussion 2 &mdash; The Dean's AUC of 0.94</h2>
       <div class="content">
         <div class="discussion-prompt">
-          <p class="bloom-level">Bloom L4 &bull; Analyze &bull; 4 minutes &bull; table groups</p>
+          <p class="bloom-level">4 minutes &bull; table groups</p>
           <p style="font-size: 16pt;">Your team has student-level data: <strong>40,000 observations, 5,000 students, 8 semesters each</strong>, predicting dropout. Random 5-fold CV reports <strong>AUC 0.94</strong>. The dean wants to deploy it to flag <em>incoming</em> students.</p>
           <p style="font-size: 16pt; margin-top: 8px;">Name every reason that 0.94 is <strong>not</strong> the number the dean will get.</p>
         </div>
@@ -719,7 +719,7 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
       <h2><i class="fa-solid fa-comments" style="color: var(--accent-color);"></i> Discussion 3 &mdash; Would You Sign Your Name to It?</h2>
       <div class="content">
         <div class="discussion-prompt">
-          <p class="bloom-level">Bloom L6 &bull; Evaluate &bull; 3 minutes &bull; whole room</p>
+          <p class="bloom-level">3 minutes &bull; whole room</p>
           <p style="font-size: 16pt;">A university asks you to build a model predicting which applicants will graduate, <strong>trained on ten years of enrolled students</strong>, to be used in admissions.</p>
           <p style="font-size: 16pt; margin-top: 8px;">Whose decision determined which outcomes you get to observe? And what would you have to change about the <strong>design</strong> &mdash; not the code &mdash; before you would sign your name to it?</p>
         </div>
