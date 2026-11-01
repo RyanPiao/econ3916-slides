@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=e34a4d0b4783feea33d8d93096b8c1a2">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a1e6754a4b1b40064f3778ac6d9a7f63">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The ML Shift: Bias-Variance Tradeoff</title>
@@ -84,12 +84,12 @@
     <section id="hook-zillow" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-house-circle-xmark" style="color: var(--danger-color);"></i> 2 November 2021</h2>
       <div class="content">
-        <p class="text-lg" style="line-height: 1.55;">Zillow's board shut down the business it had spent two years building. <strong>Zillow Offers</strong> bought houses directly from owners, made light repairs and resold them. The whole operation rested on one number: what a house was worth.</p>
+        <p class="text-lg" style="line-height: 1.55;">Zillow's board shut down the business it had launched three and a half years earlier. <strong>Zillow Offers</strong> bought houses directly from owners, made light repairs and resold them. The whole operation rested on one number: what a house was worth.</p>
         <p class="text-lg" style="line-height: 1.55; margin-top: 12px;">They had better housing data than anyone else. They built the <strong>Neural Zestimate</strong> &mdash; one national deep network replacing a patchwork of local models. <em>It performed very well in validation.</em></p>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 22px;">
           <div class="stat-highlight"><div class="number" style="color: var(--danger-color);">$304M</div><div class="label">Q3 inventory write-down</div></div>
           <div class="stat-highlight"><div class="number" style="color: var(--danger-color); font-size: 33pt; white-space: nowrap;">$240&ndash;265M</div><div class="label">further losses expected in Q4</div></div>
-          <div class="stat-highlight"><div class="number">7,000</div><div class="label">homes held across 25 metros</div></div>
+          <div class="stat-highlight"><div class="number">9,790</div><div class="label">homes in inventory, 8,172 more under contract</div></div>
           <div class="stat-highlight"><div class="number">2,000</div><div class="label">people laid off &mdash; a quarter of the company</div></div>
         </div>
         <p style="margin-top: 18px; font-size: 16pt; color: var(--primary-color);"><strong>The worrying part: the model was not obviously broken.</strong> It scored well on held-out data, by the standards its builders used.</p>
@@ -637,7 +637,7 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 16px;">
           <div class="stat-highlight"><div class="number" style="color: var(--danger-color);">294</div><div class="label">papers affected</div></div>
           <div class="stat-highlight"><div class="number" style="color: var(--danger-color);">17</div><div class="label">scientific fields</div></div>
-          <div class="stat-highlight"><div class="number">&asymp; 0</div><div class="label">of ML's reported advantage that survived</div></div>
+          <div class="stat-highlight"><div class="number">&asymp; 0</div><div class="label">of ML's reported advantage that survived, in the civil-war case study</div></div>
         </div>
         <p class="text-lg" style="line-height: 1.55;">Kapoor and Narayanan (2023) found leakage <strong>pervasive</strong>. In their case study, civil war prediction, complex models had reportedly far outperformed logistic regression. Once the leakage was fixed (imputation run on train and test together, proxies for the outcome), <strong>the advantage largely vanished</strong>: decades-old logistic regression did as well as the random forests and boosting that had supposedly superseded it.</p>
         <div class="key-result" style="margin-top: 14px;">
@@ -694,7 +694,7 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
           <p><i class="fa-solid fa-cart-shopping" style="color: var(--secondary-color);"></i> A platform observes conversion only for users <strong>shown</strong> the offer.</p>
         </div>
         <div class="misconception" style="margin-top: 14px;">
-          <p style="font-size: 15.5pt;">In each case the training data is a <strong>non-random sample selected on the very outcome you are modelling</strong> &mdash; and the selection was performed by a decision-maker, often a previous version of your own model.</p>
+          <p style="font-size: 15.5pt;">In each case the training data is a <strong>non-random sample, selected by a decision that is correlated with the outcome you are modelling</strong> &mdash; and the selection was performed by a decision-maker, often a previous version of your own model.</p>
         </div>
       </div>
     </section>
@@ -761,7 +761,7 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
           </div>
           <div style="display: grid; grid-template-columns: 34px 1fr; gap: 12px; background: #fdf0ea; border-radius: 6px; padding: 9px 16px;">
             <p style="font-size: 17pt; font-weight: 700; color: var(--danger-color);">6</p>
-            <p style="font-size: 13.5pt;"><strong>Ask what the prediction will be used for.</strong> Everything today measures squared error, which is right only if errors are symmetric, all observations matter equally, and nobody responds to your predictions. <strong>Zillow failed on the third with every other box ticked.</strong></p>
+            <p style="font-size: 13.5pt;"><strong>Ask what the prediction will be used for.</strong> Everything today measures squared error, which is right only if errors are symmetric, all observations matter equally, and nobody responds to your predictions. <strong>Tick every other box and step 6 can still sink you: Zillow's sellers responded to its offers.</strong></p>
           </div>
         </div>
       </div>
