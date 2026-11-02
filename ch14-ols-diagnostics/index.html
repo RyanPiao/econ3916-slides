@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=d46262fb75155af3c6095cdbca1102f6">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=398de470086bf761fc08226f7a5bca30">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OLS Diagnostics: When OLS Fails</title>
@@ -534,7 +534,6 @@
       <p class="subtitle">Fifteen minutes &bull; &sect;14.3 &bull; the most consequential thing today</p>
     </section>
 
-    <section>
     <section id="cluster-intuition" style="padding: 34px 58px;">
       <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> Your Sample Is Smaller Than Its Row Count</h2>
       <div class="content">
@@ -551,26 +550,20 @@
         </div>
       </div>
     </section>
-    <section id="cluster-picture" style="padding: 24px 46px;">
-      <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> 1,000 Rows, Far Fewer Independent Ones</h2>
-      <div class="content" style="text-align: center;">
-        <img src="figures/figure_009_clusters.png" alt="Left: 1,000 simulated workers in 40 firms, with five firms coloured; each firm's workers sit together above or below the fitted line. Right: the 95% interval for the slope from one draw, classical with standard error 0.043, narrow and missing the true slope of 1.5, and clustered by firm with standard error 0.114, 2.6 times wider and covering it. Over 400 draws the classical interval held the truth 43% of the time and the clustered one 93%." style="max-height: 440px; width: auto;">
-        <p style="font-size: 13.5pt; margin-top: 6px; color: var(--muted-color);">Simulated: 40 firms of 25 workers. Workers in a firm share a shock, and x has a firm part too. Lab 14&rsquo;s Extension runs this design.</p>
-      </div>
-    </section>
-    </section>
 
-    <section id="single-draw" style="padding: 32px 55px;">
-      <h2><i class="fa-solid fa-map-location-dot" style="color: var(--accent-color);"></i> A Policy Assigned at the Region Level</h2>
+    <section id="single-draw" style="padding: 20px 46px;">
+      <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> When Rows Share a Shock</h2>
       <div class="content">
-        <p style="font-size: 15pt;">40 regions &times; 250 people = 10,000 rows. Treatment assigned <strong>per region</strong>. True effect <strong>exactly zero</strong>.</p>
-        <div style="background: #f4f2ef; border-radius: 10px; padding: 14px 22px; margin-top: 14px; font-family: 'SF Mono', Menlo, monospace; font-size: 15pt;">
-          naive SE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.0260&nbsp;&nbsp;&nbsp;t = 0.94<br>
-          clustered SE&nbsp;<strong>0.2613</strong>&nbsp;&nbsp;&nbsp;t = 0.09<br>
-          <span style="color: var(--danger-color);">inflation: <strong>10.1x</strong></span>
+        <div style="text-align: center;"><img src="figures/figure_009_clusters.png" alt="Left: 1,000 simulated workers in 40 firms, with five firms coloured; each firm's workers sit together above or below the fitted line. Right: the 95% interval for the slope from one draw, classical with standard error 0.043, narrow and missing the true slope of 1.5, and clustered by firm with standard error 0.114, 2.6 times wider and covering it. Over 400 draws the classical interval held the truth 43% of the time and the clustered one 93%." style="max-height: 410px; width: auto;"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 16px; align-items: center; margin-top: 6px;">
+          <p style="font-size: 13.5pt; margin: 0; color: var(--muted-color);">Above: 40 firms of 25 workers who share a shock, and x has a firm part too (Lab 14&rsquo;s Extension). Right: a policy assigned <strong>per region</strong>, 40 regions &times; 250 people = 10,000 rows, true effect <strong>exactly zero</strong>.</p>
+          <div style="background: #f4f2ef; border-radius: 10px; padding: 10px 20px; font-family: 'SF Mono', Menlo, monospace; font-size: 14.5pt;">
+            naive SE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.0260&nbsp;&nbsp;&nbsp;t = 0.94<br>
+            clustered SE&nbsp;<strong>0.2613</strong>&nbsp;&nbsp;&nbsp;t = 0.09<br>
+            <span style="color: var(--danger-color);">inflation: <strong>10.1x</strong></span>
+          </div>
         </div>
-        <p style="font-size: 15pt; margin-top: 16px;">A <strong>ten-fold</strong> difference in claimed precision from the same 10,000 rows.</p>
-        <p class="fragment fade-up" style="font-size: 15pt; margin-top: 10px; color: var(--muted-color);">On this one draw neither is significant, so the room shrugs. Good &mdash; that is the setup.</p>
+        <p class="fragment fade-up" style="font-size: 14pt; margin-top: 8px; color: var(--muted-color);">On this one region draw neither is significant, so the room shrugs. Good &mdash; that is the setup.</p>
       </div>
     </section>
 
