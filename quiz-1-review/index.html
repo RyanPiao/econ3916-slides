@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=1567083d023294c757e7890896accff5">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Quiz 1 Review — Topics 1-13 — ECON 3916</title>
+  <link href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="styles.css?v=20260526a" rel="stylesheet">
+  <style>
+   /* Top 11 Mistakes: items 10 and 11 ran off the bottom of the slide at 1280x720 */
+   .reveal #mistakes .mistakes-list { gap: 8px; }
+   .reveal #mistakes .mistake-item { padding-top: 8px; padding-bottom: 8px; }
+   .reveal #mistakes .mistake-item p { font-size: 12.5pt; line-height: 1.34; }
+   /* Practice MC: the keyed option's green edge shows only once the Answer box is revealed */
+   .reveal .detail-row:has(~ .mc-answer:not(.visible)) > .detail-card { border-left-color: var(--accent-color) !important; }
+   /* Practice MC, stepped: method, work, then the answer with a note under each wrong option */
+   .reveal .mc-step { margin-top: 8px; padding: 8px 14px; }
+   .reveal .mc-step p { font-size: 11.5pt; line-height: 1.4; margin: 3px 0 0; }
+   .reveal .mc-answer { border-left-color: var(--success-color); }
+   .reveal .opt-note { display: none; font-size: 10pt; color: var(--muted-color); margin: 3px 0 0; line-height: 1.3; font-style: italic; }
+   .reveal .detail-row:has(~ .mc-answer.visible) .opt-note { display: block; }
+   /* 2316-specific tweaks — slightly tighter detail cards because math takes space */
+   .reveal .formula-card .math { font-family: "Latin Modern Math", "STIX Two Math", serif; }
+   .reveal .detail-card li { font-size: 14.5pt; }
+   .reveal .detail-card .math, .reveal .formula-card .math { font-size: 1.02em; }
+   .reveal mjx-container { font-size: 1em !important; }
+
+   /* 3-section formula sheet — override 1116's 2-column grid (which has 6 sections) */
+   .reveal .formula-sheet { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+   .reveal .formula-section td:first-child { width: 38%; font-size: 10pt; }
+   .reveal .formula-section .fml { font-size: 9.5pt; }
+   .reveal .formula-section h3 { font-size: 12pt; }
+
+   /* Shrink math inside narrow detail cards so long Lagrangians/MRTS expressions
+      don't overflow into neighboring cards. The 5-column layout gives ~256px per
+      card; some math (𝓛 = wL + rK + μ(q-f), MRTS_LK = MP_L/MP_K) is just over that
+      threshold at full size. */
+   .reveal .detail-card mjx-container { font-size: 0.92em !important; }
+   .reveal .detail-card { overflow-wrap: break-word; }
+
+   /* MathJax 3 emits SVG. An <svg> is a single atomic inline box, so
+      overflow-wrap cannot break it and a fixed font-size reduction only rescues
+      borderline cases — a genuinely long expression (e.g. the Ch 2 CS/PS
+      integrals) still spills past the card border and gets clipped. Constrain
+      the SVG itself so ANY expression scales proportionally down to fit
+      whatever column it lands in. Applied globally as a safety net. */
+   .reveal mjx-container[jax="SVG"] {
+     display: inline-block;   /* REQUIRED: on a plain inline box, max-width
+                                 resolves circularly against the shrink-to-fit
+                                 width and does nothing. inline-block makes it
+                                 resolve against the containing block instead. */
+     /* 4px absorbs sub-pixel rounding from reveal's fractional scale
+        transform when the viewport is narrower than the 1280 design width */
+     max-width: calc(100% - 4px);
+     vertical-align: middle;
+   }
+   .reveal mjx-container[jax="SVG"] > svg { max-width: 100%; height: auto; }
+   .reveal .detail-card li { overflow-wrap: anywhere; }
+
+   /* Mistakes slide has 12 items — 2 cols × 6 rows overflowed off the bottom.
+      3 cols × 4 rows fits all 12 with breathing room. Shrink font + tighten
+      padding so each cell stays compact. */
+   .reveal #mistakes .mistakes-list { grid-template-columns: 1fr 1fr 1fr; gap: 8px 10px; }
+   .reveal #mistakes .mistake-item { font-size: 9.5pt; padding: 7px 10px; line-height: 1.35; }
+   .reveal #mistakes .mistake-item .num-badge { width: 20px; height: 20px; font-size: 9pt; flex-shrink: 0; }
+   .reveal #mistakes .mistake-item mjx-container { font-size: 0.92em !important; }
+   .reveal #mistakes h2 { margin-bottom: 8px; font-size: 22pt; }
+  </style>
+ 
+    <style>
+      /* Fall 2026: the formula sheet gained a Ch 9 column when Test 1 grew to Ch 1-9.
+         Tighten the rows so the grid still fits one slide. */
+      #formulas .formula-section { padding: 9px 12px; }
+      #formulas .formula-section h3 { font-size: 12pt; margin-bottom: 6px; padding-bottom: 4px; }
+      #formulas .formula-section table { font-size: 9.5pt; }
+      #formulas .formula-section td { padding: 2.5px 4px; }
+      #formulas .formula-section .fml { font-size: 9pt; }
+      #formulas .formula-sheet { gap: 10px; }
+    </style>
+<style>
+  /* 3916 (as 5200) practice slides carry longer stems than 2316's: Method and Work side by side, slightly smaller type */
+  .reveal .step-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: start; }
+  .reveal .step-row .mc-step { margin-top: 8px; }
+  .reveal section[id^="t"] .detail-card p { font-size: 11pt !important; line-height: 1.35; }
+  .reveal section[id^="t"] .detail-card { padding: 7px 12px; }
+  .reveal section[id^="t"] .detail-row { gap: 7px !important; }
+  .reveal section[id^="t"] .mc-step p { font-size: 10.5pt; line-height: 1.35; }
+  .reveal section[id^="t"] .opt-note { font-size: 9.5pt; line-height: 1.28; }
+  .reveal section[id^="t"] table { font-size: 10.5pt; margin: 4px 0; }
+  .reveal section[id^="t"] table td, .reveal section[id^="t"] table th { padding: 0 10px; line-height: 1.25; }
+</style>
+</head>
+ <body>
+  <div class="reveal">
+   <div class="slides">
+
+    <section id="title" data-state="is-section-divider"><div class="title-cover"><p class="label">ECON 3916 &bull; Applied Machine Learning for Economists</p>
+<h1>Quiz 1 Review</h1><p class="subtitle">Topics 1&ndash;13 &mdash; data and measurement, visualisation, robust statistics, probability and sampling, inference, experiments, DAGs, SQL and OLS.</p>
+<p class="meta">On Canvas &bull; opens <strong>Thursday 12 November, 12:00am</strong> &bull; closes <strong>Sunday 15 November, 11:59pm EST</strong></p>
+<div style="margin-top: 18px;"><p class="author">Dr. Richeng Piao</p><p style="font-size: 12pt; color: var(--muted-color); margin-top: 4px;">Department of Economics &bull; Northeastern University</p></div></div></section>
+<section id="logistics"><h2><i class="fa-solid fa-clipboard-list" style="color: var(--accent-color);"></i> What to Expect on Quiz 1</h2><table class="info-table">
+<tr><td>Coverage</td><td>Topics 1&ndash;13, every topic, about two questions each.</td></tr>
+<tr><td>When</td><td>Opens <strong>Thursday 12 November, 12:00am</strong>; closes <strong>Sunday 15 November, 11:59pm EST</strong>. Start by 11:09pm Sunday to have the full 50 minutes.</td></tr>
+<tr><td>Format</td><td><strong>25 questions, 50 points</strong>, all auto-graded: multiple choice, true/false, numerical answers, select-all-that-apply and matching. <strong>No coding.</strong></td></tr>
+<tr><td>Time</td><td><strong>50 minutes</strong> once you start, <strong>one attempt</strong>. Budget about two minutes a question and come back to the numerical ones.</td></tr>
+<tr><td>Proctoring</td><td><span class="chip brown">REQUIRED</span> Respondus <strong>LockDown Browser + webcam</strong>. Install it and take the ungraded <em>Practice Quiz &mdash; Set Up LockDown Browser</em> on Canvas before Thursday.</td></tr>
+<tr><td>Answers</td><td>Correct answers show from <strong>Monday 16 November</strong>, after the quiz closes for everyone.</td></tr></table>
+<div class="tip-box"><span class="label">Big idea</span><p>Most questions ask what a number <em>means</em>: which structure a dataset has, which way a conditional probability runs, which interval answers which question, what a join did to the row count. Practise saying that sentence, not only computing the number.</p></div></section>
+<section id="study-plan"><h2><i class="fa-solid fa-layer-group" style="color: var(--accent-color);"></i> Study Order &mdash; By Block</h2>
+<p style="font-size: 11.5pt; color: var(--muted-color); margin-bottom: 12px;">Short on time? Prioritise <strong style="color: var(--danger-color);">Blocks 4&ndash;6 (Topics 9&ndash;13)</strong>: they are the most recent, and you have had the least time to practise them. Each block is a summary slide, its review video, and practice questions with worked solutions.</p>
+<div class="detail-card" style="margin-bottom: 8px; border-left-color: var(--gold-color);"><p><strong style="color: var(--primary-color);">Block 1 &mdash; Data, measurement and robust statistics</strong> &nbsp;<span class="chip amber" style="font-size: 9.5pt;">Topics 1&ndash;4</span> &nbsp;<span style="font-size: 10.5pt; color: var(--muted-color);">V1 · Data, Measurement and Robust Statistics &middot; 8 practice questions</span></p></div><div class="detail-card" style="margin-bottom: 8px; border-left-color: var(--gold-color);"><p><strong style="color: var(--primary-color);">Block 2 &mdash; Probability and biased samples</strong> &nbsp;<span class="chip amber" style="font-size: 9.5pt;">Topics 5&ndash;6</span> &nbsp;<span style="font-size: 10.5pt; color: var(--muted-color);">V2 · Probability and Biased Samples &middot; 4 practice questions</span></p></div><div class="detail-card" style="margin-bottom: 8px; border-left-color: var(--gold-color);"><p><strong style="color: var(--primary-color);">Block 3 &mdash; Estimates, intervals and tests</strong> &nbsp;<span class="chip amber" style="font-size: 9.5pt;">Topics 7&ndash;8</span> &nbsp;<span style="font-size: 10.5pt; color: var(--muted-color);">V3 · Estimates, Intervals and Tests &middot; 4 practice questions</span></p></div><div class="detail-card" style="margin-bottom: 8px; border-left-color: var(--danger-color);"><p><strong style="color: var(--primary-color);">Block 4 &mdash; Experiments, DAGs and what to control for</strong> &nbsp;<span class="chip amber" style="font-size: 9.5pt;">Topics 9&ndash;10</span> &nbsp;<span style="font-size: 10.5pt; color: var(--muted-color);">V4 · Experiments; V4b · What Do I Control For? &middot; 6 practice questions</span></p></div><div class="detail-card" style="margin-bottom: 8px; border-left-color: var(--danger-color);"><p><strong style="color: var(--primary-color);">Block 5 &mdash; SQL for economists</strong> &nbsp;<span class="chip amber" style="font-size: 9.5pt;">Topic 11</span> &nbsp;<span style="font-size: 10.5pt; color: var(--muted-color);">V5 · SQL and pandas: the same query both ways &middot; 3 practice questions</span></p></div><div class="detail-card" style="margin-bottom: 8px; border-left-color: var(--danger-color);"><p><strong style="color: var(--primary-color);">Block 6 &mdash; OLS: prediction and multivariate regression</strong> &nbsp;<span class="chip amber" style="font-size: 9.5pt;">Topics 12&ndash;13</span> &nbsp;<span style="font-size: 10.5pt; color: var(--muted-color);">V6 · Regression: Predicting, Then Holding Fixed &middot; 6 practice questions</span></p></div></section>
+<section id="block1"><div class="chapter-header"><div class="chapter-num">B1</div><div class="chapter-title-pill">Data, measurement and robust statistics &middot; Topics 1&ndash;4</div></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="detail-card"><p><strong style="color: var(--primary-color);">Structure beats size</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Cross-sections compare, time series track change, panels do both. A million rows from one moment are still a cross-section. Tidy data: each variable a column, each observation a row.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Indexes compress</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Laspeyres freezes the basket, with a known upward substitution bias. Put both numbers in the same year's dollars before you divide. Goodhart: a measure that becomes a target stops measuring.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Plot first</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Mean, SD and correlation describe centre, spread and <em>linear</em> association only; the Datasaurus Dozen shares all five to two decimals. Lie Factor = effect shown &divide; effect in the data.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Robust statistics</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">The mean breaks down at \(1/n\): one value can move it anywhere. Median and MAD survive up to half the file. Tukey fences: \(Q_1 - 1.5\times\mathrm{IQR}\) and \(Q_3 + 1.5\times\mathrm{IQR}\); a flag says unusual, not wrong.</p></div></div><div class="formula-card"><strong>Review video:</strong> V1 · Data, Measurement and Robust Statistics, on the Canvas Quiz 1 Prep page once posted. Then work the practice questions that follow; each reveals its method, its work and the answer, one click at a time.</div></section>
+<section id="t01-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">01</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Data, measurement and robust statistics &middot; Practice #1 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A spreadsheet tracks the quarterly unemployment rate for Massachusetts alone, from the first quarter of 2005 through the last quarter of 2025. What type of data is this?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> A cross-section</p><p class="opt-note">A cross-section observes many units at one moment, such as all 50 states in one quarter. Here there is one unit.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> A panel</p><p class="opt-note">A panel follows the same many units over time. One state is one unit, so there is nothing to compare across units.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>C)</strong> A time series</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> A randomized experiment</p><p class="opt-note">Random assignment is about how the data arose, not its structure. Nothing was assigned here.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Ask the two questions behind Topic 1's three structures: how many units, and how many periods? Many units at one moment is a cross-section; one unit over many periods is a time series; the same units over many periods is a panel.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>One unit (Massachusetts) and 21 years × 4 quarters = 84 periods: a time series. Add the other 49 states for the same quarters and the file becomes a panel. Survey 50 states in one quarter and it is a cross-section.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">C</strong> &nbsp; A time series: one unit observed across 84 quarters.</p></div></section>
+<section id="t01-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">01</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Data, measurement and robust statistics &middot; Practice #2 &middot; True / false</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> True or false: a tidy version of a panel that follows 40 countries for 6 years has 240 rows, one row for each country-year, with the year stored in its own column rather than spread across column headers.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong></strong> True</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong></strong> False</p><p class="opt-note">This mixes up tidy with the wide layout agencies publish: 40 rows and one column per year. That table reads well, and groupby on year fails on it because no year column exists.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Name the unit of observation first, then apply the deck's three tidy rules: each variable is a column, each observation is a row, each type of observational unit is its own table.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>The unit of observation is the country-year, so the tidy table has 40 × 6 = 240 rows and columns such as country, year and value. The wide version has 40 rows and six year columns; reshaping it to long form is the first job before any groupby or merge.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">True</strong> &nbsp; True: one row per country-year gives 240 rows, with year in its own column.</p></div></section>
+<section id="t02-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">02</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Data, measurement and robust statistics &middot; Practice #3 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A call center sets a target on average handle time per call. Within a month the average falls, while repeat calls and complaints rise because agents rush callers off the line. This is an example of:</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> Hedonic adjustment bias</p><p class="opt-note">Hedonic adjustment is how the BLS prices a product whose quality changes. No price index is involved here.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> A selection effect</p><p class="opt-note">A selection effect is about who ends up in the data. The same calls are measured; what changed is how agents behave once the number is rewarded.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> Axis truncation</p><p class="opt-note">Truncation is a charting choice (Topic 3). The handle time itself fell; no chart is involved.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>D)</strong> Goodhart's Law at work</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Goodhart's Law: when a measure becomes a target, it ceases to be a good measure. The deck names three mechanisms, each with its own fix: optimisation against the measure, gaming, and obsolescence.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Agents lowered handle time without serving callers better: mechanism 2, gaming. The fix for gaming is a counter-metric the same behaviour cannot move in the same direction, such as repeat calls per caller, which rose while handle time fell. That divergence is what the Wells Fargo poll's customer-initiated share would have shown.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">D</strong> &nbsp; D: Goodhart's Law, by gaming; a repeat-call counter-metric would have caught it.</p></div></section>
+<section id="t02-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">02</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Data, measurement and robust statistics &middot; Practice #4 &middot; Numerical answer</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A starting salary was USD 42,000 in 2005. The CPI (annual average, base 1982–84 = 100) was 195.3 in 2005 and 304.7 in 2023. Express the 2005 salary in 2023 dollars. Enter a number of dollars, rounded to the nearest dollar, with no commas.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">Your answer: <span style="display:inline-block;min-width:160px;border-bottom:1.5px solid var(--muted-color);">&nbsp;</span></p></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Divide by the CPI of the year the money was earned and multiply by the CPI of the year whose dollars you want. Both CPIs must be on the same base; the base itself cancels.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>42,000 ÷ 195.3 × 304.7 = 42,000 × 1.5602 = 65,526.9, so 65,527. Dividing the other way, 42,000 × 195.3 ÷ 304.7 = 26,920, would say prices fell between 2005 and 2023. Setting the raw 42,000 beside a 2023 salary divides 2005 dollars by 2023 dollars, the units error from the grandfather example.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">65527 (accepted within &plusmn;100)</strong> &nbsp; About 65,527 in 2023 dollars.</p></div></section>
+<section id="t03-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">03</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Data, measurement and robust statistics &middot; Practice #5 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> The Datasaurus Dozen is a set of thirteen scatterplots, one of them shaped like a dinosaur, that were constructed to share the same:</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> Visual shape, so that the plots look alike</p><p class="opt-note">The opposite: a star, parallel lines, a bullseye and a dinosaur look nothing alike. That contrast is the point.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> Count of flagged outliers</p><p class="opt-note">Outliers were not the design target. The shapes were built by nudging points while the summary statistics stayed fixed.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>C)</strong> Means, standard deviations and correlation, to two decimal places</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> Column names and plotting colors</p><p class="opt-note">Column names and colours carry no information about the data.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Anscombe's argument pushed further: summary statistics compress, and compression hides. Matejka and Fitzmaurice (2017) used simulated annealing: nudge a point, keep the nudge only if the statistics still match and the shape moved closer to a target.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>The deck's card: means 54.26 and 47.83, SDs 16.76 and 26.93, r = −0.06, 142 points, for every shape, including the course's own husky. An r of −0.06 rules out a straight-line relationship, not every relationship. Plot first, summarise second.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">C</strong> &nbsp; C: the same means, standard deviations and correlation, to two decimals.</p></div></section>
+<section id="t03-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">03</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Data, measurement and robust statistics &middot; Practice #6 &middot; Select all that apply</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A startup's investor update contains four charts. The monthly revenue line is drawn on a vertical axis that starts at USD 1.8 million rather than at zero. A line labelled &ldquo;new customers&rdquo; dips below zero in one month, because the series is really net customer change. A county map colours each county by total votes cast, so large, sparsely populated counties dominate the image. A revenue forecast is shown as a single line with no range around it. Which distortions from Topic 3 appear? Select all that apply.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">&#9744; <strong>A)</strong> Two vertical axes with independent scales on one panel</p><p class="opt-note">Not present: each chart has one vertical scale. Dual axes put two independently scaled series on one panel.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>B)</strong> A y-axis that begins above zero</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>C)</strong> A map whose colored area shows land rather than the quantity</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">&#9744; <strong>D)</strong> A start date chosen to drop a bad year</p><p class="opt-note">Not present: nothing says the series starts after a bad stretch. You would need to see what happened just before the first point.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>E)</strong> A net flow labelled as if it were a gross count</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>F)</strong> A forecast drawn with no uncertainty band</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Run the deck's six checks. Three distort the geometry: truncated axis, dual y-axes, area encoding. Three distort the frame: cherry-picked window, mislabelled metric, missing context. Tick only what the description shows.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Revenue axis from 1.8 million: truncated axis. Net change named new customers: mislabelled metric. County map coloured by votes: area shows land, not people. Forecast with no range: missing context. Nothing describes two scales on one panel or a trimmed start date.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">B, C, E, F</strong> &nbsp; B, C, E and F.</p></div></section>
+<section id="t04-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">04</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Data, measurement and robust statistics &middot; Practice #7 &middot; Matching</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> Match each Topic 4 tool to what it computes or does. One option on the right is not used.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 11.5pt; margin: 3px 0;"><strong>1.</strong> Interquartile range</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>2.</strong> Scaled MAD</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>3.</strong> Robust z-score</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>4.</strong> Isolation Forest</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 11.5pt; margin: 3px 0;"><strong>A)</strong> The width of the middle half of the data, \(Q_3 - Q_1\)</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>B)</strong> An observation's distance from the median, divided by 1.4826 times the MAD</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>C)</strong> The square root of the average squared distance from the mean, with a breakdown point of \(1/n\)</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>D)</strong> Flags an observation that a few random splits isolate, even when each of its values is ordinary on its own</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>E)</strong> The median absolute deviation times 1.4826, a robust stand-in for the standard deviation</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Each robust tool swaps a fragile part for one that a few extreme rows cannot move: the middle half instead of the whole range, the median instead of the mean, many random questions instead of one variable at a time.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>IQR = \(Q_3 - Q_1\). MAD is the median distance from the median; times 1.4826 (that is 1/0.6745) it estimates \(\sigma\) on normal data. The robust z-score puts the median and scaled MAD where \(\bar x\) and \(s\) were, so outliers cannot inflate the yardstick used to find them. Isolation Forest catches the 2-bedroom, 10-room home that a fence on either variable alone misses. The left-over option is the standard deviation.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">1&rarr;A; 2&rarr;E; 3&rarr;B; 4&rarr;D</strong> &nbsp; IQR → A, scaled MAD → E, robust z-score → B, Isolation Forest → D; C (the standard deviation) is not used.</p></div></section>
+<section id="t04-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">04</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Data, measurement and robust statistics &middot; Practice #8 &middot; Numerical answer</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> For the monthly rents (USD) 950, 1020, 980, 1010, 990, 1000, 1030, 60, pandas returns \(Q_1 = 972.5\) and \(Q_3 = 1012.5\), so the IQR is 40.0. Compute Tukey's lower fence, \(Q_1 - 1.5 \times \mathrm{IQR}\). Enter a number.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">Your answer: <span style="display:inline-block;min-width:160px;border-bottom:1.5px solid var(--muted-color);">&nbsp;</span></p></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Tukey fences: lower = \(Q_1 - 1.5\times\mathrm{IQR}\), upper = \(Q_3 + 1.5\times\mathrm{IQR}\). The 1.5 is convention, not law.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>1.5 × 40.0 = 60.0. Lower fence = 972.5 − 60.0 = 912.5; upper fence = 1012.5 + 60.0 = 1072.5. Only the 60 falls outside. A fence flags a value as unusual, not wrong: a rent of 60 may be a typo or a parking space, and whether to keep it is a choice you write down. Pandas interpolates between sorted values (950 + 0.75 × 30 = 972.5), so another quartile method gives slightly different fences.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">912.5 (accepted within &plusmn;0.01)</strong> &nbsp; 912.5: only the 60 lies below it.</p></div></section>
+<section id="block2"><div class="chapter-header"><div class="chapter-num">B2</div><div class="chapter-title-pill">Probability and biased samples &middot; Topics 5&ndash;6</div></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="detail-card"><p><strong style="color: var(--primary-color);">Bayes needs the base rate</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">A test that catches 99% of fraud and flags 2% of legitimate transactions is right 4.7% of the time it fires when 0.1% are fraud. Rarity beats accuracy.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Simulated numbers have a standard error</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">\(\mathrm{SE} = \sqrt{p(1-p)/n}\) for a proportion from \(n\) draws, so error falls as \(1/\sqrt{n}\). Do not rank two simulated numbers within about two SEs.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Design, not size</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Meng's identity: error = how bent the selection &times; how spread out the outcome &times; how much you missed. More data shrinks only the last term.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">One condition, four costumes</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Selection, survivorship, nonresponse and self-selection are all \(\mathrm{Cov}(R_i, Y_i) \neq 0\). Ask: who is missing, and is their absence related to the answer?</p></div></div><div class="formula-card"><strong>Review video:</strong> V2 · Probability and Biased Samples, on the Canvas Quiz 1 Prep page once posted. Then work the practice questions that follow; each reveals its method, its work and the answer, one click at a time.</div></section>
+<section id="t05-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">05</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Probability and biased samples &middot; Practice #1 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A screening model flags 95% of loans that will later default and wrongly flags 5% of loans that will be repaid. Only 1% of loans in the portfolio default. If a loan is flagged, roughly what is the probability that it will actually default?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> 95%</p><p class="opt-note">Reads the hit rate, P(flag | default), as P(default | flag). That swap is the base-rate fallacy.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> Roughly one in two</p><p class="opt-note">No reason for even odds: the false alarms come from the repaid loans, a pool 99 times larger than the defaults.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> About 1%</p><p class="opt-note">That is the base rate before the flag. A flag raises the chance from 1% to about 16%.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>D)</strong> About 16%</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>The deck's three lines: the law of total probability gives P(flag); Bayes gives the real flags as a share of all flags.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Real flags: 0.95 × 0.01 = 0.0095. False flags: 0.05 × 0.99 = 0.0495. P(flag) = 0.0590. P(default | flag) = 0.0095 ÷ 0.0590 = 0.161. Per 10,000 loans: 100 default and 95 of them are flagged; 9,900 are repaid and 495 are flagged; 95 of 590 flags are real. Rarity beats accuracy, as in the deck's fraud example (4.7%).</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">D</strong> &nbsp; D: about 16%, because false alarms from the large pool of repaid loans outnumber the real defaults about five to one.</p></div></section>
+<section id="t05-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">05</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Probability and biased samples &middot; Practice #2 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A Monte Carlo simulation of 40,000 draws estimates a probability as 0.2531, where the exact answer is 0.2500. What is the right conclusion?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> The simulation has a bug, since 40,000 draws should match the exact value to four decimals</p><p class="opt-note">Simulation error shrinks like \(1/\sqrt{n}\). At 40,000 draws the SE is about 0.0022, so four matching decimals would take millions of draws.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> The estimator is biased upward and needs a continuity correction</p><p class="opt-note">One run landing 0.0031 high is what noise looks like. Bias would show up as runs that land high on average.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>C)</strong> The gap of 0.0031 is about one and a half Monte Carlo standard errors, each roughly 0.0022, so the two agree</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> The exact value should be revised toward the simulated one</p><p class="opt-note">The exact answer is exact. The simulated number is the one that carries error.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Every simulated proportion has a standard error, \(\mathrm{SE} = \sqrt{p(1-p)/n}\). About two-thirds of runs land within 1 SE of the truth and about 95% within 2 SE.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>\(p(1-p)/n = 0.1875 / 40{,}000 = 0.0000047\), so SE = 0.00217. Gap = 0.2531 − 0.2500 = 0.0031 = 1.4 SE. The run agrees with the exact answer. Report 0.2531 with its SE, and do not rank two simulated numbers within about two SEs of each other.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">C</strong> &nbsp; C: the gap is about 1.4 Monte Carlo standard errors, so the run agrees with the exact value.</p></div></section>
+<section id="t06-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">06</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Probability and biased samples &middot; Practice #3 &middot; True / false</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> True or false: a properly random sample of 500 voters can estimate a population mean more accurately than a self-selected online poll of 3 million respondents, because a larger sample does not remove selection bias.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong></strong> True</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong></strong> False</p><p class="opt-note">This is &ldquo;more data always helps&rdquo;. A bigger sample shrinks only the third term; with a bent selection the big poll settles on the wrong number, with a narrow interval around it.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Write the error as the deck's product of three, bent × spread × missed: \(\rho_{R,Y} \times \sigma_Y \times \sqrt{(N-n)/n}\). Ask which term each design changes.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>The random 500 has \(\rho_{R,Y} = 0\) by design, so its error is sampling noise that its margin of error describes. The online poll's respondents chose themselves, one of the four costumes of \(\mathrm{Cov}(R_i, Y_i) \neq 0\); 3 million responses shrink \(\sqrt{(N-n)/n}\) and leave \(\rho_{R,Y}\,\sigma_Y\) in place. The deck's hook: 2.3 million responses worth about 400 random ones, from a correlation of −0.005.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">True</strong> &nbsp; True: design, not size, decides whether the estimate can be trusted.</p></div></section>
+<section id="t06-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">06</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Probability and biased samples &middot; Practice #4 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> Nonresponse bias occurs when:</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> Respondents give deliberately inaccurate answers</p><p class="opt-note">Wrong answers from people in the sample are measurement error: the person is there, the recorded value is wrong.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> Units that exited the system before data collection are never observed</p><p class="opt-note">Units that left before you collected data: survivorship bias, the deck's costume 1.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>C)</strong> Those who decline to take part differ systematically from those who take part</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> The sampling frame leaves out part of the population</p><p class="opt-note">A frame that misses people is selection at the frame stage: the gap between target population and sampling frame, which more data does not close.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Selection, survivorship, nonresponse and self-selection are one condition, \(\mathrm{Cov}(R_i, Y_i) \neq 0\). Tell them apart by when and how a unit went missing.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Nonresponse: the unit was in the frame and was asked, then declined, and decliners differ in the outcome (high earners skipping an income survey pull the mean down). With response rates of 1–5% in 2024 (Pew), the question is how big the bias is and in which direction, not whether it exists.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">C</strong> &nbsp; C: the people who decline differ systematically from those who answer.</p></div></section>
+<section id="block3"><div class="chapter-header"><div class="chapter-num">B3</div><div class="chapter-title-pill">Estimates, intervals and tests &middot; Topics 7&ndash;8</div></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="detail-card"><p><strong style="color: var(--primary-color);">SD describes people; SE your estimate</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">\(\mathrm{SE}(\bar x) = s/\sqrt{n}\): only the SE shrinks with \(n\). The 95% belongs to the procedure, not to the one interval you built.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">The bootstrap resamples</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">\(n\) draws with replacement, many times; each resample holds about 63.2% of the rows. Use it for statistics with no formula, such as the median. It measures variance, never bias.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">p is P(data | H0)</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">A small p says the data would be surprising if \(H_0\) were true; it is not the chance \(H_0\) is true. Use Welch's t by default and report Cohen's d beside p.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Power comes first</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Power analysis happens before data collection. An underpowered null is not a finding, and twenty tests at 0.05 manufacture findings.</p></div></div><div class="formula-card"><strong>Review video:</strong> V3 · Estimates, Intervals and Tests, on the Canvas Quiz 1 Prep page once posted. Then work the practice questions that follow; each reveals its method, its work and the answer, one click at a time.</div></section>
+<section id="t07-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">07</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Estimates, intervals and tests &middot; Practice #1 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> An analyst bootstraps the median of a sample of 250 household incomes. Each bootstrap resample should consist of:</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>A)</strong> 250 draws taken with replacement from the sample, so some incomes repeat and others are left out</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> 250 draws taken without replacement, which only reorders the original sample</p><p class="opt-note">Without replacement, 250 draws from 250 incomes return the same sample in a new order: the median never changes.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> A fresh set of 250 incomes collected from the population</p><p class="opt-note">Fresh data from the population is what you cannot afford. The bootstrap uses the sample in place of the population.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> The incomes that lie inside the interquartile range of the sample</p><p class="opt-note">Dropping the tails changes the data. The bootstrap resamples all 250 observations.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Efron (1979): treat the sample as if it were the population and resample it, \(n\) draws with replacement, many times; compute the statistic on each resample.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Here \(n = 250\). The share of distinct rows in one resample is about \(1 - (1 - 1/250)^{250} = 0.633\), so about 37% are left out each time. The SD of the medians across, say, 9,999 resamples is the SE of the median, a statistic with no simple formula. The bootstrap measures variance, never bias: a biased sample gives a tight interval around the wrong number.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">A</strong> &nbsp; A: 250 draws with replacement from the sample.</p></div></section>
+<section id="t07-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">07</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Estimates, intervals and tests &middot; Practice #2 &middot; True / false</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> True or false: if the same sampling and interval procedure were repeated many times, about 90% of the 90% confidence intervals produced would contain the true population mean.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong></strong> True</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong></strong> False</p><p class="opt-note">This denies the correct reading. The reading that fails is a different one: that one realised interval has a 90% chance of holding the mean.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>The truth is fixed; the interval is the random thing. The confidence level describes how the interval-building recipe behaves over many runs.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Repeat the procedure 1,000 times and about 900 intervals cover the mean. The count itself varies: its SE is \(\sqrt{0.9 \times 0.1 / 1{,}000} = 0.009\), so anything from about 881 to 919 is within two SEs. For any one interval you built, the answer is already yes or no.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">True</strong> &nbsp; True: the 90% is the long-run coverage of the procedure.</p></div></section>
+<section id="t08-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">08</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Estimates, intervals and tests &middot; Practice #3 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A two-sided test returns p = 0.21. Which statement is correct?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> The null hypothesis has a 21% chance of being true</p><p class="opt-note">This is \(P(H_0 \mid \text{data})\), the prosecutor's fallacy. The p-value is \(P(\text{data at least this extreme} \mid H_0)\); flipping it needs Bayes and a prior.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> The alternative hypothesis has a 79% chance of being true</p><p class="opt-note">The same error twice: 1 − p is not the probability of the alternative.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>C)</strong> Data at least this extreme would arise about 21% of the time if the null hypothesis were true</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> The treatment effect is 0.21 standard deviations</p><p class="opt-note">A p-value says nothing about size. Size is Cohen's d or the difference itself; with enough data a tiny effect gets a tiny p.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>\(p = P(|T| \ge |t_{obs}| \mid H_0 \text{ true})\). Read the vertical bar as &ldquo;given&rdquo;.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>p = 0.21 is above \(\alpha = 0.05\), so you fail to reject \(H_0\). That does not show \(H_0\) is true: an underpowered study fails to reject real effects too. Report the effect size and its interval beside the p-value.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">C</strong> &nbsp; C: data this extreme or more would turn up about 21% of the time if \(H_0\) were true.</p></div></section>
+<section id="t08-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">08</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Estimates, intervals and tests &middot; Practice #4 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> Two groups have sample variances that differ by a factor of eight and unequal sizes. An analyst runs <code>scipy.stats.ttest_ind</code> with the default <code>equal_var=True</code>. What is the consequence?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>A)</strong> The test pools the two variances into one estimate, so its p-value can mislead; <code>equal_var=False</code>, Welch's version, would keep the variances separate and adjust the degrees of freedom</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> Nothing changes, because the t-test is exact whatever the variances are</p><p class="opt-note">Student's t assumes equal variances; with unequal ones it misleads, which is why the deck says to use Welch's by default.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> The function detects the imbalance and switches to a paired test</p><p class="opt-note">Nothing switches. A paired test is for two measurements on the same units, a design question, not a variance one.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> SciPy already lowers the degrees of freedom for unequal variances, so the p-value is conservative</p><p class="opt-note">SciPy lowers the degrees of freedom only when you ask for Welch's. With the default, nothing is adjusted.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Welch's \(t = (\bar x_1 - \bar x_2) / \sqrt{s_1^2/n_1 + s_2^2/n_2}\): each group keeps its own variance. Student's pools them. With equal variances the two agree; with unequal ones Student's misleads.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>On Lab 8's LaLonde data (SDs 7,867 and 5,484) pooling gave an SE of 633 and p = 0.0048; Welch gave 671 and p = 0.0079. A factor of eight in the variances is a bigger gap than that. Welch's repairs unequal variance and nothing else; it does not fix dependence between observations.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">A</strong> &nbsp; A: the default pools the variances; set <code>equal_var=False</code> for Welch's.</p></div></section>
+<section id="block4"><div class="chapter-header"><div class="chapter-num">B4</div><div class="chapter-title-pill">Experiments, DAGs and what to control for &middot; Topics 9&ndash;10</div></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="detail-card"><p><strong style="color: var(--primary-color);">Randomisation removes selection bias</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Naive gap = ATE + selection bias. A coin flip makes the second term zero; adding controls does not. LaLonde: +1,794 randomised, about &minus;15,000 against the general population.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Power, and four failures</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Halve the effect you want to detect and you need four times the users. Peeking, Goodhart, sample ratio mismatch and interference are not fixed by more data. Significance is not a decision.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Three explanations, no test</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Causation, confounding and selection can produce the same correlation. Backdoor criterion: block every backdoor path, and control for nothing downstream of the treatment.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Conditioning opens colliders</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Controlling for, stratifying on or filtering to a common effect creates an association. Ask: causes the treatment? causes the outcome? happened before it? &ldquo;Improves fit&rdquo; is not on the list.</p></div></div><div class="formula-card"><strong>Review videos:</strong> V4 · Experiments; V4b · What Do I Control For?, on the Canvas Quiz 1 Prep page once posted. Then work the practice questions that follow; each reveals its method, its work and the answer, one click at a time.</div></section>
+<section id="t09-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">09</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Experiments, DAGs and what to control for &middot; Practice #1 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> An experiment is designed as a 90/10 split, with 10% of users held out as a control. Of 400,000 users, 42,800 land in control instead of the expected 40,000, and a chi-squared test of the split gives p &lt; 0.0001. What is the right next step?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> Keep the result, since a larger control group only adds power</p><p class="opt-note">The extra users are the symptom. A split this far from plan means assignment or logging is sorting users, and whatever sorts them is probably related to the outcome.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> Apply post-stratification weights to restore the 90/10 ratio, then read the effect</p><p class="opt-note">Weights fix the ratio, not the reason users landed in the wrong arm. No adjustment repairs a broken randomisation.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>C)</strong> Halt the experiment and find the pipeline or logging bug before reading any outcome metric</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> Extend the test by a week so that the ratio can drift back toward the plan</p><p class="opt-note">Waiting adds users through the same broken pipeline; the mismatch does not drift back by itself.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Compare the observed split with the designed one using a chi-squared test. On hundreds of thousands of users, even a small percentage gap is far too big to be chance.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Expected 40,000 control and 360,000 treatment; observed 42,800 and 357,200. \(\chi^2 = 2{,}800^2/40{,}000 + 2{,}800^2/360{,}000 = 196 + 21.8 = 217.8\), p far below 0.0001. A control share of 10.7% against 10.0% is a bug. Every number on that scorecard is suspect, including the ones that look fine.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">C</strong> &nbsp; C: halt and find the bug before reading any outcome.</p></div></section>
+<section id="t09-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">09</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Experiments, DAGs and what to control for &middot; Practice #2 &middot; Numerical answer</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A city offers a free money-management course. Residents who sign up save USD 1,900 a year more than residents who do not. A later randomised trial of the same course, on the same kind of residents, finds that it raises saving by USD 400 a year. Assume the course has the same effect on everyone. Using naive gap = ATE + selection bias, how large is the selection-bias term, in dollars a year? Enter a number (with a minus sign if it is negative).</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">Your answer: <span style="display:inline-block;min-width:160px;border-bottom:1.5px solid var(--muted-color);">&nbsp;</span></p></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Topic 9's decomposition: \(E[Y \mid D{=}1] - E[Y \mid D{=}0] = \text{ATE} + \big(E[Y(0) \mid D{=}1] - E[Y(0) \mid D{=}0]\big)\). The randomised trial measures the ATE, because random assignment makes the second term zero.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>1,900 = 400 + selection bias, so selection bias = 1,900 − 400 = +1,500. The people who chose the course would have saved 1,500 a year more even without it. Selection bias has no default sign: in the deck's LaLonde case it ran the other way, turning +1,794 into about −15,000.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">1500 (accepted within &plusmn;1)</strong> &nbsp; 1,500: the course's own effect is 400 a year; the other 1,500 is who chose to take it.</p></div></section>
+<section id="t09-3"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">09</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Experiments, DAGs and what to control for &middot; Practice #3 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> An A/B test of a new checkout page is planned to detect a 2-point rise in conversion with 80% power at \(\alpha = 0.05\), and the power calculation asks for 3,000 users per arm. The product lead now wants to detect a 1-point rise instead, with the same power, \(\alpha\) and metric. About how many users per arm does the new design need?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> About 1,500</p><p class="opt-note">Inverted: a smaller effect needs more users, not fewer.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> About 3,000, since power and \(\alpha\) have not changed</p><p class="opt-note">The sample size depends on the effect you want to detect, not only on power and \(\alpha\). Here the effect halves.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> About 6,000</p><p class="opt-note">Halving the effect would double \(n\) only if the effect entered the formula unsquared. It enters as \(\delta^2\).</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>D)</strong> About 12,000</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>\(n = (z_{\alpha/2} + z_{\beta})^2(\sigma_1^2 + \sigma_0^2)/\delta^2\). The minimum detectable effect \(\delta\) sits in the denominator, squared.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Only \(\delta\) changes, from 2 to 1, so \(n\) scales by \((2/1)^2 = 4\): 3,000 × 4 = 12,000 per arm, 24,000 in all. The deck's LaLonde table shows the same law: going from 2,000 to 1,000 takes 171 users per group to 681. Decide this before the data exists.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">D</strong> &nbsp; D: about 12,000 per arm; half the effect needs four times the users.</p></div></section>
+<section id="t10-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">10</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Experiments, DAGs and what to control for &middot; Practice #4 &middot; Matching</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> Match each causal-graph term to its meaning. One option on the right is not used.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 11.5pt; margin: 3px 0;"><strong>1.</strong> Fork</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>2.</strong> Chain</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>3.</strong> Descendant</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>4.</strong> Backdoor criterion</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 11.5pt; margin: 3px 0;"><strong>A)</strong> Any variable reachable from a given variable by following arrows forward</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>B)</strong> One variable sends arrows to two others, passing non-causal association between them</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>C)</strong> A variable with no arrows into it or out of it</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>D)</strong> An adjustment set must block every backdoor path and contain nothing caused by the treatment</p><p style="font-size: 11.5pt; margin: 3px 0;"><strong>E)</strong> The effect flows from one variable through a middle variable to a third</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Every DAG is built from three configurations: chain \(D \to M \to Y\), fork \(D \leftarrow U \to Y\), collider \(D \to C \leftarrow Y\). Conditioning closes chains and forks and opens colliders.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Fork: the confounder's shape, \(U\) on top. Chain: the middle variable is a mediator. Descendant: anything downstream of a node, which backdoor condition 2 forbids you to control for. Backdoor criterion: block every backdoor path, include no descendant of \(D\). The isolated node is left over; with no arrows it plays no part in identification.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">1&rarr;B; 2&rarr;E; 3&rarr;A; 4&rarr;D</strong> &nbsp; Fork → B, chain → E, descendant → A, backdoor criterion → D; C is not used.</p></div></section>
+<section id="t10-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">10</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Experiments, DAGs and what to control for &middot; Practice #5 &middot; True / false</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> True or false: a covariate measured before treatment was assigned cannot be a collider, so controlling for pre-treatment covariates is always safe.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong></strong> True</p><p class="opt-note">Timing rules out mediators, which the treatment must cause, but not colliders. A pre-treatment \(W\) caused by two unmeasured variables, one driving \(D\) and one driving \(Y\), is a collider.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong></strong> False</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Classify a control by the graph, not by its timestamp. &ldquo;Happened before the treatment?&rdquo; screens out mediators; it cannot see a collider of two unmeasured causes.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Trace the M: \(D \leftarrow U_1 \to W \leftarrow U_2 \to Y\). Left alone, the path is closed at the collider \(W\). Condition on \(W\) and it opens, so non-causal association flows from \(D\) to \(Y\). Pre-treatment is a useful screen, not a guarantee.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">False</strong> &nbsp; False: a pre-treatment variable can still be a collider (M-bias), and controlling for it opens a path.</p></div></section>
+<section id="t10-3"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">10</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">Experiments, DAGs and what to control for &middot; Practice #6 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A software firm hires an applicant when the sum of a coding-test score and an interview rating clears a bar; about 20% of applicants clear it. Among all applicants the two scores are unrelated. Among the people hired, their correlation is about −0.64. An HR analyst concludes that good coders interview badly. What explains the −0.64?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> Good coders really do interview worse, and the hired group reveals it</p><p class="opt-note">Among all applicants the correlation is zero. The negative link appears only inside the hired group, so the selection rule made it.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>B)</strong> Hiring selects on a collider: near the bar, a high test score must come with a lower rating</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> Reverse causation: interview nerves lower test scores</p><p class="opt-note">Nothing in the setup has one score cause the other, and reverse causation would show among all applicants too.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> Too few hires to estimate a correlation reliably</p><p class="opt-note">Sample size changes the noise around a correlation, not its sign. A larger hired group gives the same −0.64.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Draw it: test → hired ← interview. Sample selection is conditioning, and conditioning on a common effect creates an association between its causes: Berkson's paradox, the deck's CEO-pay story.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Simulated with two independent standard normal scores and the top 20% of their sum hired (sum above 1.19): the correlation is 0.00 among 2 million applicants and −0.64 among the hires. The deck's slice did the same thing: inside a band of \(C = 1.2D + 1.2Y\), corr(D, Y) went from −0.017 to −0.596.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">B</strong> &nbsp; B: hiring is a collider of the two scores, and looking only at hires conditions on it.</p></div></section>
+<section id="block5"><div class="chapter-header"><div class="chapter-num">B5</div><div class="chapter-title-pill">SQL for economists &middot; Topic 11</div></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="detail-card"><p><strong style="color: var(--primary-color);">Same algebra, different order</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">SQL and pandas implement the same relational algebra. Clauses run FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY: WHERE filters rows before grouping, HAVING filters groups after.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">A join has a grain</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Say what one row represents, before and after. A LEFT JOIN keeps every left row at least once, not exactly once: 600 customers became 4,033 rows, with nothing to warn you.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">NULL is unknown</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">WHERE keeps only TRUE, so <code>status != 'cancelled'</code> also drops the NULL rows. <code>COUNT(*)</code> counts rows; <code>COUNT(col)</code> skips NULLs. Compare the two before trusting an aggregate.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Work where the data is</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">Parquet lets DuckDB read only the columns a query needs and skip chunks; httpfs queries a file at its URL. Filter and aggregate in SQL, then call <code>.df()</code> on the small result.</p></div></div><div class="formula-card"><strong>Review video:</strong> V5 · SQL and pandas: the same query both ways, on the Canvas Quiz 1 Prep page once posted. Then work the practice questions that follow; each reveals its method, its work and the answer, one click at a time.</div></section>
+<section id="t11-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">11</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">SQL for economists &middot; Practice #1 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> Which SQL operation corresponds to pandas' <code>merge()</code>?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>A)</strong> JOIN</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> SELECT DISTINCT</p><p class="opt-note">That is <code>drop_duplicates()</code>: it removes repeated rows, it does not combine tables.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> LIMIT</p><p class="opt-note">That is <code>head()</code>: the first rows of a result.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> UNION</p><p class="opt-note">UNION stacks the rows of two tables with the same columns, like <code>pd.concat()</code>; it does not match rows on a key.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>SQL and pandas are two grammars for the same relational algebra (Codd 1970). Translate by what the operation does to rows: filter, group, combine on a key, stack, sort, limit.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p><code>df1.merge(df2, on='id')</code> is <code>FROM df1 JOIN df2 ON df1.id = df2.id</code>. Whichever you write, check the grain: count rows before and after, because a join can multiply rows without warning.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">A</strong> &nbsp; A: JOIN.</p></div></section>
+<section id="t11-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">11</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">SQL for economists &middot; Practice #2 &middot; Select all that apply</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A 40 GB Parquet file of mortgage records sits in a public cloud bucket, and it stores the minimum and maximum of each column for every chunk of rows. On a laptop with 16 GB of memory, an analyst runs a DuckDB query that selects two of the file's forty columns and filters on one state. Which statements are true? Select all that apply.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">&#9744; <strong>A)</strong> The query cannot run, because the file is larger than the laptop's memory</p><p class="opt-note">False: DuckDB streams through the file, reading only what the query needs, so file size and memory are not the limit. You do not need Spark for data bigger than RAM.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>B)</strong> Chunks whose min and max rule out the requested state are skipped without being read</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>C)</strong> Only the two selected columns are read, not all forty</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>D)</strong> With the httpfs extension loaded, DuckDB reads the file at its URL without saving it to disk first</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">&#9744; <strong>E)</strong> The result cannot be turned into a pandas DataFrame without writing a CSV first</p><p class="opt-note">False: <code>.df()</code> returns the result as a DataFrame. Call it as late as possible, on the small result.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Do the heavy work where the data is; bring back only the small result. Columnar storage allows two kinds of skipping: columns (projection) and chunks of rows (predicate, when the file stores chunk statistics).</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Reading 2 of 40 columns cuts the bytes to roughly 5% of the file if the columns are of similar size, before any filtering; skipping chunks for other states cuts further. On the deck, 2.87 million taxi trips came back as one row in about a second, from a file nobody downloaded.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">B, C, D</strong> &nbsp; B, C and D.</p></div></section>
+<section id="t11-3"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">11</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">SQL for economists &middot; Practice #3 &middot; Numerical answer</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> Table <code>countries</code> has 50 rows, one per country. Table <code>gdp</code> has one row per country-year: 45 of the countries have 20 years each, and the other 5 have no rows at all. How many rows does this query return?<br><code>SELECT c.country, g.year, g.gdp FROM countries c LEFT JOIN gdp g ON c.country = g.country</code></p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">Your answer: <span style="display:inline-block;min-width:160px;border-bottom:1.5px solid var(--muted-color);">&nbsp;</span></p></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>State the grain of each input and of the output before you join. A LEFT JOIN keeps every left row at least once: once per match, or once with NULLs when nothing matches.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p><code>gdp</code> has 45 × 20 = 900 rows, and each matched country appears once per year: 900 rows. The 5 unmatched countries appear once each with NULL year and gdp: 5 rows. Total 905. The tempting 50 assumes a LEFT JOIN keeps the left table's row count; 900 is what an inner JOIN returns; 50 × 900 = 45,000 is a CROSS JOIN. Check it with <code>COUNT(*)</code> after the join.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">905 (exact)</strong> &nbsp; 905: 900 matched country-years plus 5 unmatched countries, kept once with NULLs.</p></div></section>
+<section id="block6"><div class="chapter-header"><div class="chapter-num">B6</div><div class="chapter-title-pill">OLS: prediction and multivariate regression &middot; Topics 12&ndash;13</div></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;"><div class="detail-card"><p><strong style="color: var(--primary-color);">Explain or predict</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">A coefficient \(\hat\beta\) or a predicted value \(\hat y\): same algebra, different rules. A post-treatment variable is a bad control for \(\hat\beta\) and fine for \(\hat y\) if it is known in time.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Judge on unseen data</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">In-sample \(R^2\) cannot fall when a column is added, even noise; only a test set shows overfitting. Confidence interval for a mean, prediction interval for one case.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">A coefficient is a partial effect</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">It holds the other variables in <em>this</em> model fixed. OVB \(= \beta_2\delta\) exactly: two signs multiply, so you can sign the error before you see the data.</p></div><div class="detail-card"><p><strong style="color: var(--primary-color);">Every control is a claim</strong></p><p style="font-size: 11.5pt; margin-top: 4px;">A mediator changes the question: 7,386 of a 10,133 gap ran through promotion. With an interaction the gap is \(\beta_2 + \beta_3 t\). A high VIF hurts one coefficient, not the prediction.</p></div></div><div class="formula-card"><strong>Review video:</strong> V6 · Regression: Predicting, Then Holding Fixed, on the Canvas Quiz 1 Prep page once posted. Then work the practice questions that follow; each reveals its method, its work and the answer, one click at a time.</div></section>
+<section id="t12-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">12</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">OLS: prediction and multivariate regression &middot; Practice #1 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> An analyst builds a model to forecast which small businesses will close within a year. A colleague objects that one of the strongest features, the number of late tax filings in the past quarter, is a consequence of financial distress rather than a cause of closure. Under Topic 12's two jobs for a regression, how should the feature be handled?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> Drop it in both jobs, because a consequence of the outcome always biases a model</p><p class="opt-note">A post-treatment variable is a problem only when a coefficient is the deliverable. For a forecast it can be one of the best predictors.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> Keep it in both jobs, because any variable that improves fit belongs in the model</p><p class="opt-note">Fit is a prediction criterion. In a causal regression a variable that improves fit can still be a bad control (Topic 10).</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>C)</strong> Keep it for prediction, as long as it is observed before the forecast must be made; it would be a bad control in a causal regression</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> Keep it only in a causal regression, where it blocks a backdoor path</p><p class="opt-note">Backwards: a consequence of distress is downstream, and controlling for it in a causal regression biases the coefficient; it does not block a backdoor path.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Two questions: what is the effect of \(X\) on \(Y\) (\(\hat\beta\)), or what will \(Y\) be (\(\hat y\))? Same algebra; the job decides which variables belong and how success is scored.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Late filings from the past quarter are known before the forecast is due, carry information about distress, and nobody will intervene on them, so they belong in the forecasting model. The caveat from the hospital poll: if a feature is recorded only after the forecast must be made, it is useless however predictive it looks in historical data.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">C</strong> &nbsp; C: keep it for prediction if it is available in time; it would be a bad control in a causal regression.</p></div></section>
+<section id="t12-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">12</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">OLS: prediction and multivariate regression &middot; Practice #2 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> Regressing hourly wage on years of schooling, statsmodels reports for 16 years of schooling a point prediction of USD 31.40, a 90% confidence interval of USD 31.05 to 31.75, and a 90% prediction interval of USD 12.60 to 50.20. A city planner wants the average wage of all workers with 16 years of schooling; a staffing agency wants to quote a wage for one specific new hire. Which interval fits each use, and how does each respond to a larger training sample?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> Both should use the prediction interval, since it is wider and therefore safer</p><p class="opt-note">The planner asked about an average, which the confidence interval answers. Wider is not safer; it answers a different question.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> The planner should use the prediction interval and the agency the confidence interval; both shrink toward zero as the sample grows</p><p class="opt-note">Reversed, and more data shrinks only the confidence interval; the prediction interval keeps each worker's scatter around the line.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> Both should use the confidence interval, since it comes directly from the fitted line</p><p class="opt-note">Quoting 31.05 to 31.75 for a single new hire claims a precision of 70 cents for one person's wage.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>D)</strong> The planner should use the confidence interval and the agency the prediction interval; only the confidence interval shrinks toward zero as the sample grows</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Two uncertainties: where the line is (confidence interval, for a mean) and where one observation lands around it (prediction interval). The PI is always wider and is the one a decision about one case needs.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>CI width 31.75 − 31.05 = 0.70; PI width 50.20 − 12.60 = 37.60, about 54 times wider. With four times the data the CI would be about half as wide; the PI would barely move, because most of its width is the scatter of individual wages.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">D</strong> &nbsp; D: CI for the planner, PI for the agency; only the CI shrinks toward zero.</p></div></section>
+<section id="t12-3"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">12</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">OLS: prediction and multivariate regression &middot; Practice #3 &middot; True / false</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A wage regression with 4 predictors, fitted on 2,000 workers, has in-sample \(R^2 = 0.310\). A colleague adds 15 columns of random numbers, and in-sample \(R^2\) rises to 0.315. True or false: the rise shows that the random columns carry some information about wages.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong></strong> True</p><p class="opt-note">In-sample \(R^2\) cannot fall when a column is added, so a rise is guaranteed and shows nothing. Random numbers line up with the training rows a little by chance.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong></strong> False</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Adding a predictor cannot decrease in-sample \(R^2\): the minimum over a larger set cannot be larger. From the deck's adjusted-\(R^2\) arithmetic, a noise column gains on average about \((1 - R^2)/(n - k - 1)\).</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>\(15 \times (1 - 0.310)/(2{,}000 - 19 - 1) = 15 \times 0.69 / 1{,}980 = 0.0052\), the 0.005 seen here. Whether the columns help is a question for a held-out test set: compare test RMSE with and without them.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">False</strong> &nbsp; False: in-sample \(R^2\) cannot fall when columns are added, and 0.005 is what 15 noise columns gain on average.</p></div></section>
+<section id="t13-1"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">13</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">OLS: prediction and multivariate regression &middot; Practice #4 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> In a simulated dataset the true effect of an extra year of schooling on annual earnings is USD 2,400. Parental income raises earnings directly, and children of richer parents complete more schooling. Regressing earnings on schooling alone returns USD 3,150; adding parental income returns USD 2,410. Which statement about omitted variable bias is correct?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> Leaving out parental income pushed the schooling coefficient down, as an omitted variable always shrinks the effect of interest</p><p class="opt-note">Wrong direction and wrong rule: the sign of the bias is the product of two signs. Both are positive here, so the short regression is too big.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>B)</strong> The 740 gap is an approximation that disappears only as the sample grows</p><p class="opt-note">In the sample, short minus long equals \(\hat\beta_2\hat\delta\) exactly, an identity; more data does not remove it, because both links remain.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>C)</strong> The 740 gap equals, exactly, the effect of parental income on earnings times the slope from regressing parental income on schooling; both are positive, so the short regression overstates the return</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> Parental income cannot bias the coefficient, because it is determined before schooling</p><p class="opt-note">Being determined earlier is what makes parental income a confounder. Bias disappears only if \(\beta_2 = 0\) or \(\delta = 0\).</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>Two conditions for bias: the omitted variable affects the outcome (\(\beta_2\)) and moves with the included predictor (\(\delta\)). The short slope lands on \(\beta_1 + \beta_2\delta\).</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Short − long = 3,150 − 2,410 = 740 = \(\hat\beta_2 \times \hat\delta\), both positive. Long 2,410 against a true 2,400 is sampling noise. The deck checked the identity on payroll data: 1,802.5 × (−1.3899) = −2,505 = short − long.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">C</strong> &nbsp; C: the 740 gap is exactly \(\beta_2\delta\), and two positive signs make the short regression too big.</p></div></section>
+<section id="t13-2"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">13</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">OLS: prediction and multivariate regression &middot; Practice #5 &middot; Multiple choice</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A rent regression includes both square footage and number of rooms, which are nearly collinear in this sample; both VIFs are about 35. The standard error on square footage quadruples, the two coefficients trade size when a few rows are resampled, the coefficient on distance to transit is unchanged, and the test-set RMSE is the same to the dollar. What follows?</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>A)</strong> OLS is now biased, so the coefficient on distance to transit cannot be trusted either</p><p class="opt-note">Collinearity does not bias OLS, and the distance coefficient did not move.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;"><strong>B)</strong> The fitted model is still fine for predicting rents and no longer reliable for pricing one extra square foot; drop a predictor only if that coefficient is what you need</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>C)</strong> The sample is too small, and adding more apartments of the same kind will bring the VIFs down</p><p class="opt-note">More apartments of the same kind keep square footage and rooms just as correlated, so the VIFs stay near 35. Data that separates the two is what helps.</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;"><strong>D)</strong> Any VIF above ten requires dropping the variable, whatever the purpose of the model</p><p class="opt-note">A VIF rule of thumb (5 or 10) matters only for a coefficient you need. For prediction, drop nothing.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>A VIF says how much a coefficient's variance is inflated because its predictor is explained by the others. Multicollinearity is about which questions the data can answer, not a data-quality problem.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>The model still knows the combined size effect, so RMSE is unchanged; it cannot split that effect between square feet and rooms. The deck's tenure twin did the same: SE on tenure 28.1 → 147.2, while \(R^2\) (0.80622) and the female coefficient (−2,746) did not move.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">B</strong> &nbsp; B: fine for predicting rents; too imprecise to price one extra square foot.</p></div></section>
+<section id="t13-3"><div class="chapter-header" style="margin-bottom: 12px; padding-bottom: 8px;"><div class="chapter-num" style="font-size: 16pt; padding: 4px 10px;">13</div><div class="chapter-title-pill" style="font-size: 14pt; padding: 6px 0;">OLS: prediction and multivariate regression &middot; Practice #6 &middot; Select all that apply</div></div><div class="detail-card" style="font-size: 12pt; padding: 10px 14px; margin-bottom: 14px; border-left-color: var(--primary-color);"><p style="font-size: 12pt;"><strong>Q.</strong> A firm fits \(\widehat{wage} = 40{,}000 + 1{,}500\,t - 2{,}000\,f - 300\,(t \times f)\), where \(t\) is years of tenure and \(f = 1\) for women. Average tenure in the firm is 8 years, and nobody has less than 2. Which statements are true? Select all that apply.</p></div><div class="detail-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>A)</strong> A year of tenure is worth USD 1,200 for women</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>B)</strong> The gender gap at average tenure is minus USD 4,400</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">&#9744; <strong>C)</strong> The coefficient −2,000 is the average gender gap in this firm</p><p class="opt-note">False: with the interaction in the model, \(\beta_2\) is the gap at \(t = 0\). The gap is a function of tenure, not one number.</p></div><div class="detail-card" style="border-left-color: var(--success-color);"><p style="font-size: 12pt;">&#9744; <strong>D)</strong> The coefficient −2,000 is the gap at zero tenure, a worker this firm does not have</p></div><div class="detail-card" style="border-left-color: var(--accent-color);"><p style="font-size: 12pt;">&#9744; <strong>E)</strong> A year of tenure is worth USD 1,800 for women</p><p class="opt-note">False: this adds 300 where the interaction subtracts it.</p></div></div><div class="step-row"><div class="tip-box fragment fade-up mc-step"><span class="label">Step 1 &middot; Method</span><p>With an interaction the return to tenure is \(\beta_1\) for men and \(\beta_1 + \beta_3\) for women, and the gap is \(\beta_2 + \beta_3 t\): a function, not a number.</p></div><div class="tip-box fragment fade-up mc-step"><span class="label">Step 2 &middot; Work</span><p>Women's return: 1,500 − 300 = 1,200 a year. Gap at \(t = 0\): −2,000; at \(t = 8\): −2,000 − 2,400 = −4,400; at \(t = 2\), the least tenured worker: −2,600. Same reading as the deck's union poll, where a year paid union members 903 − 398.6 = 504.</p></div></div><div class="tip-box fragment fade-up mc-step mc-answer"><span class="label">Answer</span><p><strong style="font-size:13pt;">A, B, D</strong> &nbsp; A, B and D.</p></div></section>
+<section id="mistakes"><h2><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> 14 Mistakes to Avoid</h2><div class="mistakes-list"><div class="mistake-item"><span class="num-badge">1</span><p>Thinking more rows fix a structural problem: a million rows from one moment are still a cross-section.</p></div><div class="mistake-item"><span class="num-badge">2</span><p>Comparing money across years before putting both numbers in the same year's dollars.</p></div><div class="mistake-item"><span class="num-badge">3</span><p>Reading a near-zero correlation as &ldquo;no relationship&rdquo;: it rules out only a straight line, so plot it.</p></div><div class="mistake-item"><span class="num-badge">4</span><p>Believing that with enough data outliers stop mattering: one value moves the mean of a dataset of any size.</p></div><div class="mistake-item"><span class="num-badge">5</span><p>Reading a test's accuracy as the chance a flagged case is real: ask for the base rate.</p></div><div class="mistake-item"><span class="num-badge">6</span><p>Trusting a huge self-selected sample over a small random one: more data shrinks only the &ldquo;missed&rdquo; term.</p></div><div class="mistake-item"><span class="num-badge">7</span><p>Thinking the bootstrap creates new data: it measures variance and inherits every bias in the sample.</p></div><div class="mistake-item"><span class="num-badge">8</span><p>Reading a p-value as the probability the null is true.</p></div><div class="mistake-item"><span class="num-badge">9</span><p>Thinking added controls fix selection bias: randomisation balances what you did not measure; controls do not.</p></div><div class="mistake-item"><span class="num-badge">10</span><p>Controlling for a mediator or a collider because it improves the fit.</p></div><div class="mistake-item"><span class="num-badge">11</span><p>Assuming a LEFT JOIN keeps the left table's row count, or that <code>!=</code> keeps the NULL rows in SQL.</p></div><div class="mistake-item"><span class="num-badge">12</span><p>Handing over the confidence interval when the decision is about one case: that needs the prediction interval.</p></div><div class="mistake-item"><span class="num-badge">13</span><p>Assuming an omitted variable always pushes the estimate up: the sign of the bias is the product of two signs.</p></div><div class="mistake-item"><span class="num-badge">14</span><p>Reading the female coefficient in an interaction model as the average gap: it is the gap at tenure zero.</p></div></div></section><section id="final" data-state="is-section-divider"><div class="title-cover"><h1>Good luck</h1><p class="subtitle">Work the practice set on paper first, then check each answer here one click at a time.</p><p class="meta">The printable practice set, with worked solutions, is linked on the Canvas Quiz 1 Prep page.</p></div></section>
+
+   </div>
+  </div>
+
+  <script>
+   window.MathJax = {
+    tex: {
+     inlineMath: [['\\(', '\\)']],
+     displayMath: [['\\[', '\\]']],
+     processEscapes: true
+    },
+    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
+   };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+   Reveal.initialize({
+    keyboard: { 33: function(){ Reveal.prev(); }, 34: function(){ Reveal.next(); } },
+    hash: true,
+    slideNumber: 'c/t',
+    showSlideNumber: 'all',
+    progress: true,
+    width: 1280,
+    height: 720,
+    margin: 0,
+    minScale: 0.2,
+    maxScale: 2.0,
+    controls: true,
+  controlsLayout: 'edges',
+    center: false,
+    transition: 'none',         // disable cross-fade animations (cheaper with heavy slides)
+    backgroundTransition: 'none',
+    viewDistance: 1,            // only render 1 slide ahead/behind (key perf win for 62-slide deck)
+    mobileViewDistance: 1,
+    pdfSeparateFragments: false,
+    pdfMaxPagesPerSlide: 1
+   });
+  </script>
+<script>
+(function(){
+  document.addEventListener('keydown', function(e){
+    if(typeof Reveal==='undefined') return;
+    if(!e.ctrlKey || e.metaKey || e.altKey) return;
+    var tag=((e.target&&e.target.tagName)||'').toLowerCase();
+    if(tag==='input'||tag==='textarea'||tag==='select') return;
+    if(e.code==='KeyH' || e.keyCode===72){ Reveal.prev();  e.preventDefault(); }
+    else if(e.code==='KeyL' || e.keyCode===76){ Reveal.next(); e.preventDefault(); }
+  }, true);
+})();
+</script>
+
+<script>
+(function () {
+  // 29 Sep 2026, Ryan: reveal's "?" panel only knew reveal's own keys. Every
+  // key the decks add (pen, timers, poll, speaker-view relays) is registered
+  // here so the panel is the one place to look. Rows depend on the window: the
+  // projector and speaker view get the instructor keys; a student's copy gets
+  // only what works for a student. Rows for features a deck lacks are skipped.
+  var q = location.search;
+  var receiver = /[?&]receiver(&|$)/.test(q), current = receiver && /postMessageEvents=true/.test(q);
+  var projector = /[?&]presenter(&|=|$)/.test(q) && !receiver;
+  if (receiver && !current) return;                         // the Upcoming pane is view-only
+  var inst = projector || current || /[?&]instructor(&|=|$)/.test(q);
+  // twice as many rows as reveal's own list: wider and tighter so it fits one screen
+  var css = document.createElement('style');
+  var H = '.reveal .overlay.overlay-help .viewport .viewport-inner';
+  css.textContent = H + '{width:min(1000px,94vw)!important;max-width:none!important;}' +
+    H + ' table{width:100%!important;}' +
+    H + ' table th,' + H + ' table td{padding:4px 12px!important;font-size:13px!important;line-height:1.3!important;}' +
+    H + ' table td:last-child{text-align:left!important;}' +
+    H + ' table th:first-child,' + H + ' table td:first-child{width:24%!important;}' +
+    H + ' .title{margin:0!important;}' + H + ' br{display:none;}' +
+    '.reveal .overlay.overlay-help .viewport{padding-top:0!important;}' + H + '{padding-top:18px!important;}';
+  document.head.appendChild(css);
+  function go() {
+    if (!Reveal.registerKeyboardShortcut) return;
+    var K = function (k, d) { Reveal.registerKeyboardShortcut(k, d); };
+    var hasTimer = !!document.getElementById('cd-wrap');
+    var hasPoll = !!document.querySelector('.poll-grid, [data-poll-voting]');
+    if (inst) {
+      K('F', 'Fullscreen &mdash; pressed in speaker view, it full-screens the <b>projector</b>');
+      K('ESC, O', 'Slide overview &mdash; from speaker view, on <b>both</b> screens (Enter or a click picks a slide)');
+      K('M', 'Move keyboard focus between the projector and speaker view (Cmd-` brings a window forward)');
+      if (hasTimer) K('1 &ndash; 9', 'Countdown timer for that many minutes (same number again hides it); starts on both screens');
+      if (hasPoll) K('T', 'Poll slide: open / close voting. In speaker view, clicking an option votes on the projector');
+    }
+    K('D', 'Pen on / off (Esc also leaves it)');
+    K('Pen: F L A R S Y', 'Free draw &middot; line &middot; arrow &middot; box &middot; shade &middot; triangle');
+    K('Pen: G N H E', 'Axis guides &middot; curve label &middot; shifted copy &middot; eraser');
+    K('Pen: [ ] Z X C P', 'Thinner &middot; thicker &middot; undo &middot; redo &middot; clear slide &middot; save as PNG');
+    K('?', 'This list');
+    // S is registered by reveal's notes plugin as a key BINDING ("Speaker notes
+    // view"), which the panel lists after these rows; a second S row would be a
+    // duplicate. Its description is not reachable through the API, so the row is
+    // amended when the panel is drawn.
+    if (inst) {
+      var wrap = document.querySelector('.reveal');
+      if (wrap && window.MutationObserver) new MutationObserver(function () {
+        var o = wrap.querySelector('.overlay-help');
+        if (!o || o.__tiS) return; o.__tiS = 1;
+        [].forEach.call(o.querySelectorAll('td'), function (td) {
+          if (td.textContent === 'Speaker notes view' && td.parentNode) td.parentNode.remove();   // v3: Ryan does not want the S row
+        });
+      }).observe(wrap, { childList: true });
+    }
+  }
+  if (window.Reveal && Reveal.isReady && Reveal.isReady()) go();
+  else if (window.Reveal && Reveal.on) Reveal.on('ready', go);
+})();
+</script>
+<script>
+(function () {
+  // public controls, cut from the presenter gate (v30) by strip_notes.py:
+  // what a student's copy of the deck always had (pen, full screen, home link). No speaker view in this build.
+  var current = false;
+  // ---- annotation: temporary marks on the slide -------------------------
+  // A whiteboard, not a document. Strokes live in memory only, keyed by
+  // slide, and are gone when the deck is closed -- asked for explicitly, so
+  // there is no storage anywhere in here.
+  //
+  // Points are kept in SLIDE units, the same 1280x720 space the laser dot
+  // uses. Canvas pixels would be wrong the moment the window is resized or
+  // the deck is thrown at a projector with a different aspect: the marks
+  // have to sit on the WORDS they were drawn on.
+  //
+  // The shape set is chosen for an economics board, not for drawing in
+  // general: a straight LINE for a budget line or a tangent, an ARROW for
+  // "demand shifts right", a RECT and a translucent SHADE for tax revenue and
+  // surplus boxes, a right TRIANGLE for deadweight loss, and GUIDES -- the
+  // dashed pair dropped from a point to the two axes, which is the single
+  // most-drawn mark in a micro lecture.
+  var Ink = (function () {
+    var PENS = [
+      { n: 'Red',    c: '#e11d48' },
+      { n: 'Blue',   c: '#2563eb' },
+      { n: 'Green',  c: '#059669' },
+      { n: 'Orange', c: '#ea580c' },
+      { n: 'Black',  c: '#111827' },
+      { n: 'Highlighter', c: 'rgba(250,204,21,.45)', hi: true }
+    ];
+    var SIZES = [2, 4, 8];            // thin / medium / thick, in slide units
+    var TOOLS = [
+      { k: 'free',  i: 'fa-pencil',           t: 'Freehand (f)' },
+      { k: 'line',  i: 'fa-slash',            t: 'Straight line (l)' },
+      { k: 'arrow', i: 'fa-arrow-right-long', t: 'Arrow — a shift (a)' },
+      { k: 'rect',  i: 'fa-square',           t: 'Rectangle (r)' },
+      { k: 'shade', i: 'fa-fill-drip',        t: 'Shaded area — revenue, surplus (s)' },
+      { k: 'tri',   i: 'fa-play',             t: 'Right triangle — deadweight loss (y)' },
+      { k: 'guide', i: 'fa-crosshairs',       t: 'Dashed guides to the axes (g)' },
+      { k: 'label', i: 'fa-font',             t: 'Curve label \u2014 D, S, MC, D\u2032 (n)' },
+      { k: 'ghost', i: 'fa-clone',            t: 'Shifted ghost of a curve \u2014 drag it across (h)' }
+    ];
+    var cv, ctx, active = false, erasing = false, pi = 0, si = 1, tool = 'free';
+    var ops = {}, undone = {}, cur = null, rcur = null, relay = null, bar = null, btn = null;
+
+    function skey() { var i = Reveal.getIndices(); return i.h + '.' + (i.v || 0); }
+    function box() { var s = document.querySelector('.reveal .slides'); return s ? s.getBoundingClientRect() : null; }
+    function width() { return PENS[pi].hi ? 24 : SIZES[si]; }
+
+    function ensure() {
+      if (cv) return;
+      cv = document.createElement('canvas');
+      cv.id = 'ti-ink';
+      cv.style.cssText = 'position:fixed;z-index:9990;pointer-events:none;touch-action:none';
+      document.body.appendChild(cv);
+      cv.addEventListener('pointerdown', down);
+      cv.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+      window.addEventListener('pointercancel', up);
+      fit();
+    }
+    function fit() {
+      var r = box(); if (!r || !cv) return;
+      var dpr = window.devicePixelRatio || 1;
+      cv.style.left = r.left + 'px'; cv.style.top = r.top + 'px';
+      cv.style.width = r.width + 'px'; cv.style.height = r.height + 'px';
+      cv.width = Math.max(1, Math.round(r.width * dpr));
+      cv.height = Math.max(1, Math.round(r.height * dpr));
+      ctx = cv.getContext('2d');
+      render();
+    }
+    // Live strokes are DERIVED by replaying this slide's op log, so undo and
+    // redo are a cursor into that log and never have to reverse a partially
+    // erased stroke by hand.
+    function live() {
+      var list = [], o = ops[skey()] || [];
+      o.forEach(function (op) {
+        if (op.t === 'add') list.push(op.s);
+        else if (op.t === 'del' && op.ids) list = list.filter(function (s) { return op.ids.indexOf(s.id) < 0; });
+        else if (op.t === 'del') op.ss.forEach(function (s) {
+          var i = list.indexOf(s); if (i >= 0) list.splice(i, 1);
+        });
+      });
+      return list;
+    }
+    // One description of every shape, used for BOTH drawing and erasing, so
+    // the two can never disagree about where a mark is.
+    function paths(s) {
+      var p = s.pts, a = p[0], b = p[p.length - 1];
+      if (s.k === 'free' || !s.k) return [p];
+      if (s.k === 'line' || s.k === 'arrow') return [[a, b]];
+      if (s.k === 'rect' || s.k === 'shade')
+        return [[a, { x: b.x, y: a.y }, b, { x: a.x, y: b.y }, a]];
+      if (s.k === 'tri') return [[a, b, { x: b.x, y: a.y }, a]];
+      if (s.k === 'guide') return [[a, { x: b.x, y: a.y }], [a, { x: a.x, y: b.y }]];
+      if (s.k === 'text') return [];
+      return [p];
+    }
+    function render() {
+      if (!cv || !ctx) return;
+      var r = box(); if (!r) return;
+      var dpr = window.devicePixelRatio || 1, k = Reveal.getScale() * dpr;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.setTransform(k, 0, 0, k, 0, 0);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      var all = live(); if (rcur) all = all.concat([rcur]); if (cur) all = all.concat([cur]);
+      all.forEach(function (s) {
+        if (!s.pts.length) return;
+        ctx.save();
+        if (s.k === 'text') {
+          ctx.globalAlpha = s.ghost ? 0.6 : 1;
+          ctx.fillStyle = s.c;
+          // italic serif, because that is how a curve is labelled on a board
+          ctx.font = 'italic 700 ' + (s.size || 22) + 'px Georgia,"Times New Roman",serif';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(s.txt || '', s.pts[0].x, s.pts[0].y);
+          ctx.restore(); return;
+        }
+        ctx.strokeStyle = s.c; ctx.lineWidth = s.w;
+        if (s.ghost) { ctx.globalAlpha = 0.6; ctx.setLineDash([9, 7]); }
+        else ctx.setLineDash(s.k === 'guide' ? [7, 6] : []);
+        if (s.k === 'shade') {
+          ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = s.c;
+          var q = s.pts[0], z = s.pts[s.pts.length - 1];
+          ctx.fillRect(Math.min(q.x, z.x), Math.min(q.y, z.y), Math.abs(z.x - q.x), Math.abs(z.y - q.y));
+          ctx.restore();
+        }
+        paths(s).forEach(function (seg) {
+          if (seg.length < 1) return;
+          ctx.beginPath(); ctx.moveTo(seg[0].x, seg[0].y);
+          for (var i = 1; i < seg.length; i++) ctx.lineTo(seg[i].x, seg[i].y);
+          if (seg.length === 1) ctx.lineTo(seg[0].x + 0.01, seg[0].y + 0.01);
+          ctx.stroke();
+        });
+        if (s.k === 'arrow') {
+          var a = s.pts[0], b = s.pts[s.pts.length - 1];
+          var ang = Math.atan2(b.y - a.y, b.x - a.x), L = 9 + s.w * 2.2;
+          ctx.beginPath();
+          ctx.moveTo(b.x, b.y);
+          ctx.lineTo(b.x - L * Math.cos(ang - 0.42), b.y - L * Math.sin(ang - 0.42));
+          ctx.moveTo(b.x, b.y);
+          ctx.lineTo(b.x - L * Math.cos(ang + 0.42), b.y - L * Math.sin(ang + 0.42));
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        ctx.restore();
+      });
+    }
+    function at(ev) {
+      var r = box(), k = Reveal.getScale() || 1;
+      return { x: (ev.clientX - r.left) / k, y: (ev.clientY - r.top) / k };
+    }
+    function push(op) {
+      if (op.t === 'add' && op.s && !op.s.id) op.s.id = Math.random().toString(36).slice(2, 10);
+      var k = skey(); (ops[k] = ops[k] || []).push(op); undone[k] = [];
+    }
+    // v25: the WHOLE log of one slide, so the other window can replace its own -- the two
+    // can then never disagree about which stroke an undo or an erase meant
+    function snap() {
+      var k = skey();
+      send({ k: 'snap', key: k, ops: JSON.parse(JSON.stringify(ops[k] || [])), undone: JSON.parse(JSON.stringify(undone[k] || [])) });
+    }
+    function snapAll() {
+      Object.keys(ops).forEach(function (k) {
+        if ((ops[k] || []).length || (undone[k] || []).length)
+          send({ k: 'snap', key: k, ops: JSON.parse(JSON.stringify(ops[k] || [])), undone: JSON.parse(JSON.stringify(undone[k] || [])) });
+      });
+    }
+    function send(m) { if (relay) relay(m); }
+    function sendMode() { send({ k: 'mode', on: active, pen: pi, size: si, tool: tool, erasing: erasing }); }
+
+    // erase whole strokes, not pixels: one op to undo, and it never leaves
+    // half a rubbed-out line behind
+    function eraseAt(p) {
+      var hit = [], R = 14;
+      live().forEach(function (s) {
+        if (s.k === 'text') {
+          var half = (s.size || 22) * 0.6, wide = (s.txt || '').length * (s.size || 22) * 0.34;
+          if (p.x > s.pts[0].x - 8 && p.x < s.pts[0].x + wide + 8 &&
+              p.y > s.pts[0].y - half && p.y < s.pts[0].y + half) hit.push(s);
+          return;
+        }
+        var segs = paths(s), i, j, pts;
+        for (i = 0; i < segs.length; i++) {
+          pts = segs[i];
+          for (j = 0; j < pts.length; j++) {
+            var dx = pts[j].x - p.x, dy = pts[j].y - p.y;
+            if (dx * dx + dy * dy < (R + s.w) * (R + s.w)) { hit.push(s); return; }
+          }
+          // a long straight edge has few vertices: walk it
+          for (j = 1; j < pts.length; j++) {
+            var A = pts[j - 1], B = pts[j], L = Math.hypot(B.x - A.x, B.y - A.y);
+            if (L < 1) continue;
+            var t = ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y)) / (L * L);
+            if (t < 0 || t > 1) continue;
+            var cx = A.x + t * (B.x - A.x), cy = A.y + t * (B.y - A.y);
+            if (Math.hypot(p.x - cx, p.y - cy) < R + s.w) { hit.push(s); return; }
+          }
+        }
+      });
+      if (hit.length) { push({ t: 'del', ids: hit.map(function (s) { return s.id; }) }); render(); paintBar(); return true; }
+    }
+    // nearest live stroke to a point, by the same segment walk the eraser uses
+    function nearest(p) {
+      var best = null, bd = 1e9;
+      live().forEach(function (s) {
+        paths(s).forEach(function (pts) {
+          for (var j = 1; j < pts.length; j++) {
+            var A = pts[j - 1], B = pts[j], L = Math.hypot(B.x - A.x, B.y - A.y);
+            var cx, cy, tt;
+            if (L < 1) { cx = A.x; cy = A.y; }
+            else {
+              tt = Math.max(0, Math.min(1, ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y)) / (L * L)));
+              cx = A.x + tt * (B.x - A.x); cy = A.y + tt * (B.y - A.y);
+            }
+            var d = Math.hypot(p.x - cx, p.y - cy);
+            if (d < bd) { bd = d; best = s; }
+          }
+        });
+      });
+      return bd < 40 ? best : null;
+    }
+    // A label is typed, not drawn, so it gets a real input at the click point
+    // rather than a prompt() -- a modal dialog in front of a projected slide is
+    // worse than the thing it is trying to collect.
+    function labelAt(p, ev) {
+      var r = box(), k = Reveal.getScale() || 1, size = 16 + si * 6;
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.placeholder = 'D\u2032';
+      inp.style.cssText = 'position:fixed;z-index:10004;left:' + (r.left + p.x * k - 6) + 'px;top:' +
+        (r.top + p.y * k - size * k * 0.75) + 'px;width:130px;font:italic 700 ' + Math.round(size * k) +
+        'px Georgia,serif;color:' + PENS[pi].c + ';background:rgba(255,255,255,.92);border:2px solid ' +
+        PENS[pi].c + ';border-radius:6px;padding:1px 5px;outline:none';
+      document.body.appendChild(inp);
+      // v27: the box grows with the text. At 130px fixed, a large italic label scrolled its
+      // start out of sight after four characters and Ryan could not see what he typed.
+      var meas = document.createElement('canvas').getContext('2d');
+      meas.font = 'italic 700 ' + Math.round(size * k) + 'px Georgia,serif';
+      var grow = function () {
+        var w = meas.measureText(inp.value || inp.placeholder).width;
+        inp.style.width = Math.max(60, Math.ceil(w + size * k * 0.9 + 14)) + 'px';
+      };
+      inp.addEventListener('input', grow); grow();
+      inp.focus();
+      var done = function (commit) {
+        var txt = inp.value.trim();
+        inp.remove();
+        if (!commit || !txt) return;
+        var s = { k: 'text', c: PENS[pi].c, w: SIZES[si], size: size, txt: txt, pts: [p] };
+        push({ t: 'add', s: s }); snap();
+        render(); paintBar();
+      };
+      inp.addEventListener('keydown', function (e) {
+        e.stopPropagation();                       // Reveal and Ink both listen on document
+        if (e.key === 'Enter') { e.preventDefault(); done(true); }
+        if (e.key === 'Escape') { e.preventDefault(); done(false); }
+      });
+      inp.addEventListener('blur', function () { done(true); });
+    }
+
+    function down(ev) {
+      if (!active) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var p = at(ev);
+      if (erasing) { if (eraseAt(p)) snap(); return; }
+      if (tool === 'label') { labelAt(p, ev); return; }
+      if (tool === 'ghost') {
+        // copy the curve you pressed on, then drag the copy to where it shifted
+        var src = nearest(p);
+        if (!src) return;
+        var base = src.pts.map(function (q) { return { x: q.x, y: q.y }; });
+        cur = { k: src.k, c: src.c, w: src.w, size: src.size, txt: src.txt,
+                ghost: true, base: base, from: p, pts: base };
+        render(); return;
+      }
+      cur = { c: PENS[pi].c, w: width(), k: tool, pts: [p, p] };
+      send({ k: 'down', x: p.x, y: p.y, c: cur.c, w: cur.w, tool: tool });
+      render();
+    }
+    function move(ev) {
+      if (!active) return;
+      var p = at(ev);
+      if (erasing) {
+        if (ev.buttons && eraseAt(p)) snap();
+        return;
+      }
+      if (!cur) return;
+      ev.preventDefault();
+      if (cur.ghost) {
+        var dx = p.x - cur.from.x, dy = p.y - cur.from.y;
+        cur.pts = cur.base.map(function (q) { return { x: q.x + dx, y: q.y + dy }; });
+        render(); return;                          // relayed whole, on release
+      }
+      if (cur.k === 'free') cur.pts.push(p); else cur.pts[1] = p;
+      send({ k: 'move', x: p.x, y: p.y }); render();
+    }
+    function up() {
+      if (!cur) return;
+      // a shape needs two distinct corners; a tap is not a rectangle
+      var a = cur.pts[0], b = cur.pts[cur.pts.length - 1];
+      var ok = cur.ghost ? Math.hypot(b.x - a.x, b.y - a.y) >= 0
+             : cur.k === 'free' ? cur.pts.length > 1
+             : Math.hypot(b.x - a.x, b.y - a.y) > 4;
+      if (cur.ghost) {
+        var moved = cur.pts.length && cur.base.length &&
+                    Math.hypot(cur.pts[0].x - cur.base[0].x, cur.pts[0].y - cur.base[0].y) > 4;
+        if (moved) {
+          var g = { k: cur.k, c: cur.c, w: cur.w, size: cur.size, txt: cur.txt, ghost: true, pts: cur.pts };
+          push({ t: 'add', s: g }); snap();
+        }
+        cur = null; render(); paintBar(); return;
+      }
+      if (ok) { push({ t: 'add', s: cur }); cur = null; snap(); }
+      else { cur = null; send({ k: 'cancel' }); }
+      render(); paintBar();
+    }
+    // the projected window rebuilds the same stroke from the relayed points
+    function apply(m) {
+      if (!m) return;
+      ensure();
+      // v25: the other window's stroke in progress lives in rcur, never in cur, so a stroke
+      // drawn on each screen at once cannot merge into one
+      if (m.k === 'down') { rcur = { c: m.c, w: m.w, k: m.tool || 'free', pts: [{ x: m.x, y: m.y }, { x: m.x, y: m.y }] }; render(); return; }
+      if (m.k === 'move') { if (rcur) { if (rcur.k === 'free') rcur.pts.push({ x: m.x, y: m.y }); else rcur.pts[1] = { x: m.x, y: m.y }; render(); } return; }
+      if (m.k === 'cancel') { rcur = null; render(); return; }
+      if (m.k === 'snap') {
+        ops[m.key] = m.ops || []; undone[m.key] = m.undone || []; rcur = null;
+        render(); paintBar(); return;
+      }
+      if (m.k === 'req')  { snapAll(); sendMode(); return; }
+      // a window still on v24 or older sends these; keep them working during a mixed reload
+      if (m.k === 'up')   { if (rcur) push({ t: 'add', s: rcur }); rcur = null; render(); return; }
+      if (m.k === 'full') { if (m.s) { push({ t: 'add', s: m.s }); render(); } return; }
+      if (m.k === 'erase'){ eraseAt({ x: m.x, y: m.y }); return; }
+      if (m.k === 'undo') { undo(true); return; }
+      if (m.k === 'redo') { redo(true); return; }
+      if (m.k === 'clear'){ clear(true); return; }
+      if (m.k === 'mode') {
+        // v28: take the other window's pen setting (a v27 window sends none, so keep ours)
+        if (PENS[m.pen]) pi = m.pen;
+        if (SIZES[m.size] != null) si = m.size;
+        if (TOOLS.some(function (t) { return t.k === m.tool; })) tool = m.tool;
+        if (typeof m.erasing === 'boolean') erasing = m.erasing;
+        setActive(m.on, true); return;
+      }
+    }
+    function undo(q) {
+      var k = skey(), o = ops[k] || [];
+      if (!o.length) return;
+      (undone[k] = undone[k] || []).push(o.pop());
+      render(); paintBar(); if (!q) snap();
+    }
+    function redo(q) {
+      var k = skey(), u = undone[k] || [];
+      if (!u.length) return;
+      (ops[k] = ops[k] || []).push(u.pop());
+      render(); paintBar(); if (!q) snap();
+    }
+    function clear(q) {
+      var k = skey();
+      if (!(ops[k] || []).length) return;
+      undone[k] = (undone[k] || []).concat(ops[k]); ops[k] = [];
+      render(); paintBar(); if (!q) snap();
+    }
+    function setActive(v, q) {
+      active = !!v; ensure();
+      cv.style.pointerEvents = active ? 'auto' : 'none';
+      cv.style.cursor = active ? (erasing ? 'cell' : 'crosshair') : '';
+      if (bar) bar.style.display = active ? 'flex' : 'none';
+      if (btn) btn.style.opacity = active ? '1' : (current ? '.55' : '.18');
+      // v28: the pen setting travels with it, so both toolbars always show the same pick
+      paintBar(); if (!q) sendMode();
+    }
+
+    /* ---------- save a picture of the board ---------- */
+    // The slide is DOM, not a canvas, so the page cannot screenshot itself
+    // without help. html2canvas is fetched only when this is first pressed --
+    // no cost to a lecture that never uses it -- and if the CDN is unreachable
+    // the ink alone is still saved rather than nothing.
+    function stamp() {
+      var m = location.pathname.match(/\/([^\/]+)\/[^\/]*$/);
+      var n = document.querySelector('.reveal .slide-number');
+      return (m ? m[1] : 'slide') + '-' + (n ? n.textContent.replace(/\s+/g, '') : skey());
+    }
+    function download(blob) {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = stamp() + '.png';
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    }
+    function inkOnly() {
+      var out = document.createElement('canvas');
+      out.width = cv.width; out.height = cv.height;
+      var c = out.getContext('2d');
+      c.fillStyle = '#fff'; c.fillRect(0, 0, out.width, out.height);
+      c.drawImage(cv, 0, 0);
+      out.toBlob(download);
+    }
+    function savePng() {
+      var reveal = document.querySelector('.reveal');
+      var go = function () {
+        window.html2canvas(reveal, { backgroundColor: '#ffffff', scale: 2, logging: false })
+          .then(function (base) {
+            var out = document.createElement('canvas');
+            out.width = base.width; out.height = base.height;
+            var c = out.getContext('2d');
+            c.drawImage(base, 0, 0);
+            var rr = reveal.getBoundingClientRect(), cr = cv.getBoundingClientRect();
+            var k = base.width / rr.width;
+            c.drawImage(cv, (cr.left - rr.left) * k, (cr.top - rr.top) * k, cr.width * k, cr.height * k);
+            out.toBlob(download);
+          })
+          .catch(inkOnly);
+      };
+      if (window.html2canvas) { go(); return; }
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload = go; s.onerror = inkOnly;
+      document.head.appendChild(s);
+    }
+
+    /* ---------- toolbar ---------- */
+    function paintBar() {
+      if (!bar) return;
+      [].forEach.call(bar.querySelectorAll('[data-pen]'), function (b) {
+        b.style.outline = (!erasing && +b.getAttribute('data-pen') === pi) ? '2px solid #111827' : '2px solid transparent';
+      });
+      [].forEach.call(bar.querySelectorAll('[data-size]'), function (b) {
+        var on = +b.getAttribute('data-size') === si;
+        b.style.background = on ? '#111827' : '#e5e7eb';
+        b.firstChild.style.background = on ? '#fff' : '#374151';
+      });
+      [].forEach.call(bar.querySelectorAll('[data-tool]'), function (b) {
+        var on = !erasing && b.getAttribute('data-tool') === tool;
+        b.style.background = on ? '#111827' : '#e5e7eb';
+        b.style.color = on ? '#fff' : '#374151';
+      });
+      var er = bar.querySelector('[data-a="erase"]');
+      if (er) { er.style.background = erasing ? '#111827' : '#e5e7eb'; er.style.color = erasing ? '#fff' : '#374151'; }
+      var k = skey();
+      var u = bar.querySelector('[data-a="undo"]'), rd = bar.querySelector('[data-a="redo"]'),
+          cl = bar.querySelector('[data-a="clear"]'), sv = bar.querySelector('[data-a="save"]');
+      if (u)  u.disabled  = !(ops[k] || []).length;
+      if (rd) rd.disabled = !(undone[k] || []).length;
+      if (cl) cl.disabled = !(ops[k] || []).length;
+      if (sv) sv.disabled = false;
+    }
+    function mount() {
+      if (bar) return;
+      btn = document.createElement('button');
+      btn.id = 'ti-pen'; btn.type = 'button'; btn.title = 'Draw on the slide (d)';
+      btn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+      var rest = current ? '.55' : '.18';
+      btn.style.cssText = 'position:fixed;left:' + (current ? 14 : 94) + 'px;bottom:12px;' +
+        'z-index:10001;width:34px;height:34px;' +
+        'border-radius:50%;display:flex;align-items:center;justify-content:center;' +
+        'background:rgba(255,255,255,.9);color:#6b8ba4;border:1px solid #e5e7eb;cursor:pointer;' +
+        'font-size:14px;padding:0;opacity:' + rest + ';transition:opacity .2s';
+      btn.addEventListener('mouseenter', function () { btn.style.opacity = '1'; });
+      btn.addEventListener('mouseleave', function () { if (!active) btn.style.opacity = rest; });
+      btn.addEventListener('click', function (e) { e.preventDefault(); setActive(!active); });
+      document.body.appendChild(btn);
+
+      bar = document.createElement('div');
+      bar.id = 'ti-ink-bar';
+      bar.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:10px;z-index:10003;' +
+        'display:none;gap:6px;align-items:center;padding:7px 10px;border-radius:11px;' +
+        'background:rgba(255,255,255,.97);box-shadow:0 2px 12px rgba(0,0,0,.22);' +
+        'font:600 12px system-ui,sans-serif;max-width:96vw;flex-wrap:wrap;justify-content:center';
+      var sep = '<span style="width:1px;height:20px;background:#e5e7eb"></span>';
+      var btnCss = 'border:0;border-radius:6px;padding:5px 8px;cursor:pointer;background:#e5e7eb;color:#374151;font:inherit';
+      var html = '';
+      PENS.forEach(function (p, i) {
+        html += '<button data-pen="' + i + '" type="button" title="' + p.n + '" style="width:22px;height:22px;' +
+                'border-radius:50%;border:0;cursor:pointer;padding:0;background:' + p.c + ';' +
+                'outline:2px solid transparent;outline-offset:2px"></button>';
+      });
+      html += sep;
+      SIZES.forEach(function (w, i) {
+        var d = 4 + i * 4;
+        html += '<button data-size="' + i + '" type="button" title="Tip ' + w + '" style="width:26px;height:22px;' +
+                'border:0;border-radius:6px;cursor:pointer;background:#e5e7eb;display:inline-flex;' +
+                'align-items:center;justify-content:center;padding:0">' +
+                '<span style="display:block;width:' + d + 'px;height:' + d + 'px;border-radius:50%;background:#374151"></span></button>';
+      });
+      html += sep;
+      TOOLS.forEach(function (t) {
+        html += '<button data-tool="' + t.k + '" type="button" title="' + t.t + '" style="' + btnCss + '">' +
+                '<i class="fa-solid ' + t.i + '"></i></button>';
+      });
+      html += sep +
+        '<button data-a="erase" type="button" title="Eraser (e)" style="' + btnCss + '">Erase</button>' +
+        '<button data-a="undo" type="button" title="Undo (z)" style="' + btnCss + '">Undo</button>' +
+        '<button data-a="redo" type="button" title="Redo (x)" style="' + btnCss + '">Redo</button>' +
+        '<button data-a="clear" type="button" title="Clear this slide (c)" style="' + btnCss + '">Clear</button>' +
+        '<button data-a="save" type="button" title="Save this slide as a PNG (p)" style="' + btnCss + '">' +
+        '<i class="fa-solid fa-camera"></i></button>' + sep +
+        '<button data-a="done" type="button" title="Stop drawing (d or Esc)" style="' + btnCss +
+        ';background:#111827;color:#fff">Done</button>';
+      bar.innerHTML = html;
+      bar.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+      bar.addEventListener('click', function (e) {
+        var t = e.target.closest('button'); if (!t) return;
+        e.preventDefault(); e.stopPropagation();
+        if (t.hasAttribute('data-pen'))  { pi = +t.getAttribute('data-pen'); erasing = false; setActive(true); return; }
+        if (t.hasAttribute('data-size')) { si = +t.getAttribute('data-size'); setActive(true); return; }
+        if (t.hasAttribute('data-tool')) { tool = t.getAttribute('data-tool'); erasing = false; setActive(true); return; }
+        var a = t.getAttribute('data-a');
+        if (a === 'erase') { erasing = !erasing; setActive(true); }
+        else if (a === 'undo') undo();
+        else if (a === 'redo') redo();
+        else if (a === 'clear') clear();
+        else if (a === 'save') savePng();
+        else if (a === 'done') setActive(false);
+      });
+      document.body.appendChild(bar);
+      ensure();
+      Reveal.on('resize', fit);
+      window.addEventListener('resize', fit);
+      Reveal.on('slidechanged', function () { cur = null; rcur = null; fit(); paintBar(); });
+      paintBar();
+    }
+
+    function keys(e) {
+      // v26: the system shortcuts too, while the pen is on -- Cmd/Ctrl-Z undo,
+      // Cmd/Ctrl-Shift-Z or Ctrl-Y redo. With the pen off they pass through untouched.
+      if (active && (e.metaKey || e.ctrlKey) && !e.altKey) {
+        var kk = (e.key || '').toLowerCase();
+        if (kk === 'z' || kk === 'y') {
+          e.preventDefault(); e.stopPropagation();
+          if (kk === 'y' || e.shiftKey) redo(); else undo();
+          return;
+        }
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target, tag = t && t.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+      var k = e.key;
+      if (k === 'd' || k === 'D') { e.preventDefault(); e.stopPropagation(); setActive(!active); return; }
+      if (!active) return;                    // every other key is scoped to draw mode
+      var stop = function () { e.preventDefault(); e.stopPropagation(); };
+      if (k === 'Escape') { stop(); setActive(false); return; }
+      if (k === 'e' || k === 'E') { stop(); erasing = !erasing; setActive(true); return; }
+      if (k === 'z' || k === 'Z') { stop(); undo(); return; }
+      if (k === 'x' || k === 'X') { stop(); redo(); return; }
+      if (k === 'c' || k === 'C') { stop(); clear(); return; }
+      if (k === 'p' || k === 'P') { stop(); savePng(); return; }
+      if (k === '[') { stop(); si = Math.max(0, si - 1); setActive(true); return; }
+      if (k === ']') { stop(); si = Math.min(SIZES.length - 1, si + 1); setActive(true); return; }
+      // NOT "t": that is the poll open/close key, and it has to keep working
+      // while the pen is armed so a poll slide can be annotated and still
+      // opened for voting. Triangle takes "y" instead.
+      var map = { f: 'free', l: 'line', a: 'arrow', r: 'rect', s: 'shade', y: 'tri', g: 'guide',
+                  n: 'label', h: 'ghost' };
+      var want = map[k.toLowerCase && k.toLowerCase()];
+      if (want) { stop(); tool = want; erasing = false; setActive(true); }
+    }
+
+    return {
+      mount: mount, apply: apply, fit: fit, keys: keys, ask: function () { send({ k: 'req' }); },
+      on: function () { return active; },
+      relayTo: function (fn) { relay = fn; }
+    };
+  })();
+
+  // ---- full screen ----------------------------------------------------
+  // requestFullscreen needs TRANSIENT user activation IN THE WINDOW THAT GOES
+  // FULL SCREEN, so only a click (or "f") inside the projected window can do
+  // it. The speaker-view button and the click-anywhere target that used to work
+  // around that are GONE: they worked, but two windows and two clicks to reach
+  // full screen was never worth it. "m" then "f" does the same job from the
+  // keyboard -- see swapFocus below.
+  function goFull() {
+    var el = document.documentElement;
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    try {
+      var p = el.requestFullscreen();
+      if (p && p.catch) p.catch(function () {});
+    } catch (e) {}
+  }
+
+  function fsButton() {                 // projector window: the one-click path
+    if (document.getElementById('ti-fs')) return;
+    var b = document.createElement('button');
+    b.id = 'ti-fs'; b.type = 'button'; b.title = 'Full screen (f)';
+    b.innerHTML = '<i class="fa-solid fa-expand"></i>';
+    b.style.cssText = 'position:fixed;left:54px;bottom:12px;z-index:10001;width:34px;height:34px;' +
+      'border-radius:50%;display:flex;align-items:center;justify-content:center;' +
+      'background:rgba(255,255,255,.9);color:#6b8ba4;border:1px solid #e5e7eb;cursor:pointer;' +
+      'font-size:14px;padding:0;opacity:.18;transition:opacity .2s';
+    b.addEventListener('mouseenter', function () { b.style.opacity = '1'; });
+    b.addEventListener('mouseleave', function () { b.style.opacity = '.18'; });
+    b.addEventListener('click', function (e) { e.preventDefault(); goFull(); });
+    document.addEventListener('fullscreenchange', function () {
+      b.innerHTML = document.fullscreenElement ? '<i class="fa-solid fa-compress"></i>'
+                                               : '<i class="fa-solid fa-expand"></i>';
+    });
+    document.body.appendChild(b);
+  }
+
+  function homeLink() {            // presenter only: a faint way back to the chapter list
+    if (document.getElementById('ti-home')) return;
+    var a = document.createElement('a');
+    a.id = 'ti-home'; a.href = '../index.html'; a.title = 'Chapter list';
+    a.innerHTML = '<i class="fa-solid fa-house"></i>';
+    a.style.cssText = 'position:fixed;left:14px;bottom:12px;z-index:10001;width:34px;height:34px;' +
+      'border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);' +
+      'color:#6b8ba4;border:1px solid #e5e7eb;text-decoration:none;font-size:15px;opacity:.18;transition:opacity .2s';
+    a.addEventListener('mouseenter', function () { a.style.opacity = '1'; });
+    a.addEventListener('mouseleave', function () { a.style.opacity = '.18'; });
+    document.body.appendChild(a);
+  }
+  function start() {
+    homeLink(); fsButton(); Ink.mount();
+    document.addEventListener('keydown', Ink.keys, true);
+  }
+  if (Reveal.isReady()) start(); else Reveal.on('ready', start);
+})();
+</script>
+</body>
+</html>
