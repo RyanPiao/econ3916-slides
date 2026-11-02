@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=64aa8c79da5f05a5a6f1792fde4cfba6">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=d46262fb75155af3c6095cdbca1102f6">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OLS Diagnostics: When OLS Fails</title>
@@ -534,6 +534,7 @@
       <p class="subtitle">Fifteen minutes &bull; &sect;14.3 &bull; the most consequential thing today</p>
     </section>
 
+    <section>
     <section id="cluster-intuition" style="padding: 34px 58px;">
       <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> Your Sample Is Smaller Than Its Row Count</h2>
       <div class="content">
@@ -549,6 +550,14 @@
           <p style="font-size: 18pt; margin-top: 6px; color: var(--accent-color); font-weight: 600;">They are closer to one.</p>
         </div>
       </div>
+    </section>
+    <section id="cluster-picture" style="padding: 24px 46px;">
+      <h2><i class="fa-solid fa-people-group" style="color: var(--secondary-color);"></i> 1,000 Rows, Far Fewer Independent Ones</h2>
+      <div class="content" style="text-align: center;">
+        <img src="figures/figure_009_clusters.png" alt="Left: 1,000 simulated workers in 40 firms, with five firms coloured; each firm's workers sit together above or below the fitted line. Right: the 95% interval for the slope from one draw, classical with standard error 0.043, narrow and missing the true slope of 1.5, and clustered by firm with standard error 0.114, 2.6 times wider and covering it. Over 400 draws the classical interval held the truth 43% of the time and the clustered one 93%." style="max-height: 440px; width: auto;">
+        <p style="font-size: 13.5pt; margin-top: 6px; color: var(--muted-color);">Simulated: 40 firms of 25 workers. Workers in a firm share a shock, and x has a firm part too. Lab 14&rsquo;s Extension runs this design.</p>
+      </div>
+    </section>
     </section>
 
     <section id="single-draw" style="padding: 32px 55px;">
