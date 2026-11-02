@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=50e9e149dc03813a016e030761f0a91e">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=64aa8c79da5f05a5a6f1792fde4cfba6">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OLS Diagnostics: When OLS Fails</title>
@@ -204,6 +204,7 @@
       </div>
     </section>
 
+    <section>
     <section id="spherical" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-circle-nodes" style="color: var(--secondary-color);"></i> Spherical Errors: One Equation, Two Claims</h2>
       <div class="content">
@@ -225,24 +226,147 @@
         <p style="font-size: 15pt; margin-top: 16px;"><strong>What this says in words:</strong> the Gauss&ndash;Markov theorem makes OLS the Best Linear Unbiased Estimator, but it makes <em>two separate promises</em> in one line. Today we break them one at a time.</p>
       </div>
     </section>
+    <section id="spherical-matrix" style="padding: 26px 50px;">
+      <h2><i class="fa-solid fa-table-cells" style="color: var(--secondary-color);"></i> The Square, Three Ways</h2>
+      <div class="content">
+        <div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 900 190" xmlns="http://www.w3.org/2000/svg" role="img" font-family="inherit" style="width:100%;max-height:200px;display:block" aria-label="Three six-by-six error covariance squares: equal diagonal with zeros elsewhere; a diagonal that grows down the square; equal diagonal with two shaded blocks off the diagonal"><text x="112.0" y="18" text-anchor="middle" font-size="15" font-weight="700" fill="#2b2b2b">Spherical</text>
+<text x="112.0" y="34" text-anchor="middle" font-size="12.5" fill="#6b645e">same diagonal, zeros elsewhere</text>
+<rect x="40" y="40" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="64" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="88" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="112" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="136" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="160" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="40" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="64" y="64" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="88" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="112" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="136" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="160" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="40" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="64" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="88" y="88" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="112" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="136" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="160" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="40" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="64" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="88" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="112" y="112" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="136" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="160" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="40" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="64" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="88" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="112" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="136" y="136" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="160" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="40" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="64" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="88" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="112" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="136" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="160" y="160" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="40" y="40" width="144" height="144" fill="none" stroke="#8c8580" stroke-width="1.5"/><text x="442.0" y="18" text-anchor="middle" font-size="15" font-weight="700" fill="#2b2b2b">Unequal diagonal (§B)</text>
+<text x="442.0" y="34" text-anchor="middle" font-size="12.5" fill="#6b645e">each row its own variance</text>
+<rect x="370" y="40" width="24" height="24" fill="#2E6DB4" fill-opacity="0.18" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="394" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="418" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="442" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="466" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="490" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="370" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="394" y="64" width="24" height="24" fill="#2E6DB4" fill-opacity="0.3" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="418" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="442" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="466" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="490" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="370" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="394" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="418" y="88" width="24" height="24" fill="#2E6DB4" fill-opacity="0.45" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="442" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="466" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="490" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="370" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="394" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="418" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="442" y="112" width="24" height="24" fill="#2E6DB4" fill-opacity="0.6" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="466" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="490" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="370" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="394" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="418" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="442" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="466" y="136" width="24" height="24" fill="#2E6DB4" fill-opacity="0.78" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="490" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="370" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="394" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="418" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="442" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="466" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="490" y="160" width="24" height="24" fill="#2E6DB4" fill-opacity="0.95" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="370" y="40" width="144" height="144" fill="none" stroke="#8c8580" stroke-width="1.5"/><text x="772.0" y="18" text-anchor="middle" font-size="15" font-weight="700" fill="#2b2b2b">Off-diagonal blocks (§C)</text>
+<text x="772.0" y="34" text-anchor="middle" font-size="12.5" fill="#6b645e">errors in a group move together</text>
+<rect x="700" y="40" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="724" y="40" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="748" y="40" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="772" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="796" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="820" y="40" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="700" y="64" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="724" y="64" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="748" y="64" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="772" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="796" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="820" y="64" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="700" y="88" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="724" y="88" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="748" y="88" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="772" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="796" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="820" y="88" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="700" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="724" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="748" y="112" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="772" y="112" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="796" y="112" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="820" y="112" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="700" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="724" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="748" y="136" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="772" y="136" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="796" y="136" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="820" y="136" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="700" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="724" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="748" y="160" width="24" height="24" fill="#ffffff" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="772" y="160" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="796" y="160" width="24" height="24" fill="#C47B5A" fill-opacity="0.35" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="820" y="160" width="24" height="24" fill="#2E6DB4" fill-opacity="0.55" stroke="#d9d4cb" stroke-width="1"/>
+<rect x="700" y="40" width="144" height="144" fill="none" stroke="#8c8580" stroke-width="1.5"/></svg></div>
+        <table class="mathjax_ignore tex2jax_ignore" style="width: 100%; border-collapse: collapse; margin-top: 8px;"><tr><th style="padding: 6px 10px; font-size: 12.5pt; color: #ffffff; text-align: left;">The square</th><th style="padding: 6px 10px; font-size: 12.5pt; color: #ffffff; text-align: left;">Coefficient</th><th style="padding: 6px 10px; font-size: 12.5pt; color: #ffffff; text-align: left;">Standard error</th><th style="padding: 6px 10px; font-size: 12.5pt; color: #ffffff; text-align: left;">In today&rsquo;s numbers</th></tr><tr><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;"><strong>Spherical</strong></td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">Unbiased</td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">Classical formula is right</td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">&mdash;</td></tr><tr><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;"><strong>Unequal diagonal</strong></td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">Unbiased, the same number</td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">Classical is wrong; HC3</td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">AveRooms SE 0.0024 &rarr; 0.0121, <em>t</em> &minus;11.23 &rarr; &minus;2.25</td></tr><tr><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;"><strong>Off-diagonal blocks</strong></td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">Unbiased</td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">Classical far too small; cluster</td><td style="padding: 6px 10px; border-bottom: 1px solid #e3ded5; font-size: 13.5pt; vertical-align: top;">Region policy: SE 0.0260 &rarr; 0.2613, 10.1&times;</td></tr></table>
+        <p style="font-size: 13.5pt; margin-top: 10px; color: var(--muted-color);">The coefficient never needs the square. Every standard error, t and interval does: that is why breaking a claim breaks inference and leaves the estimate alone.</p>
+      </div>
+    </section>
+    </section>
 
     <section id="sandwich" style="padding: 28px 52px;">
       <h2 style="margin-bottom: 8px;"><i class="fa-solid fa-burger" style="color: var(--accent-color);"></i> The Sandwich &mdash; Named, Not Derived</h2>
       <div class="content">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-          <div style="background: #f1f5f1; border-radius: 10px; padding: 12px 16px; text-align: center; border-left: 4px solid var(--success-color);">
-            <p style="font-size: 13pt; color: var(--success-color); font-weight: 700; margin-bottom: 4px;">WHEN THE ASSUMPTION HOLDS</p>
-            $$\widehat{\text{Var}}(\boldsymbol{\hat{\beta}}) = \hat{\sigma}^2 (\mathbf{X}'\mathbf{X})^{-1}$$
-          </div>
-          <div style="background: #fdf0ea; border-radius: 10px; padding: 12px 16px; text-align: center; border-left: 4px solid var(--danger-color);">
-            <p style="font-size: 13pt; color: var(--danger-color); font-weight: 700; margin-bottom: 4px;">WHAT IS ACTUALLY TRUE</p>
-            $$(\mathbf{X}'\mathbf{X})^{-1}(\mathbf{X}'\boldsymbol{\Omega}\mathbf{X})(\mathbf{X}'\mathbf{X})^{-1}$$
-          </div>
+        <div style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 14px; align-items: center; border-radius: 10px; padding: 6px 16px; margin-top: 8px; border-left: 4px solid var(--success-color); background: #f1f5f1;">
+          <p style="font-size: 12.5pt; color: var(--success-color); font-weight: 700; margin-bottom: 2px;">1 &middot; WHEN THE ASSUMPTION HOLDS: the formula behind every standard error so far</p>
+          <div style="font-size: 16pt; text-align: center;">$$\widehat{\text{Var}}(\boldsymbol{\hat{\beta}}) = \hat{\sigma}^2 (\mathbf{X}'\mathbf{X})^{-1}$$</div>
         </div>
-        <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 14px 22px; margin-top: 16px;">
-          <p style="font-size: 15pt;"><strong>What this says in words:</strong> the two outer terms are the <strong>bread</strong>; the middle is the <strong>filling</strong>; \(\boldsymbol{\Omega}\) is the true error covariance matrix, whatever it happens to be. Set \(\boldsymbol{\Omega} = \sigma^2\mathbf{I}\) and the sandwich <em>collapses back</em> to the classical formula.</p>
+        <div class="fragment fade-up" style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 14px; align-items: center; border-radius: 10px; padding: 6px 16px; margin-top: 8px; border-left: 4px solid var(--danger-color); background: #fdf0ea;">
+          <div><p style="font-size: 12.5pt; color: var(--danger-color); font-weight: 700; margin-bottom: 2px;">2 &middot; WHAT IS ACTUALLY TRUE: a sandwich</p>
+          <p style="font-size: 13pt; margin-top: 0;">\(\boldsymbol{\Omega}\) is the true error covariance matrix: the square from 12.2.</p></div>
+          <div style="font-size: 16pt; text-align: center;">$$\underbrace{(\mathbf{X}'\mathbf{X})^{-1}}_{\text{bread}}\;\underbrace{(\mathbf{X}'\boldsymbol{\Omega}\mathbf{X})}_{\text{filling}}\;\underbrace{(\mathbf{X}'\mathbf{X})^{-1}}_{\text{bread}}$$</div>
         </div>
-        <p class="fragment fade-up" style="font-size: 15pt; margin-top: 14px;">So the classical estimator is a <strong>special case</strong>, not a different thing &mdash; and every robust standard error you will ever use is a different guess at the filling. <strong style="color: var(--accent-color);">You are not asked to derive it. You are asked to know it is one guess among several, and usually the wrong one.</strong></p>
+        <div class="fragment fade-up" style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 14px; align-items: center; border-radius: 10px; padding: 6px 16px; margin-top: 8px; border-left: 4px solid var(--secondary-color); background: #f0f5f8;">
+          <p style="font-size: 12.5pt; color: var(--secondary-color); font-weight: 700; margin-bottom: 2px;">3 &middot; PUT \(\boldsymbol{\Omega} = \sigma^2\mathbf{I}\) IN THE FILLING</p>
+          <div style="font-size: 16pt; text-align: center;">$$(\mathbf{X}'\mathbf{X})^{-1}\,\sigma^2\,\mathbf{X}'\mathbf{X}\,(\mathbf{X}'\mathbf{X})^{-1} = \sigma^2(\mathbf{X}'\mathbf{X})^{-1}$$</div>
+        </div>
+        <p class="fragment fade-up" style="font-size: 15pt; margin-top: 12px;"><strong>4 &middot;</strong> So the classical formula is a <strong>special case</strong>, the guess &ldquo;the filling is \(\sigma^2\mathbf{I}\)&rdquo;. Every robust standard error is a different guess at the filling. <strong style="color: var(--accent-color);">You are not asked to derive it, only to know it is one guess among several, and often the wrong one.</strong></p>
       </div>
     </section>
 
@@ -318,7 +442,7 @@
     <section id="funnel" style="padding: 18px 36px;">
       <h2 style="margin-bottom: 2px; font-size: 24pt;"><i class="fa-solid fa-chart-area" style="color: var(--secondary-color);"></i> The Plot That Catches More Than Every Test Combined</h2>
       <div class="content" style="text-align: center;">
-        <img src="figures/figure_002_funnel.png" alt="Residuals against fitted values for California Housing with the residual standard deviation by fitted quintile stepping up from 0.712 to 0.890, and a lower panel of mean residuals by quintile arching from plus 0.017 down to minus 0.087 and back up to plus 0.133" style="max-height: 470px; width: auto;">
+        <img src="figures/figure_002_funnel.png" alt="Residuals against fitted values for California Housing with the residual standard deviation in each fifth of the fitted values, 0.712, 0.687, 0.826, 0.875 and 0.890, the 965 top-coded districts drawn as a separate diagonal streak, and a lower panel of mean residuals by quintile arching from plus 0.017 down to minus 0.087 and back up to plus 0.133" style="max-height: 470px; width: auto;">
       </div>
     </section>
 
@@ -361,16 +485,22 @@
     <section id="hc3-fix" style="padding: 28px 52px;">
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-screwdriver-wrench" style="color: var(--success-color);"></i> Keep OLS, Change the Variance Formula</h2>
       <div class="content">
-        <p style="font-size: 15pt;">Stop using a variance formula you know to be wrong.</p>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 10px 18px; margin: 10px 0; text-align: center;">
-          $$\widehat{\text{Var}}_{HC}(\boldsymbol{\hat{\beta}}) = (\mathbf{X}'\mathbf{X})^{-1}\left(\sum_{i=1}^{n} w_i e_i^2 \mathbf{x}_i\mathbf{x}_i'\right)(\mathbf{X}'\mathbf{X})^{-1}$$
+        <p style="font-size: 15pt; margin-bottom: 6px;">Keep the bread from the sandwich. Change only the filling, in three steps.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 14px; align-items: center; border-radius: 10px; padding: 6px 16px; margin-top: 8px; border-left: 4px solid var(--muted-color); background: #f8f6f3;">
+          <p style="font-size: 13.5pt; margin: 0;"><strong>1 &middot; Classical filling:</strong> one common \(\hat{\sigma}^2\) for every row.</p>
+          <div style="font-size: 16pt; text-align: center;">$$\sum_{i=1}^{n} \hat{\sigma}^2\, \mathbf{x}_i\mathbf{x}_i'$$</div>
         </div>
-        <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 13px 20px;">
-          <p style="font-size: 14.5pt;"><strong>What this says in words:</strong> same bread, new filling &mdash; built from each observation's <em>own</em> squared residual \(e_i^2\) instead of one common \(\sigma^2\). <strong>HC0</strong> sets \(w_i = 1\). <strong>HC3</strong> sets \(w_i = 1/(1-h_{ii})^2\), where \(h_{ii}\) is observation \(i\)'s <strong>leverage</strong>.</p>
+        <div class="fragment fade-up" style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 14px; align-items: center; border-radius: 10px; padding: 6px 16px; margin-top: 8px; border-left: 4px solid var(--secondary-color); background: #f0f5f8;">
+          <p style="font-size: 13.5pt; margin: 0;"><strong>2 &middot; HC0:</strong> each row brings its <em>own</em> squared residual \(e_i^2\).</p>
+          <div style="font-size: 16pt; text-align: center;">$$\sum_{i=1}^{n} e_i^2\, \mathbf{x}_i\mathbf{x}_i'$$</div>
         </div>
-        <p style="font-size: 14.5pt; margin-top: 12px;"><strong>Why the leverage correction:</strong> high-leverage points pull the fitted line toward themselves, which artificially shrinks their own residuals and flatters the model. HC3 inflates those residuals back up in proportion to how much pulling they did.</p>
-        <div style="background: #f1f5f1; border-radius: 8px; padding: 12px 20px; margin-top: 12px;">
-          <p style="font-size: 15pt;"><strong style="color: var(--success-color);">Use HC3 by default.</strong> It costs one argument: <code>model.fit(cov_type='HC3')</code></p>
+        <div class="fragment fade-up" style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 14px; align-items: center; border-radius: 10px; padding: 6px 16px; margin-top: 8px; border-left: 4px solid var(--accent-color); background: #fdf0ea;">
+          <p style="font-size: 13.5pt; margin: 0;"><strong>3 &middot; HC3:</strong> weight each one by \(w_i = 1/(1-h_{ii})^2\), where \(h_{ii}\) is the <strong>leverage</strong> of row \(i\) (the same \(h_{ii}\) as in &sect;E).</p>
+          <div style="font-size: 16pt; text-align: center;">$$\sum_{i=1}^{n} \frac{e_i^2}{(1-h_{ii})^2}\, \mathbf{x}_i\mathbf{x}_i'$$</div>
+          <p style="font-size: 13pt; margin: 0;">Why: a high-leverage row pulls the line toward itself, so its own residual comes out too small. \(h_{ii} = 0.01\) gives a weight of 1.02; \(h_{ii} = 0.5\) gives 4.</p>
+        </div>
+        <div class="fragment fade-up" style="background: #f1f5f1; border-radius: 8px; padding: 9px 18px; margin-top: 8px;">
+          <p style="font-size: 15pt; margin: 0;"><strong style="color: var(--success-color);">4 &middot; Use HC3 by default.</strong> It costs one argument: <code>model.fit(cov_type='HC3')</code></p>
         </div>
       </div>
     </section>
