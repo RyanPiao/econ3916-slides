@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=4e44640cd1d24860fce9a143ac34ac83">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=5a8cd9037c2c055e074b23fc40511f4a">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finishing Your Midterm</title>
@@ -56,6 +56,15 @@
       <div class="date-row"><p class="d">Tue 17 Nov, 11:59 pm</p><p><strong>Problem Set 4 due</strong>, after Quiz 1.</p></div>
     </div>
     <div class="key-result" style="margin-top: 18px;"><p>Dates are on Canvas too. If this slide and Canvas ever disagree, Canvas is the one that counts.</p></div>
+  </div>
+</section>
+<section id="t14-carry" style="padding: 30px 50px;">
+  <h2><i class="fa-solid fa-list-check" style="color: var(--secondary-color);"></i> Three Things From Topic 14, Before Section 4</h2>
+  <p style="font-size: 14pt; color: var(--muted-color);">Section 4 of the midterm runs these checks on your own model.</p>
+  <div class="diag-list" style="grid-template-columns: 1fr;">
+    <div class="diag"><p class="t">Robust standard errors move the interval, not the line</p><p>California, AveRooms: &minus;0.0272 under both. HC3 makes the standard error larger, so t goes from &minus;11.23 to &minus;2.25 and the p-value goes <strong>up</strong>, not down.</p></div>
+    <div class="diag"><p class="t">Cluster on the group the rows share, not on y</p><p>Workers in one firm share a shock, so cluster by firm (or school, or state). Lab 14 Step 12: the estimate stays 1.469; its standard error is 0.0593 classical and 0.1865 clustered, 3.1 times wider.</p></div>
+    <div class="diag"><p class="t">An influential row: look it up, refit without it, report both</p><p>Lab 14&rsquo;s largest Cook&rsquo;s D is row 19006: 7,460 people in about 6 households, at 38.32&deg;N, 121.98&deg;W in Vacaville, where the California Medical Facility, a state prison, stands. Drop the top two rows and AveRooms goes from &minus;0.0273 to &minus;0.0384. Report both: on real data there is no true value that deleting rows recovers.</p></div>
   </div>
 </section>
 <section id="plan" style="padding: 40px 50px;">
