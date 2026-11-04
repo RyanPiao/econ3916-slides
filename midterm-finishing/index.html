@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=5ed3d4f44e3084bb6e80be648555955a">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=709130683682a9ae0d4279937e93b384">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finishing Your Midterm</title>
@@ -105,7 +105,7 @@ print(&quot;source:&quot;, SOURCE_URL)
 print(&quot;downloaded:&quot;, raw[&quot;retrieved&quot;].iloc[0])
 print(&quot;data/:&quot;, sorted(os.listdir(&quot;data&quot;)))</pre></div><div class="cell-out fragment"><pre style="font-size:11.5pt">source: https://en.wikipedia.org/wiki/List_of_films_based_on_video_games
 downloaded: 2026-11-03
-data/: [&#x27;cpi_fred.csv&#x27;, &#x27;directors_wikidata.csv&#x27;, &#x27;films_wikipedia.csv&#x27;, &#x27;games_wikipedia.csv&#x27;]</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 1, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Wikipedia, “List of films based on video games” (live-action and animated tables; each score cites Rotten Tomatoes, each budget Box Office Mojo or The Numbers), downloaded 2026-11-03; directors’ birth dates from Wikidata; CPI-U (CPIAUCSL) from FRED. The download step is <code>get_data.py</code> in the repository.</p></div><p class="fragment fade-up" style="font-size: 14.5pt; margin-top: 12px;">A Wikipedia page changes every week: the date says which version. And each number on it cites its source, which is why it is usable at all.</p></div>
+data/: [&#x27;cpi_fred.csv&#x27;, &#x27;directors_wikidata.csv&#x27;, &#x27;films_wikipedia.csv&#x27;, &#x27;fx_usd_per_gbp_fred.csv&#x27;, &#x27;games_wikipedia.csv&#x27;, &#x27;rt_spot_check.csv&#x27;, &#x27;second_search.csv&#x27;]</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 1, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Wikipedia, “List of films based on video games” (live-action and animated tables; each score cites Rotten Tomatoes, each budget Box Office Mojo or The Numbers), downloaded 2026-11-03; directors’ birth dates from Wikidata; CPI-U (CPIAUCSL) from FRED. The download step is <code>get_data.py</code> in the repository.</p></div><p class="fragment fade-up" style="font-size: 14.5pt; margin-top: 12px;">A Wikipedia page changes every week: the date says which version. And each number on it cites its source, which is why it is usable at all.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="divider-2" class="section-divider" data-state="is-section-divider"><h1>Line 2 &middot; Its Shape</h1><p class="subtitle">Rows, columns, and what one row is &nbsp;&bull;&nbsp; 8 min</p></section>
@@ -132,7 +132,7 @@ print(films.loc[films[&quot;rt&quot;].isna(), &quot;rt_text&quot;].tolist())</pr
 17% (63 reviews)[12] 17.0     63.0
 [&#x27;N/A (2 reviews)[76]&#x27;, &#x27;N/A (1 review)[129]&#x27;, &#x27;N/A (1 review)[289]&#x27;, &#x27;N/A (8 reviews)[310]&#x27;]</pre></div></div><div class="cell" data-cell="m_l2_dollars"><div class="cell-code"><span class="cell-run"><i class="fa-solid fa-circle-play"></i></span><pre style="font-size:11.5pt">for text in [&quot;$42–48 million[2]&quot;, &quot;£2.3 million[285]&quot;]:
     print(f&quot;{text:20} -&gt; {to_dollars(text):,.0f}&quot;)</pre></div><div class="cell-out fragment"><pre style="font-size:11.5pt">$42–48 million[2]    -&gt; 45,000,000
-£2.3 million[285]    -&gt; nan</pre></div></div><div class="fragment fade-up key-result" style="margin-top: 8px;"><p style="font-size: 14pt;">Keep the <strong>review count</strong> beside the score: 100% from 5 reviews is not 100% from 200. The pound budget is set to missing rather than mixed in as dollars.</p></div>
+£2.3 million[285]    -&gt; nan</pre></div></div><div class="fragment fade-up key-result" style="margin-top: 8px;"><p style="font-size: 14pt;">Keep the <strong>review count</strong> beside the score: 100% from 5 reviews is not 100% from 200. The pound budget is not read as dollars; it is converted at the 2013 rate.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="l2-real" style="padding: 26px 46px;">
@@ -157,11 +157,11 @@ print(df.duplicated([&quot;title&quot;, &quot;year&quot;]).sum())</pre></div><di
 <h2><i class="fa-solid fa-magnifying-glass" style="color: var(--secondary-color);"></i> Count First, Then Ask Where</h2>
 <div style="display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 16px; margin-top: 8px;"><div class="cell" data-cell="m_l3_count"><div class="cell-code"><span class="cell-run"><i class="fa-solid fa-circle-play"></i></span><pre style="font-size:12pt">gaps = df[[&quot;rt&quot;, &quot;born&quot;, &quot;budget&quot;]].isna()
 print(gaps.sum().to_string())</pre></div><div class="cell-out fragment"><pre style="font-size:12pt">rt        4
-born      8
-budget    7</pre></div></div><div class="cell" data-cell="m_l3_where"><div class="cell-code"><span class="cell-run"><i class="fa-solid fa-circle-play"></i></span><pre style="font-size:12pt">print(gaps.groupby(df[&quot;format&quot;]).sum().to_string())</pre></div><div class="cell-out fragment"><pre style="font-size:12pt">             rt  born  budget
+born      3
+budget    6</pre></div></div><div class="cell" data-cell="m_l3_where"><div class="cell-code"><span class="cell-run"><i class="fa-solid fa-circle-play"></i></span><pre style="font-size:12pt">print(gaps.groupby(df[&quot;format&quot;]).sum().to_string())</pre></div><div class="cell-out fragment"><pre style="font-size:12pt">             rt  born  budget
 format                       
-animated      2     4       6
-live-action   2     4       1</pre></div></div></div><div class="fragment fade-up key-result" style="margin-top: 10px;"><p style="font-size: 14.5pt;">The count says how much. Grouping the gaps by format says whether they look random: the budgets clearly are not, <strong>6 of 7 are animated</strong>.</p></div>
+animated      2     3       5
+live-action   2     0       1</pre></div></div></div><div class="fragment fade-up key-result" style="margin-top: 10px;"><p style="font-size: 14.5pt;">The count says how much. Grouping the gaps by format says whether they look random: the budgets clearly are not, <strong>6 of 7 are animated</strong>.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="l3-random" style="padding: 26px 46px;">
@@ -170,7 +170,7 @@ live-action   2     4       1</pre></div></div></div><div class="fragment fade-u
        Far Cry  N/A (2 reviews)[76]      1.1
   Dead Trigger  N/A (1 review)[129]      0.2
 Heavenly Sword  N/A (1 review)[289]      NaN
-     Scarygirl N/A (8 reviews)[310]      1.2</pre></div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;"><div class="fragment fade-up mech"><p class="m">MAR on reviews</p><p><strong>Score.</strong> None below Rotten Tomatoes’ review floor: it depends on the review count. MNAR in the score itself can’t be tested.</p></div><div class="fragment fade-up mech"><p class="m">MAR on format</p><p><strong>Director’s age.</strong> Five rated films, median score 43 vs 29: not random. Two are animated; the model holds format fixed.</p></div><div class="fragment fade-up mech"><p class="m">Rule</p><p><strong>2026 scores</strong> are not missing; they are not finished. A written rule drops them.</p></div></div>
+     Scarygirl N/A (8 reviews)[310]      1.2</pre></div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;"><div class="fragment fade-up mech"><p class="m">MAR on reviews</p><p><strong>Score.</strong> None below Rotten Tomatoes’ review floor: it depends on the review count. MNAR in the score itself can’t be tested.</p></div><div class="fragment fade-up mech"><p class="m">Search first</p><p><strong>Director’s age.</strong> 8 missing; a second search found 5. One rated film is left.</p></div><div class="fragment fade-up mech"><p class="m">Rule</p><p><strong>2026 scores</strong> are not missing; they are not finished. A written rule drops them.</p></div></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="l3-dropna" style="padding: 30px 50px;">
@@ -178,11 +178,11 @@ Heavenly Sword  N/A (1 review)[289]      NaN
 <div class="cell" data-cell="m_l3_dropna"><div class="cell-code"><span class="cell-run"><i class="fa-solid fa-circle-play"></i></span><pre style="font-size:12.5pt">print(len(df), &quot;-&gt;&quot;, len(sample))
 out = df.loc[~df.index.isin(sample.index)]
 print(out[&quot;format&quot;].value_counts().to_string())
-print((out[&quot;year&quot;] &gt; 2025).sum(), &quot;of them are 2026 releases&quot;)</pre></div><div class="cell-out fragment"><pre style="font-size:12.5pt">68 -&gt; 53
+print((out[&quot;year&quot;] &gt; 2025).sum(), &quot;of them are 2026 releases&quot;)</pre></div><div class="cell-out fragment"><pre style="font-size:12.5pt">68 -&gt; 57
 format
-live-action    10
-animated        5
-6 of them are 2026 releases</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 3, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Missing: 4 scores (below the review floor: MAR given the review count, MNAR untestable), 8 directors’ birth dates (MAR given format), 7 budgets (6 of them animated), used only in Section 3. 2026 films are dropped by rule. The sample is 53 films; a missing budget does not drop a film.</p></div>
+live-action    7
+animated       4
+6 of them are 2026 releases</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 3, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Missing: 4 scores (below the review floor: MAR given the review count, MNAR untestable), 8 directors’ birth dates, 5 found on a second search (data/second_search.csv), 7 budgets, used only in Section 3. 2026 films are dropped by rule. The sample is 57 films; a missing budget does not drop a film.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="divider-4" class="section-divider" data-state="is-section-divider"><h1>Line 4 &middot; The One Join or Reshape</h1><p class="subtitle">Merging two files, wide to long, aggregating &mdash; or none &nbsp;&bull;&nbsp; 8 min</p></section>
@@ -219,7 +219,7 @@ print(df.shape)
 print(&quot;unmatched:&quot;, (~df[&quot;first_director&quot;].isin(directors[&quot;director&quot;])).sum(),
       &quot;| no birth date:&quot;, df[&quot;born&quot;].isna().sum())</pre></div><div class="cell-out fragment"><pre style="font-size:11.5pt">Rocky Morton
 (68, 27)
-unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 4, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Merged 68 films to Wikidata birth dates on the first-listed director (co-directors were glued in the source table). 68 rows before, 68 after (a left merge, validated many-to-one), 6 unmatched, 2 more without a birth date. Then the game years on title + year (validated one-to-one): 66 of 68 matched. X = game year − birth year.</p></div>
+unmatched: 6 | no birth date: 3</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 4, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Merged 68 films to Wikidata birth dates on the first-listed director (co-directors were glued in the source table). 68 rows before, 68 after (a left merge, validated many-to-one), 6 unmatched, 2 more without a birth date. Then the game years on title + year (validated one-to-one): 67 of 68 matched. X = game year − birth year.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="divider-5" class="section-divider" data-state="is-section-divider"><h1>What Each Rubric Row Is Looking For</h1><p class="subtitle">Six rows, 100 points, on the same example &nbsp;&bull;&nbsp; 15 min</p></section>
@@ -233,12 +233,12 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
 
 <div style="display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 16px; margin-top: 8px;">
 <div>
-<table class="sumtab" style="font-size: 11.5pt;"><thead><tr><th>Variable (unit)</th><th>Mean</th><th>Median</th><th>Min</th><th>Max</th><th>N</th></tr></thead><tbody><tr><td>Rotten Tomatoes score (% positive reviews)</td><td>34.2</td><td>29.0</td><td>1.0</td><td>100.0</td><td>53</td></tr><tr><td>Reviews counted</td><td>134.3</td><td>120.0</td><td>5.0</td><td>327.0</td><td>53</td></tr><tr><td>Director&#x27;s age when the game came out (years)</td><td>31.2</td><td>32.0</td><td>1.0</td><td>53.0</td><td>53</td></tr><tr><td>Director&#x27;s age at release (years)</td><td>45.0</td><td>44.0</td><td>30.0</td><td>68.0</td><td>53</td></tr><tr><td>Release year</td><td>2011.8</td><td>2012</td><td>1993</td><td>2025</td><td>53</td></tr><tr><td>Budget ($m, 2024)</td><td>86.5</td><td>74.4</td><td>7.5</td><td>251.7</td><td>50</td></tr></tbody></table>
-<p style="font-size: 12pt; color: var(--muted-color); margin-top: 6px;">53 films, 1993–2025, after the sample rule; budgets only where reported in dollars.</p>
-<p class="fragment fade-up" style="font-size: 13pt; margin-top: 8px;">Median beside mean for a skewed outcome: the typical film scores <strong>29%</strong>, below the mean of 34.2%. N per row, since budgets are missing for some.</p>
+<table class="sumtab" style="font-size: 11.5pt;"><thead><tr><th>Variable (unit)</th><th>Mean</th><th>Median</th><th>Min</th><th>Max</th><th>N</th></tr></thead><tbody><tr><td>Rotten Tomatoes score (% positive reviews)</td><td>33.6</td><td>29.0</td><td>0.0</td><td>100.0</td><td>57</td></tr><tr><td>Reviews counted</td><td>128.8</td><td>120.0</td><td>5.0</td><td>327.0</td><td>57</td></tr><tr><td>Director&#x27;s age when the game came out (years)</td><td>31.1</td><td>32.0</td><td>1.0</td><td>53.0</td><td>57</td></tr><tr><td>Director&#x27;s age at release (years)</td><td>44.9</td><td>44.0</td><td>30.0</td><td>68.0</td><td>57</td></tr><tr><td>Release year</td><td>2011.8</td><td>2012</td><td>1993</td><td>2025</td><td>57</td></tr><tr><td>Budget ($m, 2024)</td><td>85.5</td><td>74.1</td><td>7.5</td><td>251.7</td><td>53</td></tr></tbody></table>
+<p style="font-size: 12pt; color: var(--muted-color); margin-top: 6px;">57 films, 1993–2025, after the sample rule; budgets only where reported in dollars.</p>
+<p class="fragment fade-up" style="font-size: 13pt; margin-top: 8px;">Median beside mean for a skewed outcome: the typical film scores <strong>29%</strong>, below the mean of 33.6%. N per row, since budgets are missing for some.</p>
 </div>
 <div>
-<img alt="Scatter of Rotten Tomatoes score against the director's age when the game came out, 53 films based on video games: the cloud tilts down" src="figures/movies_age_rt.png" style="width: 100%; max-height: 300px; object-fit: contain; border: 1px solid #eee;"/>
+<img alt="Scatter of Rotten Tomatoes score against the director's age when the game came out, 57 films based on video games: the cloud tilts down" src="figures/movies_age_rt.png" style="width: 100%; max-height: 300px; object-fit: contain; border: 1px solid #eee;"/>
 <p class="fragment fade-up cap bad">× “Age when the game came out and Rotten Tomatoes score.”</p>
 <p class="fragment fade-up cap good">✓ “Directors who were younger when the game came out made better-reviewed films, before any controls.”</p>
 </div>
@@ -250,13 +250,13 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
 
 <div style="display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 18px; margin-top: 8px;">
 <div>
-<table class="regtab"><thead><tr><th></th><th>(1) Age only</th><th>(2) Main</th></tr></thead><tbody><tr><td>Age when the game came out</td><td>-0.71<br/><span>(0.23)</span></td><td>-0.29<br/><span>(0.26)</span></td></tr><tr><td>Release year</td><td></td><td>1.07<br/><span>(0.34)</span></td></tr><tr><td>Animated (0/1)</td><td></td><td>25.18<br/><span>(9.27)</span></td></tr><tr><td>Constant</td><td>56.37<br/><span>(7.91)</span></td><td>-2119.11<br/><span>(688.86)</span></td></tr><tr class="foot"><td>N</td><td>53</td><td>53</td></tr><tr class="foot"><td>R²</td><td>0.10</td><td>0.39</td></tr></tbody></table>
+<table class="regtab"><thead><tr><th></th><th>(1) Age only</th><th>(2) Main</th></tr></thead><tbody><tr><td>Age when the game came out</td><td>-0.72<br/><span>(0.23)</span></td><td>-0.30<br/><span>(0.25)</span></td></tr><tr><td>Release year</td><td></td><td>1.08<br/><span>(0.30)</span></td></tr><tr><td>Animated (0/1)</td><td></td><td>23.36<br/><span>(8.67)</span></td></tr><tr><td>Constant</td><td>55.91<br/><span>(7.80)</span></td><td>-2138.94<br/><span>(603.99)</span></td></tr><tr class="foot"><td>N</td><td>57</td><td>57</td></tr><tr class="foot"><td>R²</td><td>0.10</td><td>0.40</td></tr></tbody></table>
 <p style="font-size: 11pt; color: var(--muted-color); margin-top: 4px;">OLS of the Rotten Tomatoes score (% positive reviews); robust (HC1) standard errors in parentheses.</p>
 </div>
 <div>
-<p class="fragment fade-up interp">“Holding year and format fixed, a director <strong>ten years younger when the game came out</strong> goes with a score <strong>2.9 points higher</strong> (95% CI -2.3 to +8.0): the predicted sign, but the data do not decide.”</p>
-<p class="fragment fade-up interp">“A film released <strong>one year later</strong> scores <strong>1.07 points higher</strong>, holding age and format fixed, and this interval excludes zero.”</p>
-<p class="fragment fade-up interp role">Release year is the confounder: age alone is <strong>-0.71</strong> (CI excludes 0); recent films adapt games their directors met younger (34.5 → 26.8). Holding year fixed: <strong>-0.29</strong>, CI includes 0.</p>
+<p class="fragment fade-up interp">“Holding year and format fixed, a director <strong>ten years younger when the game came out</strong> goes with a score <strong>3.0 points higher</strong> (95% CI -1.9 to +7.9): the predicted sign, but the data do not decide.”</p>
+<p class="fragment fade-up interp">“A film released <strong>one year later</strong> scores <strong>1.08 points higher</strong>, holding age and format fixed, and this interval excludes zero.”</p>
+<p class="fragment fade-up interp role">Release year is the confounder: age alone is <strong>-0.72</strong> (CI excludes 0); recent films adapt games their directors met younger (34.3 → 26.9). Holding year fixed: <strong>-0.30</strong>, CI includes 0.</p>
 </div>
 </div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
@@ -267,7 +267,7 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
 <div style="width: 100%; max-width: 860px; margin: 4px auto 0;"><svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block;" role="img" aria-label="Causal graph: release year and format point into age and the critics score; age to budget to score; franchise, unmeasured, points into age and score"><defs><marker id="dk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2c3e50"/></marker><marker id="gr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2E7D32"/></marker><marker id="or" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#C26A00"/></marker><marker id="rd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#B3261E"/></marker></defs><line x1="426" y1="177" x2="684" y2="177" stroke="#2c3e50" stroke-width="3.4" marker-end="url(#dk)"/><g class="fragment" data-fragment-index="1"><line x1="172" y1="80" x2="288" y2="149" stroke="#2E7D32" stroke-width="2.6" marker-end="url(#gr)"/><line x1="216" y1="70" x2="684" y2="160" stroke="#2E7D32" stroke-width="2.6" marker-end="url(#gr)"/><line x1="172" y1="274" x2="288" y2="205" stroke="#2E7D32" stroke-width="2.6" marker-end="url(#gr)"/><line x1="216" y1="284" x2="684" y2="194" stroke="#2E7D32" stroke-width="2.6" marker-end="url(#gr)"/></g><g class="fragment" data-fragment-index="2"><line x1="387" y1="149" x2="513" y2="80" stroke="#C26A00" stroke-width="2.6" marker-end="url(#or)"/><line x1="612" y1="80" x2="728" y2="149" stroke="#C26A00" stroke-width="2.6" marker-end="url(#or)"/></g><g class="fragment" data-fragment-index="3"><line x1="513" y1="274" x2="387" y2="205" stroke="#B3261E" stroke-width="2.6" stroke-dasharray="7 5" marker-end="url(#rd)"/><line x1="612" y1="274" x2="728" y2="205" stroke="#B3261E" stroke-width="2.6" stroke-dasharray="7 5" marker-end="url(#rd)"/></g><rect x="40" y="30" width="170" height="44" rx="10" fill="#fff" stroke="#2E7D32" stroke-width="2.6"/><text x="125.0" y="59" text-anchor="middle" font-size="19" font-weight="700" fill="#2E7D32">Release year</text><rect x="40" y="280" width="170" height="44" rx="10" fill="#fff" stroke="#2E7D32" stroke-width="2.6"/><text x="125.0" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#2E7D32">Animated</text><rect x="250" y="155" width="170" height="44" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.6"/><text x="335.0" y="174" text-anchor="middle" font-size="15.5" font-weight="700" fill="#2c3e50">Age when the</text><text x="335.0" y="192" text-anchor="middle" font-size="15.5" font-weight="700" fill="#2c3e50">game came out</text><rect x="690" y="155" width="170" height="44" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.6"/><text x="775.0" y="184" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Critics’ score</text><g><rect x="480" y="30" width="170" height="44" rx="10" fill="#fff" stroke="#C26A00" stroke-width="2.6"/><text x="565.0" y="59" text-anchor="middle" font-size="19" font-weight="700" fill="#C26A00">Budget</text></g><rect x="480" y="280" width="170" height="44" rx="10" fill="#fff" stroke="#B3261E" stroke-width="2.6" stroke-dasharray="7 5"/><text x="565.0" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#B3261E">Franchise / sequel</text></svg></div>
 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px;">
 <p class="fragment fade-up" data-fragment-index="1" style="font-size: 13pt; border-left: 5px solid #2E7D32; padding-left: 10px;"><strong style="color:#2E7D32">Confounders.</strong> Year and format point into both age and the score. Control for them: each blocks a backdoor path.</p>
-<p class="fragment fade-up" data-fragment-index="2" style="font-size: 13pt; border-left: 5px solid #C26A00; padding-left: 10px;"><strong style="color:#C26A00">Possible mediator.</strong> Director → budget → score. Leave it out; in these data it is not a mediator (-0.34 → -0.33).</p>
+<p class="fragment fade-up" data-fragment-index="2" style="font-size: 13pt; border-left: 5px solid #C26A00; padding-left: 10px;"><strong style="color:#C26A00">Possible mediator.</strong> Director → budget → score. Leave it out; in these data it is not a mediator (-0.36 → -0.37).</p>
 <p class="fragment fade-up" data-fragment-index="3" style="font-size: 13pt; border-left: 5px dashed #B3261E; padding-left: 10px;"><strong style="color:#B3261E">Not measured.</strong> Franchise and sequel point into both, and there is no variable for them. That open path is Section 5’s threat.</p>
 </div>
 <p style="font-size: 12pt; color: var(--muted-color); margin-top: 6px;">Not required by the brief. It is the quickest way to write Section 3’s “role of every control” (Topic 10).</p>
@@ -279,9 +279,9 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
 <p style="font-size: 14pt; color: var(--muted-color);">Model (2), same data; every number is printed by the example notebook’s Section 4 cells.</p>
 <div class="diag-list">
 <div class="fragment fade-up diag"><p class="t">Residuals</p><p>Against fitted values and against age: no curve, no fan; a wide spread throughout.</p></div>
-<div class="fragment fade-up diag"><p class="t">Constant variance</p><p>Breusch–Pagan p = 0.28: no evidence, but little power with 53 films. Robust (HC1) errors reported.</p></div>
-<div class="fragment fade-up diag"><p class="t">VIF</p><p>All about 1.14: age, year and format barely overlap, so no standard error is inflated.</p></div>
-<div class="fragment fade-up diag"><p class="t">Influence + planned checks</p><p>Top Cook’s D: Resident Evil: Damnation (100% from 5 reviews). Under-20-review films out: -0.34. Median regression: +0.21. Split X: age at release -0.21, game’s age +0.37.</p></div>
+<div class="fragment fade-up diag"><p class="t">Constant variance</p><p>Breusch–Pagan p = 0.33: no evidence, but little power with 57 films. Robust (HC1) errors reported.</p></div>
+<div class="fragment fade-up diag"><p class="t">VIF</p><p>All about 1.12: age, year and format barely overlap, so no standard error is inflated.</p></div>
+<div class="fragment fade-up diag"><p class="t">Influence + planned checks</p><p>Top Cook’s D: Resident Evil: Damnation (100% from 5 reviews). Under-20-review films out: -0.34. Median regression: -0.22. Split X: age at release -0.28, game’s age +0.33.</p></div>
 </div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
@@ -305,7 +305,7 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
   Data         Wikipedia + Wikidata + FRED,
                URLs, downloaded 2026-11-03
   How to run   run the notebook top to bottom
-  Finding      +2.9 pts per 10 yrs younger at the game, CI spans 0</pre>
+  Finding      +3.0 pts per 10 yrs younger at the game, CI spans 0</pre>
 </div>
 <p style="font-size: 13.5pt; margin-top: 10px;">Conclusion: half a page, how confident a reader should be, what you would do with another month. No new results.</p>
 </div>
