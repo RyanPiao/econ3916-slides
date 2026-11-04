@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2110010b6b81ea831865ee48f65b1c05">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=3605012a628bd94e186f2277b41bd2f1">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finishing Your Midterm</title>
@@ -171,7 +171,7 @@ live-action       1      0     4</pre></div></div></div><div class="fragment fad
 <div class="cell" data-cell="m_l3_random"><div class="cell-code"><span class="cell-run"><i class="fa-solid fa-circle-play"></i></span><pre style="font-size:12pt">no_birth = df[&quot;born&quot;].isna().rename(&quot;birth date missing&quot;)
 print(df.groupby(no_birth)[&quot;gross_m&quot;].median().round(1).to_string())</pre></div><div class="cell-out fragment"><pre style="font-size:12pt">birth date missing
 False    152.0
-True       2.5</pre></div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;"><div class="fragment fade-up mech"><p class="m">MAR</p><p><strong>Budget.</strong> Missing for animated spin-offs. The gap depends on something you can see: the format.</p></div><div class="fragment fade-up mech"><p class="m">MNAR</p><p><strong>Director’s age.</strong> Missing for unknown directors of tiny films. The gap tracks the outcome, so the sample tilts to bigger films.</p></div><div class="fragment fade-up mech"><p class="m">Rule</p><p><strong>2026 grosses</strong> are not missing; they are not finished. A written rule drops them.</p></div></div>
+True       2.5</pre></div></div><div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;"><div class="fragment fade-up mech"><p class="m">MAR</p><p><strong>Budget.</strong> Missing for animated spin-offs. The gap depends on something you can see: the format.</p></div><div class="fragment fade-up mech"><p class="m">MAR on gross</p><p><strong>Director’s age.</strong> Missing for unknown directors of tiny films: not random, it tracks gross. MNAR on age itself can’t be tested.</p></div><div class="fragment fade-up mech"><p class="m">Rule</p><p><strong>2026 grosses</strong> are not missing; they are not finished. A written rule drops them.</p></div></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="l3-dropna" style="padding: 30px 50px;">
@@ -183,7 +183,7 @@ print((out[&quot;year&quot;] &gt; 2025).sum(), &quot;of them are 2026 releases&q
 format
 live-action    9
 animated       8
-6 of them are 2026 releases</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 3, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Missing: 7 budgets (6 animated; one in pounds), 1 gross, 8 directors’ birth dates. Animated gaps are MAR given format; birth dates are missing for the smallest films, so the sample of 51 leans toward bigger releases. 2026 films are dropped by rule.</p></div>
+6 of them are 2026 releases</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 3, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Missing: 7 budgets (6 of them animated, one of those given in pounds), 1 gross, 8 directors’ birth dates. Animated gaps are MAR given format; birth dates are missing for the smallest films, so the sample of 51 leans toward bigger releases. 2026 films are dropped by rule.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="divider-4" class="section-divider" data-state="is-section-divider"><h1>Line 4 &middot; The One Join or Reshape</h1><p class="subtitle">Merging two files, wide to long, aggregating &mdash; or none &nbsp;&bull;&nbsp; 8 min</p></section>
@@ -257,7 +257,7 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
 <div>
 <p class="fragment fade-up interp">“Holding year and format fixed, a director <strong>one year older</strong> goes with a gross <strong>2.4% higher</strong> (95% CI -3.0% to +8.0%): this sample cannot rule out no association.”</p>
 <p class="fragment fade-up interp">“An animated film grosses about <strong>98% more</strong> than a live-action one of the same year and director age.”</p>
-<p class="fragment fade-up interp role">Role of budget: older directors get <strong>3.3% bigger budgets</strong> per year, and budget raises gross. It is a mediator, a bad control (Topic 10): with it, age flips to <strong>-2.7%</strong>.</p>
+<p class="fragment fade-up interp role">Role of budget: older directors get <strong>3.3% bigger budgets</strong> per year, and budget raises gross. It is a mediator, a bad control (Topic 10). With it, the point estimate on age is <strong>-2.7%</strong>; neither estimate is distinguishable from zero.</p>
 </div>
 </div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
@@ -268,7 +268,7 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
 <p style="font-size: 14pt; color: var(--muted-color);">Model (2), same data; every number is printed by the example notebook’s Section 4 cells.</p>
 <div class="diag-list">
 <div class="fragment fade-up diag"><p class="t">Residuals</p><p>Against fitted values and against age: no fan, no curve. Three films that barely opened sit far below the rest.</p></div>
-<div class="fragment fade-up diag"><p class="t">Constant variance</p><p>Breusch–Pagan p = 0.88: not rejected. Robust (HC1) errors reported anyway.</p></div>
+<div class="fragment fade-up diag"><p class="t">Constant variance</p><p>Breusch–Pagan p = 0.88: no evidence, but little power with 51 films. Robust (HC1) errors reported.</p></div>
 <div class="fragment fade-up diag"><p class="t">VIF</p><p>All about 1.04: age, year and format barely overlap, so no standard error is inflated.</p></div>
 <div class="fragment fade-up diag"><p class="t">Influence</p><p>Largest Cook’s D: Ratchet & Clank. Without the 3 films under $5m, age goes from 2.4% to 0.1%. Report both.</p></div>
 </div>
