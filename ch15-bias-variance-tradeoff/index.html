@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a1e6754a4b1b40064f3778ac6d9a7f63">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6e3b520da86bf208fad5764f63f8b5f5">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The ML Shift: Bias-Variance Tradeoff</title>
@@ -115,7 +115,7 @@
       </div>
     </section>
 
-    <section class="section-divider" data-state="is-section-divider">
+    <section id="divider-1" class="section-divider" data-state="is-section-divider">
       <h1>Two Jobs, Two Scorecards</h1>
       <p class="subtitle">Section 15.1 &bull; The same model, graded two different ways</p>
     </section>
@@ -168,7 +168,7 @@
       </div>
     </section>
 
-    <section class="section-divider" data-state="is-section-divider">
+    <section id="divider-2" class="section-divider" data-state="is-section-divider">
       <h1>The Decomposition</h1>
       <p class="subtitle">Section 15.2 &bull; Three errors, only two of them negotiable</p>
     </section>
@@ -314,7 +314,7 @@
       </div>
     </section>
 
-    <section class="section-divider" data-state="is-section-divider">
+    <section id="divider-3" class="section-divider" data-state="is-section-divider">
       <h1>The U-Curve</h1>
       <p class="subtitle">Section 15.3 &bull; One split of one dataset shows the shape</p>
     </section>
@@ -398,7 +398,7 @@
         </div>
     </section>
 
-    <section class="section-divider" data-state="is-section-divider">
+    <section id="divider-4" class="section-divider" data-state="is-section-divider">
       <h1>One Split Is Not Enough</h1>
       <p class="subtitle">Section 15.4 &bull; Your held-out score is itself a random variable</p>
     </section>
@@ -446,10 +446,8 @@
           $$CV(k) = \frac{1}{k}\sum_{j=1}^{k}\text{MSE}_j$$
         </div>
         <p style="font-size: 14.5pt;"><strong>Where:</strong> \(\text{MSE}_j\) is the error on fold \(j\), from a model fitted on the other \(k-1\) folds.</p>
-        <div class="key-result" style="margin-top: 12px;">
-          <p><strong>In plain words.</strong> Cut the data into \(k\) blocks. Hold each block out in turn, train on the rest, score on the held-out block, and average the \(k\) scores.</p>
-        </div>
-        <p style="font-size: 14.5pt; margin-top: 14px;">Every observation is used for validation <strong>exactly once</strong> and for training \(k-1\) times, so the estimate does not hinge on one lucky partition. Averaging \(k\) noisy draws is what makes model selection reliable rather than lucky.</p>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 10px;"><svg viewBox="0 0 1160 156" width="100%" role="img" aria-label="Five-fold cross-validation: in each of five rounds a different block is held out for validation and the other four train the model; the five MSEs are averaged."><text x="0" y="26" font-size="17" fill="#2D2D2D">Round 1</text><rect x="110" y="8" width="138" height="24" rx="4" fill="#C47B5A"/><text x="179" y="25" font-size="15" text-anchor="middle" fill="#fff" font-weight="700">validate</text><rect x="256" y="8" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="325" y="25" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="402" y="8" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="471" y="25" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="548" y="8" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="617" y="25" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="694" y="8" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="763" y="25" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><text x="852" y="26" font-size="17" fill="#2D2D2D">&#8594; MSE<tspan font-size="14" dy="4">1</tspan></text><text x="0" y="56" font-size="17" fill="#2D2D2D">Round 2</text><rect x="110" y="38" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="179" y="55" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="256" y="38" width="138" height="24" rx="4" fill="#C47B5A"/><text x="325" y="55" font-size="15" text-anchor="middle" fill="#fff" font-weight="700">validate</text><rect x="402" y="38" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="471" y="55" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="548" y="38" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="617" y="55" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="694" y="38" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="763" y="55" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><text x="852" y="56" font-size="17" fill="#2D2D2D">&#8594; MSE<tspan font-size="14" dy="4">2</tspan></text><text x="0" y="86" font-size="17" fill="#2D2D2D">Round 3</text><rect x="110" y="68" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="179" y="85" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="256" y="68" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="325" y="85" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="402" y="68" width="138" height="24" rx="4" fill="#C47B5A"/><text x="471" y="85" font-size="15" text-anchor="middle" fill="#fff" font-weight="700">validate</text><rect x="548" y="68" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="617" y="85" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="694" y="68" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="763" y="85" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><text x="852" y="86" font-size="17" fill="#2D2D2D">&#8594; MSE<tspan font-size="14" dy="4">3</tspan></text><text x="0" y="116" font-size="17" fill="#2D2D2D">Round 4</text><rect x="110" y="98" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="179" y="115" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="256" y="98" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="325" y="115" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="402" y="98" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="471" y="115" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="548" y="98" width="138" height="24" rx="4" fill="#C47B5A"/><text x="617" y="115" font-size="15" text-anchor="middle" fill="#fff" font-weight="700">validate</text><rect x="694" y="98" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="763" y="115" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><text x="852" y="116" font-size="17" fill="#2D2D2D">&#8594; MSE<tspan font-size="14" dy="4">4</tspan></text><text x="0" y="146" font-size="17" fill="#2D2D2D">Round 5</text><rect x="110" y="128" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="179" y="145" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="256" y="128" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="325" y="145" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="402" y="128" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="471" y="145" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="548" y="128" width="138" height="24" rx="4" fill="#DCE5EC"/><text x="617" y="145" font-size="15" text-anchor="middle" fill="#2D2D2D">train</text><rect x="694" y="128" width="138" height="24" rx="4" fill="#C47B5A"/><text x="763" y="145" font-size="15" text-anchor="middle" fill="#fff" font-weight="700">validate</text><text x="852" y="146" font-size="17" fill="#2D2D2D">&#8594; MSE<tspan font-size="14" dy="4">5</tspan></text><path d="M 950 10 Q 962 10 962 22 L 962 66 Q 962 78 974 78 Q 962 78 962 90 L 962 134 Q 962 146 950 146" fill="none" stroke="#8C8580" stroke-width="2"/><text x="984" y="74" font-size="17" fill="#2D2D2D">average of</text><text x="984" y="100" font-size="17" fill="#2D2D2D">the 5 = CV(5)</text></svg></div>
+        <p style="font-size: 14.5pt; margin-top: 8px;"><strong>In plain words.</strong> Every observation is validated <strong>exactly once</strong> and used for training \(k-1\) times, so the estimate does not hinge on one lucky partition.</p>
         <p style="font-size: 14.5pt; margin-top: 10px;">Use \(k = 5\) or \(k = 10\). Both work; larger \(k\) costs compute without adding much.</p>
       </div>
     </section>
@@ -475,11 +473,12 @@
       <h2><i class="fa-solid fa-magnifying-glass-chart" style="color: var(--primary-color);"></i> Two Things This Table Cannot Tell You</h2>
       <div class="content">
         <div style="background: #F9F0EE; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 14px 22px;">
-          <p style="font-size: 15.5pt;"><strong>1. That CV is unbiased.</strong> Its estimate at the minimum, 0.3222, sits <strong>0.0003</strong> from the true expected error the decomposition measured (0.3219). Resist the obvious reading. That estimate carries a standard error of <strong>0.0426</strong> across its own ten folds &mdash; <strong>142 times the size of the agreement</strong>. Coming within 0.0003 is a coincidence of this partition. CV <em>is</em> close to unbiased for expected prediction error &mdash; but this table is not the evidence, because a single run cannot resolve anything smaller than about 0.04.</p>
+          <p style="font-size: 15pt;"><strong>1. That CV is unbiased.</strong> It lands <strong>0.0003</strong> from the true expected error, but its own standard error is <strong>0.0426</strong>, 142 times the agreement: a coincidence of this partition. CV is close to unbiased; one run cannot show it.</p>
         </div>
         <div style="background: #F9F0EE; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 14px 22px; margin-top: 12px;">
-          <p style="font-size: 15.5pt;"><strong>2. That degree 5 beats degree 7.</strong> Degrees 5, 7 and 10 come in at 0.3222, 0.3328 and 0.3406 &mdash; a spread of <strong>0.0184, less than half of one standard error</strong>. CV has not found a winner. It has found that all three are indistinguishable and picked the smallest number anyway.</p>
+          <p style="font-size: 15pt;"><strong>2. That degree 5 beats degree 7.</strong> Degrees 5, 7 and 10 span <strong>0.0184, less than half of one SE</strong>. CV has not found a winner; it picked the smallest of three ties.</p>
         </div>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 10px;"><svg viewBox="0 0 1160 152" width="100%" role="img" aria-label="Number line: CV estimates for degrees 5, 7 and 10 at 0.3222, 0.3328 and 0.3406 all sit inside a one-standard-error band of 0.0426; the true expected error, 0.3219, is 0.0003 from the CV estimate."><rect x="389.8" y="30" width="632.9" height="62" rx="6" fill="#6B8BA4" fill-opacity="0.16"/><text x="706.3" y="22" font-size="17" text-anchor="middle" fill="#2D2D2D">within one SE of the best (0.0426): the order inside is noise</text><line x1="40" y1="100" x2="1120" y2="100" stroke="#8C8580" stroke-width="2"/><line x1="60.0" y1="95" x2="60.0" y2="105" stroke="#8C8580" stroke-width="2"/><text x="60.0" y="124" font-size="15" text-anchor="middle" fill="#8C8580">0.30</text><line x1="357.1" y1="95" x2="357.1" y2="105" stroke="#8C8580" stroke-width="2"/><text x="357.1" y="124" font-size="15" text-anchor="middle" fill="#8C8580">0.32</text><line x1="654.3" y1="95" x2="654.3" y2="105" stroke="#8C8580" stroke-width="2"/><text x="654.3" y="124" font-size="15" text-anchor="middle" fill="#8C8580">0.34</text><line x1="951.4" y1="95" x2="951.4" y2="105" stroke="#8C8580" stroke-width="2"/><text x="951.4" y="124" font-size="15" text-anchor="middle" fill="#8C8580">0.36</text><circle cx="389.8" cy="64" r="8" fill="#2D2D2D"/><text x="389.8" y="48" font-size="17" font-weight="700" text-anchor="middle" fill="#2D2D2D">5</text><text x="389.8" y="88" font-size="15" text-anchor="middle" fill="#2D2D2D">0.3222</text><circle cx="547.3" cy="64" r="8" fill="#2D2D2D"/><text x="547.3" y="48" font-size="17" font-weight="700" text-anchor="middle" fill="#2D2D2D">7</text><text x="547.3" y="88" font-size="15" text-anchor="middle" fill="#2D2D2D">0.3328</text><circle cx="663.2" cy="64" r="8" fill="#2D2D2D"/><text x="663.2" y="48" font-size="17" font-weight="700" text-anchor="middle" fill="#2D2D2D">10</text><text x="663.2" y="88" font-size="15" text-anchor="middle" fill="#2D2D2D">0.3406</text><path d="M 385.4 104 l -7 12 l 14 0 z" fill="#C47B5A"/><text x="371.4" y="146" font-size="15" text-anchor="end" fill="#C47B5A">true EPE 0.3219, 0.0003 from CV&#8217;s 0.3222</text></svg></div>
         <div class="key-result" style="margin-top: 14px;">
           <p><strong>The one-standard-error rule.</strong> Among models within one SE of the best, take the <strong>simplest</strong> &mdash; because the ordering inside that band is noise, and the simpler model has less variance.</p>
         </div>
@@ -522,7 +521,7 @@
       </div>
     </section>
 
-    <section class="section-divider" data-state="is-section-divider">
+    <section id="divider-5" class="section-divider" data-state="is-section-divider">
       <h1>Leakage</h1>
       <p class="subtitle">Section 15.5 &bull; When the held-out data was not really held out</p>
     </section>
@@ -621,13 +620,14 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
     <section id="grouped-leakage" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-car-side" style="color: var(--danger-color);"></i> Grouped Leakage &mdash; The Subtlest Kind</h2>
       <div class="content">
-        <p style="font-size: 15pt;">If a dataset contains <strong>repeated observations of the same unit</strong> &mdash; several trips by one driver, several quarters for one firm, several students in one school &mdash; a random split puts the same unit on both sides. The model learns to recognise <em>that unit</em> rather than the general pattern.</p>
+        <p style="font-size: 15pt;">If a dataset contains <strong>repeated observations of the same unit</strong> &mdash; several trips by one driver, several quarters for one firm, several students in one school &mdash; the model can learn to recognise <em>that unit</em> rather than the general pattern.</p>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 12px;"><svg viewBox="0 -5 1160 139" width="100%" role="img" aria-label="Three drivers, A, B and C, four trips each. A random split puts trips from all three drivers in both train and test. GroupKFold puts all of A and B in train and all of C in test."><text x="0" y="18" font-size="19" font-weight="700" fill="#2D2D2D">Random split</text><rect x="0" y="30" width="370" height="66" rx="6" fill="#f3f1ee" stroke="#8C8580" stroke-width="1"/><rect x="390" y="30" width="170" height="66" rx="6" fill="#f3f1ee" stroke="#8C8580" stroke-width="1"/><text x="8" y="46" font-size="14" fill="#8C8580">train</text><text x="398" y="46" font-size="14" fill="#8C8580">test</text><circle cx="22.0" cy="70" r="13" fill="#6B8BA4"/><text x="22.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">A</text><circle cx="63.2" cy="70" r="13" fill="#C47B5A"/><text x="63.2" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">B</text><circle cx="104.5" cy="70" r="13" fill="#7A8F5A"/><text x="104.5" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">C</text><circle cx="145.8" cy="70" r="13" fill="#6B8BA4"/><text x="145.8" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">A</text><circle cx="187.0" cy="70" r="13" fill="#7A8F5A"/><text x="187.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">C</text><circle cx="228.2" cy="70" r="13" fill="#C47B5A"/><text x="228.2" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">B</text><circle cx="269.5" cy="70" r="13" fill="#6B8BA4"/><text x="269.5" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">A</text><circle cx="310.8" cy="70" r="13" fill="#C47B5A"/><text x="310.8" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">B</text><circle cx="352.0" cy="70" r="13" fill="#7A8F5A"/><text x="352.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">C</text><circle cx="410.0" cy="70" r="13" fill="#6B8BA4"/><text x="410.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">A</text><circle cx="475.0" cy="70" r="13" fill="#C47B5A"/><text x="475.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">B</text><circle cx="540.0" cy="70" r="13" fill="#7A8F5A"/><text x="540.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">C</text><text x="0" y="122" font-size="16" fill="#A85C5C">the same drivers on both sides: it can learn their commute</text><text x="600" y="18" font-size="19" font-weight="700" fill="#2D2D2D">GroupKFold, by driver</text><rect x="600" y="30" width="370" height="66" rx="6" fill="#f3f1ee" stroke="#8C8580" stroke-width="1"/><rect x="990" y="30" width="170" height="66" rx="6" fill="#f3f1ee" stroke="#8C8580" stroke-width="1"/><text x="608" y="46" font-size="14" fill="#8C8580">train</text><text x="998" y="46" font-size="14" fill="#8C8580">test</text><circle cx="622.0" cy="70" r="13" fill="#6B8BA4"/><text x="622.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">A</text><circle cx="669.1" cy="70" r="13" fill="#6B8BA4"/><text x="669.1" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">A</text><circle cx="716.3" cy="70" r="13" fill="#6B8BA4"/><text x="716.3" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">A</text><circle cx="763.4" cy="70" r="13" fill="#6B8BA4"/><text x="763.4" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">A</text><circle cx="810.6" cy="70" r="13" fill="#C47B5A"/><text x="810.6" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">B</text><circle cx="857.7" cy="70" r="13" fill="#C47B5A"/><text x="857.7" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">B</text><circle cx="904.9" cy="70" r="13" fill="#C47B5A"/><text x="904.9" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">B</text><circle cx="952.0" cy="70" r="13" fill="#C47B5A"/><text x="952.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">B</text><circle cx="1010.0" cy="70" r="13" fill="#7A8F5A"/><text x="1010.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">C</text><circle cx="1053.3" cy="70" r="13" fill="#7A8F5A"/><text x="1053.3" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">C</text><circle cx="1096.7" cy="70" r="13" fill="#7A8F5A"/><text x="1096.7" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">C</text><circle cx="1140.0" cy="70" r="13" fill="#7A8F5A"/><text x="1140.0" y="75" font-size="15" font-weight="700" text-anchor="middle" fill="#fff">C</text><text x="600" y="122" font-size="16" fill="#6B8BA4">test drivers the model has never seen</text></svg></div>
         <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 22px; margin-top: 14px; border-left: 4px solid var(--secondary-color);">
           <p style="font-size: 13pt; color: var(--secondary-color); font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Economist at Work &mdash; Cambridge Mobile Telematics</p>
-          <p style="font-size: 14pt; margin-top: 6px;">CMT processes sensor data from over <strong>55 million drivers</strong> to assess driving risk; insurers price policies on the output. The obvious validation is to pool every trip and split randomly. It is wrong. One driver contributes hundreds of trips over the same commute, the same roads, the same car. Split randomly and that driver is on both sides &mdash; so the model does not have to learn the physics of risky driving. It can learn <em>this person's commute</em>.</p>
+          <p style="font-size: 14pt; margin-top: 6px;">CMT processes sensor data from over <strong>55 million drivers</strong> to assess driving risk; insurers price policies on the output. One driver contributes hundreds of trips over the same commute, the same roads, the same car. Pool the trips and split randomly, and the model does not have to learn the physics of risky driving: it can learn <em>this person's commute</em>.</p>
           <p style="font-size: 14pt; margin-top: 8px;">In Chapter 14's language: repeated measures from one driver are a <strong>panel</strong>, and pooling them violates the independence that standard CV assumes. <strong>Clustering did not disappear because the model became non-parametric.</strong></p>
         </div>
-        <p style="margin-top: 12px; font-size: 15pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> The fix is <code>GroupKFold</code> &mdash; every trip from a driver confined to one fold, so performance is measured on <strong>drivers the model has never seen</strong>. Which is the only question an insurer entering a new market is asking.</p>
+        <p style="margin-top: 12px; font-size: 15pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> The fix is <code>GroupKFold</code>: every trip from a driver in one fold, so the score is measured on <strong>drivers the model has never seen</strong>, the question an insurer entering a new market asks.</p>
       </div>
     </section>
 
@@ -677,7 +677,7 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
         </div>
     </section>
 
-    <section class="section-divider" data-state="is-section-divider">
+    <section id="divider-6" class="section-divider" data-state="is-section-divider">
       <h1>The Outcomes You Never Observe</h1>
       <p class="subtitle">Section 15.5b &bull; The failure no splitting scheme fixes</p>
     </section>
@@ -730,7 +730,7 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
         </div>
     </section>
 
-    <section class="section-divider" data-state="is-section-divider">
+    <section id="divider-7" class="section-divider" data-state="is-section-divider">
       <h1>In Practice</h1>
       <p class="subtitle">Section 15.6 &bull; The checklist is the deliverable</p>
     </section>
@@ -796,7 +796,7 @@ scores = cross_val_score(pipe, X_train, y_train, cv=5)</pre>
       <section id="poll-3" style="padding: 34px 55px;">
         <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Which Degree Do You Report?</h2>
         <div class="content">
-          <p class="text-lg" style="line-height: 1.55;">In Lab 15, 5-fold CV picks <strong>degree 4</strong> (CV MSE 0.1401) and a single held-out set of 2,000 points picks <strong>degree 5</strong> (CV MSE 0.1510). The fold-to-fold SE at degree 4 is <strong>0.0112</strong>.</p>
+          <p class="text-lg" style="line-height: 1.55;">In Lab 15, 5-fold CV picks <strong>degree 4</strong> (CV MSE 0.1401, with degree 5 at 0.1510), while a single held-out set of 2,000 points picks <strong>degree 5</strong>. The fold-to-fold SE at degree 4 is <strong>0.0112</strong>.</p>
           <p class="text-lg" style="margin-top: 12px;"><strong>Which do you report?</strong></p>
           <div class="poll-grid" data-poll-id="ch15-econ3916-poll-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
             <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Degree 4 &mdash; CV used all the data</div>
