@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2b397a5385584b54f0011209c78da6e4">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6d5a61432d54a93e4f0b844e6d3dbd3b">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The ML Shift: Bias-Variance Tradeoff</title>
@@ -334,6 +334,7 @@
       <p class="subtitle">Section 15.3 &bull; One split of one dataset shows the shape</p>
     </section>
 
+    <section>
     <section id="ucurve-table" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-table" style="color: var(--secondary-color);"></i> Training Error Falls. Test Error Turns.</h2>
       <div class="content">
@@ -350,6 +351,26 @@
         </table>
         <p style="margin-top: 12px; font-size: 15pt;"><strong>Training error falls monotonically.</strong> It has to: a more flexible model can always fit the training data at least as well &mdash; exactly as \(R^2\) could never decrease when Chapter 12 added twenty noise columns to a regression.</p>
       </div>
+    </section>
+    <section id="aic-shortcut" style="padding: 30px 55px;">
+      <h2><i class="fa-solid fa-scale-balanced" style="color: var(--secondary-color);"></i> AIC: The Same Question, Without a Test Set</h2>
+      <div class="content">
+        <p style="font-size: 14.5pt;">Every statsmodels OLS and Logit summary prints <strong>AIC</strong>: the fit, plus a charge of 2 for every coefficient, \(\text{AIC} = -2\log L + 2k\). <strong>Lower is better.</strong> It only ranks models fitted to the same rows and the same \(y\); one AIC on its own means nothing.</p>
+        <table style="margin-top: 8px;">
+          <tr><th>degree</th><th>training \(R^2\)</th><th>AIC</th><th>BIC</th><th>test MSE</th></tr>
+          <tr><td>1</td><td>0.5932</td><td>214.5</td><td>219.1</td><td>1.4761</td></tr>
+          <tr><td>3</td><td>0.8529</td><td>145.3</td><td>154.4</td><td>0.4942</td></tr>
+          <tr style="background: #EEF2F0;"><td>5</td><td>0.8941</td><td><strong>125.6</strong></td><td><strong>139.3</strong></td><td><strong>0.3648</strong></td></tr>
+          <tr><td>7</td><td>0.8942</td><td>129.5</td><td>147.7</td><td>0.3650</td></tr>
+          <tr><td>10</td><td>0.9002</td><td>131.3</td><td>156.4</td><td>0.3948</td></tr>
+          <tr><td>15</td><td>0.9052</td><td>137.6</td><td>174.1</td><td>0.4547</td></tr>
+          </table>
+        <p style="margin-top: 10px; font-size: 14.5pt;">Same 72 training and 48 test points as the slide above. \(R^2\) rises at every step. AIC and BIC both bottom out at degree 5, the best test error on this menu, without looking at the 48 test points. BIC charges \(\log n = 4.28\) per coefficient instead of 2, so it tends to pick smaller models.</p>
+        <div class="key-result" style="margin-top: 10px;">
+          <p style="font-size: 14.5pt; margin: 0;"><strong>Your midterm example:</strong> adding age&sup2; gives p = 0.28, AIC 503.6 &rarr; 504.3, and 10-fold CV error (RMSE, 20 repeats) 20.24 &rarr; 21.15. All three say the square adds nothing, so keep the line.</p>
+        </div>
+      </div>
+    </section>
     </section>
 
     <section id="ucurve-figure" style="padding: 24px 45px;">
