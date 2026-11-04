@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=81dd68ec548413ff925da0606ecf7b59">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a578a2296aff7ac6269bd8619d7cb869">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finishing Your Midterm</title>
@@ -108,7 +108,7 @@ downloaded: 2026-11-03
 data/: [&#x27;cpi_fred.csv&#x27;, &#x27;directors_wikidata.csv&#x27;, &#x27;films_wikipedia.csv&#x27;, &#x27;fx_usd_per_gbp_fred.csv&#x27;, &#x27;games_wikipedia.csv&#x27;, &#x27;rt_spot_check.csv&#x27;, &#x27;second_search.csv&#x27;]</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 1, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Wikipedia, “List of films based on video games” (live-action and animated tables; each score cites Rotten Tomatoes, each budget Box Office Mojo or The Numbers), downloaded 2026-11-03; directors’ birth dates from Wikidata; CPI-U (CPIAUCSL) from FRED. The download step is <code>get_data.py</code> in the repository.</p></div><p class="fragment fade-up" style="font-size: 14.5pt; margin-top: 12px;">A Wikipedia page changes every week: the date says which version. And each number on it cites its source, which is why it is usable at all.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
-<section id="divider-2" class="section-divider" data-state="is-section-divider"><h1>Line 2 &middot; Its Shape</h1><p class="subtitle">Rows, columns, and what one row is &nbsp;&bull;&nbsp; 8 min</p></section>
+<section id="divider-2" class="section-divider" data-state="is-section-divider"><h1>Line 2 &middot; Its Shape</h1><p class="subtitle">Rows, columns, and what one row is &nbsp;&bull;&nbsp; 7 min</p></section>
 <section id="l2-shape" style="padding: 26px 46px;">
 <h2><i class="fa-solid fa-table-cells" style="color: var(--secondary-color);"></i> Worked Example: What Is One Row?</h2>
 <div class="cell" data-cell="m_l2_shape"><div class="cell-code"><span class="cell-run"><i class="fa-solid fa-circle-play"></i></span><pre style="font-size:11.5pt">print(len(films), &quot;rows,&quot;, films[&quot;title&quot;].nunique(), &quot;distinct titles&quot;)
@@ -161,7 +161,7 @@ born      3
 budget    6</pre></div></div><div class="cell" data-cell="m_l3_where"><div class="cell-code"><span class="cell-run"><i class="fa-solid fa-circle-play"></i></span><pre style="font-size:12pt">print(gaps.groupby(df[&quot;format&quot;]).sum().to_string())</pre></div><div class="cell-out fragment"><pre style="font-size:12pt">             rt  born  budget
 format                       
 animated      2     3       5
-live-action   2     0       1</pre></div></div></div><div class="fragment fade-up key-result" style="margin-top: 10px;"><p style="font-size: 14.5pt;">The count says how much. Grouping the gaps by format says whether they look random: the budgets clearly are not, <strong>6 of 7 are animated</strong>.</p></div>
+live-action   2     0       1</pre></div></div></div><div class="fragment fade-up key-result" style="margin-top: 10px;"><p style="font-size: 14.5pt;">The count says how much. Grouping the gaps by format says whether they look random: the budgets clearly are not, <strong>5 of 6 are animated</strong>.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
 <section id="l3-random" style="padding: 26px 46px;">
@@ -222,7 +222,7 @@ print(&quot;unmatched:&quot;, (~df[&quot;first_director&quot;].isin(directors[&q
 unmatched: 6 | no birth date: 3</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 4, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Merged 68 films to Wikidata birth dates on the first-listed director (co-directors were glued in the source table). 68 rows before, 68 after (a left merge, validated many-to-one), 6 unmatched, 2 more without a birth date. Then the game years on title + year (validated one-to-one): 67 of 68 matched. X = game year − birth year.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
-<section id="divider-5" class="section-divider" data-state="is-section-divider"><h1>What Each Rubric Row Is Looking For</h1><p class="subtitle">Six rows, 100 points, on the same example &nbsp;&bull;&nbsp; 15 min</p></section>
+<section id="divider-5" class="section-divider" data-state="is-section-divider"><h1>What Each Rubric Row Is Looking For</h1><p class="subtitle">Six rows, 100 points, on the same example &nbsp;&bull;&nbsp; 22 min</p></section>
 <section id="r-overview" style="padding: 30px 50px;">
   <h2><i class="fa-solid fa-table-list" style="color: var(--secondary-color);"></i> The Rubric, Row by Row</h2>
   <table class="rub"><thead><tr><th>Row</th><th>Pts</th><th>What earns full marks</th></tr></thead><tbody><tr><td>Question and data provenance</td><td style="text-align:center;font-weight:700">20</td><td>A measurable question; data described as a measurement product; missingness mechanism named and defended; a summary table that reads on its own</td></tr><tr><td>Descriptive evidence</td><td style="text-align:center;font-weight:700">20</td><td>Two or more figures, each making a stated point; captions state findings, not variables; Topic 3&rsquo;s standards</td></tr><tr><td>Model and interpretation</td><td style="text-align:center;font-weight:700">25</td><td>A formatted regression table; two coefficients interpreted in full, with units and magnitude; every control justified by its role</td></tr><tr><td>Diagnostics</td><td style="text-align:center;font-weight:700">20</td><td>Residuals, heteroskedasticity, VIF and influence, all run and interpreted; robust errors where warranted</td></tr><tr><td>Threats and conclusion</td><td style="text-align:center;font-weight:700">10</td><td>The causal claim assessed; the estimand labelled if it is not causal; no new results in the conclusion</td></tr><tr><td>Repository</td><td style="text-align:center;font-weight:700">5</td><td>Public repo with notebook and report; data included or the download documented; a README you wrote</td></tr></tbody></table>
