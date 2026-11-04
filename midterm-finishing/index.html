@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=1a4508970dd9e90f91d9e16620ba6be6">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=c6154891feb8c3b9ed16f35f53df5dd7">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finishing Your Midterm</title>
@@ -222,7 +222,7 @@ print(&quot;unmatched:&quot;, (~df[&quot;first_director&quot;].isin(directors[&q
 unmatched: 6 | no birth date: 3</pre></div></div><div class="fragment fade-up " style="background: #f8f6f3; border-left: 4px solid var(--accent-color); padding: 12px 20px; border-radius: 6px; margin-top: 10px;"><p style="font-size: 12pt; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px;">Line 4, as you would post it</p><p style="font-size: 14.5pt; margin-top: 6px;">Merged 68 films to Wikidata birth dates on the first-listed director (co-directors were glued in the source table). 68 rows before, 68 after (a left merge, validated many-to-one), 6 unmatched, 2 more without a birth date. Then the game years on title + year (validated one-to-one): 67 of 68 matched. X = game year − birth year.</p></div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
-<section id="divider-5" class="section-divider" data-state="is-section-divider"><h1>What Each Rubric Row Is Looking For</h1><p class="subtitle">Six rows, 100 points, on the same example &nbsp;&bull;&nbsp; 22 min</p></section>
+<section id="divider-5" class="section-divider" data-state="is-section-divider"><h1>What Each Rubric Row Is Looking For</h1><p class="subtitle">Six rows, 100 points, on the same example &nbsp;&bull;&nbsp; 19 min</p></section>
 <section id="r-overview" style="padding: 30px 50px;">
   <h2><i class="fa-solid fa-table-list" style="color: var(--secondary-color);"></i> The Rubric, Row by Row</h2>
   <table class="rub"><thead><tr><th>Row</th><th>Pts</th><th>What earns full marks</th></tr></thead><tbody><tr><td>Question and data provenance</td><td style="text-align:center;font-weight:700">20</td><td>A measurable question; data described as a measurement product; missingness mechanism named and defended; a summary table that reads on its own</td></tr><tr><td>Descriptive evidence</td><td style="text-align:center;font-weight:700">20</td><td>Two or more figures, each making a stated point; captions state findings, not variables; Topic 3&rsquo;s standards</td></tr><tr><td>Model and interpretation</td><td style="text-align:center;font-weight:700">25</td><td>A formatted regression table; two coefficients interpreted in full, with units and magnitude; every control justified by its role</td></tr><tr><td>Diagnostics</td><td style="text-align:center;font-weight:700">20</td><td>Residuals, heteroskedasticity, VIF and influence, all run and interpreted; robust errors where warranted</td></tr><tr><td>Threats and conclusion</td><td style="text-align:center;font-weight:700">10</td><td>The causal claim assessed; the estimand labelled if it is not causal; no new results in the conclusion</td></tr><tr><td>Repository</td><td style="text-align:center;font-weight:700">5</td><td>Public repo with notebook and report; data included or the download documented; a README you wrote</td></tr></tbody></table>
@@ -268,7 +268,7 @@ unmatched: 6 | no birth date: 3</pre></div></div><div class="fragment fade-up " 
 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px;">
 <p class="fragment fade-up" data-fragment-index="1" style="font-size: 13pt; border-left: 5px solid #2E7D32; padding-left: 10px;"><strong style="color:#2E7D32">Confounders.</strong> Year and format point into both age and the score (age at the game: 34.3 before 2016, 26.9 after; live-action 31.9, animated 26.8). Control for them: each blocks a backdoor path.</p>
 <p class="fragment fade-up" data-fragment-index="2" style="font-size: 13pt; border-left: 5px solid #C26A00; padding-left: 10px;"><strong style="color:#C26A00">Possible mediator.</strong> Director → budget → score. Leave it out; in these data it is not a mediator (-0.36 → -0.37).</p>
-<p class="fragment fade-up" data-fragment-index="3" style="font-size: 13pt; border-left: 5px dashed #B3261E; padding-left: 10px;"><strong style="color:#B3261E">Franchise: checked with a crude flag.</strong> 22 of 57 films follow an earlier film of the same game (reboots count; first films get 0). Adding the flag: age -0.30 → -0.30. The trust a studio put in a first director is still unmeasured.</p>
+<p class="fragment fade-up" data-fragment-index="3" style="font-size: 13pt; border-left: 5px dashed #B3261E; padding-left: 10px;"><strong style="color:#B3261E">Franchise: checked with a crude flag.</strong> 22 of 57 films follow an earlier film of the same game (reboots count; first films get 0). Adding the flag: age -0.30 → -0.30. A studio’s trust in a first-time director is still unmeasured.</p>
 </div>
 <p style="font-size: 12pt; color: var(--muted-color); margin-top: 6px;">Not required by the brief. It is the quickest way to write Section 3’s “role of every control” (Topic 10).</p>
 
