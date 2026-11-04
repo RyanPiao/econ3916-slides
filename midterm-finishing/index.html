@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=3605012a628bd94e186f2277b41bd2f1">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=3a4af933af80a9684163da7007c1b0ac">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finishing Your Midterm</title>
@@ -262,6 +262,18 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
 </div>
 <p class="syn">Real data: Wikipedia’s list of films based on video games, Wikidata, FRED. Code and output: <code>midterm-example-movies.ipynb</code></p>
 </section>
+<section id="r-dag" style="padding: 24px 46px;">
+<h2><i class="fa-solid fa-diagram-project" style="color: var(--secondary-color);"></i> Draw It First: Which Controls, and Why</h2>
+
+<div style="width: 100%; max-width: 860px; margin: 4px auto 0;"><svg viewBox="0 0 900 340" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block;" role="img" aria-label="Causal graph: release year and format point into age and gross; age to budget to gross; franchise, unmeasured, points into age and gross"><defs><marker id="dk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2c3e50"/></marker><marker id="gr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2E7D32"/></marker><marker id="or" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#C26A00"/></marker><marker id="rd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#B3261E"/></marker></defs><line x1="426" y1="177" x2="684" y2="177" stroke="#2c3e50" stroke-width="3.4" marker-end="url(#dk)"/><g class="fragment" data-fragment-index="1"><line x1="172" y1="80" x2="288" y2="149" stroke="#2E7D32" stroke-width="2.6" marker-end="url(#gr)"/><line x1="216" y1="70" x2="684" y2="160" stroke="#2E7D32" stroke-width="2.6" marker-end="url(#gr)"/><line x1="172" y1="274" x2="288" y2="205" stroke="#2E7D32" stroke-width="2.6" marker-end="url(#gr)"/><line x1="216" y1="284" x2="684" y2="194" stroke="#2E7D32" stroke-width="2.6" marker-end="url(#gr)"/></g><g class="fragment" data-fragment-index="2"><line x1="387" y1="149" x2="513" y2="80" stroke="#C26A00" stroke-width="2.6" marker-end="url(#or)"/><line x1="612" y1="80" x2="728" y2="149" stroke="#C26A00" stroke-width="2.6" marker-end="url(#or)"/><text x="662" y="50" font-size="15" fill="#C26A00" font-weight="700">+3.3% budget</text><text x="662" y="69" font-size="15" fill="#C26A00" font-weight="700">per year of age</text></g><g class="fragment" data-fragment-index="3"><line x1="513" y1="274" x2="387" y2="205" stroke="#B3261E" stroke-width="2.6" stroke-dasharray="7 5" marker-end="url(#rd)"/><line x1="612" y1="274" x2="728" y2="205" stroke="#B3261E" stroke-width="2.6" stroke-dasharray="7 5" marker-end="url(#rd)"/></g><rect x="40" y="30" width="170" height="44" rx="10" fill="#fff" stroke="#2E7D32" stroke-width="2.6"/><text x="125.0" y="59" text-anchor="middle" font-size="19" font-weight="700" fill="#2E7D32">Release year</text><rect x="40" y="280" width="170" height="44" rx="10" fill="#fff" stroke="#2E7D32" stroke-width="2.6"/><text x="125.0" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#2E7D32">Animated</text><rect x="250" y="155" width="170" height="44" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.6"/><text x="335.0" y="184" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Director’s age</text><rect x="690" y="155" width="170" height="44" rx="10" fill="#fff" stroke="#2c3e50" stroke-width="2.6"/><text x="775.0" y="184" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50">Worldwide gross</text><g><rect x="480" y="30" width="170" height="44" rx="10" fill="#fff" stroke="#C26A00" stroke-width="2.6"/><text x="565.0" y="59" text-anchor="middle" font-size="19" font-weight="700" fill="#C26A00">Budget</text></g><rect x="480" y="280" width="170" height="44" rx="10" fill="#fff" stroke="#B3261E" stroke-width="2.6" stroke-dasharray="7 5"/><text x="565.0" y="309" text-anchor="middle" font-size="19" font-weight="700" fill="#B3261E">Franchise / sequel</text></svg></div>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 8px;">
+<p class="fragment fade-up" data-fragment-index="1" style="font-size: 13pt; border-left: 5px solid #2E7D32; padding-left: 10px;"><strong style="color:#2E7D32">Confounders.</strong> Year and format point into both age and gross. Control for them: each blocks a backdoor path.</p>
+<p class="fragment fade-up" data-fragment-index="2" style="font-size: 13pt; border-left: 5px solid #C26A00; padding-left: 10px;"><strong style="color:#C26A00">Mediator.</strong> Age → budget → gross. Leave budget out: it carries part of the effect you are asking about.</p>
+<p class="fragment fade-up" data-fragment-index="3" style="font-size: 13pt; border-left: 5px dashed #B3261E; padding-left: 10px;"><strong style="color:#B3261E">Not measured.</strong> Franchise and sequel point into both, and there is no variable for them. That open path is Section 5’s threat.</p>
+</div>
+<p style="font-size: 12pt; color: var(--muted-color); margin-top: 6px;">Not required by the brief. It is the quickest way to write Section 3’s “role of every control” (Topic 10).</p>
+
+</section>
 <section id="r-section-4" style="padding: 26px 50px;">
 <h2><i class="fa-solid fa-stethoscope" style="color: var(--secondary-color);"></i> Section 4: Run Each Test, Then Say What It Means</h2>
 
@@ -310,7 +322,7 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
     <div class="poll-grid" data-poll-id="midterm-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;"><div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) <strong>Section 1</strong> &middot; question and data provenance (20)</div><div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) <strong>Section 2</strong> &middot; descriptive evidence (20)</div><div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) <strong>Section 3</strong> &middot; model and interpretation (25)</div><div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) <strong>Sections 4&ndash;5</strong> &middot; diagnostics, threats and conclusion (20 + 10)</div></div>
   </section>
   <section id="poll-2-reveal" data-poll-results="midterm-econ3916-poll-2" style="padding: 30px 50px;">
-    <h2><i class="fa-solid fa-chart-column" style="color: var(--success-color);"></i> What to Do in the Next Thirteen Minutes</h2>
+    <h2><i class="fa-solid fa-chart-column" style="color: var(--success-color);"></i> What to Do in the Next Eleven Minutes</h2>
     <div class="poll-results-chart" data-poll-id="midterm-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:130px; margin:6px 60px;"></div>
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 28px;">
       <div class="steer"><p><strong>A &middot; Section 1</strong></p><p>Write the four lines, then the summary table with a unit in every row name.</p></div>
@@ -322,7 +334,7 @@ unmatched: 6 | no birth date: 8</pre></div></div><div class="fragment fade-up " 
   </section>
 </section>
 <section id="working-time" style="padding: 34px 50px;">
-  <h2><i class="fa-solid fa-laptop-code" style="color: var(--success-color);"></i> Thirteen Minutes on Your Own File</h2>
+  <h2><i class="fa-solid fa-laptop-code" style="color: var(--success-color);"></i> Eleven Minutes on Your Own File</h2>
   <div class="content">
     <p style="font-size: 14.5pt; color: var(--muted-color); margin-bottom: 4px;">Open the report template and the worked example beside your notebook. Start with the row you picked in the last poll; if your four lines are not written yet, these three steps come first:</p>
     <div class="step-row"><p class="n">1</p><p>In a <strong>text cell at the top</strong> of your notebook, write the four lines for your data.</p></div>
