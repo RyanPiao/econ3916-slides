@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=709130683682a9ae0d4279937e93b384">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0a99e659629f8c64e040a94810da5dc6">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Finishing Your Midterm</title>
@@ -278,7 +278,7 @@ unmatched: 6 | no birth date: 3</pre></div></div><div class="fragment fade-up " 
 
 <p style="font-size: 14pt; color: var(--muted-color);">Model (2), same data; every number is printed by the example notebook’s Section 4 cells.</p>
 <div class="diag-list">
-<div class="fragment fade-up diag"><p class="t">Residuals</p><p>Against fitted values and against age: no curve, no fan; a wide spread throughout.</p></div>
+<div class="fragment fade-up diag"><p class="t">Residuals</p><p>Against fitted values and against age: no curve, no fan; a wide spread throughout. Age² added: AIC 503.6 → 504.3, CV error 20.24 → 21.15, so keep the line.</p></div>
 <div class="fragment fade-up diag"><p class="t">Constant variance</p><p>Breusch–Pagan p = 0.33: no evidence, but little power with 57 films. Robust (HC1) errors reported.</p></div>
 <div class="fragment fade-up diag"><p class="t">VIF</p><p>All about 1.12: age, year and format barely overlap, so no standard error is inflated.</p></div>
 <div class="fragment fade-up diag"><p class="t">Influence + planned checks</p><p>Top Cook’s D: Resident Evil: Damnation (100% from 5 reviews). Under-20-review films out: -0.34. Median regression: -0.22. Split X: age at release -0.28, game’s age +0.33.</p></div>
