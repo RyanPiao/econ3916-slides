@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6e3b520da86bf208fad5764f63f8b5f5">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6d68078bf3c5241babdeb24b2fbac676">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The ML Shift: Bias-Variance Tradeoff</title>
@@ -96,10 +96,11 @@
       </div>
     </section>
 
+    <section>
     <section id="hook-payload" style="padding: 34px 60px;">
       <h2><i class="fa-solid fa-scale-unbalanced" style="color: var(--accent-color);"></i> Symmetric Errors, Asymmetric Consequences</h2>
       <div class="content">
-        <p class="text-lg">Two things the model could not see. The housing market shifted structurally &mdash; that is Chapter 20's problem. And, more subtly:</p>
+        <p class="text-lg">Two things the model could not see. The housing market changed under it &mdash; the slide below shows when and how; Chapter 20 comes back to it. And, more subtly:</p>
         <div class="key-result" style="margin-top: 14px;">
           <p style="font-size: 17pt;">The model's <strong>errors were symmetric</strong>. The market's <strong>response to them was not.</strong></p>
         </div>
@@ -113,6 +114,27 @@
         </div>
         <p style="margin-top: 18px; font-size: 16pt;">A model with unbiased errors, facing a mechanism that keeps only the expensive ones, <strong>loses money on average</strong> &mdash; and no validation score reveals it, <em>because the validation set does not get to decline your offer.</em></p>
       </div>
+    </section>
+    <section id="hook-market" style="padding: 34px 60px;">
+      <h2><i class="fa-solid fa-chart-line" style="color: var(--accent-color);"></i> What Changed in 2021: Before and After</h2>
+      <div class="content">
+        <p style="font-size: 16pt; margin-bottom: 12px;">An offer is a forecast: the price the house will sell for <strong>three to six months later</strong>, after repairs. The market moved during those months.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div style="background: #EEF2F0; border-radius: 8px; padding: 14px 22px;">
+            <p style="font-size: 15pt; margin: 0 0 6px;"><strong>Before: Q2 2021 (Apr&ndash;Jun)</strong></p>
+            <p style="font-size: 14.5pt; margin: 0; line-height: 1.45;">US home prices rising <strong>faster</strong> each month: +1.5% &rarr; +1.7% &rarr; +1.9%<br>Zillow: &ldquo;stronger than expected&rdquo; price growth<br>Bought 3,805 homes, sold 2,086<br><span style="color: var(--success-color);"><strong>+$33,849</strong> profit per home sold</span></p>
+          </div>
+          <div style="background: #F9F0EE; border-radius: 8px; padding: 14px 22px;">
+            <p style="font-size: 15pt; margin: 0 0 6px;"><strong>After: Q3 2021 (Jul&ndash;Sep)</strong></p>
+            <p style="font-size: 14.5pt; margin: 0; line-height: 1.45;">Still rising, but <strong>slower</strong> each month: +1.7% &rarr; +1.6% &rarr; +1.3%<br>Bought <strong>9,680</strong> homes, sold 3,032<br>Paid more than its own estimates of resale prices<br><span style="color: var(--danger-color);"><strong>&minus;$80,771</strong> loss per home sold</span></p>
+          </div>
+        </div>
+        <div class="key-result" style="margin-top: 14px;">
+          <p style="font-size: 15pt; margin: 0;"><strong>Why it broke:</strong> offers priced on spring&rsquo;s pace were accepted in summer. Growth slowed, a renovation labor shortage slowed resales, and more sellers said yes than Zillow planned for. October 2021: it stopped signing new purchases. 2 November: shut down.</p>
+        </div>
+        <p style="margin-top: 10px; font-size: 11pt; color: #777;">Sources: Zillow Group Q2 and Q3 2021 shareholder letters (SEC Form 8-K, Ex. 99.3); S&amp;P CoreLogic Case-Shiller U.S. National Home Price Index, seasonally adjusted, monthly change (FRED CSUSHPISA).</p>
+      </div>
+    </section>
     </section>
 
     <section id="divider-1" class="section-divider" data-state="is-section-divider">
