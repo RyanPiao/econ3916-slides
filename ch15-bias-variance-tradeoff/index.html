@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=02d348e7b8d7781bb2126ea987004390">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=c794feeb977fbfc1c26eb72e7809d03f">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The ML Shift: Bias-Variance Tradeoff</title>
@@ -155,6 +155,14 @@
       <h2><i class="fa-solid fa-building" style="color: var(--accent-color);"></i> The Same Model, Two Questions</h2>
       <div class="content">
         <p style="font-size: 15pt;">A city housing authority regresses rent on square footage, bedrooms, neighbourhood, building age and distance to transit &mdash; then asks two questions of it.</p>
+        <div class="mathjax_ignore tex2jax_ignore" style="display: flex; background: #fff; border: 1px solid #dadce0; border-radius: 8px; box-shadow: 0 1px 2px rgba(60,64,67,.12); overflow: hidden; margin-top: 12px; text-align: left;">
+          <div style="width: 2.6em; flex: none; position: relative;"><div style="position: absolute; top: .55em; left: .55em; width: 1.5em; height: 1.5em; border-radius: 50%; background: #3c4043;"><div style="position: absolute; left: .56em; top: .37em; width: 0; height: 0; border-style: solid; border-width: .38em 0 .38em .6em; border-color: transparent transparent transparent #fff;"></div></div></div>
+          <pre style="flex: 1; min-width: 0; margin: 0; background: #f7f7f7; padding: .55em .9em .55em .7em; border-left: 1px solid #eee; font-family: 'Roboto Mono', 'SF Mono', Menlo, Consolas, monospace; font-size: 12.5pt; line-height: 1.5; color: #212121; white-space: pre; box-shadow: none; width: auto;"><code style="font-family: inherit; background: transparent; padding: 0; max-height: none;"><span style="color:#af00db">import</span> statsmodels.formula.api <span style="color:#af00db">as</span> smf
+model = smf.ols(<span style="color:#a31515">&quot;rent ~ sqft + bedrooms + C(neighbourhood) + building_age + transit_km&quot;</span>,
+                data=units).fit()
+model.params[<span style="color:#a31515">&quot;bedrooms&quot;</span>]     <span style="color:#008000"># question 1: read a coefficient</span>
+model.predict(vacant_unit)   <span style="color:#008000"># question 2: make a prediction</span></code></pre>
+        </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px;">
           <div style="background: #f8f6f3; border-radius: 8px; padding: 16px 20px; border-top: 4px solid var(--secondary-color);">
             <p style="font-size: 15.5pt; font-style: italic; color: var(--secondary-color);">"How much does an extra bedroom add to rent?"</p>
