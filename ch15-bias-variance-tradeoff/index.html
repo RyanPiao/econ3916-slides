@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=588e78ac0066bad5ea5c7292d200c7cb">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=03aa584578f93d5dcd78ae1960420927">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The ML Shift: Bias-Variance Tradeoff</title>
@@ -365,7 +365,7 @@ model.predict(vacant_unit)   <span class="t-com"># question 2: make a prediction
           </table>
         <p style="margin-top: 10px; font-size: 14.5pt;">Same 72 training and 48 test points as the slide above. \(R^2\) rises at every step. AIC and BIC both bottom out at degree 5, the best test error on this menu, without looking at the 48 test points. BIC charges \(\log n = 4.28\) per coefficient instead of 2, so it tends to pick smaller models.</p>
         <div class="key-result" style="margin-top: 10px;">
-          <p style="font-size: 14.5pt; margin: 0;"><strong>Your midterm example:</strong> adding age&sup2; gives p = 0.28, AIC 503.6 &rarr; 504.3, and 10-fold CV error (RMSE, 20 repeats) 20.24 &rarr; 21.15. All three say the square adds nothing, so keep the line.</p>
+          <p style="font-size: 14.5pt; margin: 0;"><strong>The midterm example:</strong> adding age&sup2; gives p = 0.28, AIC 503.6 &rarr; 504.3, and 10-fold CV error (RMSE, 20 repeats) 20.24 &rarr; 21.15. All three say the square adds nothing, so keep the line.</p>
         </div>
       </div>
     </section>
