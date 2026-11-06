@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=153b8affdf143ca23c3a563fd3a29244">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=f64616a27d42da4dda29823e895954ed">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -133,7 +133,7 @@
         </div>
         <p class="fragment fade-up text-lg" style="margin-top: 20px; line-height: 1.6;">And it did something OLS cannot do at all: of 500 candidate predictors it <strong>kept 44</strong> &mdash; and all 10 truly informative ones are among them.</p>
         <div class="fragment fade-up key-result" style="margin-top: 14px;">
-          <p>Today you will deliberately make an estimator <strong>biased</strong> &mdash; abandoning the property Gauss and Markov guaranteed &mdash; because Chapter 15 showed what accepting bias gives you, and in high dimensions it gives a great deal.</p>
+          <p>Today you will deliberately make an estimator <strong>biased</strong> &mdash; giving up unbiasedness, the property Gauss&ndash;Markov builds on &mdash; because Chapter 15 showed what accepting bias gives you, and in high dimensions it gives a great deal.</p>
         </div>
       </div>
     </section>
@@ -224,10 +224,9 @@
       <div class="content">
         <p class="text-lg">OLS is <strong>scale-invariant</strong>: measure income in dollars or in thousands of dollars and the fitted values are identical.</p>
         <div class="misconception" style="margin-top: 14px;">
-          <p><strong>Penalised regression is not.</strong> The penalty charges by <em>coefficient magnitude</em>. A variable measured in dollars has a coefficient a thousand times smaller than the same variable in thousands &mdash; so it is charged a <strong>thousandth</strong> as much.</p>
-          <p style="margin-top: 8px;">Without standardisation the penalty favours whichever variables happen to be measured in large units, with no warning.</p>
+          <p><strong>Penalised regression is not</strong>, because the penalty charges by <em>coefficient magnitude</em>, and a coefficient&rsquo;s size depends on its variable&rsquo;s units.</p>
         </div>
-        <p style="font-size: 15pt; margin-top: 14px;">Always standardise &mdash; and always <strong>inside a pipeline</strong>, so the scaler is refitted on each training fold, for exactly Chapter 15's leakage reasons.</p>
+        <p style="font-size: 15pt; margin-top: 14px;">Always standardise &mdash; and always <strong>inside a pipeline</strong>, so the test set never touches the scaler, for exactly Chapter 15&rsquo;s leakage reasons. To refit it inside every CV fold too, put the pipeline inside the CV, as Lab 16&rsquo;s Step 6 does with <code>GridSearchCV</code>.</p>
         <div style="background: #2D2D2D; border-radius: 8px; padding: 14px 20px; margin-top: 10px;">
           <p style="font-family: monospace; font-size: 15pt; color: #e8e2da;">make_pipeline(StandardScaler(), LassoCV(cv=5))</p>
         </div>
@@ -255,6 +254,7 @@
           <p style="font-size: 15pt; line-height: 1.6;">Because <code>income_last_year</code> is measured in <em>large</em> units, its coefficient is <em>tiny</em> &mdash; pennies of wage per dollar of income &mdash; so the penalty barely charges for it and it stays in. <code>experience</code>, in small units, carries a large coefficient, is charged heavily, and is shrunk away.</p>
           <div style="background: #eef5ee; border-left: 4px solid var(--success-color); padding: 13px 20px; border-radius: 8px; margin-top: 13px;">
             <p style="font-size: 14pt; margin: 0;"><strong>Why B is tempting but wrong:</strong> "big variable, big penalty" reverses the mechanism. The penalty charges the <strong>coefficient</strong>, not the variable &mdash; and a variable in large units has a <em>small</em> coefficient. Get this backwards and you will misread every unstandardised LASSO you ever see.</p>
+          <p style="font-size: 14pt; margin: 8px 0 0;">The same variable in dollars has a coefficient a thousand times smaller than in thousands, so it is charged a <strong>thousandth</strong> as much: without standardisation the penalty favours whatever is measured in large units, with no warning.</p>
           </div>
         </div>
       </section>
@@ -269,7 +269,7 @@
       <h2><i class="fa-solid fa-circle-notch" style="color: var(--secondary-color);"></i> Ridge &mdash; the \(L_2\) Penalty</h2>
       <div class="content">
         <div style="background: #f8f6f3; border-radius: 10px; padding: 12px 20px;">
-          <p style="font-size: 17pt; text-align: center;">$$\hat{\boldsymbol{\beta}}^{\text{ridge}} = \arg\min_{\boldsymbol{\beta}} \left\{ \tfrac{1}{2n}\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|_2^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \right\}$$</p>
+          <p style="font-size: 17pt; text-align: center;">$$\hat{\boldsymbol{\beta}}^{\text{ridge}} = \arg\min_{\boldsymbol{\beta}} \left\{ \|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|_2^2 + \lambda \sum_{j=1}^{p} \beta_j^2 \right\}$$</p>
         </div>
         <div class="key-result" style="margin-top: 14px;">
           <p><strong>In words.</strong> Charge the sum of <em>squared</em> coefficients &mdash; the squared length of the coefficient vector. Squaring means a coefficient twice as large costs <strong>four</strong> times as much, so the fee leans hard on the largest coefficients and leaves small ones nearly alone.</p>
@@ -315,9 +315,6 @@
           </div>
         </div>
         <p class="fragment fade-up text-lg" style="margin-top: 16px;">The Ridge estimate sits where the expanding ellipses <em>first touch</em> the circle.</p>
-        <div class="fragment fade-up misconception" style="margin-top: 10px;">
-          <p><strong>A circle has no corners.</strong> The point of first contact is almost never on an axis &mdash; so Ridge shrinks every coefficient toward zero and sets <strong>none</strong> exactly to zero. You get all 500 variables, each with a small coefficient.</p>
-        </div>
       </div>
     </section>
 
@@ -356,7 +353,7 @@
           </div>
           <div style="background: #f0f5f8; border-radius: 10px; padding: 16px; text-align: center;">
             <p style="font-size: 30pt; font-weight: 700; color: var(--secondary-color); line-height: 1;">43.28</p>
-            <p style="font-size: 13.5pt; margin-top: 6px;">Ridge test MSE, best \(\lambda\) over ten orders of magnitude</p>
+            <p style="font-size: 13.5pt; margin-top: 6px;">Ridge test MSE, best \(\lambda\) over eight orders of magnitude</p>
           </div>
         </div>
         <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 14px; text-align: center; color: var(--danger-color);"><strong>A 2% improvement on a catastrophe.</strong></p>
@@ -393,7 +390,7 @@
         <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; None of Them</h2>
         <div class="poll-results-chart" data-poll-id="ch16-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:10px 60px 32px;"></div>
         <div style="padding: 0 45px;">
-          <p style="font-size: 15pt; line-height: 1.6;">The constraint region is a <strong>circle</strong>. It has no corners, so the point where the expanding loss contours first touch it is almost never on an axis &mdash; and a coefficient is exactly zero only <em>on</em> an axis. All 490 noise variables stay in the model at reduced weight.</p>
+          <p style="font-size: 15pt; line-height: 1.6;">The constraint region is a <strong>circle</strong>. It has no corners, so the point where the expanding loss contours first touch it is almost never on an axis &mdash; and a coefficient is exactly zero only <em>on</em> an axis. All 490 noise variables stay in the model at reduced weight: Ridge shrinks every coefficient toward zero and sets <strong>none</strong> exactly to zero.</p>
           <div style="background: #eef5ee; border-left: 4px solid var(--success-color); padding: 13px 20px; border-radius: 8px; margin-top: 13px;">
             <p style="font-size: 14pt; margin: 0;"><strong>Why D is tempting but wrong:</strong> \(\lambda\to\infty\) does drive every coefficient <em>toward</em> zero &mdash; including the ten real ones. There is no \(\lambda\) that zeroes the 490 while sparing the 10. That is structural, not a tuning problem.</p>
           </div>
@@ -414,10 +411,8 @@
           <p style="font-size: 17pt; text-align: center;">$$\hat{\boldsymbol{\beta}}^{\text{lasso}} = \arg\min_{\boldsymbol{\beta}} \left\{ \tfrac{1}{2n}\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|_2^2 + \lambda \sum_{j=1}^{p} |\beta_j| \right\}$$</p>
         </div>
         <p style="font-size: 15pt; margin-top: 14px; text-align: center;">One exponent changed, from \(\beta_j^2\) to \(|\beta_j|\).</p>
-        <div class="key-result" style="margin-top: 12px;">
-          <p><strong>In words.</strong> Charge the sum of <em>absolute</em> coefficients instead of squared ones. Unlike squaring, the absolute value keeps charging at <strong>full rate all the way down to zero</strong> &mdash; so there is a real incentive to take the last step and set a coefficient exactly to zero.</p>
-        </div>
-        <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 14px; text-align: center; color: var(--accent-color);"><strong>The consequence is qualitative rather than quantitative.</strong></p>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 10px;"><svg viewBox="0 0 1160 250" width="100%" role="img" aria-label="Two fee curves over beta: the squared fee is flat near zero, so at beta 0.1 it charges only 0.01; the absolute fee keeps a full slope down to zero and charges 0.1." style="display:block;font-family:inherit"><line x1="300" y1="214" x2="860" y2="214" stroke="#999" stroke-width="1.5"/><line x1="580.0" y1="12" x2="580.0" y2="214" stroke="#999" stroke-width="1.5"/><text x="300.0" y="236" font-size="15" fill="#777" text-anchor="middle">-1.5</text><text x="393.3" y="236" font-size="15" fill="#777" text-anchor="middle">-1</text><text x="486.7" y="236" font-size="15" fill="#777" text-anchor="middle">-0.5</text><text x="673.3" y="236" font-size="15" fill="#777" text-anchor="middle">0.5</text><text x="766.7" y="236" font-size="15" fill="#777" text-anchor="middle">1</text><text x="860.0" y="236" font-size="15" fill="#777" text-anchor="middle">1.5</text><text x="580.0" y="236" font-size="15" fill="#777" text-anchor="middle">0</text><text x="870" y="208" font-size="16" fill="#6B645E">&#946;</text><polyline points="300.0,16.0 304.7,22.5 309.3,29.0 314.0,35.3 318.7,41.5 323.3,47.6 328.0,53.6 332.7,59.5 337.3,65.3 342.0,70.9 346.7,76.5 351.3,81.9 356.0,87.3 360.7,92.5 365.3,97.6 370.0,102.6 374.7,107.5 379.3,112.3 384.0,117.0 388.7,121.5 393.3,126.0 398.0,130.3 402.7,134.6 407.3,138.7 412.0,142.7 416.7,146.6 421.3,150.4 426.0,154.1 430.7,157.7 435.3,161.1 440.0,164.5 444.7,167.7 449.3,170.9 454.0,173.9 458.7,176.8 463.3,179.6 468.0,182.3 472.7,184.9 477.3,187.4 482.0,189.7 486.7,192.0 491.3,194.1 496.0,196.2 500.7,198.1 505.3,199.9 510.0,201.6 514.7,203.2 519.3,204.7 524.0,206.1 528.7,207.3 533.3,208.5 538.0,209.5 542.7,210.5 547.3,211.3 552.0,212.0 556.7,212.6 561.3,213.1 566.0,213.5 570.7,213.8 575.3,213.9 580.0,214.0 584.7,213.9 589.3,213.8 594.0,213.5 598.7,213.1 603.3,212.6 608.0,212.0 612.7,211.3 617.3,210.5 622.0,209.5 626.7,208.5 631.3,207.3 636.0,206.1 640.7,204.7 645.3,203.2 650.0,201.6 654.7,199.9 659.3,198.1 664.0,196.2 668.7,194.1 673.3,192.0 678.0,189.7 682.7,187.4 687.3,184.9 692.0,182.3 696.7,179.6 701.3,176.8 706.0,173.9 710.7,170.9 715.3,167.7 720.0,164.5 724.7,161.1 729.3,157.7 734.0,154.1 738.7,150.4 743.3,146.6 748.0,142.7 752.7,138.7 757.3,134.6 762.0,130.3 766.7,126.0 771.3,121.5 776.0,117.0 780.7,112.3 785.3,107.5 790.0,102.6 794.7,97.6 799.3,92.5 804.0,87.3 808.7,81.9 813.3,76.5 818.0,70.9 822.7,65.3 827.3,59.5 832.0,53.6 836.7,47.6 841.3,41.5 846.0,35.3 850.7,29.0 855.3,22.5 860.0,16.0" fill="none" stroke="#2E6DB4" stroke-width="3"/><polyline points="300.0,82.0 304.7,84.2 309.3,86.4 314.0,88.6 318.7,90.8 323.3,93.0 328.0,95.2 332.7,97.4 337.3,99.6 342.0,101.8 346.7,104.0 351.3,106.2 356.0,108.4 360.7,110.6 365.3,112.8 370.0,115.0 374.7,117.2 379.3,119.4 384.0,121.6 388.7,123.8 393.3,126.0 398.0,128.2 402.7,130.4 407.3,132.6 412.0,134.8 416.7,137.0 421.3,139.2 426.0,141.4 430.7,143.6 435.3,145.8 440.0,148.0 444.7,150.2 449.3,152.4 454.0,154.6 458.7,156.8 463.3,159.0 468.0,161.2 472.7,163.4 477.3,165.6 482.0,167.8 486.7,170.0 491.3,172.2 496.0,174.4 500.7,176.6 505.3,178.8 510.0,181.0 514.7,183.2 519.3,185.4 524.0,187.6 528.7,189.8 533.3,192.0 538.0,194.2 542.7,196.4 547.3,198.6 552.0,200.8 556.7,203.0 561.3,205.2 566.0,207.4 570.7,209.6 575.3,211.8 580.0,214.0 584.7,211.8 589.3,209.6 594.0,207.4 598.7,205.2 603.3,203.0 608.0,200.8 612.7,198.6 617.3,196.4 622.0,194.2 626.7,192.0 631.3,189.8 636.0,187.6 640.7,185.4 645.3,183.2 650.0,181.0 654.7,178.8 659.3,176.6 664.0,174.4 668.7,172.2 673.3,170.0 678.0,167.8 682.7,165.6 687.3,163.4 692.0,161.2 696.7,159.0 701.3,156.8 706.0,154.6 710.7,152.4 715.3,150.2 720.0,148.0 724.7,145.8 729.3,143.6 734.0,141.4 738.7,139.2 743.3,137.0 748.0,134.8 752.7,132.6 757.3,130.4 762.0,128.2 766.7,126.0 771.3,123.8 776.0,121.6 780.7,119.4 785.3,117.2 790.0,115.0 794.7,112.8 799.3,110.6 804.0,108.4 808.7,106.2 813.3,104.0 818.0,101.8 822.7,99.6 827.3,97.4 832.0,95.2 836.7,93.0 841.3,90.8 846.0,88.6 850.7,86.4 855.3,84.2 860.0,82.0" fill="none" stroke="#B5562D" stroke-width="3"/><text x="294.0" y="22.0" font-size="18" font-weight="700" fill="#2E6DB4" text-anchor="end">&#946;&#178; (Ridge)</text><text x="294.0" y="88.0" font-size="18" font-weight="700" fill="#B5562D" text-anchor="end">|&#946;| (LASSO)</text><circle cx="598.7" cy="213.1" r="5" fill="#2E6DB4"/><circle cx="598.7" cy="205.2" r="5" fill="#B5562D"/><line x1="598.7" y1="205.2" x2="682.7" y2="159.4" stroke="#6B645E" stroke-width="1.2"/><text x="884" y="60" font-size="16" fill="#2D2D2D" font-weight="700">At &#946; = 0.1:</text><text x="884" y="84" font-size="16" fill="#2E6DB4">squared fee 0.01</text><text x="884" y="109" font-size="16" fill="#B5562D">absolute fee 0.1</text><text x="884" y="144" font-size="15" fill="#6B645E">Near zero the squared</text><text x="884" y="164" font-size="15" fill="#6B645E">fee goes flat; the</text><text x="884" y="184" font-size="15" fill="#6B645E">absolute fee keeps</text><text x="884" y="204" font-size="15" fill="#6B645E">full slope to zero.</text></svg></div>
+        <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 10px; text-align: center; color: var(--accent-color);"><strong>The consequence is qualitative rather than quantitative:</strong> a shorter list, not just smaller numbers.</p>
       </div>
     </section>
 
@@ -552,7 +547,7 @@
           <img src="figures/figure_004_lambda_ucurve.png" alt="Top panel: training MSE falls monotonically as lambda weakens while test MSE flattens and turns up. Bottom panel: the test MSE curve zoomed on a linear scale, tracing a clear U with its minimum at lambda equals 0.138 where 44 variables are kept" style="width: 100%; border-radius: 6px;">
           <div style="display: flex; flex-direction: column; gap: 10px;">
             <div style="background: #f0f5f8; border-left: 3px solid var(--secondary-color); border-radius: 6px; padding: 11px 16px;">
-              <p style="font-size: 14pt;"><strong>1. It is Chapter 15's U-curve, now in \(\lambda\).</strong> Training error falls forever (32.191 &rarr; 0.005); test error bottoms at \(\lambda = 0.138\) and rises again. And CV chose exactly that value <em>without seeing the test set</em>.</p>
+              <p style="font-size: 14pt;"><strong>1. It is Chapter 15's U-curve, now in \(\lambda\).</strong> Training error falls forever (32.191 &rarr; 0.005); among these seven rows, test error is lowest at \(\lambda = 0.138\) and rises again, and CV landed there <em>without seeing the test set</em>.</p>
             </div>
             <div class="fragment fade-up" style="background: #eef5ee; border-left: 3px solid var(--success-color); border-radius: 6px; padding: 11px 16px;">
               <p style="font-size: 14pt;"><strong>2. Look at the top two rows.</strong> At \(\lambda = 2.0\) and \(\lambda = 1.0\), LASSO keeps exactly 10 features and every one is true. <strong>Perfect recovery &mdash; no misses, no false positives.</strong></p>
@@ -607,7 +602,7 @@
         <div style="padding: 0 45px;">
           <p style="font-size: 15pt; line-height: 1.6;">A large penalty does <strong>two</strong> things at once &mdash; it zeroes some coefficients <em>and</em> it shrinks the survivors. At \(\lambda = 1.0\) the right variables are in the model with magnitudes far too small, so predictions come out systematically flat.</p>
           <div style="background: #eef5ee; border-left: 4px solid var(--success-color); padding: 13px 20px; border-radius: 8px; margin-top: 13px;">
-            <p style="font-size: 14pt; margin: 0;"><strong>Why D is tempting but wrong:</strong> CV chose \(\lambda = 0.138\), and the test set &mdash; which CV never saw &mdash; puts its minimum at exactly \(\lambda = 0.138\). CV did its job <em>perfectly</em>. It optimised prediction, because that is what you asked for. Nothing is broken.</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>Why D is tempting but wrong:</strong> CV chose \(\lambda = 0.138\), and the test set &mdash; which CV never saw &mdash; puts its lowest of these rows at \(\lambda = 0.138\). CV did its job <em>perfectly</em>. It optimised prediction, because that is what you asked for. Nothing is broken.</p>
           </div>
         </div>
       </section>
@@ -633,7 +628,7 @@
           <div style="background: #f8f6f3; padding: 11px 16px; font-size: 14.5pt;"><code>lambda</code></div>
           <div style="background: #f8f6f3; padding: 11px 16px; font-size: 14.5pt;"><code style="color: var(--danger-color);">alpha</code></div>
         </div>
-        <p class="fragment fade-up text-lg" style="margin-top: 16px; text-align: center;">The word "alpha" means the <strong>opposite thing</strong> in the two most common tools for this job.</p>
+        <p class="fragment fade-up text-lg" style="margin-top: 16px; text-align: center;">The word "alpha" means a <strong>different thing</strong> in the two most common tools for this job.</p>
       </div>
     </section>
     <section id="divider-5" class="section-divider" data-state="is-section-divider">
@@ -676,22 +671,22 @@
         <p style="font-size: 15pt; line-height: 1.55;">The standard claim is that Ridge handles correlated predictors better than LASSO. The truth is more specific &mdash; and more useful.</p>
         <p style="font-size: 15pt; margin-top: 10px;">Five blocks of eight near-duplicate predictors; all eight in block 1 have <strong>identical</strong> true coefficients of 0.5.</p>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 16px;">
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--muted-color);">1.272</p><p style="font-size: 13pt; margin-top: 4px;">OLS</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--secondary-color);">1.116</p><p style="font-size: 13pt; margin-top: 4px;">Ridge</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--accent-color);">1.090</p><p style="font-size: 13pt; margin-top: 4px;">LASSO</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--success-color);">1.090</p><p style="font-size: 13pt; margin-top: 4px;">Elastic Net</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--muted-color);">1.346</p><p style="font-size: 13pt; margin-top: 4px;">OLS</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--secondary-color);">1.070</p><p style="font-size: 13pt; margin-top: 4px;">Ridge</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--accent-color);">1.093</p><p style="font-size: 13pt; margin-top: 4px;">LASSO</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--success-color);">1.063</p><p style="font-size: 13pt; margin-top: 4px;">Elastic Net</p></div>
         </div>
         <p style="font-size: 13pt; color: var(--muted-color); text-align: center; margin-top: 6px;">test MSE</p>
-        <p class="fragment fade-up text-lg" style="margin-top: 14px; text-align: center;"><strong>Prediction is essentially identical</strong> &mdash; and LASSO is fractionally <em>best</em>, not worst. The standard claim does not appear in test error at all.</p>
+        <p class="fragment fade-up text-lg" style="margin-top: 14px; text-align: center;"><strong>Prediction is essentially identical</strong> &mdash; the three penalised models sit within 0.03 of each other, all well ahead of OLS. The standard claim does not appear in test error at all.</p>
       </div>
     </section>
 
     <section id="correlated-coefs" style="padding: 26px 45px;">
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-shuffle" style="color: var(--danger-color);"></i> It Shows Up in the Coefficients</h2>
       <div class="content" style="padding-top: 4px;">
-        <img src="figures/figure_006_correlated_blocks.png" alt="Eight pairs of bars for eight equally important predictors whose true coefficient is 0.5: LASSO drops two of them to zero and overshoots one to 1.127, while Elastic Net keeps seven and spreads them much more evenly around the true value" style="width: 64%; display: block; margin: 0 auto; border-radius: 6px;">
+        <img src="figures/figure_006_correlated_blocks.png" alt="Eight pairs of bars for eight equally important predictors whose true coefficient is 0.5: LASSO drops two of them to zero and overshoots one to 1.169, while Elastic Net keeps all eight and spreads them more evenly around the true value" style="width: 64%; display: block; margin: 0 auto; border-radius: 6px;">
         <div class="key-result" style="margin-top: 8px;">
-          <p style="font-size: 15pt;">Eight variables of <strong>identical</strong> true importance. LASSO drops two entirely, hands one <strong>1.127</strong> &mdash; more than double the truth &mdash; and scatters the rest. Refit on a slightly different sample and a different two would be dropped.</p>
+          <p style="font-size: 15pt;">Eight variables of <strong>identical</strong> true importance. LASSO drops two entirely, hands one <strong>1.169</strong> &mdash; more than double the truth &mdash; and scatters the rest. Refit on a slightly different sample and a different two would be dropped.</p>
         </div>
       </div>
     </section>
@@ -705,7 +700,7 @@
         <div class="key-result" style="margin-top: 12px;">
           <p><strong>In words.</strong> Pay a blend of the two fees. \(\alpha_{EN} = 1\) is pure LASSO, \(\alpha_{EN} = 0\) is pure Ridge. The \(L_1\) part preserves sparsity; the \(L_2\) part supplies a <strong>grouping effect</strong>, pulling correlated predictors toward each other rather than letting one win arbitrarily.</p>
         </div>
-        <p style="font-size: 15pt; margin-top: 12px;">On the correlated data above it kept <strong>7 of the 8</strong> and spread them far more evenly &mdash; the blue bars on the previous slide.</p>
+        <p style="font-size: 15pt; margin-top: 12px;">On the correlated data above it kept <strong>all 8</strong> (mix chosen: 0.7) and spread them more evenly &mdash; the blue bars on the previous slide.</p>
         <div style="background: #2D2D2D; border-radius: 8px; padding: 12px 20px; margin-top: 12px;">
           <p style="font-family: monospace; font-size: 13.5pt; color: #e8e2da;">ElasticNetCV(cv=5, l1_ratio=[0.1, 0.5, 0.7, 0.9, 0.95, 1.0])</p>
           <p style="font-family: monospace; font-size: 13.5pt; color: #d9a184; margin-top: 6px;">mixing parameter chosen on the sparse design: 1.0</p>
@@ -715,7 +710,7 @@
     </section>
 
     <section id="imf" style="padding: 30px 55px;">
-      <h2><i class="fa-solid fa-building-columns" style="color: var(--secondary-color);"></i> Economist at Work &mdash; the IMF, 2024</h2>
+      <h2><i class="fa-solid fa-building-columns" style="color: var(--secondary-color);"></i> Economist at Work &mdash; the IMF, 2025</h2>
       <div class="content">
         <p style="font-size: 15pt; line-height: 1.55;">Post-pandemic structural breaks had made the reliable data <strong>short</strong> while the number of available high-frequency indicators had grown past a hundred. With \(p\) approaching \(n\), the design matrix was rank-deficient: OLS was not merely inaccurate but <strong>incomputable</strong>.</p>
         <p style="font-size: 15pt; margin-top: 12px; line-height: 1.55;">The team deployed LASSO, Ridge and Elastic Net. The first result was disappointing &mdash; on highly collinear macro series, LASSO selected variables that made <strong>no economic sense</strong>.</p>
@@ -822,7 +817,7 @@
           <p class="text-lg" style="line-height: 1.55;"><strong>Which of these is a legitimate thing to report after a cross-validated LASSO?</strong></p>
           <div class="poll-grid" data-poll-id="ch16-econ3916-poll-4" style="display: grid; grid-template-columns: 1fr; gap: 11px; margin-top: 16px; font-size: 15pt;">
             <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 13px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) "These 44 variables are the drivers of the outcome"</div>
-            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 13px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) "LASSO retained 44 of 500 predictors at \(\lambda = 0.138\); cross-validated test MSE was 1.54"</div>
+            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 13px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) "LASSO retained 44 of 500 predictors at \(\lambda = 0.138\); test MSE on held-out data was 1.54"</div>
             <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 13px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) "Of the 44 selected, twelve are significant at the 5% level"</div>
             <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 13px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) "Because LASSO is a principled algorithm, our controls are well chosen and inference is valid"</div>
           </div>
@@ -888,7 +883,7 @@
               <p style="font-size: 14pt;">LASSO selects <strong>16</strong> variables at \(\lambda = 0.1978\): <strong>5/5</strong> true positives, <strong>11</strong> false positives. Note the ordering &mdash; LASSO has the <em>worst</em> training error of the three and by far the best test error.</p>
             </div>
             <p style="font-size: 14pt; margin-top: 10px; line-height: 1.5;"><strong>Part 4</strong> builds two near-duplicates (corr \(= 0.9985\)) that <em>both</em> really matter. LASSO picks one and piles both effects on it; Ridge splits the weight almost exactly in half.</p>
-            <p style="font-size: 13.5pt; margin-top: 10px; color: var(--muted-color);"><strong>Take-home challenge:</strong> multiply one true predictor by 1,000, fit LASSO <em>without</em> <code>StandardScaler</code>, and watch Poll 1 happen to you in real data.</p>
+            <p style="font-size: 13.5pt; margin-top: 10px; color: var(--muted-color);"><strong>Take-home challenge:</strong> multiply one true predictor by 1,000, fit LASSO <em>without</em> <code>StandardScaler</code>, and watch Poll 1 happen to you in the lab&rsquo;s data.</p>
           </div>
         </div>
       </div>
