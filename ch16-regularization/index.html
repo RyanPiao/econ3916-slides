@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=ce216aa26a6382de03853a7404c269c3">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=037ebe16fe5f17fa057559d8f6aba315">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -319,12 +319,12 @@
       <h2><i class="fa-solid fa-compress" style="color: var(--accent-color);"></i> Why Shrinking Toward a Wrong Value Helps</h2>
       <div class="content">
         <div style="display: grid; grid-template-columns: 1fr 335px; gap: 22px; align-items: center;">
-          <img src="figures/figure_003_shrinkage.png" alt="Two sampling distributions for a coefficient whose true value is 2.0: the unbiased estimator is wide and centred on 2.0 with expected squared error 9.00, and the halved estimator is narrow and centred on 1.0 with expected squared error 3.25" style="width: 100%; border-radius: 8px;">
+          <img src="figures/figure_003_shrinkage.png" alt="Two sampling distributions for a coefficient whose true value is 2.0: the unbiased estimator is wide and centred on 2.0 with expected squared error 9.00, and the halved estimator is narrow and centred on 1.0 with expected squared error 3.25" style="width: 100%; max-height: 470px; object-fit: contain; border-radius: 8px;">
           <div>
             <p style="font-size: 14.5pt; line-height: 1.45;">True coefficient <strong>2.0</strong>. Your estimator is unbiased with s.e. <strong>3.0</strong>. Unbiased means right <em>on average</em> &mdash; and that a typical draw returns 5.1, or &minus;0.4, or 4.3.</p>
             <p class="fragment fade-up" data-fragment-index="1" style="font-size: 14.5pt; line-height: 1.45; margin-top: 8px;">Now shrink every estimate by half. It is now <strong>biased</strong> &mdash; it averages 1.0 against a truth of 2.0 &mdash; but its s.e. is <strong>1.5</strong>.</p>
             <div class="fragment fade-up key-result" data-fragment-index="2" style="margin-top: 8px;">
-              <p style="font-size: 14pt; margin: 0;"><strong>Error = bias&sup2; + variance</strong><br>Unbiased: 0 + 3.0&sup2; = <strong>9.00</strong><br>Halved: 1.0&sup2; + 1.5&sup2; = 1.00 + 2.25 = <strong>3.25</strong></p>
+              <p style="font-size: 14pt; margin: 0;">Bias&sup2; rose a little, 0 &rarr; 1.00. Variance fell a lot, 9.00 &rarr; 2.25. <strong>Their sum fell, 9.00 &rarr; 3.25.</strong></p>
             </div>
           </div>
         </div>
