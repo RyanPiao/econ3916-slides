@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=fae71ff539afcb1bb2a8f4e3b455934b">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=933b35e2dab4d6916ac18476902fdc5a">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -16,7 +16,7 @@
   <style>
     /* Colab DataFrame look for the mocked output tables (the deck's own table style is dark-headed) */
     .reveal .mock .mk-df table { width: auto; margin: 2px 0; font-family: Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 1em; }
-    .reveal .mock .mk-df th, .reveal .mock .mk-df td { background: none; color: #212121; font-size: 1em; padding: .2em 1.1em .2em .9em;
+    .reveal .mock .mk-df th, .reveal .mock .mk-df td { background: none; color: #212121; font-size: 1em; padding: .12em 1.1em .12em .9em;
       text-align: right; border: none; letter-spacing: 0; font-weight: 400; }
     .reveal .mock .mk-df thead th, .reveal .mock .mk-df tbody th { font-weight: 700; }
     .reveal .mock .mk-df thead th { border-bottom: 1px solid #bdbdbd; }
@@ -189,7 +189,7 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
             <div style="background:#f9f0ee;border-left:4px solid var(--danger-color);border-radius:8px;padding:10px 14px;"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>1. Unstable.</strong> Change a few rows and a different variable wins Round 1; every later round then differs.</p></div>
             <div style="background:#f9f0ee;border-left:4px solid var(--danger-color);border-radius:8px;padding:10px 14px;"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>2. Greedy.</strong> One addition at a time, so a variable useful only alongside another is never added.</p></div>
-            <div style="background:#f9f0ee;border-left:4px solid var(--danger-color);border-radius:8px;padding:10px 14px;"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>3. Tests the data chose.</strong> Every round tests a hypothesis the data suggested: Chapter 8&rsquo;s multiple comparisons.</p></div>
+            <div style="background:#f9f0ee;border-left:4px solid var(--danger-color);border-radius:8px;padding:10px 14px;"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>3. p-values too small.</strong> Each round&rsquo;s winner is the best of 500 tries. If all 500 were noise, about 25 would pass at 5% by luck: Chapter 8&rsquo;s multiple comparisons.</p></div>
           </div>
         </div>
         <p class="fragment fade-up" data-fragment-index="5" style="font-size: 15pt; margin-top: 12px; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Regularization fixes <strong>1 and 2</strong> &mdash; one convex problem, unique minimum, all coefficients determined at once. It does <strong>not</strong> fix 3. Hold that thought until Section 6.</p>
@@ -313,7 +313,7 @@
     <section id="ridge-geometry" style="padding: 26px 50px;">
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-draw-polygon" style="color: var(--secondary-color);"></i> The Geometry: a Budget You Cannot Exceed</h2>
       <div class="content">
-        <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;">The same problem, written as a budget: the best fit, subject to a limit on coefficient size.</p>
+        <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;">Two predictors, \(x_1\) and \(x_2\), with slopes \(\beta_1\) (across) and \(\beta_2\) (up): <strong>each point is one pair of slopes</strong>. Ridge as a budget:</p>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 2px 20px; margin: 6px 0 10px;">
           <p style="font-size: 16pt; text-align: center; margin: 0;">$$\min_{\boldsymbol{\beta}}\ \|\mathbf{y}-\mathbf{X}\boldsymbol{\beta}\|_2^2 \quad \text{subject to} \quad \beta_1^2 + \beta_2^2 \le s$$</p>
         </div>
@@ -526,7 +526,7 @@ print(<span class="t-str">&quot;lambda selected by cross-validation:&quot;</span
     <section id="path-table" style="padding: 28px 55px;">
       <h2><i class="fa-solid fa-list-ol" style="color: var(--secondary-color);"></i> The Path, Written Out</h2>
       <div class="content">
-        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 14pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>path   <span class="t-com"># one LASSO fit per lambda on the grid</span></code></pre><div class="mk-out mk-mono" style="display: block;"><div class="mk-df"><table><thead><tr><th>lambda</th><th>train MSE</th><th>test MSE</th><th>kept</th><th>true found</th></tr></thead><tbody><tr><th>2.000</th><td>32.191</td><td>25.53</td><td>10</td><td>10/10</td></tr><tr class="mk-hl2"><th>1.000</th><td>8.686</td><td>6.92</td><td>10</td><td>10/10</td></tr><tr><th>0.500</th><td>2.780</td><td>2.52</td><td>11</td><td>10/10</td></tr><tr><th>0.300</th><td>1.482</td><td>1.71</td><td>14</td><td>10/10</td></tr><tr class="mk-hl"><th>0.138</th><td>0.600</td><td>1.54</td><td>44</td><td>10/10</td></tr><tr><th>0.050</th><td>0.117</td><td>1.66</td><td>77</td><td>10/10</td></tr><tr><th>0.010</th><td>0.005</td><td>1.86</td><td>95</td><td>10/10</td></tr></tbody></table></div></div></div></div></div>
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 13pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>path   <span class="t-com"># one LASSO fit per lambda on the grid</span></code></pre><div class="mk-out mk-mono" style="display: block;"><div class="mk-df"><table><thead><tr><th>lambda</th><th>train MSE</th><th>test MSE</th><th>kept</th><th>true found</th></tr></thead><tbody><tr><th>2.000</th><td>32.191</td><td>25.53</td><td>10</td><td>10/10</td></tr><tr class="mk-hl2"><th>1.000</th><td>8.686</td><td>6.92</td><td>10</td><td>10/10</td></tr><tr><th>0.500</th><td>2.780</td><td>2.52</td><td>11</td><td>10/10</td></tr><tr><th>0.300</th><td>1.482</td><td>1.71</td><td>14</td><td>10/10</td></tr><tr class="mk-hl"><th>0.138</th><td>0.600</td><td>1.54</td><td>44</td><td>10/10</td></tr><tr><th>0.050</th><td>0.117</td><td>1.66</td><td>77</td><td>10/10</td></tr><tr><th>0.010</th><td>0.005</td><td>1.86</td><td>95</td><td>10/10</td></tr></tbody></table></div></div></div></div></div>
         <p style="font-size: 14.5pt; margin-top: 12px; color: var(--muted-color);">Three things happen at once in this table. They are worth separating, and the next slide separates them.</p>
       </div>
     </section>
