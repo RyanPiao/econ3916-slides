@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=5557bd322e11ef1ff867c28ae057b712">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=ce216aa26a6382de03853a7404c269c3">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -321,14 +321,14 @@
         <div style="display: grid; grid-template-columns: 1fr 335px; gap: 22px; align-items: center;">
           <img src="figures/figure_003_shrinkage.png" alt="Two sampling distributions for a coefficient whose true value is 2.0: the unbiased estimator is wide and centred on 2.0 with expected squared error 9.00, and the halved estimator is narrow and centred on 1.0 with expected squared error 3.25" style="width: 100%; border-radius: 8px;">
           <div>
-            <p style="font-size: 14.5pt; line-height: 1.55;">True coefficient <strong>2.0</strong>. Your estimator is unbiased with s.e. <strong>3.0</strong>. Unbiased means right <em>on average</em> &mdash; and that a typical draw returns 5.1, or &minus;0.4, or 4.3.</p>
-            <p style="font-size: 14.5pt; line-height: 1.55; margin-top: 10px;">Now shrink every estimate by half. It is now <strong>biased</strong> &mdash; it averages 1.0 against a truth of 2.0 &mdash; but its s.e. is <strong>1.5</strong>.</p>
-            <div class="key-result" style="margin-top: 10px;">
-              <p style="font-size: 14pt;">Squared error punishes the occasional wild estimate far more than the systematic small one. Bias&sup2; rose a little; variance fell a lot; <strong>their sum fell</strong>.</p>
+            <p style="font-size: 14.5pt; line-height: 1.45;">True coefficient <strong>2.0</strong>. Your estimator is unbiased with s.e. <strong>3.0</strong>. Unbiased means right <em>on average</em> &mdash; and that a typical draw returns 5.1, or &minus;0.4, or 4.3.</p>
+            <p class="fragment fade-up" data-fragment-index="1" style="font-size: 14.5pt; line-height: 1.45; margin-top: 8px;">Now shrink every estimate by half. It is now <strong>biased</strong> &mdash; it averages 1.0 against a truth of 2.0 &mdash; but its s.e. is <strong>1.5</strong>.</p>
+            <div class="fragment fade-up key-result" data-fragment-index="2" style="margin-top: 8px;">
+              <p style="font-size: 14pt; margin: 0;"><strong>Error = bias&sup2; + variance</strong><br>Unbiased: 0 + 3.0&sup2; = <strong>9.00</strong><br>Halved: 1.0&sup2; + 1.5&sup2; = 1.00 + 2.25 = <strong>3.25</strong></p>
             </div>
           </div>
         </div>
-        <p class="fragment fade-up" style="font-size: 15pt; margin-top: 12px; text-align: center; color: var(--accent-color);"><strong>Shrinkage is worthwhile exactly when your estimates are noisy</strong> &mdash; which in high dimensions they always are.</p>
+        <p class="fragment fade-up" data-fragment-index="3" style="font-size: 15pt; margin-top: 10px; text-align: center; color: var(--accent-color);"><strong>Shrinkage is worthwhile exactly when your estimates are noisy</strong> &mdash; which in high dimensions they always are.</p>
       </div>
     </section>
     <section id="ridge-limits" style="padding: 32px 55px;">
@@ -417,7 +417,7 @@
     <section id="geometry" style="padding: 26px 40px;">
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-shapes" style="color: var(--secondary-color);"></i> The Same Picture, One Shape Changed</h2>
       <div class="content" style="padding-top: 4px;">
-        <img src="figures/figure_002_geometry.png" alt="Loss contours meeting a circular L2 constraint on the left and a diamond-shaped L1 constraint on the right; the Ridge solution sits off-axis with both coefficients nonzero while the LASSO solution lands exactly on the diamond's corner where beta-2 is zero" style="width: 84%; display: block; margin: 0 auto; border-radius: 6px;">
+        <img src="figures/figure_002_geometry.png" alt="Loss contours meeting a circular L2 constraint on the left and a diamond-shaped L1 constraint on the right; the Ridge solution sits off-axis with both coefficients nonzero while the LASSO solution lands exactly on the diamond's corner where beta-2 is zero" style="width: 79%; display: block; margin: 0 auto; border-radius: 6px;">
         <p style="font-size: 14.5pt; margin-top: 8px; text-align: center; line-height: 1.5;">Expanding elliptical contours meeting a diamond are very likely to touch at a <strong>corner</strong>, because corners stick out. And <strong>a corner of the diamond is a point where one coordinate is exactly zero.</strong></p>
       </div>
     </section>
@@ -684,7 +684,7 @@
     <section id="correlated-coefs" style="padding: 26px 45px;">
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-shuffle" style="color: var(--danger-color);"></i> It Shows Up in the Coefficients</h2>
       <div class="content" style="padding-top: 4px;">
-        <img src="figures/figure_006_correlated_blocks.png" alt="Eight pairs of bars for eight equally important predictors whose true coefficient is 0.5: LASSO drops two of them to zero and overshoots one to 1.169, while Elastic Net keeps all eight and spreads them more evenly around the true value" style="width: 64%; display: block; margin: 0 auto; border-radius: 6px;">
+        <img src="figures/figure_006_correlated_blocks.png" alt="Eight pairs of bars for eight equally important predictors whose true coefficient is 0.5: LASSO drops two of them to zero and overshoots one to 1.169, while Elastic Net keeps all eight and spreads them more evenly around the true value" style="width: 59%; display: block; margin: 0 auto; border-radius: 6px;">
         <div class="key-result" style="margin-top: 8px;">
           <p style="font-size: 15pt;">Eight variables of <strong>identical</strong> true importance. LASSO drops two entirely, hands one <strong>1.169</strong> &mdash; more than double the truth &mdash; and scatters the rest. Refit on a slightly different sample and a different two would be dropped.</p>
         </div>
