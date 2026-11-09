@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=e1dc5f1180227d10c70502a70170103b">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=5aad26aab9919580bfacd9dbb521226d">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -622,6 +622,7 @@ print(<span class="t-str">&quot;lambda selected by cross-validation:&quot;</span
           <div style="background: #f8f6f3; padding: 11px 16px; font-size: 14.5pt;"><code style="color: var(--danger-color);">alpha</code></div>
         </div>
         <p class="fragment fade-up text-lg" style="margin-top: 16px; text-align: center;">The word "alpha" means a <strong>different thing</strong> in the two most common tools for this job.</p>
+        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px; text-align: center;">Elastic Net (Section 5) pays a blend of the LASSO and Ridge fees; \(\alpha_{EN}\) is how much of the blend is LASSO.</p>
       </div>
     </section>
     <section id="divider-5" class="section-divider" data-state="is-section-divider">
@@ -676,7 +677,7 @@ print(<span class="t-str">&quot;lambda selected by cross-validation:&quot;</span
           <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--accent-color);">1.093</p><p style="font-size: 13pt; margin-top: 4px;">LASSO</p></div>
           <div style="background: #f8f6f3; border-radius: 8px; padding: 13px; text-align: center;"><p style="font-size: 22pt; font-weight: 700; color: var(--success-color);">1.063</p><p style="font-size: 13pt; margin-top: 4px;">Elastic Net</p></div>
         </div>
-        <p style="font-size: 13pt; color: var(--muted-color); text-align: center; margin-top: 6px;">test MSE</p>
+        <p style="font-size: 13pt; color: var(--muted-color); text-align: center; margin-top: 6px;">test MSE &middot; <strong>Elastic Net</strong> pays both fees at once, part LASSO and part Ridge (written out two slides on)</p>
         <p class="fragment fade-up text-lg" style="margin-top: 14px; text-align: center;"><strong>Prediction is essentially identical</strong> &mdash; the three penalised models sit within 0.03 of each other, all well ahead of OLS. The standard claim does not appear in test error at all.</p>
       </div>
     </section>
@@ -684,9 +685,9 @@ print(<span class="t-str">&quot;lambda selected by cross-validation:&quot;</span
     <section id="correlated-coefs" style="padding: 26px 45px;">
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-shuffle" style="color: var(--danger-color);"></i> It Shows Up in the Coefficients</h2>
       <div class="content" style="padding-top: 4px;">
-        <img src="figures/figure_006_correlated_blocks.png" alt="Eight pairs of bars for eight equally important predictors whose true coefficient is 0.5: LASSO drops two of them to zero and overshoots one to 1.169, while Elastic Net keeps all eight and spreads them more evenly around the true value" style="width: 59%; display: block; margin: 0 auto; border-radius: 6px;">
+        <img src="figures/figure_006_correlated_blocks.png" alt="Eight pairs of bars for eight equally important predictors whose true coefficient is 0.5: LASSO drops two of them to zero and overshoots one to 1.169, while Elastic Net keeps all eight and spreads them more evenly around the true value" style="width: 55%; display: block; margin: 0 auto; border-radius: 6px;">
         <div class="key-result" style="margin-top: 8px;">
-          <p style="font-size: 15pt;">Eight variables of <strong>identical</strong> true importance. LASSO drops two entirely, hands one <strong>1.169</strong> &mdash; more than double the truth &mdash; and scatters the rest. Refit on a slightly different sample and a different two would be dropped.</p>
+          <p style="font-size: 15pt;">Eight variables of <strong>identical</strong> true importance. LASSO drops two entirely, hands one <strong>1.169</strong> &mdash; more than double the truth &mdash; and scatters the rest. Refit on a slightly different sample and a different two would be dropped. <strong>Elastic Net</strong> (blue) pays both fees at once, part LASSO and part Ridge: it keeps all eight.</p>
         </div>
       </div>
     </section>
