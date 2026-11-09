@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=76255960b966eb200f7aec065524611c">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=dc95a9688e760e33f158c1a89c18d3aa">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -714,9 +714,9 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
         <p style="font-size: 15pt; line-height: 1.55;">Post-pandemic structural breaks had made the reliable data <strong>short</strong> while the number of available high-frequency indicators (weekly and monthly series) had grown past a hundred. With \(p\) approaching \(n\), the design matrix \(\mathbf{X}\) was rank-deficient (\(\mathbf{X}'\mathbf{X}\) had no inverse, as on the matrix slide): OLS was not merely inaccurate but <strong>incomputable</strong>.</p>
         <p style="font-size: 15pt; margin-top: 12px; line-height: 1.55;">The team deployed LASSO, Ridge and Elastic Net. The first result was disappointing &mdash; on highly collinear macro series, LASSO selected variables that made <strong>no economic sense</strong>.</p>
         <div class="key-result" style="margin-top: 14px;">
-          <p><strong>What fixed it was not a better algorithm.</strong> The economists imposed <strong>sign restrictions</strong> &mdash; consumer sentiment must enter positively, unemployment claims negatively, and so on wherever theory dictates a direction. With those constraints the model outperformed both MIDAS (regressions that mix monthly and quarterly data) and dynamic-factor benchmarks.</p>
+          <p><strong>What fixed it was not a better algorithm.</strong> The economists imposed <strong>sign restrictions</strong> &mdash; consumer sentiment must enter positively, unemployment claims negatively, and so on wherever theory dictates a direction. With those constraints the model outperformed both MIDAS (regressions that mix monthly and quarterly data) and dynamic-factor benchmarks (models where a few hidden factors drive every series).</p>
         </div>
-        <p style="font-size: 13.5pt; margin-top: 10px; line-height: 1.45; color: var(--muted-color);"><strong style="color: var(--text-color);">And the Fed?</strong> Its headline <strong>nowcasts</strong> (estimates of this quarter&rsquo;s GDP before it is published) take the dense route. The New York Fed&rsquo;s is a <strong>dynamic factor model</strong>: a few hidden factors (overall activity, surveys, labour) drive every series. The Atlanta Fed&rsquo;s GDPNow builds GDP from its parts. And &ldquo;the illusion of sparsity&rdquo; began as a New York Fed Staff Report (Giannone, Lenza &amp; Primiceri, No. 847, 2018).</p>
+        <p style="font-size: 13.5pt; margin-top: 10px; line-height: 1.45; color: var(--muted-color);"><strong style="color: var(--text-color);">Other central banks use these penalties too.</strong> The <strong>Swiss National Bank</strong>, nowcasting GDP (estimating this quarter before the official figure is out): Ridge and Elastic Net were among the most promising methods (Arro-Cannarsa &amp; Scheufele, 2024). The <strong>Reserve Bank of Australia</strong>, nowcasting wage growth from the text of its business-liaison interviews: Ridge, LASSO and Elastic Net all compared, and a few features did most of the work, a <em>sparse</em> signal (Gray et al., 2025).</p>
         <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 14px; text-align: center; color: var(--accent-color);"><strong>An algorithm turned loose on collinear data finds patterns. An economist decides which patterns are permitted.</strong></p>
       </div>
     </section>
