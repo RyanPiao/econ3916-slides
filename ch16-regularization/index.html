@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=037ebe16fe5f17fa057559d8f6aba315">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=fae71ff539afcb1bb2a8f4e3b455934b">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -12,6 +12,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../mock-cell.css">
+  <style>
+    /* Colab DataFrame look for the mocked output tables (the deck's own table style is dark-headed) */
+    .reveal .mock .mk-df table { width: auto; margin: 2px 0; font-family: Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 1em; }
+    .reveal .mock .mk-df th, .reveal .mock .mk-df td { background: none; color: #212121; font-size: 1em; padding: .2em 1.1em .2em .9em;
+      text-align: right; border: none; letter-spacing: 0; font-weight: 400; }
+    .reveal .mock .mk-df thead th, .reveal .mock .mk-df tbody th { font-weight: 700; }
+    .reveal .mock .mk-df thead th { border-bottom: 1px solid #bdbdbd; }
+    .reveal .mock .mk-df tbody tr:nth-child(odd) { background: #f5f5f5; }
+    .reveal .mock .mk-df tbody tr:nth-child(even) { background: none; }
+    .reveal .mock .mk-df tr.mk-hl > * { color: #C0603A; font-weight: 700; }
+    .reveal .mock .mk-df tr.mk-hl2 > * { color: #2E7D4F; font-weight: 700; }
+  </style>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -165,19 +178,21 @@
     <section id="stepwise" style="padding: 32px 55px;">
       <h2><i class="fa-solid fa-shoe-prints" style="color: var(--muted-color);"></i> The Classical Answers, and Their Three Problems</h2>
       <div class="content">
-        <p style="font-size: 15pt; line-height: 1.55;"><strong>Forward stepwise</strong> starts empty and repeatedly adds whichever variable most improves fit. <strong>Backward elimination</strong> starts full and drops the least significant. <strong>Best subset</strong> genuinely enumerates &mdash; feasible to about \(p = 30\).</p>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-          <div style="background: #f9f0ee; border-left: 3px solid var(--danger-color); border-radius: 6px; padding: 12px 18px;">
-            <p style="font-size: 14.5pt;"><strong>1. Unstable.</strong> Change a few observations and a different variable wins round one; the whole path then diverges. Two analysts with 99% overlapping data report different models &mdash; the specification becomes a property of the sample rather than of the world.</p>
-          </div>
-          <div style="background: #f9f0ee; border-left: 3px solid var(--danger-color); border-radius: 6px; padding: 12px 18px;">
-            <p style="font-size: 14.5pt;"><strong>2. Greedy in a way that misses joint effects.</strong> A variable useless alone but valuable alongside another is never added &mdash; forward selection only ever evaluates one addition at a time.</p>
-          </div>
-          <div style="background: #f9f0ee; border-left: 3px solid var(--danger-color); border-radius: 6px; padding: 12px 18px;">
-            <p style="font-size: 14.5pt;"><strong>3. Every step tests a hypothesis suggested by the data.</strong> Chapter 8's multiple-comparisons problem, on a large scale.</p>
+        <p style="font-size: 15pt; line-height: 1.5;">Three older ways to choose variables <strong>without</strong> fitting all \(2^p\) models. On today&rsquo;s data, \(n = 100\) rows and \(p = 500\) predictors:</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 10px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background:#f0f5f8;border-left:4px solid var(--secondary-color);border-radius:8px;padding:10px 14px;"><p style="font-size:15pt;font-weight:700;color:var(--secondary-color);margin:0">Forward stepwise</p><p style="font-size:13pt;line-height:1.4;margin:4px 0 0">Start with <strong>no</strong> variables. Each round, try adding each one left; keep the one that improves the fit most. Stop when none helps.</p><p style="font-size:12.5pt;line-height:1.4;margin:6px 0 0;color:#4A4F57">Round 1: try 500, keep 1 &middot; Round 2: try 499, keep 1 &middot; &hellip;</p><p style="font-size:13pt;line-height:1.4;margin:8px 0 0;color:#1F7A5A;font-weight:600">Runs. Ten rounds = 500 + 499 + &hellip; + 491 = 4,955 fits, not \(2^{{500}}\).</p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background:#f0f5f8;border-left:4px solid var(--secondary-color);border-radius:8px;padding:10px 14px;"><p style="font-size:15pt;font-weight:700;color:var(--secondary-color);margin:0">Backward elimination</p><p style="font-size:13pt;line-height:1.4;margin:4px 0 0">Start with <strong>all</strong> variables. Each round, drop the least significant one (largest p-value). Stop when all are significant.</p><p style="font-size:12.5pt;line-height:1.4;margin:6px 0 0;color:#4A4F57">Round 1: fit all 500, drop 1 &middot; Round 2: fit 499, drop 1 &middot; &hellip;</p><p style="font-size:13pt;line-height:1.4;margin:8px 0 0;color:var(--danger-color);font-weight:600">Cannot start. All 500 on 100 rows is the perfect-fit regression: no p-values to drop by.</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background:#f0f5f8;border-left:4px solid var(--secondary-color);border-radius:8px;padding:10px 14px;"><p style="font-size:15pt;font-weight:700;color:var(--secondary-color);margin:0">Best subset</p><p style="font-size:13pt;line-height:1.4;margin:4px 0 0">Fit <strong>every</strong> subset and keep the best. The only one of the three that is exact.</p><p style="font-size:12.5pt;line-height:1.4;margin:6px 0 0;color:#4A4F57">\(p = 20\): about a million fits &middot; \(p = 30\): about a billion</p><p style="font-size:13pt;line-height:1.4;margin:8px 0 0;color:var(--danger-color);font-weight:600">Stops at about \(p = 30\). At \(p = 500\) it is the \(2^{{500}}\) search itself.</p></div>
+        </div>
+        <div class="fragment fade-up" data-fragment-index="4" style="margin-top: 12px;">
+          <p style="font-size: 14.5pt; margin: 0 0 6px;">So the count can be made small. But even forward stepwise, the one that runs, has three problems:</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <div style="background:#f9f0ee;border-left:4px solid var(--danger-color);border-radius:8px;padding:10px 14px;"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>1. Unstable.</strong> Change a few rows and a different variable wins Round 1; every later round then differs.</p></div>
+            <div style="background:#f9f0ee;border-left:4px solid var(--danger-color);border-radius:8px;padding:10px 14px;"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>2. Greedy.</strong> One addition at a time, so a variable useful only alongside another is never added.</p></div>
+            <div style="background:#f9f0ee;border-left:4px solid var(--danger-color);border-radius:8px;padding:10px 14px;"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>3. Tests the data chose.</strong> Every round tests a hypothesis the data suggested: Chapter 8&rsquo;s multiple comparisons.</p></div>
           </div>
         </div>
-        <p class="fragment fade-up" style="font-size: 15pt; margin-top: 14px; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Regularization fixes <strong>1 and 2</strong> &mdash; one convex problem, unique minimum, all coefficients determined at once. It does <strong>not</strong> fix 3. Hold that thought until Section 6.</p>
+        <p class="fragment fade-up" data-fragment-index="5" style="font-size: 15pt; margin-top: 12px; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Regularization fixes <strong>1 and 2</strong> &mdash; one convex problem, unique minimum, all coefficients determined at once. It does <strong>not</strong> fix 3. Hold that thought until Section 6.</p>
       </div>
     </section>
 
@@ -224,9 +239,7 @@
           <p><strong>Penalised regression is not</strong>, because the penalty charges by <em>coefficient magnitude</em>, and a coefficient&rsquo;s size depends on its variable&rsquo;s units.</p>
         </div>
         <p class="fragment fade-up" style="font-size: 15pt; margin-top: 14px;" data-fragment-index="2">Always standardise &mdash; and always <strong>inside a pipeline</strong>, so the test set never touches the scaler, for exactly Chapter 15&rsquo;s leakage reasons. To refit it inside every CV fold too, put the pipeline inside the CV, as Lab 16&rsquo;s Step 6 does with <code>GridSearchCV</code>.</p>
-        <div class="fragment fade-up" style="background: #2D2D2D; border-radius: 8px; padding: 14px 20px; margin-top: 10px;" data-fragment-index="2">
-          <p style="font-family: monospace; font-size: 15pt; color: #e8e2da;">make_pipeline(StandardScaler(), LassoCV(cv=5))</p>
-        </div>
+        <div class="mock colab fragment fade-up mathjax_ignore tex2jax_ignore" data-fragment-index="2" style="--mk-size: 15pt; margin-top: 10px;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>model = make_pipeline(StandardScaler(), LassoCV(cv=<span class="t-num">5</span>))</code></pre></div></div></div>
       </div>
     </section>
 
@@ -425,14 +438,7 @@
     <section id="lasso-results" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-table-list" style="color: var(--secondary-color);"></i> Watching It Work &mdash; and What to Notice</h2>
       <div class="content">
-        <div style="background: #2D2D2D; border-radius: 8px; padding: 14px 24px; font-family: monospace; font-size: 14.5pt; color: #e8e2da; line-height: 1.75;">
-          <div style="display: grid; grid-template-columns: 90px 1fr 1fr;">
-            <span></span><span style="color: #9fb8c8;">train MSE</span><span style="color: #9fb8c8;">test MSE</span>
-            <span>OLS</span><span>0.0000</span><span>43.99</span>
-            <span>Ridge</span><span>0.0000</span><span>43.28</span>
-            <span style="color: #d9a184;">LASSO</span><span style="color: #d9a184;">0.5984</span><span style="color: #d9a184;">1.54</span>
-          </div>
-        </div>
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 14.5pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>results   <span class="t-com"># training and test MSE, all three models</span></code></pre><div class="mk-out mk-mono" style="display: block;"><div class="mk-df"><table><thead><tr><th></th><th>train MSE</th><th>test MSE</th></tr></thead><tbody><tr><th>OLS</th><td>0.0000</td><td>43.99</td></tr><tr><th>Ridge</th><td>0.0000</td><td>43.28</td></tr><tr class="mk-hl"><th>LASSO</th><td>0.5984</td><td>1.54</td></tr></tbody></table></div></div></div></div></div>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px;">
           <div style="background: #f0f5f8; border-radius: 10px; padding: 14px; text-align: center;">
             <p style="font-size: 26pt; font-weight: 700; color: var(--secondary-color); line-height: 1;">44 / 500</p>
@@ -512,27 +518,15 @@
         <p class="fragment fade-up" data-fragment-index="1" style="font-size: 15pt; margin-top: 12px;">So \(\lambda\) is a <strong>hyperparameter</strong>, chosen the way Topic 15 chose model complexity: by <strong>cross-validation</strong>.</p>
         <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 16px;"><svg viewBox="0 0 1160 92" width="100%" role="img" aria-label="Choosing lambda in four steps: a grid of lambda from big to tiny, fit the model at every lambda, the cross-validation error at every lambda, pick the lowest." style="display:block;font-family:inherit"><g class="fragment" data-fragment-index="2"><rect x="3" y="6" width="266" height="78" rx="10" fill="#fff" stroke="#6B8BA4" stroke-width="3"/><circle cx="27" cy="30" r="15" fill="#6B8BA4"/><text x="27" y="36" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">1</text><text x="51" y="36" font-size="19" font-weight="700" fill="#2D2D2D">Grid</text><text x="51" y="64" font-size="17" fill="#555">λ from big to tiny</text><path d="M277 45 l12 0 m-6 -6 l6 6 l-6 6" fill="none" stroke="#8C8580" stroke-width="2.5"/></g><g class="fragment" data-fragment-index="3"><rect x="295" y="6" width="266" height="78" rx="10" fill="#fff" stroke="#6B8BA4" stroke-width="3"/><circle cx="319" cy="30" r="15" fill="#6B8BA4"/><text x="319" y="36" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">2</text><text x="343" y="36" font-size="19" font-weight="700" fill="#2D2D2D">Fit</text><text x="343" y="64" font-size="17" fill="#555">the model at every λ</text><path d="M569 45 l12 0 m-6 -6 l6 6 l-6 6" fill="none" stroke="#8C8580" stroke-width="2.5"/></g><g class="fragment" data-fragment-index="4"><rect x="587" y="6" width="266" height="78" rx="10" fill="#fff" stroke="#C47B5A" stroke-width="3"/><circle cx="611" cy="30" r="15" fill="#C47B5A"/><text x="611" y="36" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">3</text><text x="635" y="36" font-size="19" font-weight="700" fill="#2D2D2D">CV error</text><text x="635" y="64" font-size="17" fill="#555">at every λ (Topic 15)</text><path d="M861 45 l12 0 m-6 -6 l6 6 l-6 6" fill="none" stroke="#8C8580" stroke-width="2.5"/></g><g class="fragment" data-fragment-index="5"><rect x="879" y="6" width="266" height="78" rx="10" fill="#fff" stroke="#1F7A5A" stroke-width="3"/><circle cx="903" cy="30" r="15" fill="#1F7A5A"/><text x="903" y="36" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">4</text><text x="927" y="36" font-size="19" font-weight="700" fill="#2D2D2D">Pick</text><text x="927" y="64" font-size="17" fill="#555">the lowest CV error</text></g></svg></div>
         <p class="fragment fade-up" data-fragment-index="5" style="font-size: 14.5pt; margin-top: 8px; color: var(--muted-color); text-align: center;">The fits along the grid are the <strong>regularization path</strong>. <code>LassoCV</code> and <code>RidgeCV</code> do all four steps in one call.</p>
-        <div class="fragment fade-up" data-fragment-index="6" style="background: #2D2D2D; border-radius: 8px; padding: 14px 22px; margin-top: 14px;">
-          <p style="font-family: monospace; font-size: 15pt; color: #d9a184;">lambda selected by cross-validation: 0.138</p>
-        </div>
+        <div class="mock colab fragment fade-up mathjax_ignore tex2jax_ignore" data-fragment-index="6" style="--mk-size: 14pt; margin-top: 12px;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># model[-1] is the LassoCV step; sklearn calls lambda alpha</span>
+print(<span class="t-str">&quot;lambda selected by cross-validation:&quot;</span>, round(model[-<span class="t-num">1</span>].alpha_, <span class="t-num">3</span>))</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>lambda selected by cross-validation: 0.138</pre></div></div></div></div>
       </div>
     </section>
 
     <section id="path-table" style="padding: 28px 55px;">
       <h2><i class="fa-solid fa-list-ol" style="color: var(--secondary-color);"></i> The Path, Written Out</h2>
       <div class="content">
-        <div style="background: #2D2D2D; border-radius: 8px; padding: 14px 24px; font-family: monospace; font-size: 14pt; color: #e8e2da; line-height: 1.72;">
-          <div style="display: grid; grid-template-columns: 1.1fr 1fr 1fr 0.8fr 0.9fr;">
-            <span style="color: #9fb8c8;">lambda</span><span style="color: #9fb8c8;">train MSE</span><span style="color: #9fb8c8;">test MSE</span><span style="color: #9fb8c8;">kept</span><span style="color: #9fb8c8;">true found</span>
-            <span>2.000</span><span>32.191</span><span>25.53</span><span>10</span><span>10/10</span>
-            <span style="color: #a8c4a8;">1.000</span><span style="color: #a8c4a8;">8.686</span><span style="color: #a8c4a8;">6.92</span><span style="color: #a8c4a8;">10</span><span style="color: #a8c4a8;">10/10</span>
-            <span>0.500</span><span>2.780</span><span>2.52</span><span>11</span><span>10/10</span>
-            <span>0.300</span><span>1.482</span><span>1.71</span><span>14</span><span>10/10</span>
-            <span style="color: #d9a184;">0.138</span><span style="color: #d9a184;">0.600</span><span style="color: #d9a184;">1.54</span><span style="color: #d9a184;">44</span><span style="color: #d9a184;">10/10</span>
-            <span>0.050</span><span>0.117</span><span>1.66</span><span>77</span><span>10/10</span>
-            <span>0.010</span><span>0.005</span><span>1.86</span><span>95</span><span>10/10</span>
-          </div>
-        </div>
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 14pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>path   <span class="t-com"># one LASSO fit per lambda on the grid</span></code></pre><div class="mk-out mk-mono" style="display: block;"><div class="mk-df"><table><thead><tr><th>lambda</th><th>train MSE</th><th>test MSE</th><th>kept</th><th>true found</th></tr></thead><tbody><tr><th>2.000</th><td>32.191</td><td>25.53</td><td>10</td><td>10/10</td></tr><tr class="mk-hl2"><th>1.000</th><td>8.686</td><td>6.92</td><td>10</td><td>10/10</td></tr><tr><th>0.500</th><td>2.780</td><td>2.52</td><td>11</td><td>10/10</td></tr><tr><th>0.300</th><td>1.482</td><td>1.71</td><td>14</td><td>10/10</td></tr><tr class="mk-hl"><th>0.138</th><td>0.600</td><td>1.54</td><td>44</td><td>10/10</td></tr><tr><th>0.050</th><td>0.117</td><td>1.66</td><td>77</td><td>10/10</td></tr><tr><th>0.010</th><td>0.005</td><td>1.86</td><td>95</td><td>10/10</td></tr></tbody></table></div></div></div></div></div>
         <p style="font-size: 14.5pt; margin-top: 12px; color: var(--muted-color);">Three things happen at once in this table. They are worth separating, and the next slide separates them.</p>
       </div>
     </section>
@@ -701,10 +695,8 @@
           <p><strong>In words.</strong> Pay a blend of the two fees. \(\alpha_{EN} = 1\) is pure LASSO, \(\alpha_{EN} = 0\) is pure Ridge. The \(L_1\) part preserves sparsity; the \(L_2\) part supplies a <strong>grouping effect</strong>, pulling correlated predictors toward each other rather than letting one win arbitrarily.</p>
         </div>
         <p style="font-size: 15pt; margin-top: 12px;">On the correlated data above it kept <strong>all 8</strong> (mix chosen: 0.7) and spread them more evenly &mdash; the blue bars on the previous slide.</p>
-        <div style="background: #2D2D2D; border-radius: 8px; padding: 12px 20px; margin-top: 12px;">
-          <p style="font-family: monospace; font-size: 13.5pt; color: #e8e2da;">ElasticNetCV(cv=5, l1_ratio=[0.1, 0.5, 0.7, 0.9, 0.95, 1.0])</p>
-          <p style="font-family: monospace; font-size: 13.5pt; color: #d9a184; margin-top: 6px;">mixing parameter chosen on the sparse design: 1.0</p>
-        </div>
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 13pt; margin-top: 12px;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>enet = ElasticNetCV(cv=<span class="t-num">5</span>, l1_ratio=[<span class="t-num">0.1</span>, <span class="t-num">0.5</span>, <span class="t-num">0.7</span>, <span class="t-num">0.9</span>, <span class="t-num">0.95</span>, <span class="t-num">1.0</span>]).fit(X, y)
+print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&quot;</span>, enet.l1_ratio_)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>mixing parameter chosen on the sparse design: 1.0</pre></div></div></div></div>
         <p class="fragment fade-up" style="font-size: 15pt; margin-top: 12px; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> <strong>The chosen mixing parameter is itself a result worth reporting.</strong> Near 1 says the data looks sparse; near 0, that effects are diffuse.</p>
       </div>
     </section>
