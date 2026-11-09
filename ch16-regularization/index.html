@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=3f819aa9eafe587bcdd07fa56e70c1dd">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=76255960b966eb200f7aec065524611c">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -192,7 +192,7 @@
             <div style="background:#f9f0ee;border-left:4px solid var(--danger-color);border-radius:8px;padding:10px 14px;"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>3. p-values too small.</strong> Each round&rsquo;s winner is the best of 500 tries. If all 500 were noise, about 25 would pass at 5% by luck: Chapter 8&rsquo;s multiple comparisons.</p></div>
           </div>
         </div>
-        <p class="fragment fade-up" data-fragment-index="5" style="font-size: 15pt; margin-top: 12px; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Regularization fixes <strong>1 and 2</strong> &mdash; one convex problem, unique minimum, all coefficients determined at once. It does <strong>not</strong> fix 3. Hold that thought until Section 6.</p>
+        <p class="fragment fade-up" data-fragment-index="5" style="font-size: 15pt; margin-top: 12px; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Regularization fixes <strong>1 and 2</strong> &mdash; one convex problem (a single bowl-shaped valley, so one best answer), all coefficients determined at once. It does <strong>not</strong> fix 3. Hold that thought until Section 6.</p>
       </div>
     </section>
 
@@ -212,14 +212,14 @@
             <p style="font-size: 14.5pt; margin-top: 6px;">Your experiment returns "the selected set changed 60% of the time." Is that a criticism of stepwise, or of the data? How would you tell the difference?</p>
           </div>
         </div>
-        <p style="font-size: 14pt; color: var(--muted-color); margin-top: 14px;"><i class="fa-solid fa-lightbulb"></i> The shape of the answer: bootstrap or leave-out-k the rows, re-run selection on each resample, record the <em>selection frequency</em> of every variable. That procedure is called stability selection.</p>
+        <p style="font-size: 14pt; color: var(--muted-color); margin-top: 14px;"><i class="fa-solid fa-lightbulb"></i> The shape of the answer: bootstrap the rows or leave out \(k\) at a time, re-run selection on each resample, record the <em>selection frequency</em> of every variable. That procedure is called stability selection.</p>
                 <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>2</strong> to start the timer.</p>
         </div>
     </section>
     <section id="the-penalty" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-money-bill-wave" style="color: var(--accent-color);"></i> Charge the Model for Complexity</h2>
       <div class="content">
-        <p style="font-size: 15pt; line-height: 1.55;">Rather than searching over subsets, change the objective so the optimiser is <em>charged</em> for complexity &mdash; then solve <strong>one</strong> convex problem.</p>
+        <p style="font-size: 15pt; line-height: 1.55;">Rather than searching over subsets, change the objective so the optimiser is <em>charged</em> for complexity &mdash; then solve <strong>one</strong> convex problem: a single bowl-shaped valley, with one bottom the computer always finds.</p>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 2px 20px; margin: 8px 0;">
           <p style="font-size: 16pt; text-align: center; margin: 0;">$$\hat{\boldsymbol{\beta}} = \arg\min_{\boldsymbol{\beta}} \left\{ \underbrace{\tfrac{1}{2n}\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|_2^2}_{\text{fit — as in Ch 12}} + \underbrace{\lambda \, P(\boldsymbol{\beta})}_{\text{fee for complexity}} \right\}$$</p>
         </div>
@@ -240,7 +240,7 @@
           <p><strong>Penalised regression is not</strong>, because the penalty charges by <em>coefficient magnitude</em>, and a coefficient&rsquo;s size depends on its variable&rsquo;s units.</p>
         </div>
         <p class="fragment fade-up" style="font-size: 15pt; margin-top: 14px;" data-fragment-index="2">Always standardise &mdash; and always <strong>inside a pipeline</strong>, so the test set never touches the scaler, for exactly Chapter 15&rsquo;s leakage reasons. To refit it inside every CV fold too, put the pipeline inside the CV, as Lab 16&rsquo;s Step 6 does with <code>GridSearchCV</code>.</p>
-        <div class="mock colab fragment fade-up mathjax_ignore tex2jax_ignore" data-fragment-index="2" style="--mk-size: 15pt; margin-top: 10px;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>model = make_pipeline(StandardScaler(), LassoCV(cv=<span class="t-num">5</span>))</code></pre></div></div></div>
+        <div class="mock colab fragment fade-up mathjax_ignore tex2jax_ignore" data-fragment-index="2" style="--mk-size: 15pt; margin-top: 10px;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>model = make_pipeline(StandardScaler(), LassoCV(cv=<span class="t-num">5</span>))  <span class="t-com"># LassoCV: LASSO, its λ chosen by 5-fold CV</span></code></pre></div></div></div>
       </div>
     </section>
 
@@ -304,7 +304,7 @@
           <div style="background: #eef3f6; border-radius: 10px; padding: 4px 16px; text-align: center; border: 2px solid var(--secondary-color);"><p style="font-size: 12pt; color: var(--secondary-color); letter-spacing: 2px; margin: 4px 0 0;">RIDGE</p><p style="font-size: 15pt; margin: 0;">$$(\mathbf{X}'\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}'\mathbf{y}$$</p></div>
         </div>
         <p style="font-size: 14pt; margin: 8px 0 8px; line-height: 1.4;">OLS needs the inverse of \(\mathbf{X}'\mathbf{X}\). It fails when a column repeats another, and whenever \(p &gt; n\). Our four points, with \(x\) put in twice:</p>
-        <div style="display: grid; grid-template-columns: 1.35fr 0.85fr 0.95fr 0.75fr 1.55fr; gap: 9px; align-items: stretch;"><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">The data: \(x\) entered twice</p><p style="font-size: 15pt; margin: 0;">\(\mathbf{X}=\begin{bmatrix}-1.5&-1.5\\-0.5&-0.5\\0.5&0.5\\1.5&1.5\end{bmatrix}\;\mathbf{y}=\begin{bmatrix}-2\\-1\\1\\2\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">the four points, centred, so no intercept column</p></div><div class="fragment fade-up" data-fragment-index="1" style="background: #f9f0ee; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">Step 1 &middot; \(\mathbf{X}'\mathbf{X}\)</p><p style="font-size: 15pt; margin: 0;">\(\begin{bmatrix}5&5\\5&5\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">determinant 5&middot;5 &minus; 5&middot;5 = 0: <strong>no inverse</strong></p></div><div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">Step 2 &middot; add \(\lambda\mathbf{I}\), \(\lambda = 5\)</p><p style="font-size: 15pt; margin: 0;">\(\begin{bmatrix}10&5\\5&10\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">\(\mathbf{I}\) = 1s on the diagonal, 0s elsewhere &middot; determinant 100 &minus; 25 = 75</p></div><div class="fragment fade-up" data-fragment-index="3" style="background: #f0f5f8; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">Step 3 &middot; \(\mathbf{X}'\mathbf{y}\)</p><p style="font-size: 15pt; margin: 0;">\(\begin{bmatrix}7\\7\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">the same 7 as on the Ridge slide</p></div><div class="fragment fade-up" data-fragment-index="4" style="background: #eef5ee; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">Step 4 &middot; invert, multiply</p><p style="font-size: 15pt; margin: 0;">\(\tfrac{1}{75}\begin{bmatrix}10&-5\\-5&10\end{bmatrix}\begin{bmatrix}7\\7\end{bmatrix}=\begin{bmatrix}0.467\\0.467\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">the twins split the slope evenly</p></div></div>
+        <div style="display: grid; grid-template-columns: 1.35fr 0.85fr 0.95fr 0.75fr 1.55fr; gap: 9px; align-items: stretch;"><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">The data: \(x\) entered twice</p><p style="font-size: 15pt; margin: 0;">\(\mathbf{X}=\begin{bmatrix}-1.5&-1.5\\-0.5&-0.5\\0.5&0.5\\1.5&1.5\end{bmatrix}\;\mathbf{y}=\begin{bmatrix}-2\\-1\\1\\2\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">the four points, centred (each minus its mean), so no intercept column</p></div><div class="fragment fade-up" data-fragment-index="1" style="background: #f9f0ee; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">Step 1 &middot; \(\mathbf{X}'\mathbf{X}\)</p><p style="font-size: 15pt; margin: 0;">\(\begin{bmatrix}5&5\\5&5\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">determinant 5&middot;5 &minus; 5&middot;5 = 0: <strong>no inverse</strong></p></div><div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">Step 2 &middot; add \(\lambda\mathbf{I}\), \(\lambda = 5\)</p><p style="font-size: 15pt; margin: 0;">\(\begin{bmatrix}10&5\\5&10\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">\(\mathbf{I}\) = 1s on the diagonal, 0s elsewhere &middot; determinant 100 &minus; 25 = 75</p></div><div class="fragment fade-up" data-fragment-index="3" style="background: #f0f5f8; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">Step 3 &middot; \(\mathbf{X}'\mathbf{y}\)</p><p style="font-size: 15pt; margin: 0;">\(\begin{bmatrix}7\\7\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">the same 7 as on the Ridge slide</p></div><div class="fragment fade-up" data-fragment-index="4" style="background: #eef5ee; border-radius: 10px; padding: 10px 10px; text-align: center;"><p style="font-size: 12pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">Step 4 &middot; invert, multiply</p><p style="font-size: 15pt; margin: 0;">\(\tfrac{1}{75}\begin{bmatrix}10&-5\\-5&10\end{bmatrix}\begin{bmatrix}7\\7\end{bmatrix}=\begin{bmatrix}0.467\\0.467\end{bmatrix}\)</p><p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0; line-height: 1.3;">the twins split the slope evenly</p></div></div>
         <div class="fragment fade-up key-result" data-fragment-index="5" style="margin-top: 10px;">
           <p style="font-size: 14.5pt;">\(\lambda\) on the diagonal lifts <strong>every eigenvalue by \(\lambda\)</strong>: 10 and 0 become 15 and 5. (The determinant is the eigenvalues multiplied: 10 &times; 0 = 0, then 15 &times; 5 = 75.) None can be zero, so the inverse exists <strong>for any \(\lambda &gt; 0\)</strong>. With one column, \(\mathbf{X}'\mathbf{X}\) is just 5 and \(\mathbf{X}'\mathbf{y}\) is 7: the \(7/(5+\lambda)\) rule.</p>
         </div>
@@ -402,7 +402,7 @@
         <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; None of Them</h2>
         <div class="poll-results-chart" data-poll-id="ch16-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:10px 60px 32px;"></div>
         <div style="padding: 0 45px;">
-          <p style="font-size: 15pt; line-height: 1.6;">The constraint region is a <strong>circle</strong>. It has no corners, so the point where the expanding loss contours first touch it is almost never on an axis &mdash; and a coefficient is exactly zero only <em>on</em> an axis. All 490 noise variables stay in the model at reduced weight: Ridge shrinks every coefficient toward zero and sets <strong>none</strong> exactly to zero.</p>
+          <p style="font-size: 15pt; line-height: 1.6;">The constraint region is a <strong>circle</strong>. It has no corners, so the point where the expanding ellipses of equal fit first touch it is almost never on an axis &mdash; and a coefficient is exactly zero only <em>on</em> an axis. All 490 noise variables stay in the model at reduced weight: Ridge shrinks every coefficient toward zero and sets <strong>none</strong> exactly to zero.</p>
           <div class="fragment fade-up" style="background: #eef5ee; border-left: 4px solid var(--success-color); padding: 13px 20px; border-radius: 8px; margin-top: 13px;" data-fragment-index="1">
             <p style="font-size: 14pt; margin: 0;"><strong>Why D is tempting but wrong:</strong> \(\lambda\to\infty\) does drive every coefficient <em>toward</em> zero &mdash; including the ten real ones. There is no \(\lambda\) that zeroes the 490 while sparing the 10. That is structural, not a tuning problem.</p>
           </div>
@@ -433,7 +433,7 @@
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-shapes" style="color: var(--secondary-color);"></i> The Same Picture, One Shape Changed</h2>
       <div class="content" style="padding-top: 4px;">
         <img src="figures/figure_002_geometry.png" alt="Loss contours meeting a circular L2 constraint on the left and a diamond-shaped L1 constraint on the right; the Ridge solution sits off-axis with both coefficients nonzero while the LASSO solution lands exactly on the diamond's corner where beta-2 is zero" style="width: 79%; display: block; margin: 0 auto; border-radius: 6px;">
-        <p style="font-size: 14.5pt; margin-top: 8px; text-align: center; line-height: 1.5;">Expanding elliptical contours meeting a diamond are very likely to touch at a <strong>corner</strong>, because corners stick out. And <strong>a corner of the diamond is a point where one coordinate is exactly zero.</strong></p>
+        <p style="font-size: 14.5pt; margin-top: 8px; text-align: center; line-height: 1.5;">The \(L_1\) budget, \(|\beta_1| + |\beta_2| \le s\), is a <strong>diamond</strong>. Expanding ellipses of equal fit meeting a diamond are very likely to touch at a <strong>corner</strong>, because corners stick out. And <strong>a corner of the diamond is a point where one coordinate is exactly zero.</strong></p>
       </div>
     </section>
 
@@ -468,7 +468,7 @@
         </div>
         <p class="fragment fade-up" style="font-size: 15pt; margin-top: 14px; line-height: 1.55;" data-fragment-index="2">So the real choice is between a <strong>short list that misses true variables</strong> and a <strong>longer one that admits false ones</strong>.</p>
         <div class="fragment fade-up misconception" style="margin-top: 12px;" data-fragment-index="3">
-          <p>And note the design: those 34 false positives occur on <strong>independent</strong> Gaussian columns &mdash; the friendliest possible case. Real economic data, where everything correlates with everything, is <strong>worse</strong>.</p>
+          <p>And note the design: those 34 false positives occur on <strong>independent</strong> normal (Gaussian) columns &mdash; the friendliest possible case. Real economic data, where everything correlates with everything, is <strong>worse</strong>.</p>
         </div>
       </div>
     </section>
@@ -480,7 +480,7 @@
           <p class="text-xl" style="font-style: italic;">"LASSO tells me which variables matter."</p>
         </div>
         <p class="text-lg" style="margin-top: 16px; line-height: 1.6;">It tells you which variables it <strong>kept</strong>, which is a different thing. Here it kept <strong>44</strong> to find <strong>10</strong>.</p>
-        <p style="font-size: 15pt; margin-top: 14px; line-height: 1.55;">And the selection carries a formal caveat: LASSO is only guaranteed to recover the true set of variables when the irrelevant ones are not strongly correlated with the relevant ones &mdash; a condition routinely violated by macroeconomic series, asset-pricing factors, and anything with a factor structure.</p>
+        <p style="font-size: 15pt; margin-top: 14px; line-height: 1.55;">And the selection carries a formal caveat: LASSO is only guaranteed to recover the true set of variables when the irrelevant ones are not strongly correlated with the relevant ones &mdash; a condition routinely violated by macroeconomic series, asset-pricing factors, and anything with a factor structure (many series driven by a few common forces).</p>
         <div class="key-result" style="margin-top: 16px;">
           <p style="font-size: 16pt;"><strong>Treat a LASSO selection as a hypothesis worth investigating &mdash; never as a finding.</strong></p>
         </div>
@@ -583,7 +583,7 @@ print(<span class="t-str">&quot;lambda selected by cross-validation:&quot;</span
           <p class="text-lg" style="margin-top: 8px;"><strong>Why?</strong></p>
           <div class="poll-grid" data-poll-id="ch16-econ3916-poll-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; font-size: 15pt;">
             <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) The test set is too small to rank them reliably</div>
-            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) At \(\lambda = 1.0\) the ten survivors are heavily shrunk, so the magnitudes are badly attenuated</div>
+            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) At \(\lambda = 1.0\) the ten survivors are heavily shrunk, so the magnitudes come out far too small</div>
             <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) The 34 extra variables carry real signal the 10 miss</div>
             <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Cross-validation picked the wrong \(\lambda\)</div>
           </div>
@@ -711,12 +711,12 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
     <section id="imf" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-building-columns" style="color: var(--secondary-color);"></i> Economist at Work &mdash; the IMF, 2025</h2>
       <div class="content">
-        <p style="font-size: 15pt; line-height: 1.55;">Post-pandemic structural breaks had made the reliable data <strong>short</strong> while the number of available high-frequency indicators had grown past a hundred. With \(p\) approaching \(n\), the design matrix was rank-deficient: OLS was not merely inaccurate but <strong>incomputable</strong>.</p>
+        <p style="font-size: 15pt; line-height: 1.55;">Post-pandemic structural breaks had made the reliable data <strong>short</strong> while the number of available high-frequency indicators (weekly and monthly series) had grown past a hundred. With \(p\) approaching \(n\), the design matrix \(\mathbf{X}\) was rank-deficient (\(\mathbf{X}'\mathbf{X}\) had no inverse, as on the matrix slide): OLS was not merely inaccurate but <strong>incomputable</strong>.</p>
         <p style="font-size: 15pt; margin-top: 12px; line-height: 1.55;">The team deployed LASSO, Ridge and Elastic Net. The first result was disappointing &mdash; on highly collinear macro series, LASSO selected variables that made <strong>no economic sense</strong>.</p>
         <div class="key-result" style="margin-top: 14px;">
           <p><strong>What fixed it was not a better algorithm.</strong> The economists imposed <strong>sign restrictions</strong> &mdash; consumer sentiment must enter positively, unemployment claims negatively, and so on wherever theory dictates a direction. With those constraints the model outperformed both MIDAS (regressions that mix monthly and quarterly data) and dynamic-factor benchmarks.</p>
         </div>
-        <p style="font-size: 13.5pt; margin-top: 10px; line-height: 1.45; color: var(--muted-color);"><strong style="color: var(--text-color);">And the Fed?</strong> Its headline nowcasts take the dense route. The New York Fed&rsquo;s is a <strong>dynamic factor model</strong>: a few hidden factors (overall activity, surveys, labour) drive every series. The Atlanta Fed&rsquo;s GDPNow builds GDP from its parts. And &ldquo;the illusion of sparsity&rdquo; began as a New York Fed Staff Report (Giannone, Lenza &amp; Primiceri, No. 847, 2018).</p>
+        <p style="font-size: 13.5pt; margin-top: 10px; line-height: 1.45; color: var(--muted-color);"><strong style="color: var(--text-color);">And the Fed?</strong> Its headline <strong>nowcasts</strong> (estimates of this quarter&rsquo;s GDP before it is published) take the dense route. The New York Fed&rsquo;s is a <strong>dynamic factor model</strong>: a few hidden factors (overall activity, surveys, labour) drive every series. The Atlanta Fed&rsquo;s GDPNow builds GDP from its parts. And &ldquo;the illusion of sparsity&rdquo; began as a New York Fed Staff Report (Giannone, Lenza &amp; Primiceri, No. 847, 2018).</p>
         <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 14px; text-align: center; color: var(--accent-color);"><strong>An algorithm turned loose on collinear data finds patterns. An economist decides which patterns are permitted.</strong></p>
       </div>
     </section>
@@ -742,7 +742,7 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
       <div class="content">
         <p class="text-lg" style="line-height: 1.55;">Classical inference assumes the specification was fixed <strong>before</strong> seeing the data. Chapter 8 built every \(p\)-value on that assumption.</p>
         <div class="fragment fade-up misconception" style="margin-top: 14px;" data-fragment-index="1">
-          <p>But those 12 variables were chosen <em>because</em> they correlated strongly with the outcome <strong>in this sample</strong> &mdash; that is what LASSO does. Reporting classical standard errors treats a data-driven choice as if theory had made it, and the intervals come out <strong>too narrow</strong>. Their true coverage is well below nominal.</p>
+          <p>But those 12 variables were chosen <em>because</em> they correlated strongly with the outcome <strong>in this sample</strong> &mdash; that is what LASSO does. Reporting classical standard errors treats a data-driven choice as if theory had made it, and the intervals come out <strong>too narrow</strong>. Their true coverage is well below nominal: a &ldquo;95%&rdquo; interval contains the truth far less than 95% of the time.</p>
         </div>
         <p class="fragment fade-up" style="font-size: 15pt; margin-top: 14px; line-height: 1.55;" data-fragment-index="2">It is the same error as running 500 hypothesis tests and reporting only the significant ones &mdash; which Chapter 8 named. <strong>LASSO simply automates the selection and makes it feel principled.</strong></p>
         <p class="fragment fade-up" style="font-size: 15pt; margin-top: 14px; color: var(--accent-color);" data-fragment-index="3"><i class="fa-solid fa-arrow-right"></i> Worse than the manual version in one respect: a researcher running 500 tests by hand <em>knows</em> they did it. LASSO performs the same search without telling you and returns a tidy list &mdash; there is no artefact to audit.</p>
@@ -763,7 +763,7 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
         </div>
         <p style="font-size: 14pt; margin-top: 12px; color: var(--muted-color);">Belloni, Chernozhukov &amp; Hansen (2014). The machinery is Topic 24's (Chapter 24, Double Machine Learning) &mdash; recognising that you <em>need</em> it is today's.</p>
         <div class="key-result" style="margin-top: 14px;">
-          <p><strong>And it gains less than you would expect.</strong> A 2024 World Bank audit re-estimated <strong>780 treatment effects</strong> from published randomised trials using post-double selection. Against plain ANCOVA with pre-specified controls it improved standard errors by <strong>under 1%</strong> &mdash; and in <strong>over half</strong> the cases the treatment equation selected <strong>no controls at all</strong>.</p>
+          <p><strong>And it gains less than you would expect.</strong> A 2024 World Bank audit re-estimated <strong>780 treatment effects</strong> from published randomised trials using post-double selection. Against plain ANCOVA (a regression with controls chosen before seeing the data) it improved standard errors by <strong>under 1%</strong> &mdash; and in <strong>over half</strong> the cases the treatment equation (the second LASSO, predicting the treatment) selected <strong>no controls at all</strong>.</p>
         </div>
         <p class="fragment fade-up" style="font-size: 15pt; margin-top: 12px;">That second finding has a simple explanation: in a randomised trial assignment is random <em>by construction</em>, so nothing should predict it. The second LASSO has nothing to find.</p>
       </div>
@@ -780,7 +780,7 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
             <p style="font-size: 14pt;"><strong>2. Causal identification.</strong> LASSO selects variables that <em>predict</em>. A variable can predict because it causes the outcome, because it shares a cause, or because it is a <em>consequence</em> of the outcome &mdash; Chapter 10's three structures, indistinguishable to any penalty. Hand it a collider and it will keep it.</p>
           </div>
           <div style="background: #f9f0ee; border-left: 3px solid var(--danger-color); border-radius: 6px; padding: 11px 18px;">
-            <p style="font-size: 14pt;"><strong>3. A badly measured target.</strong> Chapter 15's noise floor is unmoved by any penalty. If \(y\) is measured with substantial error, the way past that limit is better data, not a better estimator.</p>
+            <p style="font-size: 14pt;"><strong>3. A badly measured target.</strong> Chapter 15's noise floor (\(\sigma^2\), the error no model removes) is unmoved by any penalty. If \(y\) is measured with substantial error, the way past that limit is better data, not a better estimator.</p>
           </div>
         </div>
         <div class="fragment fade-up key-result" style="margin-top: 12px;">
@@ -829,7 +829,7 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
         <div style="padding: 0 45px;">
           <p style="font-size: 15pt; line-height: 1.6;">B reports what the procedure did, the value of the hyperparameter that produced it, and a predictive score &mdash; and claims nothing about individual coefficients or about which variables matter.</p>
           <div class="fragment fade-up" style="background: #eef5ee; border-left: 4px solid var(--success-color); padding: 13px 20px; border-radius: 8px; margin-top: 13px;" data-fragment-index="1">
-            <p style="font-size: 14pt; margin: 0;"><strong>Why C is tempting but wrong:</strong> it is the single most common thing people actually do. Those \(p\)-values were computed on a specification the <em>data</em> chose, so their coverage is well below nominal. The fix is post-double selection &mdash; but recognising that you need a fix is today's job.</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>Why C is tempting but wrong:</strong> it is the single most common thing people actually do. Those \(p\)-values were computed on a specification the <em>data</em> chose, so their coverage is well below nominal: a &ldquo;95%&rdquo; interval misses the truth far more than 5% of the time. The fix is post-double selection &mdash; but recognising that you need a fix is today's job.</p>
           </div>
         </div>
       </section>
@@ -859,7 +859,7 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
           </div>
           <div class="fragment fade-up" data-fragment-index="4" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 6px 16px; border-left: 3px solid var(--secondary-color);">
             <p style="font-size: 17pt; font-weight: 700; color: var(--secondary-color);">4</p>
-            <p style="font-size: 13.5pt;"><strong>Look at the CV curve, not just its minimum.</strong> Flat across an order of magnitude means \(\lambda\) is not identified &mdash; say so.</p>
+            <p style="font-size: 13.5pt;"><strong>Look at the CV curve, not just its minimum.</strong> Flat across an order of magnitude means the data cannot pin \(\lambda\) down &mdash; say so.</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="5" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #eef5ee; border-radius: 6px; padding: 6px 16px; border-left: 3px solid var(--success-color);">
             <p style="font-size: 17pt; font-weight: 700; color: var(--success-color);">5</p>
@@ -931,7 +931,7 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
       <div style="max-width: 900px; margin: 26px auto 0;">
         <p style="font-size: 16pt; line-height: 1.6; color: var(--text-color);">The same penalties transfer to logistic regression almost for free: swap squared-error loss for logistic loss and keep the penalty untouched.</p>
         <div style="background: #f9f0ee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 16px 22px; margin-top: 20px; text-align: left;">
-          <p style="font-size: 15pt;">Two warnings you now have the context for: <code>LogisticRegression</code> in scikit-learn is <strong>penalised by default</strong> &mdash; which surprises economists expecting maximum likelihood &mdash; and its <code>C</code> is the <strong>inverse</strong> of the penalty strength, so <em>small</em> <code>C</code> means <em>heavy</em> regularization.</p>
+          <p style="font-size: 15pt;">Two warnings you now have the context for: <code>LogisticRegression</code> in scikit-learn is <strong>penalised by default</strong> &mdash; which surprises economists expecting the plain, unpenalised fit &mdash; and its <code>C</code> is the <strong>inverse</strong> of the penalty strength, so <em>small</em> <code>C</code> means <em>heavy</em> regularization.</p>
         </div>
         <p style="font-size: 15pt; margin-top: 18px; color: var(--muted-color); font-style: italic;">Add it to today's naming table: one more convention, running the opposite way. Read the documentation before interpreting a number.</p>
       </div>
