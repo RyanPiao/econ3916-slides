@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=5aad26aab9919580bfacd9dbb521226d">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=3f819aa9eafe587bcdd07fa56e70c1dd">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regularization: LASSO & Ridge</title>
@@ -714,8 +714,9 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
         <p style="font-size: 15pt; line-height: 1.55;">Post-pandemic structural breaks had made the reliable data <strong>short</strong> while the number of available high-frequency indicators had grown past a hundred. With \(p\) approaching \(n\), the design matrix was rank-deficient: OLS was not merely inaccurate but <strong>incomputable</strong>.</p>
         <p style="font-size: 15pt; margin-top: 12px; line-height: 1.55;">The team deployed LASSO, Ridge and Elastic Net. The first result was disappointing &mdash; on highly collinear macro series, LASSO selected variables that made <strong>no economic sense</strong>.</p>
         <div class="key-result" style="margin-top: 14px;">
-          <p><strong>What fixed it was not a better algorithm.</strong> The economists imposed <strong>sign restrictions</strong> &mdash; consumer sentiment must enter positively, unemployment claims negatively, and so on wherever theory dictates a direction. With those constraints the model outperformed both MIDAS and dynamic-factor benchmarks.</p>
+          <p><strong>What fixed it was not a better algorithm.</strong> The economists imposed <strong>sign restrictions</strong> &mdash; consumer sentiment must enter positively, unemployment claims negatively, and so on wherever theory dictates a direction. With those constraints the model outperformed both MIDAS (regressions that mix monthly and quarterly data) and dynamic-factor benchmarks.</p>
         </div>
+        <p style="font-size: 13.5pt; margin-top: 10px; line-height: 1.45; color: var(--muted-color);"><strong style="color: var(--text-color);">And the Fed?</strong> Its headline nowcasts take the dense route. The New York Fed&rsquo;s is a <strong>dynamic factor model</strong>: a few hidden factors (overall activity, surveys, labour) drive every series. The Atlanta Fed&rsquo;s GDPNow builds GDP from its parts. And &ldquo;the illusion of sparsity&rdquo; began as a New York Fed Staff Report (Giannone, Lenza &amp; Primiceri, No. 847, 2018).</p>
         <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 14px; text-align: center; color: var(--accent-color);"><strong>An algorithm turned loose on collinear data finds patterns. An economist decides which patterns are permitted.</strong></p>
       </div>
     </section>
@@ -760,7 +761,7 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
             <p style="font-size: 14.5pt; margin-top: 8px;">You need <strong>post-double selection</strong>: run LASSO twice &mdash; once predicting the <em>outcome</em> from the controls, once predicting the <em>treatment</em> &mdash; and use the <strong>union</strong> of both sets in an unpenalised regression.</p>
           </div>
         </div>
-        <p style="font-size: 14pt; margin-top: 12px; color: var(--muted-color);">Belloni, Chernozhukov &amp; Hansen (2014). The machinery is ECON 5200's and Chapter 24's &mdash; recognising that you <em>need</em> it is today's.</p>
+        <p style="font-size: 14pt; margin-top: 12px; color: var(--muted-color);">Belloni, Chernozhukov &amp; Hansen (2014). The machinery is Topic 24's (Chapter 24, Double Machine Learning) &mdash; recognising that you <em>need</em> it is today's.</p>
         <div class="key-result" style="margin-top: 14px;">
           <p><strong>And it gains less than you would expect.</strong> A 2024 World Bank audit re-estimated <strong>780 treatment effects</strong> from published randomised trials using post-double selection. Against plain ANCOVA with pre-specified controls it improved standard errors by <strong>under 1%</strong> &mdash; and in <strong>over half</strong> the cases the treatment equation selected <strong>no controls at all</strong>.</p>
         </div>
@@ -866,7 +867,7 @@ print(<span class="t-str">&quot;mixing parameter chosen on the sparse design:&qu
           </div>
           <div class="fragment fade-up" data-fragment-index="6" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #f4f1ed; border-radius: 6px; padding: 6px 16px; border-left: 3px dashed var(--muted-color);">
             <p style="font-size: 17pt; font-weight: 700; color: var(--muted-color);">6</p>
-            <p style="font-size: 13.5pt; color: var(--muted-color);">If a causal parameter is involved, use post-double selection &mdash; <em>where the graduate track picks this up.</em> For 3916: stop at step 5, and know step 6 exists.</p>
+            <p style="font-size: 13.5pt; color: var(--muted-color);">If a causal parameter is involved, use post-double selection. <em>Topic 24 (Chapter 24, Double Machine Learning, &sect;24.1&ndash;24.2) builds on it.</em> Until then: stop at step 5, and know step 6 exists.</p>
           </div>
         </div>
       </div>
