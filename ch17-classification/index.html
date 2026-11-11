@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=b45c0135eb7fb80d115cc81f1e26a2bf">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=500952db7d5b027f1afcf524a0b599a4">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -710,19 +710,29 @@
     <section id="lpm-defects" style="padding: 32px 55px;">
       <h2><i class="fa-solid fa-ruler-horizontal" style="color: var(--accent-color);"></i> The Linear Probability Model</h2>
       <div class="content">
-        <p class="text-lg">Code the outcome <strong>1</strong> for recession and <strong>0</strong> otherwise, regress it on the spread, and read the fitted values as probabilities. This is still used, and it has two defects.</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 18px;">
-          <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 22px; border-left: 4px solid var(--muted-color);">
-            <p style="font-size: 14pt; color: var(--muted-color); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Cosmetic</p>
-            <p style="font-size: 15.5pt; line-height: 1.5;">A straight line does not stop at 0 or 1. Extend it far enough and it predicts <strong>negative probabilities</strong>.</p>
+        <p class="text-lg" style="margin: 0;">The model we already know. Code the outcome <strong>1</strong> if a recession followed within twelve months and <strong>0</strong> otherwise, regress it on the spread, and read the fitted values as probabilities.</p>
+        <div style="display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 20px; margin-top: 12px; align-items: center;">
+          <div style="background: #f8f6f3; border-radius: 10px; padding: 8px 10px; font-size: 14pt;">
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr 1fr;"><div style="display:contents;font-weight:700;"><span style="padding:4px 10px;">month</span><span style="padding:4px 10px;text-align:right;">spread</span><span style="padding:4px 10px;text-align:right;">y</span></div><div style="display:contents;"><span style="padding:4px 10px;">1995-06</span><span style="padding:4px 10px;text-align:right;">0.53</span><span style="padding:4px 10px;text-align:right;">0</span></div><div style="display:contents;"><span style="padding:4px 10px;">2007-03</span><span style="padding:4px 10px;text-align:right;">&minus;0.52</span><span style="padding:4px 10px;text-align:right;"><strong style="color: var(--danger-color);">1</strong></span></div><div style="display:contents;"><span style="padding:4px 10px;">2010-03</span><span style="padding:4px 10px;text-align:right;">3.58</span><span style="padding:4px 10px;text-align:right;">0</span></div></div>
+            <p style="font-size: 12pt; color: var(--muted-color); margin: 4px 10px 0;">&hellip; 523 months; y is 1 in 36 of them</p>
           </div>
-          <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 22px; border-left: 4px solid var(--danger-color);">
-            <p style="font-size: 14pt; color: var(--danger-color); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Structural</p>
-            <p style="font-size: 15.5pt; line-height: 1.5;">The variance of a binary variable is \(p(1-p)\) &mdash; it depends on its own mean, so the errors are <strong>heteroscedastic by construction</strong>. At a typical month's \(p = 0.069\), \(p(1-p) = 0.064\); at \(p = 0.5\), 0.25: four times as large.</p>
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-radius: 10px; padding: 12px 18px; border-left: 4px solid var(--secondary-color);">
+            <p style="font-size: 12.5pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">The fitted line (OLS on all 523 months)</p>
+            <p style="font-size: 18pt; margin: 0;">\(\hat{p} = 0.1511 - 0.0527 \times \text{spread}\)</p>
           </div>
         </div>
-        <div class="key-result" style="margin-top: 18px;">
-          <p style="font-size: 16pt;">You can patch the second with HC3, exactly as Chapter 14 taught. <strong>You cannot patch a negative probability.</strong></p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px;">
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f8f6f3; border-radius: 10px; padding: 12px 18px; border-left: 4px solid var(--muted-color);">
+            <p style="font-size: 13pt; color: var(--muted-color); text-transform: uppercase; letter-spacing: 2px; margin: 0 0 6px;">Defect 1 &middot; Cosmetic</p>
+            <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;">Plug in March 2010: \(0.1511 - 0.0527 \times 3.58 \approx -0.04\). A <strong>negative probability</strong>. The line crosses 0 at a spread of 2.87, and 84 months lie beyond it.</p>
+          </div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 10px; padding: 12px 18px; border-left: 4px solid var(--danger-color);">
+            <p style="font-size: 13pt; color: var(--danger-color); text-transform: uppercase; letter-spacing: 2px; margin: 0 0 6px;">Defect 2 &middot; Structural</p>
+            <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;">A 0/1 outcome has variance \(p(1-p)\), which depends on its own mean, so the errors are <strong>heteroscedastic by construction</strong>: 0.064 at a typical month's \(p = 0.069\), 0.25 at \(p = 0.5\), four times as large.</p>
+          </div>
+        </div>
+        <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 14px;">
+          <p style="font-size: 15.5pt;">You can patch Defect 2 with HC3, exactly as Chapter 14 taught. <strong>You cannot patch a negative probability.</strong></p>
         </div>
       </div>
     </section>
@@ -730,12 +740,20 @@
     <section id="fig-lpm" style="padding: 24px 45px;">
       <h2 style="margin-bottom: 4px;"><i class="fa-solid fa-chart-line" style="color: var(--secondary-color);"></i> Not a Hypothetical &mdash; 84 Negative Probabilities</h2>
       <div class="content" style="display: grid; grid-template-columns: 58% 42%; gap: 22px; align-items: center;">
-        <img class="figure" src="figures/figure_001_lpm_vs_logit.png" alt="The linear probability model fitted to the recession data runs below zero for wide spreads, shading a region of negative predicted probabilities, while the logistic sigmoid stays inside zero and one" style="max-height: 520px; width: auto; display: block; margin: 0 auto;">
+        <div class="r-stack" style="width: 100%; min-width: 0;">
+          <img class="figure" src="figures/figure_001_lpm_vs_logit_s1.png" alt="Every month as a dot: the quiet months at 0 and the 36 months followed by a recession at 1, against the term spread" style="max-width: 100%; max-height: 480px; width: auto; height: auto; display: block; margin: 0 auto;">
+          <img class="figure fragment" data-fragment-index="1" src="figures/figure_001_lpm_vs_logit_s2.png" alt="The linear probability model's straight line falls below zero for spreads above about 2.9, shading 84 months of negative predicted probability" style="max-width: 100%; max-height: 480px; width: auto; height: auto; display: block; margin: 0 auto;">
+          <img class="figure fragment" data-fragment-index="2" src="figures/figure_001_lpm_vs_logit.png" alt="The linear probability model fitted to the recession data runs below zero for wide spreads, shading a region of negative predicted probabilities, while the logistic sigmoid stays inside zero and one" style="max-width: 100%; max-height: 480px; width: auto; height: auto; display: block; margin: 0 auto;">
+        </div>
         <div>
-          <p style="font-size: 14.5pt; line-height: 1.5;">Fitted on the real FRED series, the linear probability model predicts values from <strong>&minus;0.067 to 0.242</strong>.</p>
-          <div class="stat-highlight" style="margin: 14px 0;"><div class="number" style="color: var(--danger-color);">84</div><div class="label">months assigned a NEGATIVE probability of recession</div></div>
-          <p style="font-size: 14.5pt; line-height: 1.5;">Not a contrived example. The ordinary result of fitting a line to a variable that takes only two values.</p>
-          <p style="font-size: 14.5pt; line-height: 1.5; margin-top: 10px; color: var(--secondary-color);"><strong>The sigmoid cannot do this.</strong> It is impossible by construction; tuning has nothing to do with it.</p>
+          <p style="font-size: 14.5pt; line-height: 1.5; margin: 0;">Every dot is a month: the quiet ones at 0, the 36 followed by a recession at 1.</p>
+          <div class="fragment fade-up" data-fragment-index="1">
+            <p style="font-size: 14.5pt; line-height: 1.5; margin: 12px 0 0;">The straight line runs from <strong>0.242</strong> down to <strong>&minus;0.067</strong>. Every month with a spread above 2.87 gets a negative probability:</p>
+            <div class="stat-highlight" style="margin: 8px 0;"><div class="number" style="color: var(--danger-color);">84</div><div class="label">months with a NEGATIVE probability of recession</div></div>
+          </div>
+          <div class="fragment fade-up" data-fragment-index="2">
+            <p style="font-size: 14.5pt; line-height: 1.5; margin: 8px 0 0; color: var(--secondary-color);"><strong>The sigmoid cannot do this.</strong> At the widest spread, 4.15 in September 1982, the line says &minus;0.067 and the sigmoid says 0.005: small, and still a probability.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -744,15 +762,33 @@
       <h2><i class="fa-solid fa-wave-square" style="color: var(--success-color);"></i> The Fix: Keep the Line, Bend the Output</h2>
       <div class="content">
         <p class="text-lg">Keep the linear combination of features. Pass it through a function that maps the whole real line into \((0, 1)\).</p>
-        <div class="equation-box" style="margin: 10px 0 6px;">
+        <div class="equation-box" style="margin: 4px 0 2px;">
           $$\hat{P}(Y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p)}}$$
         </div>
         <p style="font-size: 13pt; color: var(--muted-color); margin: 4px 0 6px; text-align: center;">\(e \approx 2.718\). One month, with the fitted \(\beta_0 = -1.7592\), \(\beta_1 = -0.8354\) and a spread of \(-1\) (the 10-year one point below the bill):</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 0 0 12px;"><div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 3px;">Step 1 · the linear predictor</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(-1.7592 + (-0.8354)(-1) = -0.9238\)</p></div><div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 3px;">Step 2 · the exponential</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(e^{0.9238} = 2.519\)</p></div><div class="fragment fade-up" data-fragment-index="3" style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--success-color); margin: 0 0 3px;">Step 3 · bend it into (0, 1)</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(1 / (1 + 2.519) = 0.284\): a 28.4% chance</p></div></div>
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 18px; margin: 0 0 8px; align-items: center;"><div style="display: flex; flex-direction: column; gap: 8px;"><div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 3px;">Step 1 · the linear predictor</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(-1.7592 + (-0.8354)(-1) = -0.9238\)</p></div><div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 3px;">Step 2 · the exponential</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(e^{0.9238} = 2.519\)</p></div><div class="fragment fade-up" data-fragment-index="3" style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--success-color); margin: 0 0 3px;">Step 3 · bend it into (0, 1)</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(1 / (1 + 2.519) = 0.284\): a 28.4% chance</p></div></div><div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 560 228" width="100%" role="img" aria-label="The sigmoid: p equals one over one plus e to the minus z, an S from 0 to 1; z of minus 3 maps to 0.047, 0 to 0.5, plus 3 to 0.953; the worked month, z minus 0.9238, maps to 0.284" style="display:block;font-family:inherit">
+<line x1="50" y1="188" x2="540" y2="188" stroke="#BFB8B0"/><line x1="295.0" y1="14" x2="295.0" y2="188" stroke="#E4DED7"/>
+<line x1="50" y1="101.0" x2="540" y2="101.0" stroke="#E4DED7" stroke-dasharray="4 3"/>
+<text x="44" y="19.0" font-size="13" fill="#6B645E" text-anchor="end">1</text>
+<text x="44" y="106.0" font-size="13" fill="#6B645E" text-anchor="end">0.5</text>
+<text x="44" y="193.0" font-size="13" fill="#6B645E" text-anchor="end">0</text>
+<path d="M50.0 187.6 L54.1 187.5 L58.2 187.5 L62.2 187.4 L66.3 187.4 L70.4 187.3 L74.5 187.2 L78.6 187.1 L82.7 187.0 L86.8 186.9 L90.8 186.8 L94.9 186.7 L99.0 186.6 L103.1 186.4 L107.2 186.3 L111.2 186.1 L115.3 185.9 L119.4 185.7 L123.5 185.4 L127.6 185.2 L131.7 184.9 L135.8 184.5 L139.8 184.2 L143.9 183.8 L148.0 183.4 L152.1 182.9 L156.2 182.4 L160.2 181.8 L164.3 181.2 L168.4 180.5 L172.5 179.7 L176.6 178.9 L180.7 178.0 L184.8 177.0 L188.8 176.0 L192.9 174.8 L197.0 173.5 L201.1 172.1 L205.2 170.6 L209.2 169.0 L213.3 167.3 L217.4 165.4 L221.5 163.3 L225.6 161.1 L229.7 158.8 L233.8 156.3 L237.8 153.6 L241.9 150.7 L246.0 147.7 L250.1 144.5 L254.2 141.2 L258.2 137.7 L262.3 134.1 L266.4 130.3 L270.5 126.3 L274.6 122.3 L278.7 118.2 L282.8 114.0 L286.8 109.7 L290.9 105.3 L295.0 101.0 L299.1 96.7 L303.2 92.3 L307.2 88.0 L311.3 83.8 L315.4 79.7 L319.5 75.7 L323.6 71.7 L327.7 67.9 L331.8 64.3 L335.8 60.8 L339.9 57.5 L344.0 54.3 L348.1 51.3 L352.2 48.4 L356.2 45.7 L360.3 43.2 L364.4 40.9 L368.5 38.7 L372.6 36.6 L376.7 34.7 L380.7 33.0 L384.8 31.4 L388.9 29.9 L393.0 28.5 L397.1 27.2 L401.2 26.0 L405.3 25.0 L409.3 24.0 L413.4 23.1 L417.5 22.3 L421.6 21.5 L425.7 20.8 L429.8 20.2 L433.8 19.6 L437.9 19.1 L442.0 18.6 L446.1 18.2 L450.2 17.8 L454.3 17.5 L458.3 17.1 L462.4 16.8 L466.5 16.6 L470.6 16.3 L474.7 16.1 L478.8 15.9 L482.8 15.7 L486.9 15.6 L491.0 15.4 L495.1 15.3 L499.2 15.2 L503.3 15.1 L507.3 15.0 L511.4 14.9 L515.5 14.8 L519.6 14.7 L523.7 14.6 L527.8 14.6 L531.8 14.5 L535.9 14.5 L540.0 14.4" fill="none" stroke="#1F7A5A" stroke-width="3.5"/>
+<text x="540" y="222" font-size="14" fill="#6B645E" text-anchor="end">z, the linear predictor</text>
+<text x="54" y="16" font-size="14" fill="#6B645E">p</text>
+<circle cx="172.5" cy="179.7" r="5" fill="#6B645E"/>
+<text x="162.5" y="167.7" font-size="14" fill="#2D2D2D" text-anchor="end">z = −3 → 0.047</text>
+<text x="172.5" y="205" font-size="13" fill="#6B645E" text-anchor="middle">−3</text>
+<circle cx="295.0" cy="101.0" r="5" fill="#6B645E"/>
+<text x="285.0" y="89.0" font-size="14" fill="#2D2D2D" text-anchor="end">z = 0 → 0.500</text>
+<text x="295.0" y="205" font-size="13" fill="#6B645E" text-anchor="middle">0</text>
+<circle cx="417.5" cy="22.3" r="5" fill="#6B645E"/>
+<text x="427.5" y="46.3" font-size="14" fill="#2D2D2D" text-anchor="start">z = +3 → 0.953</text>
+<text x="417.5" y="205" font-size="13" fill="#6B645E" text-anchor="middle">+3</text>
+<g class="fragment" data-fragment-index="3"><line x1="257.3" y1="188" x2="257.3" y2="138.6" stroke="#C0603A" stroke-dasharray="4 3"/><line x1="50" y1="138.6" x2="257.3" y2="138.6" stroke="#C0603A" stroke-dasharray="4 3"/><circle cx="257.3" cy="138.6" r="7" fill="#C0603A" stroke="#fff" stroke-width="2"/><text x="245.3" y="126.6" font-size="15" font-weight="700" fill="#C0603A" text-anchor="end">our month: 0.284</text></g>
+</svg></div></div>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 12px 22px;">
-          <p style="font-size: 15.5pt; line-height: 1.55;"><strong>In words.</strong> The expression inside the exponential is the <strong>linear predictor</strong> &mdash; exactly the \(\mathbf{x}'\boldsymbol{\beta}\) of Chapter 13. The <strong>sigmoid</strong> wrapped around it is S-shaped: very negative linear predictors map near 0, very positive ones near 1, and zero maps to exactly 0.5.</p>
+          <p style="font-size: 15.5pt; line-height: 1.55;"><strong>In words.</strong> Inside the exponential is the <strong>linear predictor</strong> \(z\), the \(\mathbf{x}'\boldsymbol{\beta}\) of Chapter 13. The <strong>sigmoid</strong>, the S on the right, turns any \(z\) into a probability: very negative near 0, very positive near 1, \(z = 0\) exactly 0.5. Nothing about the features changed; only what we do with their weighted sum.</p>
         </div>
-        <p style="margin-top: 10px; font-size: 16pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Nothing about the features changed. Only what we do with their weighted sum.</p>
       </div>
     </section>
 
@@ -764,16 +800,15 @@
     <section id="logit-algebra" style="padding: 32px 60px;">
       <h2><i class="fa-solid fa-right-left" style="color: var(--secondary-color);"></i> The Rearrangement That Explains Everything</h2>
       <div class="content">
-        <p class="text-lg">Take the sigmoid and solve for the linear predictor:</p>
-        <div class="equation-box" style="margin: 14px 0;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 0 8px;"><div style="background: #1565C0; color: #fff; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>1 Log-odds</strong> &middot; &minus;0.8354 per point (linear)</div><div style="background: #EEF2F6; color: #6B645E; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>2 Odds</strong> &middot; &times;0.434 per point</div><div style="background: #EEF2F6; color: #6B645E; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>3 Probability</strong> &middot; depends where you start</div></div>
+                <p style="font-size: 15pt; margin: 0;">Take the sigmoid and solve for the linear predictor:</p>
+        <div class="equation-box" style="margin: 2px 0 2px; font-size: 0.85em;">
           $$\log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p$$
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px;"><p style="font-size: 15pt; line-height: 1.5;"><strong>Odds</strong> \(= p/(1-p)\). A probability of 0.2 is odds of 0.25 &mdash; &ldquo;one to four.&rdquo;</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px;"><p style="font-size: 15pt; line-height: 1.5;">The <strong>logit</strong> is the log of the odds. It is the scale on which this model is linear.</p></div>
-        </div>
-        <div class="key-result" style="margin-top: 16px;">
-          <p style="font-size: 16.5pt;">Logistic regression <em>is</em> a linear model. It is linear in the <strong>log-odds</strong>, not in the probability &mdash; and that one fact governs every interpretation you will ever make of it.</p>
+        <p class="fragment fade-up" data-fragment-index="1" style="font-size: 15pt; margin: 0 0 8px; text-align: center;"><strong>Probability</strong> \(p\): out of <em>every</em> outcome. <strong>Odds</strong> \(= p/(1-p)\): the chances <em>for</em> against the chances <em>against</em>. The <strong>logit</strong> is the log of the odds.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;"><div class="fragment fade-up" data-fragment-index="1" style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 14pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 6px;">Toss a coin: heads</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Probability \(\tfrac12 = 0.5\): one head in every two tosses.</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Odds \(0.5/0.5 = 1\), <strong>1 to 1</strong>: one head for every tail. &ldquo;Even.&rdquo;</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Log-odds \(\log 1 = 0\).</p></div><div class="fragment fade-up" data-fragment-index="2" style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--accent-color);"><p style="font-size: 14pt; font-weight: 700; color: var(--accent-color); margin: 0 0 6px;">Rock-paper-scissors: you win</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Probability \(\tfrac13\): win, lose and tie are equally likely.</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Odds \((\tfrac13)/(\tfrac23) = 0.5\), <strong>1 to 2</strong>: one win for every two games you do not win (a loss or a tie).</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Log-odds \(\log 0.5 = -0.69\).</p></div><div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--danger-color);"><p style="font-size: 14pt; font-weight: 700; color: var(--danger-color); margin: 0 0 6px;">Our data: a recession ahead</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Probability \(36/523 = 0.069\).</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Odds \(36/487 = 0.074\), <strong>about 1 to 13.5</strong>: one recession-ahead month for every 13.5 quiet ones.</p><p style="font-size: 13pt; line-height: 1.38; margin: 0 0 5px;">Log-odds \(-2.60\).</p></div></div>
+        <div class="fragment fade-up" data-fragment-index="4" style="background: #f0f5f8; border-radius: 10px; padding: 10px 16px; margin-top: 10px;">
+          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Probability</strong>: out of all outcomes, 0 to 1. <strong>Odds</strong>: for against against, 0 to infinity, even = 1. <strong>Log-odds</strong>: even = 0, no floor and no ceiling, so a straight line fits. That is why the model is linear in the log-odds.</p>
         </div>
       </div>
     </section>
@@ -781,39 +816,45 @@
     <section id="odds-ratio" style="padding: 32px 55px;">
       <h2><i class="fa-solid fa-percent" style="color: var(--accent-color);"></i> Exponentiate, and It Becomes Sayable</h2>
       <div class="content">
-        <div class="equation-box" style="margin-bottom: 14px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 0 8px;"><div style="background: #EEF2F6; color: #6B645E; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>1 Log-odds</strong> &middot; &minus;0.8354 per point (linear)</div><div style="background: #1565C0; color: #fff; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>2 Odds</strong> &middot; &times;0.434 per point</div><div style="background: #EEF2F6; color: #6B645E; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>3 Probability</strong> &middot; depends where you start</div></div>
+                <div class="equation-box" style="margin: 0 0 6px; font-size: 0.85em;">
           $$e^{\beta_j} = \text{the factor by which the odds multiply, per one-unit increase in } x_j$$
         </div>
-        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 13pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>b = logit.params[<span class="t-str">&quot;spread&quot;</span>]
-print(f<span class="t-str">&quot;coefficient on spread: {b:.4f}   (p = {logit.pvalues[&#x27;spread&#x27;]:.3g})&quot;</span>)
-print(f<span class="t-str">&quot;odds ratio: exp({b:.4f}) = {np.exp(b):.3f}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>coefficient on spread: -0.8354   (p = 4.88e-08)
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 12pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>b = logit.params[<span class="t-str">&quot;spread&quot;</span>]
+print(f<span class="t-str">&quot;coefficient on spread: {b:.4f}   (p-value = {logit.pvalues[&#x27;spread&#x27;]:.3g})&quot;</span>)
+print(f<span class="t-str">&quot;odds ratio: exp({b:.4f}) = {np.exp(b):.3f}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>coefficient on spread: -0.8354   (p-value = 4.88e-08)
 odds ratio: exp(-0.8354) = 0.434</pre></div></div></div></div>
-        <div class="key-result" style="margin-top: 16px;">
-          <p style="font-size: 16.5pt;">A curve one percentage point steeper multiplies the odds of being in recession twelve months later by <strong>0.434</strong> &mdash; it <strong>reduces the odds by 57%</strong>.</p>
-          <p style="font-size: 13.5pt; margin-top: 8px; color: var(--muted-color);">Check it on the fitted model: the odds are \(e^{-1.7592} = 0.1722\) at a spread of 0 and \(e^{-2.5946} = 0.0747\) at a spread of 1; \(0.0747 / 0.1722 = 0.434\). And \(1 - 0.434 = 0.566\), the 57%. (\(p = 4.88\text{e-}08\) is 0.0000000488.)</p>
+        <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-radius: 10px; padding: 10px 16px; margin-top: 12px;">
+          <p style="font-size: 13pt; margin: 0 0 4px;">The odds of a recession ahead from the fitted model, \(e^{-1.7592 - 0.8354 \times \text{spread}}\). The spread is FRED series T10Y3M: the 10-year Treasury yield minus the 3-month bill, in percentage points.</p>
+          <div style="display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 10px;"><div style="text-align: center;"><p style="font-size: 12.5pt; color: var(--muted-color); margin: 0;">spread 0</p><p style="font-size: 22pt; font-weight: 700; color: var(--secondary-color); margin: 0;">0.1722</p></div><div style="text-align: center; color: var(--accent-color); font-size: 14pt; font-weight: 700;">&times;0.434<br>&rarr;</div><div style="text-align: center;"><p style="font-size: 12.5pt; color: var(--muted-color); margin: 0;">spread 1</p><p style="font-size: 22pt; font-weight: 700; color: var(--secondary-color); margin: 0;">0.0747</p></div><div style="text-align: center; color: var(--accent-color); font-size: 14pt; font-weight: 700;">&times;0.434<br>&rarr;</div><div style="text-align: center;"><p style="font-size: 12.5pt; color: var(--muted-color); margin: 0;">spread 2</p><p style="font-size: 22pt; font-weight: 700; color: var(--secondary-color); margin: 0;">0.0324</p></div></div>
         </div>
+        <div class="key-result fragment fade-up" data-fragment-index="2" style="margin-top: 12px;">
+          <p style="font-size: 16pt;">Each point steeper multiplies the <strong>odds</strong> by <strong>0.434</strong>, at every spread: the odds fall by \(1 - 0.434 = 57\%\). <span style="font-size: 12.5pt; color: var(--muted-color);">(p-value 4.88e-08 = 0.0000000488)</span></p>
+        </div>
+        
       </div>
     </section>
     <section>
       <section id="poll-1" style="padding: 32px 55px;">
         <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; What Does &minus;0.8354 Mean?</h2>
         <div class="content">
-          <p class="text-lg">The fitted coefficient on the term spread is <strong>&minus;0.8354</strong>. Which statement is correct?</p>
+          <p style="font-size: 15.5pt; margin: 0;">A month the model gives a <strong>50% chance</strong> of recession: odds of 1 to 1, a coin toss. The spread widens by <strong>one point</strong>, and the odds multiply by 0.434. What is the new chance of recession?</p>
+          <p style="font-size: 13.5pt; color: var(--muted-color); margin: 6px 0 0;">Going back from odds to a probability: probability = odds / (1 + odds).</p>
           <div class="poll-grid" data-poll-id="ch17-econ3916-poll-1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
-            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) A one-point wider spread lowers the <strong>probability</strong> of recession by 84%</div>
-            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) A one-point wider spread lowers the <strong>probability</strong> of recession by 57%</div>
-            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) A one-point wider spread multiplies the <strong>odds</strong> by 0.434 &mdash; a 57% fall in odds</div>
-            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) A one-point wider spread lowers the <strong>log-odds</strong> by 0.434</div>
+            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) about 21.7%</div>
+            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) about 30.3%</div>
+            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) about 49.2%</div>
+            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) It cannot be said without the other months</div>
           </div>
         </div>
       </section>
       <section id="poll-1-reveal" data-poll-results="ch17-econ3916-poll-1" style="padding: 30px 50px;">
-        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; the Odds, Not the Probability</h2>
+        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; Multiply the Odds, Then Convert</h2>
         <div class="poll-results-chart" data-poll-id="ch17-econ3916-poll-1" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:10px 60px 32px;"></div>
         <div class="content">
-          <p class="text-lg" style="line-height: 1.5;"><strong>A</strong> reads a log-odds coefficient as a percentage of probability &mdash; the single most common error in applied classification work. <strong>B</strong> has the right arithmetic on the wrong scale. <strong>D</strong> swaps the coefficient and its exponential: the log-odds fall by 0.8354, and it is the <em>odds</em> that multiply by 0.434.</p>
-          <p style="margin-top: 8px; font-size: 15.5pt; line-height: 1.5;">So it is not a 57% reduction in <strong>probability</strong>, and it is not 84 percentage points of anything. Odds and probabilities coincide only when both are small.</p>
-          <p style="margin-top: 12px; color: var(--accent-color); font-weight: 600; font-size: 15.5pt;"><i class="fa-solid fa-arrow-right"></i> This exact confusion is a standard screening question in data-science interviews. Interviewers use it because the wrong answer gets stated confidently.</p>
+          <p style="font-size: 15pt; line-height: 1.5; margin: 0;"><strong>B:</strong> 50% is odds of 1. One point wider: \(1 \times 0.434 = 0.434\). Back to a probability: \(0.434 / (1 + 0.434) = 0.303\), so <strong>30.3%</strong>.</p>
+          <p style="font-size: 14.5pt; line-height: 1.5; margin: 8px 0 0;"><strong>A</strong> (21.7%) multiplies the <em>probability</em> by 0.434: the right number on the wrong scale. <strong>C</strong> (49.2%) reads &minus;0.8354 as percentage points; it is log-odds. <strong>D</strong>: the starting chance is all you need.</p>
+          <p style="margin-top: 10px; color: var(--accent-color); font-weight: 600; font-size: 15pt;"><i class="fa-solid fa-arrow-right"></i> From 50% the chance falls 19.7 points. From 10%, the same widening takes it to 4.6%: only 5.4 points. Same coefficient, different moves in probability. That is the next slide.</p>
         </div>
         <button class="reset-btn" onclick="clearPoll('ch17-econ3916-poll-1')" style="position:absolute; bottom:14px; right:20px; font-size:11pt; padding:4px 10px;">Reset</button>
       </section>
@@ -822,55 +863,51 @@ odds ratio: exp(-0.8354) = 0.434</pre></div></div></div></div>
     <section id="marginal-effect" style="padding: 32px 58px;">
       <h2><i class="fa-solid fa-arrows-up-down" style="color: var(--danger-color);"></i> The Effect on the Probability Is Not Constant</h2>
       <div class="content">
-        <p class="text-lg">In OLS a coefficient is a constant marginal effect &mdash; one more room adds the same amount to predicted value everywhere. Here it is not:</p>
-        <div class="equation-box" style="margin: 14px 0;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 0 0 8px;"><div style="background: #EEF2F6; color: #6B645E; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>1 Log-odds</strong> &middot; &minus;0.8354 per point (linear)</div><div style="background: #EEF2F6; color: #6B645E; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>2 Odds</strong> &middot; &times;0.434 per point</div><div style="background: #1565C0; color: #fff; border-radius: 18px; padding: 3px 12px; font-size: 11.5pt; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3;"><strong>3 Probability</strong> &middot; depends where you start</div></div>
+        <p style="font-size: 15pt; margin: 0;">The question people actually ask: <strong>how many points does the probability move?</strong> The odds always multiply by 0.434; the probability moves by an amount that depends on where it starts. (In OLS it would be the same amount everywhere.)</p>
+        <div class="equation-box" style="margin: 4px 0;">
           $$\frac{\partial p}{\partial x_j} = \beta_j \, p(1-p)$$
         </div>
         <p style="font-size: 13pt; color: var(--muted-color); margin: -4px 0 8px; text-align: center;">\(\partial p / \partial x_j\): how much \(p\) moves when \(x_j\) rises by a small step.</p>
-        <div class="r-stack" style="width: 100%;">
-          <div class="fragment fade-out" data-fragment-index="1" style="width: 100%;">
-          <p style="font-size: 15.5pt; line-height: 1.55;"><strong>In words.</strong> The multiplier \(p(1-p)\) is largest at \(p = 0.5\) and vanishes as \(p\) approaches 0 or 1. A given change in the spread moves the probability <strong>a great deal for a month that is truly uncertain, and hardly at all for one that is already safe.</strong> At a spread of \(-2\), \(p = 0.478\): \(-0.8354 \times 0.478 \times 0.522 = -0.208\). At \(+2\), \(p = 0.031\): \(-0.8354 \times 0.031 \times 0.969 = -0.025\), about 8 times smaller.</p>
-        <div class="key-result" style="margin-top: 14px;">
-          <p style="font-size: 16pt;">That is economically sensible, not a mathematical inconvenience. If a recession is already near-certain, more bad news barely changes the forecast. The model's diminishing sensitivity at the extremes matches how information actually works.</p>
-        </div>
+        
+          <div style="width: 100%;">
+          <p style="font-size: 15pt; line-height: 1.45; margin: 0;">Here \(p\) is the probability. The multiplier \(p(1-p)\) is largest at \(p = 0.5\) and shrinks toward 0 as \(p\) nears 0 or 1.</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 10px;"><div class="fragment fade-up" data-fragment-index="1" style="background: #f9f0ee; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 9px 14px;"><p style="font-size: 13pt; font-weight: 700; color: var(--danger-color); margin: 0 0 4px;">An uncertain month: spread &minus;2, \(p = 0.478\)</p><p style="font-size: 14.5pt; margin: 0; line-height: 1.4;">\(-0.8354 \times 0.478 \times 0.522 = -0.208\): about <strong>21 points</strong> of probability per point of spread.</p></div><div class="fragment fade-up" data-fragment-index="2" style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 9px 14px;"><p style="font-size: 13pt; font-weight: 700; color: var(--success-color); margin: 0 0 4px;">A safe month: spread +2, \(p = 0.031\)</p><p style="font-size: 14.5pt; margin: 0; line-height: 1.4;">\(-0.8354 \times 0.031 \times 0.969 = -0.025\): about <strong>2.5 points</strong> per point of spread.</p></div></div>
+          <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 10px;">
+            <p style="font-size: 15pt;"><strong>About 8 times smaller.</strong> Economically sensible: when a month is already near-certain either way, one more piece of news barely moves the forecast.</p>
           </div>
-          <div class="fragment fade-in mathjax_ignore tex2jax_ignore" data-fragment-index="1" id="t17-scales" style="width: 100%;">
-            <svg viewBox="0 0 1160 186" width="100%" role="img" aria-label="Three linked panels against the term spread: the log-odds is a straight line, the odds an exponential curve, the probability an S-curve; a marker shows the chosen spread on all three" style="display:block;font-family:inherit"></svg>
+          </div>
+        </div>
+    </section>
+
+    <section id="three-scales-table" style="padding: 28px 55px;">
+      <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-table-columns" style="color: var(--secondary-color);"></i> Three Scales, One Table</h2>
+      <div class="content">
+        <div class="r-stack" style="width: 100%;">
+          <div class="fragment fade-out" data-fragment-index="4" style="width: 100%;">
+        <p style="font-size: 14.5pt; margin: 0 0 8px;">One coefficient, &minus;0.8354, read on three scales. Each column is a spread; each arrow is one point wider.</p>
+        <div style="display: grid; grid-template-columns: 1.3fr repeat(4, 1fr 0.75fr) 1fr; row-gap: 8px; align-items: center;">
+          <div></div><div style="text-align: center; padding: 6px 4px; font-size: 12.5pt; color: var(--muted-color);">spread &minus;2</div><div></div><div style="text-align: center; padding: 6px 4px; font-size: 12.5pt; color: var(--muted-color);">spread &minus;1</div><div></div><div style="text-align: center; padding: 6px 4px; font-size: 12.5pt; color: var(--muted-color);">spread 0</div><div></div><div style="text-align: center; padding: 6px 4px; font-size: 12.5pt; color: var(--muted-color);">spread +1</div><div></div><div style="text-align: center; padding: 6px 4px; font-size: 12.5pt; color: var(--muted-color);">spread +2</div><div class="fragment fade-up" data-fragment-index="1" style="display: contents;"><div style="padding: 6px 8px; font-weight: 700; font-size: 15pt; white-space: nowrap; color: #1565C0; background: #f8f6f3; border-left: 4px solid #1565C0;">1 Log-odds</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">&minus;0.09</div><div style="text-align: center; padding: 6px 2px; color: #1565C0; font-size: 12.5pt; font-weight: 700;">&minus;0.84<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">&minus;0.92</div><div style="text-align: center; padding: 6px 2px; color: #1565C0; font-size: 12.5pt; font-weight: 700;">&minus;0.84<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">&minus;1.76</div><div style="text-align: center; padding: 6px 2px; color: #1565C0; font-size: 12.5pt; font-weight: 700;">&minus;0.84<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">&minus;2.59</div><div style="text-align: center; padding: 6px 2px; color: #1565C0; font-size: 12.5pt; font-weight: 700;">&minus;0.84<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">&minus;3.43</div></div><div class="fragment fade-up" data-fragment-index="2" style="display: contents;"><div style="padding: 6px 8px; font-weight: 700; font-size: 15pt; white-space: nowrap; color: #6B4FA0; background: #f8f6f3; border-left: 4px solid #6B4FA0;">2 Odds</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">0.915</div><div style="text-align: center; padding: 6px 2px; color: #6B4FA0; font-size: 12.5pt; font-weight: 700;">&times;0.434<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">0.397</div><div style="text-align: center; padding: 6px 2px; color: #6B4FA0; font-size: 12.5pt; font-weight: 700;">&times;0.434<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">0.172</div><div style="text-align: center; padding: 6px 2px; color: #6B4FA0; font-size: 12.5pt; font-weight: 700;">&times;0.434<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">0.075</div><div style="text-align: center; padding: 6px 2px; color: #6B4FA0; font-size: 12.5pt; font-weight: 700;">&times;0.434<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">0.032</div></div><div class="fragment fade-up" data-fragment-index="3" style="display: contents;"><div style="padding: 6px 8px; font-weight: 700; font-size: 15pt; white-space: nowrap; color: #C0603A; background: #f8f6f3; border-left: 4px solid #C0603A;">3 Probability</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">47.8%</div><div style="text-align: center; padding: 6px 2px; color: #C0603A; font-size: 12.5pt; font-weight: 700;">&minus;19.4 pts<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">28.4%</div><div style="text-align: center; padding: 6px 2px; color: #C0603A; font-size: 12.5pt; font-weight: 700;">&minus;13.7 pts<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">14.7%</div><div style="text-align: center; padding: 6px 2px; color: #C0603A; font-size: 12.5pt; font-weight: 700;">&minus;7.7 pts<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">6.9%</div><div style="text-align: center; padding: 6px 2px; color: #C0603A; font-size: 12.5pt; font-weight: 700;">&minus;3.8 pts<br>&rarr;</div><div style="text-align: center; padding: 6px 4px; font-size: 16pt; background: #f8f6f3;">3.1%</div></div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f8f6f3; border-radius: 8px; padding: 9px 14px; border-left: 4px solid #1565C0;"><p style="font-size: 13.5pt; margin: 0;"><strong>Log-odds</strong> fall by the same 0.84 every step: the only straight line.</p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f8f6f3; border-radius: 8px; padding: 9px 14px; border-left: 4px solid #6B4FA0;"><p style="font-size: 13.5pt; margin: 0;"><strong>Odds</strong> multiply by the same 0.434 every step.</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 8px; padding: 9px 14px; border-left: 4px solid #C0603A;"><p style="font-size: 13.5pt; margin: 0;"><strong>Probability</strong> does neither: 19.4 points at the left, 3.8 at the right.</p></div>
+        </div>
+      </div>
+          <div class="fragment fade-in" data-fragment-index="4" style="width: 100%;">
+            <p style="font-size: 14.5pt; margin: 0 0 6px;">The same three rows at <strong>any</strong> spread. Drag the slider: the log-odds fall the same 0.84 every point, the odds multiply by 0.434, the probability does neither.</p>
+            <div class="mathjax_ignore tex2jax_ignore" id="t17-scales" style="width: 100%;">
+            <svg viewBox="0 0 1160 266" width="100%" role="img" aria-label="Three linked panels against the term spread: the log-odds is a straight line, the odds an exponential curve, the probability an S-curve; a marker shows the chosen spread on all three" style="display:block;font-family:inherit"></svg>
             <div style="display: flex; align-items: center; gap: 14px; margin-top: 4px;">
               <span style="font-size: 13pt; color: var(--muted-color); white-space: nowrap;">spread</span>
               <input type="range" min="-3" max="3" step="0.1" value="-1" style="flex: 1 1 auto;" aria-label="term spread" onkeydown="event.stopPropagation()">
               <span class="t17-read" style="font-size: 14pt; white-space: nowrap; min-width: 4.5em; font-weight: 700;"></span>
             </div>
             <p class="t17-out" style="font-size: 14pt; margin: 6px 0 0; text-align: center;"></p>
+            <p style="font-size: 13pt; margin: 4px 0 0; text-align: center; color: var(--muted-color);">Try it: drag to &minus;2, then to &#43;2. The first two readouts stay the same; the probability step shrinks.</p>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="three-scales-table" style="padding: 28px 55px;">
-      <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-table-columns" style="color: var(--secondary-color);"></i> Three Scales, One Table</h2>
-      <div class="content">
-        <p style="font-size: 14.5pt; margin-bottom: 8px;">Intercept &minus;1.7592, slope &minus;0.8354. Read across and the whole section is here.</p>
-        <table style="width: 100%; font-size: 14.5pt; border-collapse: collapse;">
-          <thead><tr style="border-bottom: 2px solid var(--secondary-color);">
-            <th style="text-align: right; padding: 7px 12px;">spread</th>
-            <th style="text-align: right; padding: 7px 12px;">logit</th>
-            <th style="text-align: right; padding: 7px 12px;">odds</th>
-            <th style="text-align: right; padding: 7px 12px;">probability</th>
-            <th style="text-align: right; padding: 7px 12px;">marginal effect</th>
-          </tr></thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 6px 12px;">2.0</td><td style="text-align: right; padding: 6px 12px;">&minus;3.4301</td><td style="text-align: right; padding: 6px 12px;">0.032</td><td style="text-align: right; padding: 6px 12px;">3.1%</td><td style="text-align: right; padding: 6px 12px;">&minus;0.0254</td></tr>
-            <tr style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 6px 12px;">1.0</td><td style="text-align: right; padding: 6px 12px;">&minus;2.5947</td><td style="text-align: right; padding: 6px 12px;">0.075</td><td style="text-align: right; padding: 6px 12px;">6.9%</td><td style="text-align: right; padding: 6px 12px;">&minus;0.0540</td></tr>
-            <tr style="border-bottom: 1px solid #eae4dd; background: #f8f6f3;"><td style="text-align: right; padding: 6px 12px;">0.0</td><td style="text-align: right; padding: 6px 12px;">&minus;1.7592</td><td style="text-align: right; padding: 6px 12px;">0.172</td><td style="text-align: right; padding: 6px 12px;"><strong>14.7%</strong></td><td style="text-align: right; padding: 6px 12px;">&minus;0.1047</td></tr>
-            <tr style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 6px 12px;">&minus;1.0</td><td style="text-align: right; padding: 6px 12px;">&minus;0.9238</td><td style="text-align: right; padding: 6px 12px;">0.397</td><td style="text-align: right; padding: 6px 12px;">28.4%</td><td style="text-align: right; padding: 6px 12px;">&minus;0.1699</td></tr>
-            <tr><td style="text-align: right; padding: 6px 12px;">&minus;2.0</td><td style="text-align: right; padding: 6px 12px;">&minus;0.0884</td><td style="text-align: right; padding: 6px 12px;">0.915</td><td style="text-align: right; padding: 6px 12px;">47.8%</td><td style="text-align: right; padding: 6px 12px;">&minus;0.2084</td></tr>
-          </tbody>
-        </table>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px;">
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 16px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 13.5pt;"><strong>logit</strong> moves in equal steps of &minus;0.8354 &mdash; the only column that is linear</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 16px; border-left: 4px solid var(--accent-color);"><p style="font-size: 13.5pt;"><strong>odds</strong> multiply &mdash; each step down the table by 2.3 (each step up, by 0.434)</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 16px; border-left: 4px solid var(--primary-color);"><p style="font-size: 13.5pt;"><strong>probability</strong> does neither &mdash; 3.8 points at the top, 19.4 at the bottom</p></div>
+          </div>
         </div>
       </div>
     </section>
@@ -880,12 +917,12 @@ odds ratio: exp(-0.8354) = 0.434</pre></div></div></div></div>
       <div class="content" style="display: grid; grid-template-columns: 46% 54%; gap: 24px; align-items: center;">
         <div>
           <p style="font-size: 14.5pt; line-height: 1.5;">The <strong>top panel</strong> is the log-odds. Equal steps in the spread produce equal steps in the logit. That is the whole content of &ldquo;linear in log-odds.&rdquo;</p>
-          <p style="font-size: 14.5pt; line-height: 1.5; margin-top: 12px;">The <strong>bottom panel</strong> is the same model on the probability scale. The two slope triangles are \(\beta p(1-p)\) at spreads of &minus;2 and &#43;2.</p>
-          <div class="key-result" style="margin-top: 12px;">
-            <p style="font-size: 14pt;">Same coefficient. Same one-point change. <strong>Eight times the movement in probability</strong> on the left as on the right.</p>
+          <p class="fragment fade-up" data-fragment-index="2" style="font-size: 14.5pt; line-height: 1.5; margin-top: 12px;">The <strong>bottom panel</strong> is the same model on the probability scale. The two slope lines are \(\beta p(1-p)\), with \(p\) the probability: &minus;0.208 at a spread of &minus;2, &minus;0.025 at &#43;2.</p>
+          <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 12px;">
+            <p style="font-size: 14pt;">Same coefficient, same one-point change, <strong>eight times the movement</strong> on the left. That bending is the fix for Defect 1: the LPM falls 5.3 points per point everywhere, so it crosses zero at a spread of 2.87 (84 months). The logit&rsquo;s step shrinks as \(p\) nears 0, so it never crosses. HC3 fixed the LPM&rsquo;s standard errors; it cannot bend the line.</p>
           </div>
         </div>
-        <img class="figure" src="figures/figure_002_three_scales.png" alt="Two stacked panels: the log-odds falling in equal steps as the term spread widens, and the fitted probability tracing an S-curve whose slope is eight times steeper at a spread of minus two than at plus two" style="max-height: 555px; width: auto; display: block; margin: 0 auto;">
+        <div class="r-stack" style="width: 100%; min-width: 0;"><img class="figure" src="figures/figure_002_three_scales_s1.png" alt="The log-odds falling in equal steps of 0.8354 as the term spread widens; the probability panel below is still empty" style="max-width: 100%; max-height: 555px; width: auto; height: auto; display: block; margin: 0 auto;"><img class="figure fragment" data-fragment-index="2" src="figures/figure_002_three_scales.png" alt="Two stacked panels: the log-odds falling in equal steps as the term spread widens, and the fitted probability tracing an S-curve whose slope is eight times steeper at a spread of minus two than at plus two" style="max-width: 100%; max-height: 555px; width: auto; height: auto; display: block; margin: 0 auto;"></div>
       </div>
     </section>
 
@@ -2189,7 +2226,7 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
       var P = [ {t: 'log-odds: a straight line', f: lo, y0: -4.4, y1: 0.9, c: '#1565C0', fmt: function (v) { return v.toFixed(2); }},
                 {t: 'odds: multiply by 0.434 per point', f: od, y0: 0, y1: 2.2, c: '#6B4FA0', fmt: function (v) { return v.toFixed(2); }},
                 {t: 'probability: the S-curve', f: pr, y0: 0, y1: 0.72, c: '#C0603A', fmt: function (v) { return (100 * v).toFixed(1) + '%'; }} ];
-      var W = 360, G = 40, T = 26, H = 140;
+      var W = 360, G = 40, T = 26, H = 220;
       function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); svg.appendChild(e); return e; }
       var X = function (k, s) { return k * (W + G) + 30 + (s + 3) / 6 * (W - 40); };
       var Y = function (k, v) { var q = P[k]; return T + H - (v - q.y0) / (q.y1 - q.y0) * H; };
