@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=538e5949ff116006dc27a7541d70f4d8">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=771890171fbe626de5549dd94b1a8cf8">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -964,7 +964,7 @@ odds ratio: exp(-0.8354) = 0.434</pre></div></div></div></div>
           </div>
           <div class="fragment fade-up" data-fragment-index="2">
             <p style="font-size: 14pt; margin: 0 0 2px;"><strong>Step 2. Try other slopes, keep the highest score.</strong> Drag:</p>
-            <div class="mathjax_ignore tex2jax_ignore" id="t17-mle"><svg data-pts="[[-2.00,-134.75,64.0,210.2],[-1.98,-134.15,68.6,205.8],[-1.96,-133.56,73.2,201.5],[-1.94,-132.97,77.7,197.2],[-1.92,-132.38,82.3,192.9],[-1.90,-131.80,86.9,188.7],[-1.88,-131.23,91.5,184.6],[-1.86,-130.67,96.1,180.4],[-1.84,-130.11,100.6,176.4],[-1.82,-129.55,105.2,172.3],[-1.80,-129.01,109.8,168.4],[-1.78,-128.47,114.4,164.4],[-1.76,-127.93,119.0,160.5],[-1.74,-127.40,123.6,156.7],[-1.72,-126.89,128.1,152.9],[-1.70,-126.37,132.7,149.2],[-1.68,-125.87,137.3,145.5],[-1.66,-125.37,141.9,141.9],[-1.64,-124.88,146.5,138.3],[-1.62,-124.40,151.0,134.8],[-1.60,-123.92,155.6,131.4],[-1.58,-123.46,160.2,128.0],[-1.56,-123.00,164.8,124.6],[-1.54,-122.55,169.4,121.4],[-1.52,-122.11,173.9,118.2],[-1.50,-121.68,178.5,115.0],[-1.48,-121.26,183.1,112.0],[-1.46,-120.84,187.7,108.9],[-1.44,-120.44,192.3,106.0],[-1.42,-120.05,196.8,103.1],[-1.40,-119.66,201.4,100.3],[-1.38,-119.29,206.0,97.6],[-1.36,-118.92,210.6,95.0],[-1.34,-118.57,215.2,92.4],[-1.32,-118.23,219.8,89.9],[-1.30,-117.90,224.3,87.5],[-1.28,-117.58,228.9,85.2],[-1.26,-117.27,233.5,82.9],[-1.24,-116.97,238.1,80.7],[-1.22,-116.68,242.7,78.7],[-1.20,-116.41,247.2,76.7],[-1.18,-116.15,251.8,74.8],[-1.16,-115.90,256.4,73.0],[-1.14,-115.67,261.0,71.2],[-1.12,-115.44,265.6,69.6],[-1.10,-115.23,270.1,68.1],[-1.08,-115.04,274.7,66.7],[-1.06,-114.86,279.3,65.3],[-1.04,-114.69,283.9,64.1],[-1.02,-114.53,288.5,63.0],[-1.00,-114.39,293.0,62.0],[-0.98,-114.27,297.6,61.1],[-0.96,-114.16,302.2,60.3],[-0.94,-114.07,306.8,59.6],[-0.92,-113.99,311.4,59.1],[-0.90,-113.93,316.0,58.6],[-0.88,-113.88,320.5,58.3],[-0.86,-113.85,325.1,58.1],[-0.84,-113.84,329.7,58.0],[-0.82,-113.85,334.3,58.0],[-0.80,-113.87,338.9,58.2],[-0.78,-113.91,343.4,58.4],[-0.76,-113.97,348.0,58.9],[-0.74,-114.04,352.6,59.4],[-0.72,-114.13,357.2,60.1],[-0.70,-114.25,361.8,60.9],[-0.68,-114.38,366.3,61.9],[-0.66,-114.53,370.9,62.9],[-0.64,-114.69,375.5,64.2],[-0.62,-114.88,380.1,65.5],[-0.60,-115.09,384.7,67.1],[-0.58,-115.32,389.2,68.7],[-0.56,-115.57,393.8,70.5],[-0.54,-115.83,398.4,72.5],[-0.52,-116.12,403.0,74.6],[-0.50,-116.43,407.6,76.8],[-0.48,-116.76,412.2,79.2],[-0.46,-117.11,416.7,81.8],[-0.44,-117.48,421.3,84.5],[-0.42,-117.87,425.9,87.3],[-0.40,-118.29,430.5,90.3],[-0.38,-118.72,435.1,93.5],[-0.36,-119.18,439.6,96.8],[-0.34,-119.66,444.2,100.3],[-0.32,-120.15,448.8,103.9],[-0.30,-120.67,453.4,107.7],[-0.28,-121.22,458.0,111.7],[-0.26,-121.78,462.5,115.8],[-0.24,-122.37,467.1,120.0],[-0.22,-122.97,471.7,124.4],[-0.20,-123.60,476.3,129.0],[-0.18,-124.25,480.9,133.8],[-0.16,-124.92,485.4,138.7],[-0.14,-125.62,490.0,143.7],[-0.12,-126.33,494.6,148.9],[-0.10,-127.07,499.2,154.3],[-0.08,-127.83,503.8,159.8],[-0.06,-128.61,508.4,165.5],[-0.04,-129.41,512.9,171.3],[-0.02,-130.23,517.5,177.3],[0.00,-131.07,522.1,183.4]]" viewBox="0 0 560 262" width="84%" role="img" aria-label="The log-likelihood against the slope on the spread, with the intercept refitted at each slope: a single hill whose top is at minus 0.8354, log-likelihood minus 113.84; at a slope of 0 it is minus 131.07, the base rate every month" style="display:block;margin:0 auto;font-family:inherit">
+            <div class="mathjax_ignore tex2jax_ignore" id="t17-mle"><svg data-pts="[[-2.00,-134.75,64.0,210.2],[-1.98,-134.15,68.6,205.8],[-1.96,-133.56,73.2,201.5],[-1.94,-132.97,77.7,197.2],[-1.92,-132.38,82.3,192.9],[-1.90,-131.80,86.9,188.7],[-1.88,-131.23,91.5,184.6],[-1.86,-130.67,96.1,180.4],[-1.84,-130.11,100.6,176.4],[-1.82,-129.55,105.2,172.3],[-1.80,-129.01,109.8,168.4],[-1.78,-128.47,114.4,164.4],[-1.76,-127.93,119.0,160.5],[-1.74,-127.40,123.6,156.7],[-1.72,-126.89,128.1,152.9],[-1.70,-126.37,132.7,149.2],[-1.68,-125.87,137.3,145.5],[-1.66,-125.37,141.9,141.9],[-1.64,-124.88,146.5,138.3],[-1.62,-124.40,151.0,134.8],[-1.60,-123.92,155.6,131.4],[-1.58,-123.46,160.2,128.0],[-1.56,-123.00,164.8,124.6],[-1.54,-122.55,169.4,121.4],[-1.52,-122.11,173.9,118.2],[-1.50,-121.68,178.5,115.0],[-1.48,-121.26,183.1,112.0],[-1.46,-120.84,187.7,108.9],[-1.44,-120.44,192.3,106.0],[-1.42,-120.05,196.8,103.1],[-1.40,-119.66,201.4,100.3],[-1.38,-119.29,206.0,97.6],[-1.36,-118.92,210.6,95.0],[-1.34,-118.57,215.2,92.4],[-1.32,-118.23,219.8,89.9],[-1.30,-117.90,224.3,87.5],[-1.28,-117.58,228.9,85.2],[-1.26,-117.27,233.5,82.9],[-1.24,-116.97,238.1,80.7],[-1.22,-116.68,242.7,78.7],[-1.20,-116.41,247.2,76.7],[-1.18,-116.15,251.8,74.8],[-1.16,-115.90,256.4,73.0],[-1.14,-115.67,261.0,71.2],[-1.12,-115.44,265.6,69.6],[-1.10,-115.23,270.1,68.1],[-1.08,-115.04,274.7,66.7],[-1.06,-114.86,279.3,65.3],[-1.04,-114.69,283.9,64.1],[-1.02,-114.53,288.5,63.0],[-1.00,-114.39,293.0,62.0],[-0.98,-114.27,297.6,61.1],[-0.96,-114.16,302.2,60.3],[-0.94,-114.07,306.8,59.6],[-0.92,-113.99,311.4,59.1],[-0.90,-113.93,316.0,58.6],[-0.88,-113.88,320.5,58.3],[-0.86,-113.85,325.1,58.1],[-0.84,-113.84,329.7,58.0],[-0.82,-113.85,334.3,58.0],[-0.80,-113.87,338.9,58.2],[-0.78,-113.91,343.4,58.4],[-0.76,-113.97,348.0,58.9],[-0.74,-114.04,352.6,59.4],[-0.72,-114.13,357.2,60.1],[-0.70,-114.25,361.8,60.9],[-0.68,-114.38,366.3,61.9],[-0.66,-114.53,370.9,62.9],[-0.64,-114.69,375.5,64.2],[-0.62,-114.88,380.1,65.5],[-0.60,-115.09,384.7,67.1],[-0.58,-115.32,389.2,68.7],[-0.56,-115.57,393.8,70.5],[-0.54,-115.83,398.4,72.5],[-0.52,-116.12,403.0,74.6],[-0.50,-116.43,407.6,76.8],[-0.48,-116.76,412.2,79.2],[-0.46,-117.11,416.7,81.8],[-0.44,-117.48,421.3,84.5],[-0.42,-117.87,425.9,87.3],[-0.40,-118.29,430.5,90.3],[-0.38,-118.72,435.1,93.5],[-0.36,-119.18,439.6,96.8],[-0.34,-119.66,444.2,100.3],[-0.32,-120.15,448.8,103.9],[-0.30,-120.67,453.4,107.7],[-0.28,-121.22,458.0,111.7],[-0.26,-121.78,462.5,115.8],[-0.24,-122.37,467.1,120.0],[-0.22,-122.97,471.7,124.4],[-0.20,-123.60,476.3,129.0],[-0.18,-124.25,480.9,133.8],[-0.16,-124.92,485.4,138.7],[-0.14,-125.62,490.0,143.7],[-0.12,-126.33,494.6,148.9],[-0.10,-127.07,499.2,154.3],[-0.08,-127.83,503.8,159.8],[-0.06,-128.61,508.4,165.5],[-0.04,-129.41,512.9,171.3],[-0.02,-130.23,517.5,177.3],[0.00,-131.07,522.1,183.4]]" viewBox="0 0 560 262" width="84%" role="img" aria-label="The log-likelihood against the slope on the spread, with the intercept refitted at each slope: a single hill whose top is at minus 0.8354, log-likelihood minus 113.84; at a slope of 0, the spread ignored, it is minus 131.07" style="display:block;margin:0 auto;font-family:inherit">
 <line x1="64" y1="212" x2="545" y2="212" stroke="#BFB8B0"/><line x1="64" y1="30" x2="64" y2="212" stroke="#BFB8B0"/>
 <text x="58" y="180.6" font-size="13" fill="#6B645E" text-anchor="end">−130</text>
 <text x="58" y="107.8" font-size="13" fill="#6B645E" text-anchor="end">−120</text>
@@ -978,7 +978,7 @@ odds ratio: exp(-0.8354) = 0.434</pre></div></div></div></div>
 <text x="24" y="14" font-size="14" fill="#6B645E">log-likelihood (higher is better)</text>
 <path d="M64.0 210.2 L68.6 205.8 L73.2 201.5 L77.7 197.2 L82.3 192.9 L86.9 188.7 L91.5 184.6 L96.1 180.4 L100.6 176.4 L105.2 172.3 L109.8 168.4 L114.4 164.4 L119.0 160.5 L123.6 156.7 L128.1 152.9 L132.7 149.2 L137.3 145.5 L141.9 141.9 L146.5 138.3 L151.0 134.8 L155.6 131.4 L160.2 128.0 L164.8 124.6 L169.4 121.4 L173.9 118.2 L178.5 115.0 L183.1 112.0 L187.7 108.9 L192.3 106.0 L196.8 103.1 L201.4 100.3 L206.0 97.6 L210.6 95.0 L215.2 92.4 L219.8 89.9 L224.3 87.5 L228.9 85.2 L233.5 82.9 L238.1 80.7 L242.7 78.7 L247.2 76.7 L251.8 74.8 L256.4 73.0 L261.0 71.2 L265.6 69.6 L270.1 68.1 L274.7 66.7 L279.3 65.3 L283.9 64.1 L288.5 63.0 L293.0 62.0 L297.6 61.1 L302.2 60.3 L306.8 59.6 L311.4 59.1 L316.0 58.6 L320.5 58.3 L325.1 58.1 L329.7 58.0 L334.3 58.0 L338.9 58.2 L343.4 58.4 L348.0 58.9 L352.6 59.4 L357.2 60.1 L361.8 60.9 L366.3 61.9 L370.9 62.9 L375.5 64.2 L380.1 65.5 L384.7 67.1 L389.2 68.7 L393.8 70.5 L398.4 72.5 L403.0 74.6 L407.6 76.8 L412.2 79.2 L416.7 81.8 L421.3 84.5 L425.9 87.3 L430.5 90.3 L435.1 93.5 L439.6 96.8 L444.2 100.3 L448.8 103.9 L453.4 107.7 L458.0 111.7 L462.5 115.8 L467.1 120.0 L471.7 124.4 L476.3 129.0 L480.9 133.8 L485.4 138.7 L490.0 143.7 L494.6 148.9 L499.2 154.3 L503.8 159.8 L508.4 165.5 L512.9 171.3 L517.5 177.3 L522.1 183.4" fill="none" stroke="#1565C0" stroke-width="3.5"/>
 <circle cx="522.1" cy="183.4" r="4.5" fill="#6B645E"/>
-<text x="510.1" y="188.4" font-size="13" fill="#6B645E" text-anchor="end">slope 0 (base rate only): −131.07</text>
+<text x="510.1" y="188.4" font-size="13" fill="#6B645E" text-anchor="end">slope 0 (spread ignored): −131.07</text>
 <circle cx="330.7" cy="58.0" r="7" fill="#C0603A" stroke="#fff" stroke-width="2"/><text x="330.7" y="44.0" font-size="15" font-weight="700" fill="#C0603A" text-anchor="middle">top: −0.8354, −113.84</text>
 <g class="mle-dot"><line x1="0" x2="0" y1="212" y2="212" stroke="#1565C0" stroke-dasharray="3 3"/><circle cx="155.6" cy="131.4" r="7" fill="#1565C0" stroke="#fff" stroke-width="2"/></g>
 </svg>
@@ -1027,16 +1027,18 @@ scikit-learn C=0.01      -2.2235  -0.2777</pre></div></div></div></div>
         <p style="font-size: 15pt; line-height: 1.45; margin: 0;">Unemployment rises in recessions. Does it warn of the next one? Add <code>unrate_chg</code>, its change over a year (FRED UNRATE). <strong>Guess first.</strong></p>
         <div class="fragment fade-up" data-fragment-index="1">
           <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 11pt; margin: 4px 0 2px;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># refit with the 12-month change in unemployment added, then compare</span>
-logit2 = sm.Logit(y, sm.add_constant(df[[<span class="t-str">&#x27;spread&#x27;</span>, <span class="t-str">&#x27;unrate_chg&#x27;</span>]])).fit()</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>                   Brier     AUC   pseudo-R2
-spread only       0.0615   0.811       0.131
-spread + unrate   0.0616   0.810       0.132
-  spread      coef -0.8324   odds ratio 0.435   p 5.54e-08
-  unrate_chg  coef +0.0409   odds ratio 1.042   p 0.736</pre></div></div></div></div>
-          <p style="font-size: 12.5pt; line-height: 1.35; color: var(--muted-color); margin: 0;">Brier (average squared gap): lower is better. AUC (how often a recession month outranks a quiet one): higher is better. Pseudo-R&sup2; never falls when a variable is added. <strong style="color: var(--text-color);">Verdict: adds nothing</strong> (p-value 0.736).</p>
+logit2 = sm.Logit(y, sm.add_constant(df[[<span class="t-str">&#x27;spread&#x27;</span>, <span class="t-str">&#x27;unrate_chg&#x27;</span>]])).fit()
+print(f<span class="t-str">&quot;log-likelihood  spread only: {logit.llf:.2f}   + unrate_chg: {logit2.llf:.2f}&quot;</span>)
+<span class="t-kw">for</span> v <span class="t-kw">in</span> [<span class="t-str">&#x27;spread&#x27;</span>, <span class="t-str">&#x27;unrate_chg&#x27;</span>]:
+    b = logit2.params[v]
+    print(f<span class="t-str">&quot;{v:&lt;11} coef {b:+.4f}   odds ratio {np.exp(b):.3f}   p-value {logit2.pvalues[v]:.3g}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>log-likelihood  spread only: -113.84   + unrate_chg: -113.79
+spread      coef -0.8324   odds ratio 0.435   p-value 5.54e-08
+unrate_chg  coef +0.0409   odds ratio 1.042   p-value 0.736</pre></div></div></div></div>
+          <p style="font-size: 13.5pt; line-height: 1.4; margin: 0;">The log-likelihood from page 18, higher is better: the spread lifted it from &minus;131.07 to &minus;113.84; unemployment adds 0.05 more, and its p-value is 0.736. <strong>Verdict: it adds nothing.</strong></p>
         </div>
         <div class="fragment fade-up" data-fragment-index="2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px; border-left: 4px solid var(--success-color);"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>A recession this month:</strong> +1.8 points against &minus;0.26 otherwise. Alone: odds ratio 2.27, p-value 4.7e-12, AUC 0.93.</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px; border-left: 4px solid var(--danger-color);"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>A recession 12 months ahead</strong> (our outcome): +0.04 against &minus;0.09. Alone: odds ratio 1.056, p-value 0.62, Brier 0.0641, the base rate&rsquo;s own.</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px; border-left: 4px solid var(--success-color);"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>A recession this month:</strong> unemployment rose 1.8 points on average, against &minus;0.26 otherwise. Alone: odds ratio 2.27, p-value 4.7e-12.</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px; border-left: 4px solid var(--danger-color);"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>A recession 12 months ahead</strong> (our outcome): +0.04 against &minus;0.09. Alone: odds ratio 1.056, p-value 0.62. Nothing.</p></div>
         </div>
         <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 8px;">
           <p style="font-size: 14pt;">It is timing: unemployment rises once a recession has started (the Sahm rule&rsquo;s real-time signal), not a year before. <strong>Related to recessions</strong>, <strong>related to your outcome</strong> and <strong>adds beyond what you have</strong> are three different things.</p>
@@ -1051,14 +1053,16 @@ spread + unrate   0.0616   0.810       0.132
     <section id="the-arithmetic" style="padding: 32px 58px;">
       <h2><i class="fa-solid fa-calculator" style="color: var(--accent-color);"></i> The Reason Is Arithmetic</h2>
       <div class="content">
-        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 12pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>pred = (p_hat &gt;= <span class="t-num">0.5</span>).astype(int)
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Why does a rule that does nothing score 93.1%?</p>
+        
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 11pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>pred = (p_hat &gt;= <span class="t-num">0.5</span>).astype(int)
 print(f<span class="t-str">&quot;&#x27;always no recession&#x27;:    accuracy {(y == 0).mean():.1%}&quot;</span>)
 print(f<span class="t-str">&quot;logistic at p &gt;= 0.5:     accuracy {(pred == y).mean():.1%}&quot;</span>)
 print(f<span class="t-str">&quot;recession months caught:  {(pred[y == 1] == 1).sum()} of {(y == 1).sum()}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>'always no recession':    accuracy 93.1%
 logistic at p >= 0.5:     accuracy 93.1%
 recession months caught:  0 of 36</pre></div></div></div></div>
-        <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 12px;">
-          <p style="font-size: 15pt; margin: 0;"><strong>Count it.</strong> 523 months; a recession followed in 36, so the <strong>base rate</strong> is 36 / 523 = 6.9%.</p>
+        <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 8px;">
+          <p style="font-size: 15pt; margin: 0;"><strong>Count it.</strong> 523 months; a recession followed in 36, so the <strong>base rate</strong>, the share of &ldquo;yes&rdquo; before any evidence, is 36 / 523 = 6.9%.</p>
           <div style="display: flex; height: 34px; border-radius: 6px; overflow: hidden; font-size: 13pt; font-weight: 700; color: #fff; margin: 6px 0 4px;">
             <div style="flex: 487; background: #8F857D; display: flex; align-items: center; padding-left: 12px;">487 quiet months: &ldquo;no&rdquo; is right</div>
             <div style="flex: 36; background: #C0603A; display: flex; align-items: center; justify-content: center;">36</div>
@@ -1066,7 +1070,7 @@ recession months caught:  0 of 36</pre></div></div></div></div>
           <p style="font-size: 15pt; margin: 0;">&ldquo;No&rdquo; every month is right 487 times: 487 / 523 = <strong>93.1%</strong>, which is 1 &minus; 6.9%.</p>
         </div>
         <div class="key-result fragment fade-up" data-fragment-index="2" style="margin-top: 12px;">
-          <p style="font-size: 16pt;"><strong>Accuracy&rsquo;s benchmark is 1 &minus; the base rate</strong>, and at 6.9% it is high enough to hide a model that does nothing.</p>
+          <p style="font-size: 15pt;"><strong>Accuracy&rsquo;s benchmark is 1 &minus; the base rate</strong>, high enough at 6.9% to hide a model that does nothing. Topic 5&rsquo;s lesson again: a 99%-accurate fraud test was right 4.7% of the times it fired, because fraud&rsquo;s base rate is 0.1%.</p>
         </div>
         <p class="fragment fade-up" data-fragment-index="3" style="margin-top: 12px; font-size: 15pt;">And <strong>0.5 is a threshold nobody chose</strong>, a library default. Our model&rsquo;s highest probability in 523 months is 0.423 (May 2023), so the 0.5 rule fires in <strong>0 months</strong>.</p>
       </div>
@@ -1075,6 +1079,8 @@ recession months caught:  0 of 36</pre></div></div></div></div>
     <section id="everywhere" style="padding: 30px 58px;">
       <h2><i class="fa-solid fa-magnifying-glass" style="color: var(--danger-color);"></i> And the Rarer the Event, the Worse It Gets</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Is this only a recession problem?</p>
+        
         <table style="width: 100%; font-size: 15.5pt; border-collapse: collapse;">
           <thead><tr style="border-bottom: 2px solid var(--secondary-color);">
             <th style="text-align: left; padding: 9px 14px;">Application</th>
@@ -1085,7 +1091,7 @@ recession months caught:  0 of 36</pre></div></div></div></div>
             <tr style="border-bottom: 1px solid #eae4dd;"><td style="padding: 8px 14px;">Recession 12 months ahead (ours)</td><td style="text-align: right; padding: 8px 14px;">6.9%</td><td style="text-align: right; padding: 8px 14px;">93.1%</td></tr>
             <tr class="fragment" data-fragment-index="1" style="border-bottom: 1px solid #eae4dd;"><td style="padding: 8px 14px;">Consumer loan default</td><td style="text-align: right; padding: 8px 14px;">2&ndash;5%</td><td style="text-align: right; padding: 8px 14px;">95&ndash;98%</td></tr>
             <tr class="fragment" data-fragment-index="2" style="border-bottom: 1px solid #eae4dd;"><td style="padding: 8px 14px;">Rare disease screening</td><td style="text-align: right; padding: 8px 14px;">&lt;1%</td><td style="text-align: right; padding: 8px 14px;">&gt;99%</td></tr>
-            <tr class="fragment" data-fragment-index="3" style="background: #f8f6f3;"><td style="padding: 8px 14px;">Card fraud</td><td style="text-align: right; padding: 8px 14px;">~0.2%</td><td style="text-align: right; padding: 8px 14px;"><strong>99.8%</strong></td></tr>
+            <tr class="fragment" data-fragment-index="3" style="background: #f8f6f3;"><td style="padding: 8px 14px;">Card fraud (Topic 5)</td><td style="text-align: right; padding: 8px 14px;">0.1%</td><td style="text-align: right; padding: 8px 14px;"><strong>99.9%</strong></td></tr>
           </tbody>
         </table>
         <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 18px;">
@@ -1098,9 +1104,10 @@ recession months caught:  0 of 36</pre></div></div></div></div>
       <h2 style="margin-bottom: 2px;"><i class="fa-solid fa-chart-simple" style="color: var(--success-color);"></i> Scored Two Ways</h2>
       <div class="content" style="display: grid; grid-template-columns: 50% 50%; gap: 22px; align-items: center;">
         <div>
-          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Top: accuracy.</strong> A tie at 93.1%, with 0 of 36 recession months caught.</p>
+          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Accuracy cannot tell them apart. What can?</p>
+        <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Top: accuracy</strong>, which scores only the yes/no call. A tie at 93.1%, with 0 of 36 recession months caught.</p>
           <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px;">
-            <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Bottom: the Brier score</strong>, the average of \((\hat p - y)^2\) over all months; lower is better. Two months:</p>
+            <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Bottom: the Brier score</strong>, which scores the probability itself: the average of \((\hat p - y)^2\) over all months; lower is better. Two months:</p>
             <table style="width: 100%; font-size: 12.5pt; border-collapse: collapse; margin: 6px 0;"><thead><tr style="border-bottom: 2px solid var(--secondary-color);"><th style="text-align: left; padding: 5px 10px;">Month</th><th style="text-align: right; padding: 5px 10px;">\(y\)</th><th style="text-align: right; padding: 5px 10px;">\(\hat p\)</th><th style="text-align: right; padding: 5px 10px;">model \((\hat p - y)^2\)</th><th style="text-align: right; padding: 5px 10px;">always no</th></tr></thead><tbody><tr style="border-bottom: 1px solid #eae4dd;"><td style="padding: 5px 10px;">Mar 2007</td><td style="text-align: right; padding: 5px 10px;">1</td><td style="text-align: right; padding: 5px 10px;">0.209</td><td style="text-align: right; padding: 5px 10px;">0.625</td><td style="text-align: right; padding: 5px 10px;">1</td></tr><tr><td style="padding: 5px 10px;">Sept 1982</td><td style="text-align: right; padding: 5px 10px;">0</td><td style="text-align: right; padding: 5px 10px;">0.005</td><td style="text-align: right; padding: 5px 10px;">0.000</td><td style="text-align: right; padding: 5px 10px;">0</td></tr></tbody></table>
             <p style="font-size: 13.5pt; line-height: 1.45; margin: 0;">&ldquo;Always no&rdquo; pays 1 for each of the 36 recession months: 36 / 523 = <strong>0.0688</strong>. The base rate every month: <strong>0.0641</strong>. The model: <strong>0.0615</strong>, the lowest.</p>
           </div>
@@ -1116,6 +1123,8 @@ recession months caught:  0 of 36</pre></div></div></div></div>
     <section id="confusion-matrix" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-table-cells-large" style="color: var(--secondary-color);"></i> Underneath Every Accuracy Figure: Four Counts</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What exactly does accuracy add up?</p>
+        
         <table style="width: 100%; font-size: 15pt; border-collapse: collapse;">
           <thead><tr style="border-bottom: 2px solid var(--secondary-color);">
             <th style="padding: 9px 14px;"></th>
@@ -1128,7 +1137,7 @@ recession months caught:  0 of 36</pre></div></div></div></div>
           </tbody>
         </table>
         <p style="margin-top: 16px; font-size: 15.5pt; line-height: 1.55;">Accuracy \(= (TP + TN)/n\) = 487 of 523 = 93.1%. At a 6.9% base rate the true negatives dominate, so <strong>accuracy mostly measures how well you find quiet months.</strong></p>
-        <p style="margin-top: 8px; font-size: 14.5pt; line-height: 1.5;"><strong>Recall</strong> \(= TP/(TP+FN)\): recession months flagged, 0 of 36. <strong>Precision</strong> \(= TP/(TP+FP)\): alarms that were real (no alarms here).</p>
+        <p style="margin-top: 8px; font-size: 14.5pt; line-height: 1.5;"><strong>Recall</strong> \(= TP/(TP+FN)\), Topic 5&rsquo;s sensitivity: recession months flagged, 0 of 36. <strong>Precision</strong> \(= TP/(TP+FP)\): alarms that were real (Topic 5&rsquo;s 4.7%; none here).</p>
         <div class="key-result" style="margin-top: 12px;">
           <p style="font-size: 16pt;">Any one number discards information. <strong>Accuracy discards the part you care about.</strong></p>
         </div>
