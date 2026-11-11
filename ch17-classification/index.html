@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=4f7caa8d6d558c56e9a98591d034ee9e">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=b45c0135eb7fb80d115cc81f1e26a2bf">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -12,6 +12,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../mock-cell.css">
+  <style>
+    /* Colab DataFrame look for mocked output tables (the deck's own table style is dark-headed) */
+    .reveal .mock .mk-df table { width: auto; margin: 2px 0; font-family: Roboto, 'Helvetica Neue', Arial, sans-serif; font-size: 1em; }
+    .reveal .mock .mk-df th, .reveal .mock .mk-df td { background: none; color: #212121; font-size: 1em; padding: .12em 1.1em .12em .9em; text-align: right; border: none; letter-spacing: 0; font-weight: 400; }
+    .reveal .mock .mk-out pre { white-space: pre; }
+  </style>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -84,29 +91,613 @@
     <section id="hook-tie" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-scale-balanced" style="color: var(--secondary-color);"></i> Right 93.1% of the Time</h2>
       <div class="content">
-        <p class="text-lg" style="line-height: 1.55;">It predicts U.S. recessions. One input: the <strong>yield curve</strong> &mdash; the 10-year Treasury minus the 3-month bill &mdash; which has preceded every American recession since the 1960s. The output is the probability that the economy is in recession twelve months from now.</p>
-        <p class="text-lg" style="line-height: 1.55; margin-top: 10px;">The best-known forecasting model in macroeconomics, fitted on <strong>523 months of real FRED data</strong> (Treasury yields and NBER recession dates). Score it the way most people score a classifier &mdash; count how often its yes-or-no call is right:</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 20px;">
-          <div class="stat-highlight"><div class="number" style="color: var(--muted-color);">93.1%</div><div class="label">a model with no inputs at all that says &ldquo;no recession&rdquo; every month</div></div>
-          <div class="stat-highlight"><div class="number" style="color: var(--secondary-color);">93.1%</div><div class="label">the logistic model on the term spread</div></div>
+        <p class="text-lg" style="margin: 0;">A model that predicts U.S. recessions. Here is all of it:</p>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 12px;"><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">INPUT</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">The <strong>term spread</strong>: the 10-year Treasury yield minus the 3-month bill. It has turned negative before every U.S. recession since the 1960s.</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">OUTPUT</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">The probability of a recession <strong>twelve months from now</strong>.</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">DATA</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;"><strong>523 months</strong> of FRED data, 1982&ndash;2025, with recession dates from the NBER, the committee that officially dates U.S. recessions.</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--accent-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--accent-color); margin: 0 0 4px;">DECISION RULE</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">Say &ldquo;recession&rdquo; when the probability is <strong>0.5 or more</strong>: the library default.</p></div></div>
+        <p class="fragment fade-up text-lg" data-fragment-index="1" style="margin-top: 16px;">Score it the way most people score a classifier: the share of months its yes-or-no call is right.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 10px;">
+          <div class="stat-highlight fragment fade-up" data-fragment-index="1"><div class="number" style="color: var(--secondary-color);">93.1%</div><div class="label">the logistic model on the term spread</div></div>
+          <div class="stat-highlight fragment fade-up" data-fragment-index="2"><div class="r-stack"><div class="number fragment fade-out" data-fragment-index="3" style="color: var(--muted-color);">?</div><div class="number fragment" data-fragment-index="3" style="color: var(--muted-color);">93.1%</div></div><div class="label">a rule with <strong>no inputs</strong> that says &ldquo;no recession&rdquo; every month. Guess first.</div></div>
         </div>
-        <p style="margin-top: 20px; font-size: 17pt; color: var(--primary-color); text-align: center;"><strong>Identical.</strong> And it is worse than it looks.</p>
+        <p class="fragment fade-up" data-fragment-index="4" style="margin-top: 16px; font-size: 17pt; color: var(--primary-color); text-align: center;"><strong>Identical.</strong> And it is worse than it looks.</p>
       </div>
     </section>
 
     <section id="hook-payload" style="padding: 34px 60px;">
       <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Zero</h2>
       <div class="content">
-        <p class="text-lg">Over the 523 months, <strong>36</strong> preceded a recession. The model flagged:</p>
-        <div class="key-result" style="margin-top: 14px;">
-          <p style="font-size: 26pt; text-align: center;">recession months caught: <strong style="color: var(--danger-color);">0 of 36</strong></p>
+        <p class="text-lg" style="margin: 0;">All 523 months on one line. In <strong>36</strong> of them a recession followed within twelve months.</p>
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 10px;"><svg viewBox="0 0 1160 150" width="100%" role="img" aria-label="All 523 months from 1982 to 2025 on one line; the 36 months that a recession followed within twelve months light up in four clusters, and the model, cutting at 0.5, calls none of them" style="display:block;font-family:inherit">
+<text x="62" y="44" font-size="15" fill="#6B645E" text-anchor="end">months</text>
+<rect x="70.00" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="72.07" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="74.13" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="76.20" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="78.26" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="80.33" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="82.39" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="84.46" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="86.52" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="88.59" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="90.65" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="92.72" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="94.78" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="96.85" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="98.91" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="100.98" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="103.04" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="105.11" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="107.17" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="109.24" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="111.30" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="113.37" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="115.43" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="117.50" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="119.56" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="121.63" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="123.69" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="125.76" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="127.82" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="129.89" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="131.95" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="134.02" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="136.08" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="138.15" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="140.21" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="142.28" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="144.34" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="146.41" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="148.47" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="150.54" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="152.60" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="154.67" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="156.73" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="158.80" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="160.86" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="162.93" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="164.99" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="167.06" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="169.12" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="171.19" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="173.25" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="175.32" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="177.38" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="179.45" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="181.51" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="183.58" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="185.64" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="187.71" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="189.77" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="191.84" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="193.90" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="195.97" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="198.03" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="200.10" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="202.16" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="204.23" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="206.29" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="208.36" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="210.42" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="212.49" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="214.55" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="216.62" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="218.68" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="220.75" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="222.81" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="224.88" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="226.94" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="229.01" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="231.07" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="233.14" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="235.20" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="237.27" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="239.33" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="241.40" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="243.46" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="245.53" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="247.59" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="249.66" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="251.72" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="253.79" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="255.85" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="257.92" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="259.98" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="262.05" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="264.11" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="266.18" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="268.24" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="270.31" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="272.37" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="274.44" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="276.50" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="278.57" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="280.63" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="282.70" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="284.76" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="286.83" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="288.89" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="290.96" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="293.02" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="295.09" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="297.15" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="299.22" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="301.28" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="303.35" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="305.41" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="307.48" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="309.54" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="311.61" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="313.67" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="315.74" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="317.80" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="319.87" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="321.93" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="324.00" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="326.06" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="328.13" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="330.19" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="332.26" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="334.32" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="336.39" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="338.45" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="340.52" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="342.58" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="344.65" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="346.71" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="348.78" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="350.84" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="352.91" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="354.97" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="357.04" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="359.10" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="361.17" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="363.23" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="365.30" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="367.36" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="369.43" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="371.49" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="373.56" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="375.62" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="377.69" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="379.75" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="381.82" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="383.88" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="385.95" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="388.01" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="390.08" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="392.14" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="394.21" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="396.27" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="398.34" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="400.40" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="402.47" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="404.53" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="406.60" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="408.66" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="410.73" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="412.79" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="414.86" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="416.92" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="418.99" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="421.05" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="423.12" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="425.18" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="427.25" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="429.31" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="431.38" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="433.44" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="435.51" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="437.57" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="439.64" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="441.70" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="443.77" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="445.83" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="447.90" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="449.96" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="452.03" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="454.09" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="456.16" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="458.22" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="460.29" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="462.35" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="464.42" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="466.48" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="468.55" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="470.61" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="472.68" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="474.74" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="476.81" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="478.87" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="480.94" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="483.00" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="485.07" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="487.13" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="489.20" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="491.26" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="493.33" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="495.39" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="497.46" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="499.52" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="501.59" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="503.65" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="505.72" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="507.78" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="509.85" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="511.91" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="513.98" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="516.04" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="518.11" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="520.17" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="522.24" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="524.30" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="526.37" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="528.43" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="530.50" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="532.56" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="534.63" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="536.69" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="538.76" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="540.82" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="542.89" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="544.95" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="547.02" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="549.08" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="551.15" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="553.21" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="555.28" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="557.34" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="559.41" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="561.47" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="563.54" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="565.60" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="567.67" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="569.73" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="571.80" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="573.86" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="575.93" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="577.99" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="580.06" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="582.12" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="584.19" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="586.25" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="588.32" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="590.38" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="592.45" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="594.51" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="596.58" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="598.64" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="600.71" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="602.77" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="604.84" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="606.90" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="608.97" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="611.03" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="613.10" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="615.16" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="617.23" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="619.29" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="621.36" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="623.42" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="625.49" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="627.55" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="629.62" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="631.68" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="633.75" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="635.81" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="637.88" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="639.94" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="642.01" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="644.07" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="646.14" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="648.20" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="650.27" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="652.33" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="654.40" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="656.46" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="658.53" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="660.59" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="662.66" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="664.72" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="666.79" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="668.85" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="670.92" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="672.98" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="675.05" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="677.11" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="679.18" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="681.24" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="683.31" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="685.37" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="687.44" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="689.50" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="691.57" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="693.63" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="695.70" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="697.76" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="699.83" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="701.89" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="703.96" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="706.02" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="708.09" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="710.15" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="712.22" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="714.28" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="716.35" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="718.41" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="720.48" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="722.54" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="724.61" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="726.67" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="728.74" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="730.80" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="732.87" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="734.93" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="737.00" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="739.06" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="741.13" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="743.19" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="745.26" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="747.32" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="749.39" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="751.45" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="753.52" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="755.58" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="757.65" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="759.71" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="761.78" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="763.84" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="765.91" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="767.97" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="770.04" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="772.10" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="774.17" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="776.23" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="778.30" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="780.36" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="782.43" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="784.49" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="786.56" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="788.62" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="790.69" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="792.75" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="794.82" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="796.88" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="798.95" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="801.01" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="803.08" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="805.14" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="807.21" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="809.27" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="811.34" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="813.40" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="815.47" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="817.53" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="819.60" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="821.66" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="823.73" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="825.79" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="827.86" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="829.92" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="831.99" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="834.05" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="836.12" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="838.18" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="840.25" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="842.31" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="844.38" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="846.44" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="848.51" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="850.57" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="852.64" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="854.70" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="856.77" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="858.83" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="860.90" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="862.96" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="865.03" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="867.09" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="869.16" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="871.22" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="873.29" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="875.35" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="877.42" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="879.48" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="881.55" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="883.61" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="885.68" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="887.74" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="889.81" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="891.87" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="893.94" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="896.00" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="898.07" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="900.13" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="902.20" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="904.26" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="906.33" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="908.39" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="910.46" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="912.52" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="914.59" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="916.65" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="918.72" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="920.78" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="922.85" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="924.91" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="926.98" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="929.04" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="931.11" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="933.17" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="935.24" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="937.30" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="939.37" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="941.43" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="943.50" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="945.56" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="947.63" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="949.69" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="951.76" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="953.82" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="955.89" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="957.95" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="960.02" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="962.08" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="964.15" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="966.21" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="968.28" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="970.34" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="972.41" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="974.47" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="976.54" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="978.60" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="980.67" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="982.73" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="984.80" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="986.86" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="988.93" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="990.99" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="993.06" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="995.12" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="997.19" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="999.25" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1001.32" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1003.38" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1005.45" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1007.51" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1009.58" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1011.64" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1013.71" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1015.77" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1017.84" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1019.90" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1021.97" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1024.03" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1026.10" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1028.16" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1030.23" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1032.29" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1034.36" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1036.42" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1038.49" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1040.55" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1042.62" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1044.68" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1046.75" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1048.81" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1050.88" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1052.94" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1055.01" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1057.07" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1059.14" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1061.20" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1063.27" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1065.33" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1067.40" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1069.46" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1071.53" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1073.59" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1075.66" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1077.72" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1079.79" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1081.85" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1083.92" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1085.98" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1088.05" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1090.11" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1092.18" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1094.24" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1096.31" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1098.37" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1100.44" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1102.50" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1104.57" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1106.63" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1108.70" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1110.76" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1112.83" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1114.89" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1116.96" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1119.02" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1121.09" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1123.15" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1125.22" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1127.28" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1129.35" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1131.41" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1133.48" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1135.54" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1137.61" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1139.67" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1141.74" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1143.80" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1145.87" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<rect x="1147.93" y="28" width="2.42" height="30" fill="#D9D3CC"/>
+<text x="144.3" y="76" font-size="14" fill="#6B645E" text-anchor="middle">1985</text>
+<text x="268.2" y="76" font-size="14" fill="#6B645E" text-anchor="middle">1990</text>
+<text x="392.1" y="76" font-size="14" fill="#6B645E" text-anchor="middle">1995</text>
+<text x="516.0" y="76" font-size="14" fill="#6B645E" text-anchor="middle">2000</text>
+<text x="639.9" y="76" font-size="14" fill="#6B645E" text-anchor="middle">2005</text>
+<text x="763.8" y="76" font-size="14" fill="#6B645E" text-anchor="middle">2010</text>
+<text x="887.7" y="76" font-size="14" fill="#6B645E" text-anchor="middle">2015</text>
+<text x="1011.6" y="76" font-size="14" fill="#6B645E" text-anchor="middle">2020</text>
+<text x="1135.5" y="76" font-size="14" fill="#6B645E" text-anchor="middle">2025</text>
+<g class="fragment" data-fragment-index="1">
+<rect x="257.92" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="259.98" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="262.05" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="264.11" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="266.18" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="268.24" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="270.31" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="272.37" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="522.24" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="524.30" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="526.37" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="528.43" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="530.50" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="532.56" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="534.63" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="536.69" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="689.50" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="691.57" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="693.63" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="695.70" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="697.76" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="699.83" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="701.89" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="703.96" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="706.02" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="708.09" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="710.15" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="712.22" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="714.28" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="716.35" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="718.41" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="720.48" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="722.54" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="724.61" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="990.99" y="28" width="2.42" height="30" fill="#C0603A"/>
+<rect x="993.06" y="28" width="2.42" height="30" fill="#C0603A"/>
+<text x="266.2" y="20" font-size="15" font-weight="700" fill="#C0603A" text-anchor="middle">1990–91</text>
+<text x="530.5" y="20" font-size="15" font-weight="700" fill="#C0603A" text-anchor="middle">2001</text>
+<text x="708.1" y="20" font-size="15" font-weight="700" fill="#C0603A" text-anchor="middle">2008–09</text>
+<text x="993.1" y="20" font-size="15" font-weight="700" fill="#C0603A" text-anchor="middle">2020</text>
+</g>
+<g class="fragment" data-fragment-index="2">
+<text x="62" y="113" font-size="15" fill="#6B645E" text-anchor="end">model</text>
+<rect x="70" y="96" width="1080.0" height="26" fill="none" stroke="#6B645E" stroke-dasharray="4 3"/>
+<text x="610" y="114" font-size="15" fill="#6B645E" text-anchor="middle">calls “recession” in 0 of 523 months</text>
+<text x="70" y="143" font-size="14" fill="#6B645E">grey: quiet months, all called right (487) · terracotta: a recession followed within 12 months, all missed (36) · 487/523 = 93.1%</text>
+</g></svg></div>
+        <div class="key-result fragment fade-up" data-fragment-index="2" style="margin-top: 8px; padding-top: 8px; padding-bottom: 8px;">
+          <p style="font-size: 21pt; text-align: center; margin: 0;">recession months caught: <strong style="color: var(--danger-color);">0 of 36</strong>, while scoring 93.1%</p>
         </div>
-        <p style="font-size: 14pt; text-align: center; color: var(--muted-color); margin-top: 6px;">36 months, from four recessions: 1990&ndash;91, 2001, 2008&ndash;09, 2020.</p>
-        <p class="text-lg" style="margin-top: 16px; line-height: 1.55;">A model built to predict recessions, using the best predictor economics has, catching <strong>none of them</strong> &mdash; while scoring 93.1%.</p>
-        <p class="text-lg" style="margin-top: 12px; line-height: 1.55;"><strong>And nothing is broken.</strong> The model ranks risky months above safe ones about 81% of the time, and on a proper probability score it beats the do-nothing baseline. Every bit of that information is real, and it is thrown away by two decisions nobody thinks about:</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px;">
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--accent-color);"><p style="font-size: 15.5pt;">using <strong>accuracy</strong> as the score</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--accent-color);"><p style="font-size: 15.5pt;">using <strong>0.5</strong> as the cutoff</p></div>
+        <div class="fragment fade-up" data-fragment-index="3" style="margin-top: 12px;">
+          <p style="font-size: 15pt; margin: 0 0 8px;"><strong>And nothing is broken.</strong> The information is in the model:</p>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;"><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--success-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--success-color); margin: 0 0 4px;">IT RANKS</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">A recession month above a quiet month <strong>81% of the time</strong> (AUC 0.811).</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--success-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--success-color); margin: 0 0 4px;">ITS PROBABILITIES</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">Beat the do-nothing rule on the Brier score: <strong>0.0615</strong> against 0.0688 (lower is better; Section 4).</p></div></div>
+        </div>
+        <div class="fragment fade-up" data-fragment-index="4" style="margin-top: 12px; text-align: center;">
+          <p style="font-size: 15.5pt; margin: 0;">Two decisions nobody thinks about throw it away: <strong>accuracy</strong> as the score, and <strong>0.5</strong> as the cutoff.</p>
+          <p style="font-size: 17pt; margin: 6px 0 0; color: var(--accent-color);"><strong>The model is good. The metric is bad.</strong></p>
         </div>
       </div>
     </section>
@@ -127,7 +718,7 @@
           </div>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 22px; border-left: 4px solid var(--danger-color);">
             <p style="font-size: 14pt; color: var(--danger-color); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;">Structural</p>
-            <p style="font-size: 15.5pt; line-height: 1.5;">The variance of a binary variable is \(p(1-p)\) &mdash; it depends on its own mean, so the errors are <strong>heteroscedastic by construction</strong>.</p>
+            <p style="font-size: 15.5pt; line-height: 1.5;">The variance of a binary variable is \(p(1-p)\) &mdash; it depends on its own mean, so the errors are <strong>heteroscedastic by construction</strong>. At a typical month's \(p = 0.069\), \(p(1-p) = 0.064\); at \(p = 0.5\), 0.25: four times as large.</p>
           </div>
         </div>
         <div class="key-result" style="margin-top: 18px;">
@@ -153,13 +744,15 @@
       <h2><i class="fa-solid fa-wave-square" style="color: var(--success-color);"></i> The Fix: Keep the Line, Bend the Output</h2>
       <div class="content">
         <p class="text-lg">Keep the linear combination of features. Pass it through a function that maps the whole real line into \((0, 1)\).</p>
-        <div class="equation-box" style="margin: 16px 0;">
+        <div class="equation-box" style="margin: 10px 0 6px;">
           $$\hat{P}(Y = 1 \mid x) = \frac{1}{1 + e^{-(\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p)}}$$
         </div>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 26px;">
+        <p style="font-size: 13pt; color: var(--muted-color); margin: 4px 0 6px; text-align: center;">\(e \approx 2.718\). One month, with the fitted \(\beta_0 = -1.7592\), \(\beta_1 = -0.8354\) and a spread of \(-1\) (the 10-year one point below the bill):</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 0 0 12px;"><div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 3px;">Step 1 · the linear predictor</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(-1.7592 + (-0.8354)(-1) = -0.9238\)</p></div><div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 3px;">Step 2 · the exponential</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(e^{0.9238} = 2.519\)</p></div><div class="fragment fade-up" data-fragment-index="3" style="background: #eef5ee; border-left: 4px solid var(--success-color); border-radius: 8px; padding: 8px 12px;"><p style="font-size: 12.5pt; font-weight: 700; color: var(--success-color); margin: 0 0 3px;">Step 3 · bend it into (0, 1)</p><p style="font-size: 13.5pt; margin: 0; line-height: 1.4;">\(1 / (1 + 2.519) = 0.284\): a 28.4% chance</p></div></div>
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 12px 22px;">
           <p style="font-size: 15.5pt; line-height: 1.55;"><strong>In words.</strong> The expression inside the exponential is the <strong>linear predictor</strong> &mdash; exactly the \(\mathbf{x}'\boldsymbol{\beta}\) of Chapter 13. The <strong>sigmoid</strong> wrapped around it is S-shaped: very negative linear predictors map near 0, very positive ones near 1, and zero maps to exactly 0.5.</p>
         </div>
-        <p style="margin-top: 16px; font-size: 16pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Nothing about the features changed. Only what we do with their weighted sum.</p>
+        <p style="margin-top: 10px; font-size: 16pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Nothing about the features changed. Only what we do with their weighted sum.</p>
       </div>
     </section>
 
@@ -191,10 +784,13 @@
         <div class="equation-box" style="margin-bottom: 14px;">
           $$e^{\beta_j} = \text{the factor by which the odds multiply, per one-unit increase in } x_j$$
         </div>
-        <pre style="font-size: 14pt; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; margin: 0;"><code>coefficient on spread: -0.8354   (p = 4.88e-08)
-odds ratio: exp(-0.8354) = 0.434</code></pre>
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 13pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>b = logit.params[<span class="t-str">&quot;spread&quot;</span>]
+print(f<span class="t-str">&quot;coefficient on spread: {b:.4f}   (p = {logit.pvalues[&#x27;spread&#x27;]:.3g})&quot;</span>)
+print(f<span class="t-str">&quot;odds ratio: exp({b:.4f}) = {np.exp(b):.3f}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>coefficient on spread: -0.8354   (p = 4.88e-08)
+odds ratio: exp(-0.8354) = 0.434</pre></div></div></div></div>
         <div class="key-result" style="margin-top: 16px;">
           <p style="font-size: 16.5pt;">A curve one percentage point steeper multiplies the odds of being in recession twelve months later by <strong>0.434</strong> &mdash; it <strong>reduces the odds by 57%</strong>.</p>
+          <p style="font-size: 13.5pt; margin-top: 8px; color: var(--muted-color);">Check it on the fitted model: the odds are \(e^{-1.7592} = 0.1722\) at a spread of 0 and \(e^{-2.5946} = 0.0747\) at a spread of 1; \(0.0747 / 0.1722 = 0.434\). And \(1 - 0.434 = 0.566\), the 57%. (\(p = 4.88\text{e-}08\) is 0.0000000488.)</p>
         </div>
       </div>
     </section>
@@ -230,9 +826,23 @@ odds ratio: exp(-0.8354) = 0.434</code></pre>
         <div class="equation-box" style="margin: 14px 0;">
           $$\frac{\partial p}{\partial x_j} = \beta_j \, p(1-p)$$
         </div>
-        <p style="font-size: 15.5pt; line-height: 1.55;"><strong>In words.</strong> The multiplier \(p(1-p)\) is largest at \(p = 0.5\) and vanishes as \(p\) approaches 0 or 1. A given change in the spread moves the probability <strong>a great deal for a month that is truly uncertain, and hardly at all for one that is already safe.</strong></p>
+        <p style="font-size: 13pt; color: var(--muted-color); margin: -4px 0 8px; text-align: center;">\(\partial p / \partial x_j\): how much \(p\) moves when \(x_j\) rises by a small step.</p>
+        <div class="r-stack" style="width: 100%;">
+          <div class="fragment fade-out" data-fragment-index="1" style="width: 100%;">
+          <p style="font-size: 15.5pt; line-height: 1.55;"><strong>In words.</strong> The multiplier \(p(1-p)\) is largest at \(p = 0.5\) and vanishes as \(p\) approaches 0 or 1. A given change in the spread moves the probability <strong>a great deal for a month that is truly uncertain, and hardly at all for one that is already safe.</strong> At a spread of \(-2\), \(p = 0.478\): \(-0.8354 \times 0.478 \times 0.522 = -0.208\). At \(+2\), \(p = 0.031\): \(-0.8354 \times 0.031 \times 0.969 = -0.025\), about 8 times smaller.</p>
         <div class="key-result" style="margin-top: 14px;">
           <p style="font-size: 16pt;">That is economically sensible, not a mathematical inconvenience. If a recession is already near-certain, more bad news barely changes the forecast. The model's diminishing sensitivity at the extremes matches how information actually works.</p>
+        </div>
+          </div>
+          <div class="fragment fade-in mathjax_ignore tex2jax_ignore" data-fragment-index="1" id="t17-scales" style="width: 100%;">
+            <svg viewBox="0 0 1160 186" width="100%" role="img" aria-label="Three linked panels against the term spread: the log-odds is a straight line, the odds an exponential curve, the probability an S-curve; a marker shows the chosen spread on all three" style="display:block;font-family:inherit"></svg>
+            <div style="display: flex; align-items: center; gap: 14px; margin-top: 4px;">
+              <span style="font-size: 13pt; color: var(--muted-color); white-space: nowrap;">spread</span>
+              <input type="range" min="-3" max="3" step="0.1" value="-1" style="flex: 1 1 auto;" aria-label="term spread" onkeydown="event.stopPropagation()">
+              <span class="t17-read" style="font-size: 14pt; white-space: nowrap; min-width: 4.5em; font-weight: 700;"></span>
+            </div>
+            <p class="t17-out" style="font-size: 14pt; margin: 6px 0 0; text-align: center;"></p>
+          </div>
         </div>
       </div>
     </section>
@@ -307,7 +917,7 @@ odds ratio: exp(-0.8354) = 0.434</code></pre>
         </div>
         <p style="font-size: 15.5pt; line-height: 1.5;"><strong>In words.</strong> Each month contributes \(p_i\) if a recession followed and \(1 - p_i\) if none did. Maximising this picks the coefficients under which <strong>the data we actually saw is most probable</strong>.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px;">
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--success-color);"><p style="font-size: 14.5pt; line-height: 1.5;"><strong>At most one optimum.</strong> The log-likelihood is concave, so if a maximum exists it is the only one: no local maxima to get trapped in, and two analysts get the same answer to many decimals.</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--success-color);"><p style="font-size: 14.5pt; line-height: 1.5;"><strong>At most one optimum.</strong> The log-likelihood is concave (a single hill), so if a maximum exists it is the only one: no local maxima to get trapped in, and two analysts get the same answer to many decimals.</p></div>
           <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--danger-color);"><p style="font-size: 14.5pt; line-height: 1.5;"><strong>But it can fail to converge</strong> &mdash; and failure is diagnostic: a feature that separates the classes perfectly, wildly different scales, or near-collinearity. Chapter 14's problem, inherited.</p></div>
         </div>
         <p style="margin-top: 14px; font-size: 15.5pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> A convergence warning is information about your design matrix, not a nuisance to suppress.</p>
@@ -317,16 +927,16 @@ odds ratio: exp(-0.8354) = 0.434</code></pre>
     <section id="two-libraries" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-code-branch" style="color: var(--danger-color);"></i> Two Libraries, Two Purposes &mdash; and a Catch</h2>
       <div class="content">
-        <pre style="font-size: 13.5pt; background: #f8f6f3; border-radius: 8px; padding: 14px 20px; margin: 0;"><code># Inference — standard errors, z-statistics, p-values
-X = sm.add_constant(df[['spread']])     # statsmodels needs the constant
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 13pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># Inference — standard errors, z-statistics (a large-sample t), p-values</span>
+X = sm.add_constant(df[[<span class="t-str">&#x27;spread&#x27;</span>]])     <span class="t-com"># statsmodels needs the constant</span>
 logit = sm.Logit(y, X).fit()
 
-# Prediction — the scikit-learn pipeline ecosystem (adds its own intercept)
-clf = LogisticRegression(C=np.inf, tol=1e-8).fit(df[['spread']], y)</code></pre>
+<span class="t-com"># Prediction — the scikit-learn pipeline ecosystem (adds its own intercept)</span>
+clf = LogisticRegression(C=np.inf, tol=<span class="t-num">1e-8</span>).fit(df[[<span class="t-str">&#x27;spread&#x27;</span>]], y)  <span class="t-com"># C=np.inf: no penalty</span></code></pre></div></div></div>
         <div class="key-result" style="margin-top: 16px;">
           <p style="font-size: 16.5pt;">Turning the penalty off with <code>C=np.inf</code> is <strong>not optional</strong> if you want to match <code>statsmodels</code>. scikit-learn applies \(L_2\) regularization <em>by default</em>. (Before version 1.8: <code>penalty=None</code>.)</p>
         </div>
-        <p style="margin-top: 14px; font-size: 15.5pt; line-height: 1.55;">Sensible for prediction. Surprising for an economist who expects maximum likelihood and gets a penalised estimate without being told. And worse: the strength parameter is <code>C</code>, which is the <strong>inverse</strong> of the penalty &mdash; small <code>C</code> means heavy regularization. Chapter 16 showed &ldquo;alpha&rdquo; meaning penalty strength in scikit-learn and the L1/L2 mix in glmnet; <code>C</code> is one more convention, and it runs the opposite way: it is the inverse of the strength.</p>
+        <p style="margin-top: 14px; font-size: 15.5pt; line-height: 1.55;">Sensible for prediction. Surprising for an economist who expects maximum likelihood (the coefficients that make the observed outcomes most probable, Section 3) and gets a penalised estimate without being told. And worse: the strength parameter is <code>C</code>, which is the <strong>inverse</strong> of the penalty &mdash; small <code>C</code> means heavy regularization. Chapter 16 showed &ldquo;alpha&rdquo; meaning penalty strength in scikit-learn and the L1/L2 mix in glmnet; <code>C</code> is one more convention, and it runs the opposite way: it is the inverse of the strength.</p>
       </div>
     </section>
 
@@ -334,12 +944,13 @@ clf = LogisticRegression(C=np.inf, tol=1e-8).fit(df[['spread']], y)</code></pre>
       <h2><i class="fa-solid fa-circle-minus" style="color: var(--muted-color);"></i> Adding Unemployment: It Adds Nothing</h2>
       <div class="content">
         <p style="font-size: 15pt;">Unemployment tends to turn before a downturn. Add its twelve-month change and refit.</p>
-        <pre style="font-size: 13.5pt; background: #f8f6f3; border-radius: 8px; padding: 13px 20px; margin: 10px 0;"><code>                   Brier     AUC   pseudo-R2
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 12.5pt; margin: 10px 0;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># refit with the 12-month change in unemployment added, then compare</span>
+logit2 = sm.Logit(y, sm.add_constant(df[[<span class="t-str">&#x27;spread&#x27;</span>, <span class="t-str">&#x27;unrate_chg&#x27;</span>]])).fit()</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>                   Brier     AUC   pseudo-R2
 spread only       0.0615   0.811       0.131
 spread + unrate   0.0616   0.810       0.132
 
   spread      coef -0.8324   odds ratio 0.435   p 5.54e-08
-  unrate_chg  coef +0.0409   odds ratio 1.042   p 0.736</code></pre>
+  unrate_chg  coef +0.0409   odds ratio 1.042   p 0.736</pre></div></div></div></div>
         <p style="font-size: 15.5pt; line-height: 1.5;">The Brier score is fractionally <em>worse</em>, AUC a shade lower, and the new coefficient is nowhere near significant.</p>
         <div class="key-result" style="margin-top: 12px;">
           <p style="font-size: 16pt;">The yield curve already embodies the market's aggregate forecast &mdash; including whatever traders believe about the labour market. <strong>Related to the outcome</strong> and <strong>adds information beyond what you have</strong> are different properties.</p>
@@ -354,9 +965,12 @@ spread + unrate   0.0616   0.810       0.132
     <section id="the-arithmetic" style="padding: 32px 58px;">
       <h2><i class="fa-solid fa-calculator" style="color: var(--accent-color);"></i> The Reason Is Arithmetic</h2>
       <div class="content">
-        <pre style="font-size: 15pt; background: #f8f6f3; border-radius: 8px; padding: 16px 22px; margin: 0;"><code>'always no recession':    accuracy 93.1%
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 13pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>pred = (p_hat &gt;= <span class="t-num">0.5</span>).astype(int)
+print(f<span class="t-str">&quot;&#x27;always no recession&#x27;:    accuracy {(y == 0).mean():.1%}&quot;</span>)
+print(f<span class="t-str">&quot;logistic at p &gt;= 0.5:     accuracy {(pred == y).mean():.1%}&quot;</span>)
+print(f<span class="t-str">&quot;recession months caught:  {(pred[y == 1] == 1).sum()} of {(y == 1).sum()}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>'always no recession':    accuracy 93.1%
 logistic at p >= 0.5:     accuracy 93.1%
-recession months caught:  0 of 36</code></pre>
+recession months caught:  0 of 36</pre></div></div></div></div>
         <p class="text-lg" style="margin-top: 16px; line-height: 1.55;">Only <strong>6.9%</strong> of months precede a recession, so a model that says &ldquo;no&rdquo; every time is right 93.1% of the time <em>for free</em>.</p>
         <div class="key-result" style="margin-top: 14px;">
           <p style="font-size: 17pt;"><strong>Accuracy's benchmark is set by the base rate</strong> &mdash; and with imbalanced classes that benchmark is high enough to disguise total uselessness.</p>
@@ -392,7 +1006,7 @@ recession months caught:  0 of 36</code></pre>
       <div class="content" style="display: grid; grid-template-columns: 44% 56%; gap: 24px; align-items: center;">
         <div>
           <p style="font-size: 14.5pt; line-height: 1.5;">By <strong>accuracy</strong>, a tie: a rule with no inputs at all matches our yield-curve logit.</p>
-          <p style="font-size: 14.5pt; line-height: 1.5; margin-top: 12px;">By the <strong>Brier score</strong>, the logistic model beats both the do-nothing rule and a model that just reports the base rate every month.</p>
+          <p style="font-size: 14.5pt; line-height: 1.5; margin-top: 12px;">By the <strong>Brier score</strong> (the average squared gap between each predicted probability and what happened, 1 or 0; lower is better), the logistic model beats both the do-nothing rule and a model that just reports the base rate every month.</p>
           <div class="key-result" style="margin-top: 12px;">
             <p style="font-size: 14pt;">The information was there the whole time. <strong>Accuracy threw it away</strong>, by collapsing a well-ordered set of probabilities into a yes/no call at an arbitrary cutoff.</p>
           </div>
@@ -427,7 +1041,7 @@ recession months caught:  0 of 36</code></pre>
     <section id="proper-scoring" style="padding: 30px 58px;">
       <h2><i class="fa-solid fa-scale-unbalanced-flip" style="color: var(--accent-color);"></i> Accuracy Is an <em>Improper</em> Score</h2>
       <div class="content">
-        <p style="font-size: 15.5pt; line-height: 1.55;">A scoring rule is <strong>strictly proper</strong> if it is uniquely optimised by reporting your true beliefs. Brier and log-loss are strictly proper. Accuracy is not &mdash; it can be improved by <em>misreporting</em>: shading a real 0.45 up to a confident 1 pays off whenever the outcome occurs, and accuracy cannot tell a well-calibrated 0.45 from an overconfident 0.95.</p>
+        <p style="font-size: 15.5pt; line-height: 1.55;">A scoring rule is <strong>strictly proper</strong> if it is uniquely optimised by reporting your true beliefs. Brier and log-loss (the average of \(-\log\) of the probability the model gave to what actually happened) are strictly proper. Accuracy is not &mdash; it can be improved by <em>misreporting</em>: shading a real 0.45 up to a confident 1 pays off whenever the outcome occurs, and accuracy cannot tell a well-calibrated 0.45 from an overconfident 0.95.</p>
         <div class="equation-box" style="margin: 14px 0;">
           $$\text{Brier} = \frac{1}{n}\sum_{i=1}^{n}\left(\hat{p}_i - y_i\right)^2$$
         </div>
@@ -573,10 +1187,13 @@ recession months caught:  0 of 36</code></pre>
       <h2><i class="fa-solid fa-clock-rotate-left" style="color: var(--danger-color);"></i> Two Years Inverted, and No Recession</h2>
       <div class="content">
         <p style="font-size: 15.5pt; line-height: 1.5;">The yield-curve model preceded every U.S. recession for half a century with very few false alarms. Then the model's own spread, the 10-year minus the 3-month bill, averaged <strong>below zero every month from November 2022 to November 2024</strong>, and nothing arrived. Real GDP growth held at 2.9% in 2023 and 2.8% in 2024.</p>
-        <pre style="font-size: 14pt; background: #f8f6f3; border-radius: 8px; padding: 13px 20px; margin: 12px 0;"><code>2023-01   spread -1.16   P(recession 12m ahead) 31.1%   actual: no recession
+        <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 12.5pt; margin: 12px 0;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># four months of the 2022–24 inversion</span>
+for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&quot;2023-05&quot;</span>, <span class="t-str">&quot;2023-12&quot;</span>, <span class="t-str">&quot;2024-06&quot;</span>]:
+    print(f<span class="t-str">&quot;{m}   spread {df.spread[m]:.2f}   P(recession 12m ahead) {p_hat[m]:.1%}   &quot;</span>
+          f<span class="t-str">&quot;actual: {[&#x27;no recession&#x27;, &#x27;recession&#x27;][y[m]]}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>2023-01   spread -1.16   P(recession 12m ahead) 31.1%   actual: no recession
 2023-05   spread -1.73   P(recession 12m ahead) 42.3%   actual: no recession
 2023-12   spread -1.42   P(recession 12m ahead) 36.1%   actual: no recession
-2024-06   spread -1.20   P(recession 12m ahead) 32.0%   actual: no recession</code></pre>
+2024-06   spread -1.20   P(recession 12m ahead) 32.0%   actual: no recession</pre></div></div></div></div>
         <div class="key-result">
           <p style="font-size: 16.5pt;">Four to six times the base rate, month after month, and wrong.</p>
         </div>
@@ -625,8 +1242,8 @@ recession months caught:  0 of 36</code></pre>
     <section id="term-premium" style="padding: 30px 58px;">
       <h2><i class="fa-solid fa-layer-group" style="color: var(--accent-color);"></i> What Actually Happened</h2>
       <div class="content">
-        <p style="font-size: 15.5pt; line-height: 1.55;">A ten-year yield decomposes into <strong>expected future short rates</strong> plus a <strong>term premium</strong> &mdash; the extra compensation investors demand for holding duration risk.</p>
-        <p style="font-size: 15.5pt; line-height: 1.55; margin-top: 10px;">Years of quantitative easing had pushed that premium to <strong>around zero or below</strong> (New York Fed, Adrian&ndash;Crump&ndash;Moench estimates).</p>
+        <p style="font-size: 15.5pt; line-height: 1.55;">A ten-year yield decomposes into <strong>expected future short rates</strong> plus a <strong>term premium</strong> &mdash; the extra compensation investors demand for holding duration risk (a long bond loses value when rates rise).</p>
+        <p style="font-size: 15.5pt; line-height: 1.55; margin-top: 10px;">Years of quantitative easing (the Fed buying long-term bonds) had pushed that premium to <strong>around zero or below</strong> (New York Fed, Adrian&ndash;Crump&ndash;Moench estimates).</p>
         <div class="key-result" style="margin-top: 14px;">
           <p style="font-size: 16.5pt;">The curve inverted partly because the <strong>term premium had been squeezed toward zero</strong>, not because markets expected a contraction. The spread was numerically the same. What it <em>indicated</em> was not.</p>
         </div>
@@ -694,10 +1311,10 @@ recession months caught:  0 of 36</code></pre>
       <div class="content">
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--secondary-color);">1</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Check the base rate before anything else.</strong> One line, and it determines how you must evaluate everything downstream.</p></div>
-          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--danger-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--danger-color);">2</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Fit on the true distribution.</strong> Resampling and <code>class_weight='balanced'</code> both move the prior and inflate every predicted probability. If the probability is the product, fit unweighted and move the threshold instead.</p></div>
-          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--accent-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--accent-color);">3</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Score with a proper rule.</strong> Brier or log-loss, beside a discrimination measure. Report accuracy only next to the base rate.</p></div>
+          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--danger-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--danger-color);">2</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Fit on the true distribution.</strong> Resampling (copying or dropping rows to even out the classes) and <code>class_weight='balanced'</code> both move the prior and inflate every predicted probability. If the probability is the product, fit unweighted and move the threshold instead.</p></div>
+          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--accent-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--accent-color);">3</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Score with a proper rule</strong> (one that rewards honest probabilities). Brier or log-loss, beside a discrimination measure such as AUC. Report accuracy only next to the base rate.</p></div>
           <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--success-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--success-color);">4</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Choose the threshold from costs.</strong> \(t^* = C_{FP}/(C_{FP}+C_{FN})\). The arithmetic is trivial; naming the costs is the hard part and it is not a statistical task.</p></div>
-          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--secondary-color);">5</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Check calibration if the probability is used as a number</strong> &mdash; if it feeds an expected-loss or capital formula, being well-ordered is not enough.</p></div>
+          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--secondary-color);">5</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Check calibration</strong> (when it says 30%, it happens about 30% of the time) <strong>if the probability is used as a number</strong> &mdash; if it feeds an expected-loss or capital formula, being well-ordered is not enough.</p></div>
           <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--muted-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--muted-color);">6</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Ask whether the features still mean what they meant.</strong> Schedule the question rather than waiting for the model to embarrass you.</p></div>
         </div>
       </div>
@@ -721,15 +1338,18 @@ recession months caught:  0 of 36</code></pre>
       <div class="content" style="display: grid; grid-template-columns: 46% 54%; gap: 20px; align-items: center;">
         <div>
           <p style="font-size: 13.5pt; line-height: 1.45;">The lab uses a <strong>different</strong> world from today's, deliberately: 6,000 simulated consumer loan applications with a measured <strong>9.6%</strong> default rate, so a model that approves everyone is <strong>90.4% accurate</strong>. Executed, it prints your hook back at you:</p>
-          <pre style="font-size: 11.5pt; background: #f8f6f3; border-radius: 6px; padding: 9px 13px; margin: 9px 0;"><code>model accuracy    : 90.4%
+          <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 10pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>acc = metrics.accuracy_score(y_te, pred)
+print(f<span class="t-str">&quot;model accuracy    : {acc:.1%}&quot;</span>)
+print(f<span class="t-str">&quot;baseline accuracy : {base_acc:.1%}&quot;</span>)
+print(<span class="t-str">&quot;predicted defaults:&quot;</span>, pred.sum(), <span class="t-str">&quot;of&quot;</span>, len(pred))</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>model accuracy    : 90.4%
 baseline accuracy : 90.4%
-predicted defaults: 0 of 1800</code></pre>
-          <p style="font-size: 13.5pt; line-height: 1.45;"><strong>Part 4 is yours.</strong> Price a false negative at 60% of a $20,000 principal and a false positive at the 8% margin, then find the cost-minimising threshold.</p>
+predicted defaults: 0 of 1800</pre></div></div></div></div>
+          <p style="font-size: 13.5pt; line-height: 1.45;"><strong>Part 4 is yours.</strong> Price a false negative at 60% of a $20,000 principal and a false positive at the 8% margin, choose the cheapest threshold on the <strong>training</strong> rows, then price it on the test rows once.</p>
           <div class="key-result" style="margin-top: 9px;">
-            <p style="font-size: 13pt;">It comes out at <strong>t = 0.103</strong>, costing <strong>$926</strong> per applicant against <strong>$1,147</strong> at the default &mdash; the library's cutoff costs <strong>24% more</strong>. The closed form says 0.118; why the two differ is a question for class.</p>
+            <p style="font-size: 13pt;"><strong>t = 0.121</strong>, next to the closed form's 0.118: <strong>$944</strong> per test applicant against <strong>$1,147</strong> at 0.5, <strong>21% more</strong>. Chosen on the test rows it would read 0.103 and $926, only because it was picked on the rows that score it.</p>
           </div>
         </div>
-        <img class="figure" src="figures/figure_006_lab_preview.png" alt="Two stacked panels drawn from Lab 17's numbers: expected cost per applicant across thresholds with a minimum at 0.103 and the default 0.5 sitting 24 per cent higher, and below it accuracy, recall and precision curves showing accuracy highest where the model declines nobody" style="max-height: 545px; width: auto; display: block; margin: 0 auto;">
+        <img class="figure" src="figures/figure_006_lab_preview.png" alt="Two stacked panels drawn from Lab 17's numbers: expected cost per test applicant across thresholds, with the threshold chosen on the training rows, 0.121, at $944, the test rows' own minimum, 0.103 at $926, marked as optimistic, and the default 0.5 sitting 21 per cent higher, and below it accuracy, recall and precision curves showing accuracy highest where the model declines nobody" style="max-height: 545px; width: auto; display: block; margin: 0 auto;">
       </div>
     </section>
 
@@ -739,7 +1359,7 @@ predicted defaults: 0 of 1800</code></pre>
         <div style="display: flex; flex-direction: column; gap: 9px;">
           <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 20px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 14.5pt; line-height: 1.45;"><strong>1.</strong> The linear probability model produces impossible predictions &mdash; <strong>84 negative probabilities</strong> on real FRED data &mdash; and heteroscedastic errors by construction. The logit link fixes both by modelling log-odds linearly.</p></div>
           <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 20px; border-left: 4px solid var(--accent-color);"><p style="font-size: 14.5pt; line-height: 1.45;"><strong>2.</strong> A logistic coefficient is a change in <strong>log-odds</strong>: &minus;0.8354 means the odds multiply by <strong>0.434</strong>, a 57% reduction <em>in odds</em>, and the effect on the probability depends on where you start.</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 20px; border-left: 4px solid var(--danger-color);"><p style="font-size: 14.5pt; line-height: 1.45;"><strong>3.</strong> <strong>Accuracy is an improper score</strong>, and under imbalance a model with no information already scores 1 minus the base rate (93.1%). Ours matched it while flagging 0 of the 36 months that preceded a recession &mdash; yet Brier 0.0615 and AUC 0.811 show the information is there.</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 20px; border-left: 4px solid var(--danger-color);"><p style="font-size: 14.5pt; line-height: 1.45;"><strong>3.</strong> <strong>Accuracy is an improper score</strong> (it can be raised by reporting overconfident probabilities), and under imbalance a model with no information already scores 1 minus the base rate (93.1%). Ours matched it while flagging 0 of the 36 months that preceded a recession &mdash; yet Brier 0.0615 and AUC 0.811 show the information is there.</p></div>
           <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 20px; border-left: 4px solid var(--success-color);"><p style="font-size: 14.5pt; line-height: 1.45;"><strong>4.</strong> <strong>0.5 is a library default, not a decision.</strong> At 0.10 the model flags 26 of the 36 recession months at the worst accuracy in the table, and the right cutoff is \(C_{FP}/(C_{FP}+C_{FN})\) &mdash; a question about costs.</p></div>
           <div style="background: #f8f6f3; border-radius: 8px; padding: 11px 20px; border-left: 4px solid var(--muted-color);"><p style="font-size: 14.5pt; line-height: 1.45;"><strong>5.</strong> A model can be mathematically sound and still fail if a <strong>feature stops meaning what it meant</strong> &mdash; two years with the 10-year yield below the 3-month bill, in-sample probabilities of 25&ndash;42%, no recession, because QE had compressed the term premium.</p></div>
         </div>
@@ -776,7 +1396,7 @@ predicted defaults: 0 of 1800</code></pre>
           </div>
           <div style="display: grid; grid-template-columns: 82px 1fr; gap: 14px; background: #f8f6f3; border-radius: 8px; padding: 12px 20px; border-left: 4px solid var(--danger-color);">
             <p style="font-size: 15pt; font-weight: 700; color: var(--danger-color);">Ch 20</p>
-            <p style="font-size: 13.5pt; line-height: 1.45;"><strong>Time series.</strong> Everything today was computed <strong>in-sample</strong>, on all 523 months at once &mdash; the classifier saw its own future while being fitted. Fine for mechanics, indefensible as a forecast claim. Treat AUC 0.811 as a description. Chapter 20 builds the expanding-window machinery that fixes it, and today's structural break is that chapter's central subject.</p>
+            <p style="font-size: 13.5pt; line-height: 1.45;"><strong>Time series.</strong> Everything today was computed <strong>in-sample</strong>, on all 523 months at once &mdash; the classifier saw its own future while being fitted. Fine for mechanics, indefensible as a forecast claim. Treat AUC 0.811 as a description. Chapter 20 builds the expanding-window machinery (fit on the past only, then step forward) that fixes it, and today's structural break is that chapter's central subject.</p>
           </div>
         </div>
         <p style="margin-top: 14px; font-size: 14.5pt; color: var(--muted-color);">Read Chapter 18 before the next session. Lab 17 is due on Canvas &mdash; GitHub repo link.</p>
@@ -1557,5 +2177,52 @@ predicted defaults: 0 of 1800</code></pre>
   if (Reveal.isReady()) start(); else Reveal.on('ready', start);
 })();
 </script>
+
+  <script>
+  /* Topic 17: one slider, three scales (marginal-effect slide). Fitted logit: b0 -1.7592, b1 -0.8354. */
+  (function () {
+    function init() {
+      var box = document.getElementById('t17-scales'); if (!box) return;
+      var svg = box.querySelector('svg'), sl = box.querySelector('input'), rd = box.querySelector('.t17-read'), out = box.querySelector('.t17-out');
+      var B0 = -1.7592, B1 = -0.8354, NS = 'http://www.w3.org/2000/svg';
+      var lo = function (s) { return B0 + B1 * s; }, od = function (s) { return Math.exp(lo(s)); }, pr = function (s) { return 1 / (1 + Math.exp(-lo(s))); };
+      var P = [ {t: 'log-odds: a straight line', f: lo, y0: -4.4, y1: 0.9, c: '#1565C0', fmt: function (v) { return v.toFixed(2); }},
+                {t: 'odds: multiply by 0.434 per point', f: od, y0: 0, y1: 2.2, c: '#6B4FA0', fmt: function (v) { return v.toFixed(2); }},
+                {t: 'probability: the S-curve', f: pr, y0: 0, y1: 0.72, c: '#C0603A', fmt: function (v) { return (100 * v).toFixed(1) + '%'; }} ];
+      var W = 360, G = 40, T = 26, H = 140;
+      function el(n, a) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); svg.appendChild(e); return e; }
+      var X = function (k, s) { return k * (W + G) + 30 + (s + 3) / 6 * (W - 40); };
+      var Y = function (k, v) { var q = P[k]; return T + H - (v - q.y0) / (q.y1 - q.y0) * H; };
+      var mk = [];
+      P.forEach(function (q, k) {
+        var x0 = k * (W + G);
+        el('text', {x: x0 + 30, y: 16, 'font-size': 17, 'font-weight': 700, fill: q.c}).textContent = q.t;
+        el('line', {x1: X(k, -3), x2: X(k, 3), y1: T + H, y2: T + H, stroke: '#BFB8B0'});
+        el('line', {x1: X(k, -3), x2: X(k, -3), y1: T, y2: T + H, stroke: '#BFB8B0'});
+        ['-2', '0', '2'].forEach(function (v) { el('text', {x: X(k, +v), y: T + H + 17, 'font-size': 13, fill: '#6B645E', 'text-anchor': 'middle'}).textContent = v.replace('-', '\u2212'); });
+        var d = ''; for (var i = 0; i <= 120; i++) { var s = -3 + i / 20; d += (i ? 'L' : 'M') + X(k, s).toFixed(1) + ' ' + Y(k, q.f(s)).toFixed(1); }
+        el('path', {d: d, fill: 'none', stroke: q.c, 'stroke-width': 3});
+        mk.push({v: el('line', {stroke: '#2D2D2D', 'stroke-dasharray': '4 3', y1: T, y2: T + H}),
+                 c: el('circle', {r: 7, fill: q.c, stroke: '#fff', 'stroke-width': 2}),
+                 l: el('text', {'font-size': 16, 'font-weight': 700, fill: '#2D2D2D'})});
+      });
+      function draw() {
+        var s = +sl.value;
+        P.forEach(function (q, k) {
+          var x = X(k, s), y = Y(k, q.f(s)), m = mk[k];
+          m.v.setAttribute('x1', x); m.v.setAttribute('x2', x);
+          m.c.setAttribute('cx', x); m.c.setAttribute('cy', y);
+          var right = s <= 2.2; m.l.setAttribute('x', x + (right ? 11 : -11)); m.l.setAttribute('y', Math.max(T + 14, y - (right ? 12 : 24)));
+          m.l.setAttribute('text-anchor', right ? 'start' : 'end'); m.l.textContent = q.fmt(q.f(s)).replace('-', '\u2212');
+        });
+        rd.textContent = (s > 0 ? '+' : '') + s.toFixed(1).replace('-', '\u2212');
+        var drop = 100 * (pr(s) - pr(s + 1));
+        out.textContent = 'One point wider from here: log-odds −0.84, odds ×0.434, probability −' + drop.toFixed(1) + ' points.';
+      }
+      sl.addEventListener('input', draw); draw();
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  })();
+  </script>
 </body>
 </html>
