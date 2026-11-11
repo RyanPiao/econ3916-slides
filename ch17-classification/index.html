@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a6d8a3dbca760d98ef53a5cccc6756fe">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=bedd760d9945dfc8c5909d8506530cbc">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -1250,24 +1250,25 @@ recession months caught:  0 of 36</pre></div></div></div></div>
     <section id="threshold-table" style="padding: 28px 55px;">
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-sliders" style="color: var(--accent-color);"></i> One Model, Five Thresholds</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What does each threshold trade?</p>
         <table style="width: 100%; font-size: 15pt; border-collapse: collapse;">
           <thead><tr style="border-bottom: 2px solid var(--secondary-color);">
             <th style="text-align: right; padding: 8px 14px;">threshold</th>
-            <th style="text-align: right; padding: 8px 14px;">caught</th>
+            <th style="text-align: right; padding: 8px 14px;">caught (recall)</th>
             <th style="text-align: right; padding: 8px 14px;">missed</th>
             <th style="text-align: right; padding: 8px 14px;">false alarms</th>
             <th style="text-align: right; padding: 8px 14px;">accuracy</th>
           </tr></thead>
           <tbody>
             <tr style="border-bottom: 1px solid #eae4dd; background: #f8f6f3;"><td style="text-align: right; padding: 8px 14px;"><strong>0.50</strong></td><td style="text-align: right; padding: 8px 14px;">0 / 36</td><td style="text-align: right; padding: 8px 14px;">36</td><td style="text-align: right; padding: 8px 14px;">0</td><td style="text-align: right; padding: 8px 14px;"><strong>93.1%</strong></td></tr>
-            <tr style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 8px 14px;">0.30</td><td style="text-align: right; padding: 8px 14px;">0 / 36</td><td style="text-align: right; padding: 8px 14px;">36</td><td style="text-align: right; padding: 8px 14px;">16</td><td style="text-align: right; padding: 8px 14px;">90.1%</td></tr>
-            <tr style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 8px 14px;">0.20</td><td style="text-align: right; padding: 8px 14px;">4 / 36</td><td style="text-align: right; padding: 8px 14px;">32</td><td style="text-align: right; padding: 8px 14px;">25</td><td style="text-align: right; padding: 8px 14px;">89.1%</td></tr>
-            <tr style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 8px 14px;">0.15</td><td style="text-align: right; padding: 8px 14px;">13 / 36</td><td style="text-align: right; padding: 8px 14px;">23</td><td style="text-align: right; padding: 8px 14px;">42</td><td style="text-align: right; padding: 8px 14px;">87.6%</td></tr>
-            <tr style="background: #f8f6f3;"><td style="text-align: right; padding: 8px 14px;"><strong>0.10</strong></td><td style="text-align: right; padding: 8px 14px;"><strong>26 / 36</strong></td><td style="text-align: right; padding: 8px 14px;">10</td><td style="text-align: right; padding: 8px 14px;">94</td><td style="text-align: right; padding: 8px 14px;"><strong>80.1%</strong></td></tr>
+            <tr class="fragment" data-fragment-index="1" style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 8px 14px;">0.30</td><td style="text-align: right; padding: 8px 14px;">0 / 36</td><td style="text-align: right; padding: 8px 14px;">36</td><td style="text-align: right; padding: 8px 14px;">16</td><td style="text-align: right; padding: 8px 14px;">90.1%</td></tr>
+            <tr class="fragment" data-fragment-index="2" style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 8px 14px;">0.20</td><td style="text-align: right; padding: 8px 14px;">4 / 36</td><td style="text-align: right; padding: 8px 14px;">32</td><td style="text-align: right; padding: 8px 14px;">25</td><td style="text-align: right; padding: 8px 14px;">89.1%</td></tr>
+            <tr class="fragment" data-fragment-index="3" style="border-bottom: 1px solid #eae4dd;"><td style="text-align: right; padding: 8px 14px;">0.15</td><td style="text-align: right; padding: 8px 14px;">13 / 36</td><td style="text-align: right; padding: 8px 14px;">23</td><td style="text-align: right; padding: 8px 14px;">42</td><td style="text-align: right; padding: 8px 14px;">87.6%</td></tr>
+            <tr class="fragment" data-fragment-index="4" style="background: #f8f6f3;"><td style="text-align: right; padding: 8px 14px;"><strong>0.10</strong></td><td style="text-align: right; padding: 8px 14px;"><strong>26 / 36</strong></td><td style="text-align: right; padding: 8px 14px;">10</td><td style="text-align: right; padding: 8px 14px;">94</td><td style="text-align: right; padding: 8px 14px;"><strong>80.1%</strong></td></tr>
           </tbody>
         </table>
-        <div class="key-result" style="margin-top: 16px;">
-          <p style="font-size: 16.5pt;">Read the first and last rows together. At the default the model catches <strong>nothing</strong> and posts the <strong>best</strong> accuracy in the table. At 0.10 it catches 26 of the 36 recession months and posts the <strong>worst</strong>.</p>
+        <div class="key-result fragment fade-up" data-fragment-index="5" style="margin-top: 14px;">
+          <p style="font-size: 16pt;">Down the table, the model catches more and raises more false alarms, and accuracy falls. The default catches <strong>nothing</strong> at the <strong>best</strong> accuracy; 0.10 catches 26 of 36 at the <strong>worst</strong>.</p>
         </div>
       </div>
     </section>
@@ -1275,14 +1276,15 @@ recession months caught:  0 of 36</pre></div></div></div></div>
     <section id="fig-threshold" style="padding: 22px 45px;">
       <h2 style="margin-bottom: 2px;"><i class="fa-solid fa-arrow-trend-down" style="color: var(--danger-color);"></i> The Same Trade-Off, Continuously</h2>
       <div class="content" style="display: grid; grid-template-columns: 60% 40%; gap: 22px; align-items: center;">
-        <img class="figure" src="figures/figure_004_threshold.png" alt="Recession months caught falling from 36 to zero and accuracy climbing from about 61 to 93 per cent as the decision threshold rises from 0.02 to 0.6, with markers at the 0.10 and 0.50 cutoffs" style="max-height: 520px; width: auto; display: block; margin: 0 auto;">
+        <div class="r-stack" style="width: 100%; min-width: 0;"><img class="figure" src="figures/figure_004_threshold_s1.png" alt="Recession months caught, out of 36, falling from 36 to zero as the decision threshold rises from 0.02 to 0.6, with 26 caught and 94 false alarms marked at 0.10 and none at 0.50" style="max-width: 100%; max-height: 500px; width: auto; height: auto; display: block; margin: 0 auto;"><img class="figure fragment" data-fragment-index="1" src="figures/figure_004_threshold.png" alt="The same chart with accuracy added on a second axis, climbing from about 61 to 93 per cent as the threshold rises, so accuracy is highest where the model catches nothing" style="max-width: 100%; max-height: 500px; width: auto; height: auto; display: block; margin: 0 auto;"></div>
         <div>
-          <p style="font-size: 14.5pt; line-height: 1.5;">Every point on the green line is one row of the table. Every point on the terracotta line is that row's accuracy.</p>
-          <p style="font-size: 14.5pt; line-height: 1.5; margin-top: 12px;">They run in <strong>opposite directions</strong> across the whole range that matters.</p>
-          <div class="key-result" style="margin-top: 12px;">
-            <p style="font-size: 14pt;">Chapter 18 plots this properly. The <strong>ROC curve</strong> is this table read continuously, and <strong>AUC</strong> summarises the whole thing without reference to any threshold at all.</p>
+          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What happens between the five rows?</p>
+          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Green:</strong> recession months caught at every threshold. The five rows of the table are five points on it.</p>
+          <p class="fragment fade-up" data-fragment-index="1" style="font-size: 14.5pt; line-height: 1.45; margin-top: 10px;"><strong>Orange:</strong> accuracy at the same thresholds. The two run in <strong>opposite directions</strong>.</p>
+          <div class="key-result fragment fade-up" data-fragment-index="2" style="margin-top: 10px;">
+            <p style="font-size: 14.5pt;">Accuracy is highest exactly where the model catches nothing.</p>
           </div>
-          <p style="font-size: 14pt; margin-top: 10px; color: var(--muted-color);">That threshold-independence is exactly why AUC held up in today's demonstration and accuracy did not.</p>
+          <p class="fragment fade-up" data-fragment-index="2" style="font-size: 13pt; margin-top: 8px; color: var(--muted-color);">Chapter 18 draws this as the ROC curve and sums it up in one number, the AUC, with no threshold at all.</p>
         </div>
       </div>
     </section>
@@ -1304,14 +1306,22 @@ recession months caught:  0 of 36</pre></div></div></div></div>
     <section id="cost-threshold" style="padding: 30px 58px;">
       <h2><i class="fa-solid fa-coins" style="color: var(--success-color);"></i> And It Is Just Arithmetic, Once You Name the Costs</h2>
       <div class="content">
-        <p style="font-size: 15.5pt;">If a false negative costs \(C_{FN}\) and a false positive costs \(C_{FP}\), expected cost is minimised at</p>
-        <div class="equation-box" style="margin: 14px 0;">
-          $$t^* = \frac{C_{FP}}{C_{FP} + C_{FN}}$$
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Which threshold should we use?</p>
+        <p style="font-size: 15pt; line-height: 1.45; margin: 0;">A month has probability \(p\). A missed recession costs \(C_{FN}\); a false alarm costs \(C_{FP}\).</p>
+        <div class="fragment fade-up" data-fragment-index="1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px;">
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px;"><p style="font-size: 14pt; margin: 0;"><strong>Say no:</strong> if a recession comes, you pay \(C_{FN}\). Expected cost \(p \, C_{FN}\).</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px;"><p style="font-size: 14pt; margin: 0;"><strong>Say yes:</strong> if none comes, you pay \(C_{FP}\). Expected cost \((1 - p) \, C_{FP}\).</p></div>
         </div>
-        <p style="font-size: 15.5pt; line-height: 1.5;"><strong>In words.</strong> Only the <em>ratio</em> of the costs matters, not their level, the sample size or the model. A miss nine times worse than an alarm gives \(t^* = 0.1\): the table's bottom row, <strong>derived, not guessed</strong>.</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px;">
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 14.5pt; line-height: 1.5;"><strong>Lending.</strong> A default costs most of the principal; a declined good applicant, only the margin. Lab 17: $12,000 against $1,600 (7.5:1, \(t^* = 0.118\)).</p></div>
-          <div style="background: #f8f6f3; border-radius: 8px; padding: 14px 20px; border-left: 4px solid var(--danger-color);"><p style="font-size: 14.5pt; line-height: 1.5;"><strong>Criminal justice.</strong> A false positive detains someone who would not have reoffended. The ratio is <em>contested</em>: a political question dressed as a technical one.</p></div>
+        <div class="fragment fade-up" data-fragment-index="2" style="margin-top: 8px;">
+          <p style="font-size: 14.5pt; margin: 0;">Say yes when it is cheaper: \(p \, C_{FN} > (1 - p) \, C_{FP}\), which rearranges to</p>
+          <div class="equation-box" style="margin: 6px 0; font-size: 0.85em;">$$p > t^* = \frac{C_{FP}}{C_{FP} + C_{FN}}$$</div>
+        </div>
+        <div class="fragment fade-up" data-fragment-index="3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 14pt; margin: 0;"><strong>A miss 9 times worse</strong> (\(C_{FP} = 1\), \(C_{FN} = 9\)): \(t^* = 1/(1+9) = 0.10\). That is Poll 2&rsquo;s threshold, derived.</p></div>
+          <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px; border-left: 4px solid var(--success-color);"><p style="font-size: 14pt; margin: 0;"><strong>Lab 17 lending:</strong> a default $12,000, a declined good borrower $1,600: \(1{,}600 / 13{,}600 = 0.118\).</p></div>
+        </div>
+        <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 8px;">
+          <p style="font-size: 14.5pt;">Only the <strong>ratio</strong> of the costs matters. Where the ratio is contested, as in criminal justice (detaining someone who would not reoffend), the threshold is a political choice dressed as a technical one.</p>
         </div>
       </div>
     </section>
@@ -1320,11 +1330,11 @@ recession months caught:  0 of 36</pre></div></div></div></div>
       <h2><i class="fa-solid fa-lightbulb" style="color: var(--accent-color);"></i> Think Like an Economist</h2>
       <div class="content">
         <div class="key-result" style="margin-top: 6px;">
-          <p style="font-size: 18pt; line-height: 1.5;">Before choosing a threshold, <strong>write down what each error costs</strong> &mdash; in dollars, or in whatever the decision actually trades.</p>
+          <p style="font-size: 18pt; line-height: 1.45;">Before choosing a threshold, <strong>write down what each error costs</strong>, in dollars or in whatever the decision trades.</p>
         </div>
-        <p class="text-lg" style="margin-top: 18px; line-height: 1.55;">Most classification work skips this and inherits 0.5 from a library, which, without saying so, asserts that false positives and false negatives cost exactly the same. That assertion is almost never true, and it is one an economist is unusually well equipped to interrogate.</p>
-        <p class="text-lg" style="margin-top: 14px; line-height: 1.55;">The cost ratio is the <strong>modelling assumption</strong>. The threshold is just its arithmetic consequence.</p>
-        <p style="margin-top: 18px; font-size: 16pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Someone chooses the threshold. If the analyst does not do it explicitly, the library has already done it for them.</p>
+        <p class="fragment fade-up" data-fragment-index="1" style="font-size: 16pt; margin-top: 16px; line-height: 1.5;"><strong>0.5 is not neutral.</strong> \(t^* = 0.5\) only when \(C_{FP} = C_{FN}\): the library&rsquo;s default quietly assumes a missed recession costs the same as a false alarm. That is almost never true.</p>
+        <p class="fragment fade-up" data-fragment-index="2" style="font-size: 16pt; margin-top: 14px; line-height: 1.5;">The cost ratio is the <strong>modelling assumption</strong>. The threshold is just its arithmetic.</p>
+        <p class="fragment fade-up" data-fragment-index="3" style="margin-top: 16px; font-size: 16pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Someone always chooses the threshold. If the analyst does not, the library already has.</p>
       </div>
     </section>
 
