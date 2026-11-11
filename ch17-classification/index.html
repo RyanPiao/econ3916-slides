@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=771890171fbe626de5549dd94b1a8cf8">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2c301300fe948b5dc124e0c8f38c9271">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -28,6 +28,14 @@
                svg: {fontCache: 'global'}};
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+  /* Topic 17 confusion matrix: a step's cells light up (data-hl set by the step script) */
+  .reveal table.cm td { transition: background 0.25s; }
+  .reveal table.cm[data-hl="acc"] td.c-tp, .reveal table.cm[data-hl="acc"] td.c-tn { background: #DCEFE2; }
+  .reveal table.cm[data-hl="rec"] td.c-tp, .reveal table.cm[data-hl="rec"] td.c-fn { background: #F6E0D6; }
+  .reveal table.cm[data-hl="prec"] td.c-tp, .reveal table.cm[data-hl="prec"] td.c-fp { background: #E1E8F3; }
+  .reveal .cm-step { font-size: 14.5pt; line-height: 1.45; margin: 6px 0 0; padding-left: 12px; border-left: 4px solid transparent; }
+</style>
 </head>
 <body>
   <div class="reveal">
@@ -1124,22 +1132,22 @@ recession months caught:  0 of 36</pre></div></div></div></div>
       <h2><i class="fa-solid fa-table-cells-large" style="color: var(--secondary-color);"></i> Underneath Every Accuracy Figure: Four Counts</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What exactly does accuracy add up?</p>
-        
-        <table style="width: 100%; font-size: 15pt; border-collapse: collapse;">
+        <table class="cm" data-hl="" style="width: 100%; font-size: 15pt; border-collapse: collapse;">
           <thead><tr style="border-bottom: 2px solid var(--secondary-color);">
-            <th style="padding: 9px 14px;"></th>
+            <th style="padding: 9px 14px;">At the 0.5 cutoff</th>
             <th style="text-align: left; padding: 9px 14px;">Model says <strong>yes</strong></th>
             <th style="text-align: left; padding: 9px 14px;">Model says <strong>no</strong></th>
           </tr></thead>
           <tbody>
-            <tr style="border-bottom: 1px solid #eae4dd;"><td style="padding: 10px 14px;"><strong>Recession followed</strong></td><td style="padding: 10px 14px;">True positive &mdash; caught it<br><span style="color: var(--danger-color); font-weight: 700;">TP = 0</span></td><td style="padding: 10px 14px;">False negative &mdash; <strong>missed it</strong><br><span style="color: var(--danger-color); font-weight: 700;">FN = 36</span></td></tr>
-            <tr><td style="padding: 10px 14px;"><strong>No recession</strong></td><td style="padding: 10px 14px;">False positive &mdash; false alarm<br><span style="color: var(--muted-color); font-weight: 700;">FP = 0</span></td><td style="padding: 10px 14px;">True negative<br><span style="color: var(--success-color); font-weight: 700;">TN = 487</span></td></tr>
+            <tr style="border-bottom: 1px solid #eae4dd;"><td style="padding: 9px 14px;"><strong>Recession followed</strong> (36)</td><td class="c-tp" style="padding: 9px 14px;">Caught (true positive)<br><span style="color: var(--danger-color); font-weight: 700;">TP = 0</span></td><td class="c-fn" style="padding: 9px 14px;"><strong>Missed</strong> (false negative)<br><span style="color: var(--danger-color); font-weight: 700;">FN = 36</span></td></tr>
+            <tr><td style="padding: 9px 14px;"><strong>No recession</strong> (487)</td><td class="c-fp" style="padding: 9px 14px;">False alarm (false positive)<br><span style="color: var(--muted-color); font-weight: 700;">FP = 0</span></td><td class="c-tn" style="padding: 9px 14px;">Quiet, left alone (true negative)<br><span style="color: var(--success-color); font-weight: 700;">TN = 487</span></td></tr>
           </tbody>
         </table>
-        <p style="margin-top: 16px; font-size: 15.5pt; line-height: 1.55;">Accuracy \(= (TP + TN)/n\) = 487 of 523 = 93.1%. At a 6.9% base rate the true negatives dominate, so <strong>accuracy mostly measures how well you find quiet months.</strong></p>
-        <p style="margin-top: 8px; font-size: 14.5pt; line-height: 1.5;"><strong>Recall</strong> \(= TP/(TP+FN)\), Topic 5&rsquo;s sensitivity: recession months flagged, 0 of 36. <strong>Precision</strong> \(= TP/(TP+FP)\): alarms that were real (Topic 5&rsquo;s 4.7%; none here).</p>
-        <div class="key-result" style="margin-top: 12px;">
-          <p style="font-size: 16pt;">Any one number discards information. <strong>Accuracy discards the part you care about.</strong></p>
+        <p class="cm-step fragment fade-up" data-fragment-index="1" data-hl="acc" style="border-left-color: #6E9B7A;"><strong>Accuracy</strong> = all the right calls / all months = (TP + TN) / n = (0 + 487) / 523 = <strong>93.1%</strong>. The 487 quiet months do all the work.</p>
+        <p class="cm-step fragment fade-up" data-fragment-index="2" data-hl="rec" style="border-left-color: #C0603A;"><strong>Recall</strong> = recession months caught / all recession months = TP / (TP + FN) = 0 / 36 = <strong>0%</strong>. Topic 5 called it sensitivity.</p>
+        <p class="cm-step fragment fade-up" data-fragment-index="3" data-hl="prec" style="border-left-color: #5B7DB1;"><strong>Precision</strong> = real alarms / all alarms = TP / (TP + FP) = 0 / 0: no alarms, so there is nothing to score. (Topic 5&rsquo;s fraud test: 4.7%.)</p>
+        <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 10px;">
+          <p style="font-size: 15.5pt;">Accuracy 93.1%, recall 0%. <strong>Accuracy hides the part you care about.</strong></p>
         </div>
       </div>
     </section>
@@ -1147,13 +1155,20 @@ recession months caught:  0 of 36</pre></div></div></div></div>
     <section id="proper-scoring" style="padding: 30px 58px;">
       <h2><i class="fa-solid fa-scale-unbalanced-flip" style="color: var(--accent-color);"></i> Accuracy Is an <em>Improper</em> Score</h2>
       <div class="content">
-        <p style="font-size: 15.5pt; line-height: 1.55;">A score is <strong>strictly proper</strong> if only your true beliefs maximise it. Brier and log-loss (average \(-\log\) of the probability given to what happened) are. Accuracy is not: shading a real 0.45 up to 1 pays whenever the event occurs, and accuracy cannot tell a calibrated 0.45 from an overconfident 0.95.</p>
-        <div class="equation-box" style="margin: 14px 0;">
-          $$\text{Brier} = \frac{1}{n}\sum_{i=1}^{n}\left(\hat{p}_i - y_i\right)^2$$
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What makes a score reward honest probabilities?</p>
+        <p style="font-size: 15pt; line-height: 1.45; margin: 0;">A score is <strong>strictly proper</strong> if only your true beliefs get the best score on average. Brier and log-loss (the average &minus;log of the probability given to what happened) are. Accuracy is not.</p>
+        <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px;">
+          <p style="font-size: 14.5pt; margin: 0 0 4px;"><strong>Example.</strong> A month whose true chance of a recession is 70%. Two forecasters:</p>
+          <table style="width: 100%; font-size: 13.5pt; border-collapse: collapse;"><thead><tr style="border-bottom: 2px solid var(--secondary-color);">
+            <th style="text-align: left; padding: 5px 10px;">Reports</th><th style="text-align: right; padding: 5px 10px;">Accuracy (cutoff 0.5)</th><th style="text-align: right; padding: 5px 10px;">Brier on average: 0.7 &times; (r &minus; 1)&sup2; + 0.3 &times; r&sup2;</th></tr></thead><tbody>
+            <tr style="border-bottom: 1px solid #eae4dd;"><td style="padding: 5px 10px;">0.70, honest</td><td style="text-align: right; padding: 5px 10px;">says yes: right 70%</td><td style="text-align: right; padding: 5px 10px;">0.7 &times; 0.09 + 0.3 &times; 0.49 = <strong>0.21</strong></td></tr>
+            <tr><td style="padding: 5px 10px;">1.00, overconfident</td><td style="text-align: right; padding: 5px 10px;">says yes: right 70%</td><td style="text-align: right; padding: 5px 10px;">0.7 &times; 0 + 0.3 &times; 1 = <strong>0.30</strong></td></tr>
+          </tbody></table>
+          <p style="font-size: 14pt; margin: 6px 0 0;">Accuracy cannot tell them apart. Brier rewards the honest one: 0.21 against 0.30 (lower is better). Our own case: &ldquo;always no&rdquo; is the model rounded to 0, the same 93.1%, and a worse Brier (0.0688 against 0.0615).</p>
         </div>
-        <p style="font-size: 15.5pt; line-height: 1.5;"><strong>In words.</strong> Squared error on probabilities. It rewards <strong>discriminating</strong> (separating the classes) and <strong>calibrated</strong> (say 30%, it happens 30% of the time). Accuracy rewards only the right side of a cutoff.</p>
-        <div class="key-result" style="margin-top: 12px;">
-          <p style="font-size: 16pt;">Score with <strong>Brier or log-loss</strong>. Report accuracy only as a summary, never as the objective, and always beside the base rate.</p>
+        <p class="fragment fade-up" data-fragment-index="2" style="font-size: 14pt; margin-top: 10px;">So Brier rewards <strong>separating</strong> the classes and being <strong>calibrated</strong> (say 30%, it happens 30% of the time): \(\text{Brier} = \frac{1}{n}\sum (\hat p_i - y_i)^2\).</p>
+        <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 10px;">
+          <p style="font-size: 15pt;">Score with <strong>Brier or log-loss</strong>. Report accuracy only as a summary, and always beside the base rate.</p>
         </div>
       </div>
     </section>
@@ -1161,12 +1176,14 @@ recession months caught:  0 of 36</pre></div></div></div></div>
     <section id="ch15-footnote" style="padding: 32px 60px;">
       <h2><i class="fa-solid fa-link" style="color: var(--muted-color);"></i> A Precise Footnote to Chapter 15</h2>
       <div class="content">
-        <p class="text-lg" style="line-height: 1.55;">Chapter 15 gave a limit: \(\sigma^2\), the irreducible error. Classification has only a benchmark.</p>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 26px; margin-top: 14px;">
-          <p style="font-size: 15.5pt; line-height: 1.55;">Reporting <strong>6.9%</strong> every month scores \(\bar{p}(1-\bar{p}) = \mathbf{0.0641}\) on Brier. Our fit, <strong>0.0615</strong>, beats it. The true limit is unknown and lower still.</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Is there a best possible Brier score, like Chapter 15&rsquo;s limit?</p>
+        <p style="font-size: 15pt; line-height: 1.45; margin: 0;">Chapter 15: no model beats \(\sigma^2\), the irreducible error. Classification has only a <strong>benchmark</strong>: the score for reporting the base rate, 6.9%, every month.</p>
+        <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px; background: #f8f6f3; border-radius: 8px; padding: 10px 16px;">
+          <p style="font-size: 14.5pt; line-height: 1.6; margin: 0;">A recession month costs \((0.069 - 1)^2 = 0.867\). A quiet month costs \(0.069^2 = 0.0047\).<br>Average over 36 and 487 months: \(\bar p(1 - \bar p) = 0.069 \times 0.931 = \mathbf{0.0641}\).</p>
         </div>
-        <div class="key-result" style="margin-top: 16px; border-left-color: var(--danger-color);">
-          <p style="font-size: 16pt;"><strong>Careful:</strong> this holds for <em>squared error on probabilities</em>. The bias&ndash;variance decomposition is squared-error only; there is no tidy version for 0/1 loss.</p>
+        <p class="fragment fade-up" data-fragment-index="2" style="font-size: 15pt; margin-top: 10px;">Our model scores <strong>0.0615</strong>: below the benchmark, so the spread earns its place. The true limit, the Brier score of the true probabilities, is unknown and lower still.</p>
+        <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 10px;">
+          <p style="font-size: 14.5pt;"><strong>Careful:</strong> this works for squared error on probabilities. Chapter 15&rsquo;s bias&ndash;variance split is squared-error only; there is no tidy version for right-or-wrong scoring.</p>
         </div>
       </div>
     </section>
@@ -1175,24 +1192,42 @@ recession months caught:  0 of 36</pre></div></div></div></div>
       <section id="poll-2" style="padding: 32px 55px;">
         <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Lower the Threshold, and Then?</h2>
         <div class="content">
-          <p class="text-lg" style="line-height: 1.55;">At the default threshold of 0.5 the model flags <strong>0 of the 36</strong> recession months and scores 93.1% accuracy. Lower the threshold to <strong>0.10</strong> and it flags <strong>26 of the 36</strong> recession months.</p>
-          <p class="text-lg" style="margin-top: 12px;"><strong>What happens to accuracy?</strong></p>
+          <p class="text-lg" style="line-height: 1.5;">At 0.5 the model flags nothing: 0 of the 36 recession months, accuracy 93.1%. Lower the threshold to <strong>0.10</strong> and it flags <strong>120 months</strong>: <strong>26</strong> of the 36 recession months, and <strong>94</strong> quiet months by mistake.</p>
+          <p class="text-lg" style="margin-top: 10px;"><strong>What is the accuracy now?</strong></p>
+          <p style="font-size: 13.5pt; color: var(--muted-color); margin-top: 6px;">Accuracy = (recession months caught + quiet months left alone) / 523.</p>
           <div class="poll-grid" data-poll-id="ch17-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
-            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) It rises to about 95% &mdash; the model is finally doing its job</div>
-            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) It stays near 93% &mdash; accuracy is not sensitive to the cutoff</div>
-            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) It falls to about 80% &mdash; false alarms swamp the catches</div>
-            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) It cannot be computed &mdash; it needs the cost of each error</div>
+            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) about 95%</div>
+            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) about 93%</div>
+            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) about 80%</div>
+            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) It cannot be computed without the cost of each error</div>
           </div>
         </div>
       </section>
       <section id="poll-2-reveal" data-poll-results="ch17-econ3916-poll-2" style="padding: 28px 50px;">
-        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; 80.1%, the Worst in the Table</h2>
+        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; 80.1%: More Caught, Lower Accuracy</h2>
         <div class="poll-results-chart" data-poll-id="ch17-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:140px; margin:8px 60px 32px;"></div>
         <div class="content">
-          <p class="text-lg" style="line-height: 1.5;">Accuracy falls at every row of the table. Flagging 26 of the 36 recession months costs <strong>94 false alarms</strong> over forty years, each one an accuracy point lost.</p>
-          <p class="text-lg" style="line-height: 1.5; margin-top: 10px;"><strong>D is close but wrong:</strong> accuracy needs no costs. It is the wrong objective, a different complaint, and the next section's.</p>
-          <div class="key-result" style="margin-top: 12px;">
-            <p style="font-size: 16pt;">Tune a threshold to <strong>maximise accuracy</strong> on imbalanced data and you return to the top row: a model that never fires.</p>
+          <p style="font-size: 15pt; line-height: 1.45; margin: 0;"><strong>C:</strong> right calls = 26 caught + 393 quiet months left alone (487 &minus; 94) = 419, and 419 / 523 = <strong>80.1%</strong>. Catching more <em>lowered</em> accuracy: each of the 94 false alarms costs a point.</p>
+          <div class="fragment fade-up" data-fragment-index="1" id="t17-cm" data-grid="[[0.05, 31, 196], [0.06, 31, 167], [0.07, 30, 140], [0.08, 29, 126], [0.09, 28, 109], [0.1, 26, 94], [0.11, 23, 81], [0.12, 20, 68], [0.13, 18, 58], [0.14, 14, 49], [0.15, 13, 42], [0.16, 9, 37], [0.17, 8, 33], [0.18, 8, 29], [0.19, 6, 27], [0.2, 4, 25], [0.21, 2, 24], [0.22, 1, 24], [0.23, 0, 23], [0.24, 0, 22], [0.25, 0, 21], [0.26, 0, 20], [0.27, 0, 19], [0.28, 0, 18], [0.29, 0, 17], [0.3, 0, 16], [0.31, 0, 16], [0.32, 0, 10], [0.33, 0, 9], [0.34, 0, 8], [0.35, 0, 8], [0.36, 0, 6], [0.37, 0, 4], [0.38, 0, 4], [0.39, 0, 4], [0.4, 0, 2], [0.41, 0, 1], [0.42, 0, 1], [0.43, 0, 0], [0.44, 0, 0], [0.45, 0, 0], [0.46, 0, 0], [0.47, 0, 0], [0.48, 0, 0], [0.49, 0, 0], [0.5, 0, 0]]" style="margin-top: 8px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 13pt; color: var(--muted-color); white-space: nowrap;">threshold</span>
+              <input type="range" min="0.05" max="0.5" step="0.01" value="0.1" style="flex: 1 1 auto;" aria-label="threshold" onkeydown="event.stopPropagation()">
+              <span class="cm-t" style="font-size: 15pt; font-weight: 700; min-width: 3em;"></span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 18px; margin-top: 6px; align-items: center;">
+              <table class="cm" style="font-size: 13.5pt; border-collapse: collapse; width: 100%;"><tbody>
+                <tr style="border-bottom: 1px solid #eae4dd;"><td style="padding: 4px 8px;">recession (36)</td><td style="padding: 4px 8px;">caught <b class="cm-tp"></b></td><td style="padding: 4px 8px;">missed <b class="cm-fn"></b></td></tr>
+                <tr><td style="padding: 4px 8px;">quiet (487)</td><td style="padding: 4px 8px;">false alarm <b class="cm-fp"></b></td><td style="padding: 4px 8px;">left alone <b class="cm-tn"></b></td></tr>
+              </tbody></table>
+              <div style="font-size: 13.5pt; line-height: 1.55;">
+                <div>accuracy = <span class="cm-acc"></span></div>
+                <div>recall = <span class="cm-rec"></span></div>
+                <div>precision = <span class="cm-prec"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="key-result fragment fade-up" data-fragment-index="2" style="margin-top: 8px;">
+            <p style="font-size: 14.5pt;">Drag up to 0.5: accuracy climbs as recall falls to 0. <strong>Tune for accuracy and you get a model that never fires.</strong> (D: accuracy needs no costs; costs pick the threshold, Section 5.)</p>
           </div>
         </div>
         <button class="reset-btn" onclick="clearPoll('ch17-econ3916-poll-2')" style="position:absolute; bottom:14px; right:20px; font-size:11pt; padding:4px 10px;">Reset</button>
@@ -2356,5 +2391,35 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
   if (Reveal.isReady()) start(); else Reveal.on('ready', start);
 })();
 </script>
+  <script>
+  /* Topic 17: confusion-matrix steps light their cells (data-hl of the last visible step), and the Poll 2
+     reveal's threshold slider (grid from figures/gen_t17_cm.py: [t, caught, false alarms], n 523, 36 positive). */
+  (function () {
+    function hl() {
+      document.querySelectorAll('section table.cm[data-hl]').forEach(function (t) {
+        var s = t.closest('section'), v = s.querySelectorAll('.fragment.visible[data-hl]');
+        t.setAttribute('data-hl', v.length ? v[v.length - 1].getAttribute('data-hl') : '');
+      });
+    }
+    function cm() {
+      var box = document.getElementById('t17-cm'); if (!box) return;
+      var G = JSON.parse(box.getAttribute('data-grid')), sl = box.querySelector('input'), N = 523, P = 36;
+      var q = function (c) { return box.querySelector(c); }, pc = function (a, b) { return (100 * a / b).toFixed(1) + '%'; };
+      function draw() {
+        var i = Math.round((+sl.value - 0.05) / 0.01), g = G[Math.max(0, Math.min(G.length - 1, i))];
+        var tp = g[1], fp = g[2], fn = P - tp, tn = N - P - fp;
+        q('.cm-t').textContent = g[0].toFixed(2);
+        q('.cm-tp').textContent = tp; q('.cm-fn').textContent = fn; q('.cm-fp').textContent = fp; q('.cm-tn').textContent = tn;
+        q('.cm-acc').innerHTML = '(' + tp + ' + ' + tn + ') / 523 = <b>' + pc(tp + tn, N) + '</b>';
+        q('.cm-rec').innerHTML = tp + ' / 36 = <b>' + pc(tp, P) + '</b>';
+        q('.cm-prec').innerHTML = (tp + fp) ? tp + ' / ' + (tp + fp) + ' = <b>' + pc(tp, tp + fp) + '</b>' : '0 / 0: no alarms';
+      }
+      sl.addEventListener('input', draw); draw();
+    }
+    function go() { hl(); cm(); ['fragmentshown', 'fragmenthidden', 'slidechanged'].forEach(function (e) { Reveal.on(e, hl); }); }
+    if (window.Reveal && Reveal.isReady && Reveal.isReady()) go();
+    else if (window.Reveal && Reveal.on) Reveal.on('ready', go);
+  })();
+  </script>
 </body>
 </html>
