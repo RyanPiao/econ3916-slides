@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2c301300fe948b5dc124e0c8f38c9271">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a6d8a3dbca760d98ef53a5cccc6756fe">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -1181,7 +1181,15 @@ recession months caught:  0 of 36</pre></div></div></div></div>
         <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px; background: #f8f6f3; border-radius: 8px; padding: 10px 16px;">
           <p style="font-size: 14.5pt; line-height: 1.6; margin: 0;">A recession month costs \((0.069 - 1)^2 = 0.867\). A quiet month costs \(0.069^2 = 0.0047\).<br>Average over 36 and 487 months: \(\bar p(1 - \bar p) = 0.069 \times 0.931 = \mathbf{0.0641}\).</p>
         </div>
-        <p class="fragment fade-up" data-fragment-index="2" style="font-size: 15pt; margin-top: 10px;">Our model scores <strong>0.0615</strong>: below the benchmark, so the spread earns its place. The true limit, the Brier score of the true probabilities, is unknown and lower still.</p>
+        <div class="fragment fade-up" data-fragment-index="2" style="margin-top: 10px;">
+          <p style="font-size: 14.5pt; margin: 0 0 4px;">Brier scores, lower is better:</p>
+          <table style="width: 100%; font-size: 14pt; border-collapse: collapse;"><tbody>
+            <tr style="border-bottom: 1px solid #eae4dd;"><td style="padding: 5px 12px;">&ldquo;Always no&rdquo;</td><td style="text-align: right; padding: 5px 12px;">0.0688</td></tr>
+            <tr style="border-bottom: 1px solid #eae4dd;"><td style="padding: 5px 12px;">The base rate, 6.9%, every month: <strong>the benchmark</strong></td><td style="text-align: right; padding: 5px 12px;">0.0641</td></tr>
+            <tr style="border-bottom: 1px solid #eae4dd; background: #EEF5F0;"><td style="padding: 5px 12px;"><strong>Our model</strong>: below the benchmark, so the spread adds information</td><td style="text-align: right; padding: 5px 12px;"><strong>0.0615</strong></td></tr>
+            <tr><td style="padding: 5px 12px;">Someone who knew each month&rsquo;s true chance. Still above 0: a 30% month sometimes has a recession. We never see true chances, so this floor is unknown.</td><td style="text-align: right; padding: 5px 12px;">?</td></tr>
+          </tbody></table>
+        </div>
         <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 10px;">
           <p style="font-size: 14.5pt;"><strong>Careful:</strong> this works for squared error on probabilities. Chapter 15&rsquo;s bias&ndash;variance split is squared-error only; there is no tidy version for right-or-wrong scoring.</p>
         </div>
@@ -1207,7 +1215,8 @@ recession months caught:  0 of 36</pre></div></div></div></div>
         <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; 80.1%: More Caught, Lower Accuracy</h2>
         <div class="poll-results-chart" data-poll-id="ch17-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:140px; margin:8px 60px 32px;"></div>
         <div class="content">
-          <p style="font-size: 15pt; line-height: 1.45; margin: 0;"><strong>C:</strong> right calls = 26 caught + 393 quiet months left alone (487 &minus; 94) = 419, and 419 / 523 = <strong>80.1%</strong>. Catching more <em>lowered</em> accuracy: each of the 94 false alarms costs a point.</p>
+          <p style="font-size: 15pt; line-height: 1.45; margin: 0;"><strong>C:</strong> right calls = 26 caught + 393 left alone = 419, and 419 / 523 = <strong>80.1%</strong>.</p>
+          <p style="font-size: 13.5pt; line-height: 1.4; margin: 2px 0 0; color: var(--muted-color);">Left alone: the 487 quiet months minus the 94 false alarms = 393. Catching more <em>lowered</em> accuracy: each false alarm costs a point.</p>
           <div class="fragment fade-up" data-fragment-index="1" id="t17-cm" data-grid="[[0.05, 31, 196], [0.06, 31, 167], [0.07, 30, 140], [0.08, 29, 126], [0.09, 28, 109], [0.1, 26, 94], [0.11, 23, 81], [0.12, 20, 68], [0.13, 18, 58], [0.14, 14, 49], [0.15, 13, 42], [0.16, 9, 37], [0.17, 8, 33], [0.18, 8, 29], [0.19, 6, 27], [0.2, 4, 25], [0.21, 2, 24], [0.22, 1, 24], [0.23, 0, 23], [0.24, 0, 22], [0.25, 0, 21], [0.26, 0, 20], [0.27, 0, 19], [0.28, 0, 18], [0.29, 0, 17], [0.3, 0, 16], [0.31, 0, 16], [0.32, 0, 10], [0.33, 0, 9], [0.34, 0, 8], [0.35, 0, 8], [0.36, 0, 6], [0.37, 0, 4], [0.38, 0, 4], [0.39, 0, 4], [0.4, 0, 2], [0.41, 0, 1], [0.42, 0, 1], [0.43, 0, 0], [0.44, 0, 0], [0.45, 0, 0], [0.46, 0, 0], [0.47, 0, 0], [0.48, 0, 0], [0.49, 0, 0], [0.5, 0, 0]]" style="margin-top: 8px;">
             <div style="display: flex; align-items: center; gap: 12px;">
               <span style="font-size: 13pt; color: var(--muted-color); white-space: nowrap;">threshold</span>
