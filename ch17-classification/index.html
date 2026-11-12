@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0a2dc57c661aa8706a5bf13cefcfbab5">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=d0cbb8b3261a12a0fd6ef9fec6212899">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -96,11 +96,15 @@
       </div>
     </section>
 
-    <section>
     <section id="room-vote" style="padding: 34px 50px;">
       <h2><i class="fa-solid fa-cake-candles" style="color: var(--secondary-color);"></i> Two Numbers Before We Start</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 10px;"><i class="fa-solid fa-circle-question"></i> Can how sure you are predict whether you are right?</p>
+        <div class="r-stack" style="width: 100%;">
+        <div class="fragment fade-out" data-fragment-index="1" style="width: 100%; margin: 0 auto auto;">
+          <div style="background: #f8f6f3; border-radius: 10px; padding: 26px 30px; text-align: center; margin-top: 30px;"><p style="font-size: 22pt; font-weight: 700; margin: 0 0 8px;">Two questions. One minute. On your phone.</p><p style="font-size: 15pt; color: var(--muted-color); margin: 0;">Scan the code now; the questions appear when the minute starts.</p></div>
+        </div>
+        <div class="fragment fade-in" data-fragment-index="1" style="width: 100%; margin: 0 auto auto;">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
           <div style="background: #f0f5f8; border-radius: 10px; padding: 16px 22px; border-top: 5px solid var(--secondary-color);">
             <p style="font-size: 15.5pt; font-weight: 700; margin: 0 0 10px;">1. A class of 30 people. What is the chance that at least two of them share a birthday? <span style="font-weight: 400;">A guess is fine; no searching.</span></p>
@@ -111,14 +115,32 @@
             <div class="poll-number" data-poll-id="ch17-econ3916-poll-5" data-poll-voting data-min="0" data-max="100" data-step="1"></div>
           </div>
         </div>
+        <p class="rv-timer" style="text-align: center; font-size: 20pt; font-weight: 700; color: var(--accent-color); margin: 12px 0 0;"></p>
+        </div>
+        </div>
         <p class="rl-count" style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 14px;"></p>
-        <p style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 4px;">We come back to these after Poll 2.</p>
+        <p style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 4px;">Next page: a model of this room.</p>
       </div>
     </section>
+    <section id="room-result" style="padding: 34px 55px;">
+      <h2><i class="fa-solid fa-cake-candles" style="color: var(--secondary-color);"></i> Our Room, Scored by Accuracy</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How good is a model that predicts who in this room got it right?</p>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 12px;"><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">INPUT</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">How sure you were, <strong>0 to 100</strong>.</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">OUTPUT</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">The probability your answer is <strong>right</strong>: 60 to 80%. The truth is 70.6%.</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">DATA</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;"><strong class="rr-n">&mdash;</strong> of you, this morning. <span class="rr-k"></span></p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--accent-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--accent-color); margin: 0 0 4px;">DECISION RULE</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">Say &ldquo;right&rdquo; when the probability is <strong>0.5 or more</strong>: the library default.</p></div></div>
+        <p class="fragment fade-up text-lg" data-fragment-index="1" style="margin-top: 16px;">Score: the share of you its yes-or-no call gets right.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 10px;">
+          <div class="stat-highlight fragment fade-up" data-fragment-index="1"><div class="number rr-model" style="color: var(--secondary-color);">&mdash;</div><div class="label">today&rsquo;s model, a logistic regression on how sure you were</div></div>
+          <div class="stat-highlight fragment fade-up" data-fragment-index="2"><div class="r-stack"><div class="number fragment fade-out" data-fragment-index="3" style="color: var(--muted-color);">?</div><div class="number fragment rr-zero" data-fragment-index="3" style="color: var(--muted-color);">&mdash;</div></div><div class="label">a rule with <strong>no inputs</strong> that says &ldquo;wrong&rdquo; for everyone: all zeros. Guess first.</div></div>
+        </div>
+        <p class="fragment fade-up rr-verdict" data-fragment-index="4" style="margin-top: 16px; font-size: 17pt; color: var(--primary-color); text-align: center;"></p>
+        <p class="rr-wait" style="font-size: 13pt; color: var(--muted-color); margin: 10px 0 0; text-align: center;"></p>
+      </div>
+    </section>
+
     <section id="hook-tie" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-scale-balanced" style="color: var(--secondary-color);"></i> Right 93.1% of the Time</h2>
       <div class="content">
-        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How good is a recession model that is right 93.1% of the time?</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> <strong>Not just our room:</strong> rare outcomes fill firm and economic data. How good is a recession model right 93.1% of the time?</p>
                 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 12px;"><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">INPUT</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">The <strong>term spread</strong>: 10-year Treasury yield minus 3-month bill. Negative before every U.S. recession since the 1960s.</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">OUTPUT</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">The probability of a recession <strong>twelve months from now</strong>.</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--secondary-color); margin: 0 0 4px;">DATA</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;"><strong>523 months</strong> of FRED data, 1982&ndash;2025; recession dates from the NBER, the official dating committee.</p></div><div style="background: #f8f6f3; border-radius: 10px; padding: 10px 14px; border-top: 4px solid var(--accent-color);"><p style="font-size: 11.5pt; font-weight: 700; letter-spacing: .04em; color: var(--accent-color); margin: 0 0 4px;">DECISION RULE</p><p style="font-size: 14pt; line-height: 1.4; margin: 0;">Say &ldquo;recession&rdquo; when the probability is <strong>0.5 or more</strong>: the library default.</p></div></div>
         <p class="fragment fade-up text-lg" data-fragment-index="1" style="margin-top: 16px;">Score: the share of months its yes-or-no call is right.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 10px;">
@@ -130,7 +152,6 @@
           <p style="font-size: 11.5pt; line-height: 1.4; color: var(--muted-color); margin: 0;"><strong>Recession:</strong> a broad fall in output, jobs and incomes that lasts more than a few months; the NBER dates them for the U.S. In our data, <strong>y = 1</strong> if the U.S. is in a recession 12 months later, <strong>0</strong> if not.<br><strong>Term spread:</strong> the interest rate on a 10-year U.S. government bond minus the rate on a 3-month one, in percentage points. Usually positive; below zero, the yield curve is &ldquo;inverted.&rdquo;</p>
         </div>
       </div>
-    </section>
     </section>
 
     <section id="hook-payload" style="padding: 34px 60px;">
@@ -1076,7 +1097,7 @@ print(f<span class="t-str">&quot;log-likelihood  spread only: {logit.llf:.2f}   
     print(f<span class="t-str">&quot;{v:&lt;11} coef {b:+.4f}   odds ratio {np.exp(b):.3f}   p-value {logit2.pvalues[v]:.3g}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>log-likelihood  spread only: -113.84   + unrate_chg: -113.79
 spread      coef -0.8324   odds ratio 0.435   p-value 5.54e-08
 unrate_chg  coef +0.0409   odds ratio 1.042   p-value 0.736</pre></div></div></div></div>
-          <p style="font-size: 13.5pt; line-height: 1.4; margin: 0;">Log-likelihood (page 18, higher is better): the spread took it from &minus;131.07 to &minus;113.84; unemployment adds 0.05, p-value 0.736. <strong>Nothing.</strong></p>
+          <p style="font-size: 13.5pt; line-height: 1.4; margin: 0;">Log-likelihood (page 20, higher is better): the spread took it from &minus;131.07 to &minus;113.84; unemployment adds 0.05, p-value 0.736. <strong>Nothing.</strong></p>
         </div>
         <div class="fragment fade-up" data-fragment-index="2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px;">
           <div style="background: #f8f6f3; border-radius: 8px; padding: 8px 14px; border-left: 4px solid var(--success-color);"><p style="font-size: 13pt; line-height: 1.4; margin: 0;"><strong>A recession this month:</strong> unemployment rose 1.8 points on average, against &minus;0.26 otherwise. Alone: odds ratio 2.27, p-value 4.7e-12.</p></div>
@@ -1275,20 +1296,20 @@ recession months caught:  0 of 36</pre></div></div></div></div>
         </div>
         <button class="reset-btn" onclick="clearPoll('ch17-econ3916-poll-2')" style="position:absolute; bottom:14px; right:20px; font-size:11pt; padding:4px 10px;">Reset</button>
       </section>
-      <section id="room-logit" style="padding: 26px 50px;">
-        <h2 style="margin-bottom: 4px;"><i class="fa-solid fa-cake-candles" style="color: var(--secondary-color);"></i> Our Room, Scored Both Ways</h2>
-        <div class="content">
-          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 6px;"><i class="fa-solid fa-circle-question"></i> Does a room of people tell the same story as 523 months?</p>
-          <p class="rl-head" style="font-size: 14pt; line-height: 1.4; margin: 0;"></p>
-          <div class="rl-plot mathjax_ignore tex2jax_ignore" style="margin: 4px 0 2px;"></div>
-          <p class="rl-wait" style="font-size: 14pt; color: var(--muted-color); margin: 10px 0;"></p>
-          <div class="rl-readout" style="font-size: 13.5pt; line-height: 1.45;"></div>
-          <span class="rl-step fragment" data-fragment-index="1"></span><span class="rl-step fragment" data-fragment-index="2"></span><span class="rl-step fragment" data-fragment-index="3"></span>
-          <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 6px;">
-            <p style="font-size: 13.5pt;">Accuracy scores only the yes/no call, and the cut decides it. <strong>Brier scores the probability, and puts all zeros last</strong>, as on the 523 months. With this few answers, one person moves every number.</p>
-          </div>
+    </section>
+    <section id="room-logit" style="padding: 26px 50px;">
+      <h2 style="margin-bottom: 4px;"><i class="fa-solid fa-cake-candles" style="color: var(--secondary-color);"></i> Back to Our Room: The Cut and Brier</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 6px;"><i class="fa-solid fa-circle-question"></i> Back in our room: what do the cut and Brier say?</p>
+        <p class="rl-head" style="font-size: 14pt; line-height: 1.4; margin: 0;"></p>
+        <div class="rl-plot mathjax_ignore tex2jax_ignore" style="margin: 4px 0 2px;"></div>
+        <p class="rl-wait" style="font-size: 14pt; color: var(--muted-color); margin: 10px 0;"></p>
+        <div class="rl-readout" style="font-size: 13.5pt; line-height: 1.45;"></div>
+        <span class="rl-step fragment" data-fragment-index="1"></span><span class="rl-step fragment" data-fragment-index="2"></span><span class="rl-step fragment" data-fragment-index="3"></span>
+        <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 6px;">
+          <p style="font-size: 13.5pt;">Accuracy scores only the yes/no call, and the cut decides it. <strong>Brier scores the probability, and puts all zeros last</strong>, as on the 523 months. With this few answers, one person moves every number.</p>
         </div>
-      </section>
+      </div>
     </section>
     <section id="divider-5" class="section-divider" data-state="is-section-divider">
       <h1>The Threshold Is a Business Decision</h1>
@@ -1427,7 +1448,7 @@ for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&q
         <div class="r-stack" style="width: 100%; min-width: 0;"><img class="figure" src="figures/figure_005_inversion_s1.png" alt="The 10-year minus 3-month spread from 2015 to 2025, below zero every month from November 2022 to November 2024, shaded" style="max-width: 100%; max-height: 545px; width: auto; height: auto; display: block; margin: 0 auto;"><img class="figure fragment" data-fragment-index="1" src="figures/figure_005_inversion.png" alt="The same spread above, and below it the in-sample fitted recession probability at 25 to 42 per cent from January 2023 to September 2024 against a 6.9 per cent base rate, with no recession following" style="max-width: 100%; max-height: 545px; width: auto; height: auto; display: block; margin: 0 auto;"></div>
         <div>
           <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What did the model make of that spread?</p>
-          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Top:</strong> the spread from page 36. Shaded: the months it was below zero. Grey: the 2020 recession.</p>
+          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Top:</strong> the spread from page 39. Shaded: the months it was below zero. Grey: the 2020 recession.</p>
           <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px;"><p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Bottom:</strong> the model turns each month&rsquo;s spread into a probability. January 2023 to September 2024: <strong>25&ndash;42%</strong>; a typical month is 6.9% (dashed).</p></div>
           <div class="key-result fragment fade-up" data-fragment-index="2" style="margin-top: 10px;">
             <p style="font-size: 14.5pt;">High for two years, and no recession. Was the model broken? That is Poll 3.</p>
@@ -1502,11 +1523,11 @@ for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&q
         <div style="display: flex; flex-direction: column; gap: 9px;">
           <div class="fragment fade-up" data-fragment-index="1" style="display: grid; grid-template-columns: 34px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 9px 16px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 18pt; font-weight: 700; color: var(--secondary-color); margin: 0;">1</p>
-            <div><p style="font-size: 13.5pt; line-height: 1.4; margin: 0;"><strong>Decompose the feature.</strong> Split the spread into its parts and watch them. In 2022&ndash;24 (page 39):</p><div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 6px;"><span style="display: inline-block; background: #E1E8F3; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">spread &minus;1.15</span><span style="font-size: 14pt;">=</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">expected-rates part &minus;1.39</span><span style="font-size: 14pt;">+</span><span style="display: inline-block; background: #F6E0D6; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">premium 0.24</span></div></div>
+            <div><p style="font-size: 13.5pt; line-height: 1.4; margin: 0;"><strong>Decompose the feature.</strong> Split the spread into its parts and watch them. In 2022&ndash;24 (page 42):</p><div style="display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 6px;"><span style="display: inline-block; background: #E1E8F3; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">spread &minus;1.15</span><span style="font-size: 14pt;">=</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">expected-rates part &minus;1.39</span><span style="font-size: 14pt;">+</span><span style="display: inline-block; background: #F6E0D6; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">premium 0.24</span></div></div>
           </div>
           <div class="fragment fade-up" data-fragment-index="2" style="display: grid; grid-template-columns: 34px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 9px 16px; border-left: 4px solid var(--accent-color);">
             <p style="font-size: 18pt; font-weight: 700; color: var(--accent-color); margin: 0;">2</p>
-            <div><p style="font-size: 13.5pt; line-height: 1.4; margin: 0;"><strong>Name the mechanism.</strong> Write the story as a chain, so each link can be checked. 10-year rate = expected rates + extra pay (page 39).</p><div style="display: flex; align-items: center; flex-wrap: wrap; gap: 2px; margin-top: 5px;"><span style="font-size: 12.5pt; color: var(--muted-color); width: 92px; flex: none;">before 2022</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">downturn expected</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">cuts bigger than the 1.4 extra pay</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">long yield below short</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #E1E8F3; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">inverted</span></div><div style="display: flex; align-items: center; flex-wrap: wrap; gap: 2px; margin-top: 5px;"><span style="font-size: 12.5pt; color: var(--muted-color); width: 92px; flex: none;">2022&ndash;24</span><span style="display: inline-block; background: #F6E0D6; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">extra pay only 0.24</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">smaller expected cuts are enough</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">long yield below short</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #E1E8F3; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">inverted</span></div></div>
+            <div><p style="font-size: 13.5pt; line-height: 1.4; margin: 0;"><strong>Name the mechanism.</strong> Write the story as a chain, so each link can be checked. 10-year rate = expected rates + extra pay (page 42).</p><div style="display: flex; align-items: center; flex-wrap: wrap; gap: 2px; margin-top: 5px;"><span style="font-size: 12.5pt; color: var(--muted-color); width: 92px; flex: none;">before 2022</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">downturn expected</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">cuts bigger than the 1.4 extra pay</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">long yield below short</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #E1E8F3; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">inverted</span></div><div style="display: flex; align-items: center; flex-wrap: wrap; gap: 2px; margin-top: 5px;"><span style="font-size: 12.5pt; color: var(--muted-color); width: 92px; flex: none;">2022&ndash;24</span><span style="display: inline-block; background: #F6E0D6; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">extra pay only 0.24</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">smaller expected cuts are enough</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #F3EEE7; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">long yield below short</span><span style="color: var(--muted-color); font-size: 13pt; margin: 0 4px;">&rarr;</span><span style="display: inline-block; background: #E1E8F3; color: #2D2D2D; border-radius: 6px; padding: 3px 9px; font-size: 12.5pt; font-weight: 600;">inverted</span></div></div>
           </div>
           <div class="fragment fade-up" data-fragment-index="3" style="display: grid; grid-template-columns: 34px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 9px 16px; border-left: 4px solid var(--success-color);">
             <p style="font-size: 18pt; font-weight: 700; color: var(--success-color); margin: 0;">3</p>
@@ -1577,27 +1598,27 @@ for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&q
         <div style="display: flex; flex-direction: column; gap: 6px;">
           <div class="fragment fade-up" data-fragment-index="1" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #fdf0ea; border-radius: 6px; padding: 6px 16px; border-left: 3px solid #C47B5A;">
             <p style="font-size: 17pt; font-weight: 700; color: #C47B5A; margin: 0;">1</p>
-            <p style="font-size: 14pt; margin: 0;"><strong>Check the base rate first.</strong> One line: 6.9% here. It sets the benchmark every score is read against (page 22).</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>Check the base rate first.</strong> One line: 6.9% here. It sets the benchmark every score is read against (page 24).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="2" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 6px 16px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 17pt; font-weight: 700; color: #6B8BA4; margin: 0;">2</p>
-            <p style="font-size: 14pt; margin: 0;"><strong>Fit on the true data.</strong> Balancing the classes inflates every probability; move the threshold instead (page 45).</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>Fit on the true data.</strong> Balancing the classes inflates every probability; move the threshold instead (page 48).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="3" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 6px 16px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 17pt; font-weight: 700; color: #6B8BA4; margin: 0;">3</p>
-            <p style="font-size: 14pt; margin: 0;"><strong>Score with a proper rule.</strong> Brier or log-loss, beside AUC. Accuracy only next to the base rate (pages 24&ndash;26).</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>Score with a proper rule.</strong> Brier or log-loss, beside AUC. Accuracy only next to the base rate (pages 26&ndash;28).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="4" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 6px 16px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 17pt; font-weight: 700; color: #6B8BA4; margin: 0;">4</p>
-            <p style="font-size: 14pt; margin: 0;"><strong>Choose the threshold from the costs.</strong> \(t^* = C_{FP}/(C_{FP}+C_{FN})\). Naming the costs is the hard part (pages 32&ndash;34).</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>Choose the threshold from the costs.</strong> \(t^* = C_{FP}/(C_{FP}+C_{FN})\). Naming the costs is the hard part (pages 35&ndash;37).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="5" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 6px 16px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 17pt; font-weight: 700; color: #6B8BA4; margin: 0;">5</p>
-            <p style="font-size: 14pt; margin: 0;"><strong>Check calibration if the probability is used as a number.</strong> Says 30%, happens 30% (page 26).</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>Check calibration if the probability is used as a number.</strong> Says 30%, happens 30% (page 28).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="6" style="display: grid; grid-template-columns: 40px 1fr; align-items: center; background: #eef5ee; border-radius: 6px; padding: 6px 16px; border-left: 3px solid #2E7D5B;">
             <p style="font-size: 17pt; font-weight: 700; color: #2E7D5B; margin: 0;">6</p>
-            <p style="font-size: 14pt; margin: 0;"><strong>Ask whether the features still mean what they meant.</strong> Put it on the calendar (pages 39&ndash;40).</p>
+            <p style="font-size: 14pt; margin: 0;"><strong>Ask whether the features still mean what they meant.</strong> Put it on the calendar (pages 42&ndash;43).</p>
           </div>
         </div>
       </div>
@@ -1620,7 +1641,7 @@ for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&q
           </div>
         </div>
         <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 12px;">
-          <p style="font-size: 15pt;">Balancing is a <strong>threshold move in disguise</strong>, set by the 50/50 trick instead of the costs, and it breaks the probabilities. Fit on the true data and choose the threshold from the costs (page 32).</p>
+          <p style="font-size: 15pt;">Balancing is a <strong>threshold move in disguise</strong>, set by the 50/50 trick instead of the costs, and it breaks the probabilities. Fit on the true data and choose the threshold from the costs (page 35).</p>
         </div>
       </div>
     </section>
@@ -1794,7 +1815,7 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
    Topic 17: THE ROOM'S LOGIT (3916, 11 Nov 2026; built on Topic 13's room experiment). a = the birthday answer in %
    (ch17-econ3916-poll-4, 0-100), x = how sure (ch17-econ3916-poll-5, 0-100). y = 1 when 60 <= a <= 80 (the truth for
    30 people is 70.6%). Logit of y on x/10 by Newton's method, so exp(slope) is the odds ratio per 10 points. If how
-   sure splits right from wrong perfectly the hill has no top (page 18), so it refits with scikit-learn's default
+   sure splits right from wrong perfectly the hill has no top (page 20), so it refits with scikit-learn's default
    penalty (C = 1) and says so. Clicks: 1 accuracy at 0.5 against all zeros, 2 the cut at the base rate, 3 Brier.
    Needs 8 pairs with at least 2 right and 2 wrong; otherwise Q on the reveal (or ?practice=1) loads made-up practice
    numbers, labelled. Reads poll_votes; never writes. window.RoomLogit.paint(rows) takes planted rows for a test.
@@ -1805,8 +1826,9 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
   var NUM = /^\s*(?:[oe]\*?:)?\s*(-?\d+(?:\.\d+)?)\s*$/;
   var MIN_N = 8, MIN_G = 2, LO = 60, HI = 80;
   var RANGE = {}; RANGE[ID_A] = [0, 100]; RANGE[ID_X] = [0, 100];
-  // made-up practice numbers (answer %, how sure), shown only when Q is pressed on the reveal
-  var PRACTICE = [[70,90],[71,80],[65,60],[75,40],[10,20],[5,10],[25,30],[30,50],[15,15],[50,40],[40,60],[20,25],[8,5],[35,30],[12,20],[45,70],[18,10],[3,0]];
+  // made-up demo numbers (answer %, how sure), shown only when Q is pressed on a result page: 20 people, 4 right,
+  // the logit flags nobody at 0.5 (80.0% vs 80.0%), the base-rate cut catches 3 of 4 (statsmodels-checked 12 Nov)
+  var PRACTICE = [[70,60],[68,45],[75,80],[20,85],[10,70],[50,90],[25,30],[30,50],[15,15],[40,40],[45,60],[20,25],[8,5],[35,30],[12,20],[45,55],[18,10],[3,0],[33,35],[60,20]];
   var practice = false, rows0 = [];
 
   function pairs(rows) {
@@ -1888,20 +1910,21 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
     var k = P.filter(function (p) { return p.y === 1; }).length;
     [].forEach.call(document.querySelectorAll(".rl-count"), function (e) {
       e.textContent = (!practice && P.length) ? P.length + " of you " + (P.length === 1 ? "has" : "have") + " sent both" : ""; });
+    paintResult(P, k);
     var sec = document.getElementById("room-logit"); if (!sec) return;
     var head = sec.querySelector(".rl-head"), host = sec.querySelector(".rl-plot"), out = sec.querySelector(".rl-readout"), wait = sec.querySelector(".rl-wait");
     var F = fit(P);
     if (!F.ok) {
       head.innerHTML = ""; host.innerHTML = ""; out.innerHTML = "";
       wait.style.display = "";
-      wait.textContent = "Waiting for at least " + MIN_N + " of you with both numbers, at least " + MIN_G + " right and " + MIN_G + " wrong (now " + P.length + ", " + k + " right). Q switches on practice numbers.";
+      wait.textContent = "Waiting for at least " + MIN_N + " of you with both numbers, at least " + MIN_G + " right and " + MIN_G + " wrong (now " + P.length + ", " + k + " right). Q switches on demo numbers (made up).";
       return;
     }
     wait.style.display = "none";
-    var step = stepOf(sec), tag = practice ? ' <span style="color:#a06000">(practice numbers, made up)</span>' : "";
+    var step = stepOf(sec), tag = practice ? ' <span style="color:#a06000">(demo numbers, made up)</span>' : "";
     head.innerHTML = "<strong>" + F.n + "</strong> answers; <strong>" + F.k + "</strong> said 60 to 80% (the truth: 70.6%), a base rate of <strong>" + pc(F.br) + "</strong>. " +
       "Each 10 points more sure multiplies the odds of being right by <strong>" + f2(F.or) + "</strong>." +
-      (F.pen ? ' <span style="color:var(--muted-color)">How sure splits right from wrong perfectly, so the hill has no top (page 18): fitted with scikit-learn&rsquo;s default penalty.</span>' : "") + tag;
+      (F.pen ? ' <span style="color:var(--muted-color)">How sure splits right from wrong perfectly, so the hill has no top (page 20): fitted with scikit-learn&rsquo;s default penalty.</span>' : "") + tag;
     host.innerHTML = plot(P, F, step);
     var L1 = [];
     if (step >= 1) L1.push("<strong>All zeros</strong> (&ldquo;nobody is right&rdquo;): accuracy <strong>" + pc(F.acc0) + "</strong>. <strong>The logit at 0.5</strong>: flags " + F.c5.flag + ", accuracy <strong>" + pc(F.c5.acc) + "</strong>" +
@@ -1909,6 +1932,24 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
     if (step >= 2) L1.push("<strong>Cut at the base rate</strong>, " + F.br.toFixed(2) + ": flags " + F.cb.flag + ", catches <strong>" + F.cb.tp + " of " + F.k + "</strong>, " + F.cb.fp + " false alarm" + (F.cb.fp === 1 ? "" : "s") + "; accuracy " + pc(F.cb.acc) + ".");
     if (step >= 3) L1.push("<strong>Brier</strong>, lower is better: all zeros <strong>" + f3(F.b0) + "</strong> &middot; the base rate for everyone " + f3(F.bb) + " &middot; the logit <strong>" + f3(F.bm) + "</strong>.");
     out.innerHTML = L1.join("<br>");
+  }
+  function paintResult(P, k) {
+    var r = document.getElementById("room-result"); if (!r) return;
+    var F = fit(P), q = function (c) { return r.querySelector(c); };
+    var tag = practice ? ' <span style="color:#a06000">(demo numbers, made up)</span>' : "";
+    q(".rr-n").textContent = P.length ? String(P.length) : "\u2014";
+    q(".rr-k").innerHTML = P.length ? k + " right." + tag : "";
+    if (!F.ok) {
+      q(".rr-model").textContent = "\u2014"; q(".rr-zero").textContent = "\u2014"; q(".rr-verdict").innerHTML = "";
+      q(".rr-wait").textContent = "Waiting for at least " + MIN_N + " of you with both numbers, at least " + MIN_G + " right and " + MIN_G + " wrong (now " + P.length + ", " + k + " right). Q switches on demo numbers (made up).";
+      return;
+    }
+    q(".rr-wait").textContent = "";
+    q(".rr-model").textContent = pc(F.c5.acc); q(".rr-zero").textContent = pc(F.acc0);
+    var d = Math.round((F.c5.acc - F.acc0) * F.n);
+    q(".rr-verdict").innerHTML = F.c5.flag === 0 ? "<strong>Identical.</strong> It says &ldquo;wrong&rdquo; for all " + F.n + " of you, and so does the rule." :
+      d > 0 ? "<strong>The model wins by " + d + (d === 1 ? " person" : " people") + ":</strong> a few of you were sure and right. Rare &ldquo;right&rdquo;, and accuracy still starts at " + pc(F.acc0) + "." :
+      "<strong>All zeros wins.</strong> Rare &ldquo;right&rdquo;: guessing &ldquo;wrong&rdquo; for everyone already scores " + pc(F.acc0) + ".";
   }
   window.RoomLogit = { pairs: pairs, fit: fit, paint: function (rows) { draw(rows); } };
 
@@ -1921,13 +1962,13 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
     for (var i = 0; i < keys.length; i++) { if (fit(pairs(by[keys[i]])).ok) { pick = keys[i]; break; } }
     return by[pick] || [];
   }
-  var HERE = ["room-vote", "room-logit"];
+  var HERE = ["room-vote", "room-result", "room-logit"];
   function cur() { var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide(); return s ? s.id : ""; }
   function onRoom() { return HERE.indexOf(cur()) >= 0; }
   function fetchRows() {
     if (location.protocol === "file:") return;
     var today = window.Poll ? Poll.q() : "";
-    var latest = !!(cur() === "room-logit" && today);
+    var latest = !!(cur() !== "room-vote" && today);
     var url = SU + "/rest/v1/poll_votes?poll_id=in.(" + ID_A + "," + ID_X + ")&select=poll_id,choice,voter_id,created_at" +
               (latest ? ",session_key&session_key=like.*-" + today.split("-").pop() : today);
     fetch(url, { headers: { apikey: SK, Authorization: "Bearer " + SK, "Cache-Control": "no-cache, no-store" } })
@@ -1940,9 +1981,31 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
     Reveal.on("slidechanged", function () { if (onRoom()) { fetchRows(); draw(); } });
     ["fragmentshown", "fragmenthidden"].forEach(function (ev) { Reveal.on(ev, function () { if (onRoom()) draw(); }); });
   }
-  document.addEventListener("keydown", function (e) {     // Q on the reveal only: practice numbers on/off (Q on a poll slide moves the QR)
-    var t = e.target; if ((e.key === "q" || e.key === "Q") && cur() === "room-logit" && !(t && t.closest && t.closest("input,textarea"))) { practice = !practice; draw(); } });
-  if (/[?&]practice=1/.test(location.search)) practice = true;
+  document.addEventListener("keydown", function (e) {     // Q on the two result pages only: demo numbers on/off (Q on a poll slide moves the QR)
+    var t = e.target; if ((e.key === "q" || e.key === "Q") && (cur() === "room-result" || cur() === "room-logit") && !(t && t.closest && t.closest("input,textarea"))) { practice = !practice; draw(); } });
+  var tick = null, CAN_OPEN = /[?&]presenter(&|=|$)/.test(location.search) ||
+    (/[?&]receiver(&|$)/.test(location.search) && /postMessageEvents=true/.test(location.search));
+  function timer(on) {
+    var el = document.querySelector("#room-vote .rv-timer"); if (!el) return;
+    if (tick) { clearInterval(tick); tick = null; }
+    if (!on) { el.textContent = ""; return; }
+    var end = Date.now() + 60000;
+    var paint = function () { var left = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+      el.textContent = left ? "0:" + (left < 10 ? "0" : "") + left + " left" : "Time. Last answers in now.";
+      if (!left) { clearInterval(tick); tick = null; } };
+    paint(); tick = setInterval(paint, 250);
+  }
+  if (window.Reveal && Reveal.on) {
+    Reveal.on("fragmentshown", function (e) {
+      // Reveal renumbers fragment indices from 0 at load, so find the start by what it holds: the questions
+      if (cur() !== "room-vote" || !(e.fragments || []).some(function (f) { return f.querySelector && f.querySelector(".rv-timer"); })) return;
+      timer(true);
+      if (CAN_OPEN && window.Poll && Poll.openHere) Poll.openHere();      // the same as pressing t
+    });
+    Reveal.on("fragmenthidden", function (e) { if (cur() === "room-vote" && (e.fragments || []).some(function (f) { return f.querySelector && f.querySelector(".rv-timer"); })) timer(false); });
+    Reveal.on("slidechanged", function () { if (cur() !== "room-vote") timer(false); });
+  }
+  if (/[?&](practice|demo)=1/.test(location.search)) practice = true;
   setTimeout(function () { fetchRows(); draw(); }, 900);
 })();
 </script>
