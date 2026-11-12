@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=bedd760d9945dfc8c5909d8506530cbc">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=02c2526526fc7c0f26fef4a92d2bdff6">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -1289,20 +1289,6 @@ recession months caught:  0 of 36</pre></div></div></div></div>
       </div>
     </section>
 
-    <section id="discussion-2" style="padding: 34px 60px;">
-      <h2><i class="fa-solid fa-comments" style="color: var(--accent-color);"></i> Discussion 2 &mdash; Two Clients, One Model</h2>
-      <div class="content">
-        <div class="discussion-prompt">
-          <p class="bloom-level">5 minutes &bull; pairs</p>
-          <p style="font-size: 16pt;">Same model, same probabilities, two clients:</p>
-          <p style="font-size: 16pt; margin-top: 8px;"><strong>A central banker</strong> deciding whether to prepare contingency policy. &nbsp;&bull;&nbsp; <strong>An asset manager</strong> deciding whether to liquidate equity positions on the signal.</p>
-          <p style="font-size: 16pt; margin-top: 10px;">Pick a <strong>row of the table</strong> for each and defend it in one sentence. Then: are you disagreeing with each other, or with the model?</p>
-        </div>
-        <p style="margin-top: 16px; font-size: 15pt;">Come back with the row number and the error you are refusing to make.</p>
-                <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>5</strong> to start the timer.</p>
-        </div>
-    </section>
-
     <section id="cost-threshold" style="padding: 30px 58px;">
       <h2><i class="fa-solid fa-coins" style="color: var(--success-color);"></i> And It Is Just Arithmetic, Once You Name the Costs</h2>
       <div class="content">
@@ -1335,6 +1321,31 @@ recession months caught:  0 of 36</pre></div></div></div></div>
         <p class="fragment fade-up" data-fragment-index="1" style="font-size: 16pt; margin-top: 16px; line-height: 1.5;"><strong>0.5 is not neutral.</strong> \(t^* = 0.5\) only when \(C_{FP} = C_{FN}\): the library&rsquo;s default quietly assumes a missed recession costs the same as a false alarm. That is almost never true.</p>
         <p class="fragment fade-up" data-fragment-index="2" style="font-size: 16pt; margin-top: 14px; line-height: 1.5;">The cost ratio is the <strong>modelling assumption</strong>. The threshold is just its arithmetic.</p>
         <p class="fragment fade-up" data-fragment-index="3" style="margin-top: 16px; font-size: 16pt; color: var(--accent-color);"><i class="fa-solid fa-arrow-right"></i> Someone always chooses the threshold. If the analyst does not, the library already has.</p>
+      </div>
+    </section>
+
+    <section id="two-clients" style="padding: 30px 50px;">
+      <h2><i class="fa-solid fa-scale-unbalanced" style="color: var(--accent-color);"></i> Name the Costs: Three Decisions, One Model</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What does each error cost, and which threshold follows?</p>
+        <p style="font-size: 14.5pt; margin: 0 0 10px;">Same model, same probabilities. Only the decision changes.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f8f6f3; border-radius: 8px; padding: 10px 14px; border-top: 4px solid var(--secondary-color);">
+            <p style="font-size: 14pt; margin: 0 0 6px;"><strong>A central bank: prepare a contingency plan?</strong></p>
+            <p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>False alarm:</b> staff time on a plan never used. Small.</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>Miss:</b> a recession met unprepared. Large.</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;">Say a miss costs 9 false alarms: \(t^* = 1/(1+9) = \mathbf{{0.10}}\).</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>Our model at 0.10:</b> catches 26 of 36 recession months, with 94 false alarms in 523 months. Worth it.</p>
+          </div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f8f6f3; border-radius: 8px; padding: 10px 14px; border-top: 4px solid var(--danger-color);">
+            <p style="font-size: 14pt; margin: 0 0 6px;"><strong>An asset manager: sell all stocks on the signal?</strong></p>
+            <p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>False alarm:</b> sold, and the market kept rising. Large.</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>Miss:</b> held through the downturn. Also large.</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;">Say a false alarm costs 2 misses: \(t^* = 2/(2+1) = \mathbf{{0.67}}\).</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>Our model</b> never goes above 0.423, so it never says sell.</p>
+          </div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 8px; padding: 10px 14px; border-top: 4px solid var(--success-color);">
+            <p style="font-size: 14pt; margin: 0 0 6px;"><strong>Lab 17&rsquo;s lender: approve a loan?</strong></p>
+            <p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>False alarm:</b> declining a good borrower loses the margin, $1,600.</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>Miss:</b> approving a defaulter loses 60% of $20,000, $12,000.</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;">\(t^* = 1{{,}}600 / 13{{,}}600 = \mathbf{{0.118}}\).</p><p style="font-size: 12.5pt; line-height: 1.4; margin: 0 0 5px;"><b>Lab 17, Step 9:</b> chosen on the training rows, 0.121.</p>
+          </div>
+        </div>
+        <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 12px;">
+          <p style="font-size: 15pt;">Three thresholds from one model. <strong>Nobody disagrees with the model; they disagree about the costs.</strong> Writing them down is the economist&rsquo;s part of the job.</p>
+        </div>
       </div>
     </section>
 
