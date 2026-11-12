@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0c20aab3ed6ba7949e190ca55768af61">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a5a6ecc76f0a1f92cddab731e73348e1">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -107,6 +107,9 @@
           <div class="stat-highlight fragment fade-up" data-fragment-index="2"><div class="r-stack"><div class="number fragment fade-out" data-fragment-index="3" style="color: var(--muted-color);">?</div><div class="number fragment" data-fragment-index="3" style="color: var(--muted-color);">93.1%</div></div><div class="label">a rule with <strong>no inputs</strong> that says &ldquo;no recession&rdquo; every month. Guess first.</div></div>
         </div>
         <p class="fragment fade-up" data-fragment-index="4" style="margin-top: 16px; font-size: 17pt; color: var(--primary-color); text-align: center;"><strong>Identical.</strong> And it is worse than it looks.</p>
+      <div style="margin-top: 26px; border-top: 1px solid #e4ded7; padding-top: 8px;">
+          <p style="font-size: 11.5pt; line-height: 1.4; color: var(--muted-color); margin: 0;"><strong>Recession:</strong> a broad fall in output, jobs and incomes that lasts more than a few months; the NBER dates them for the U.S. In our data, <strong>y = 1</strong> if the U.S. is in a recession 12 months later, <strong>0</strong> if not.<br><strong>Term spread:</strong> the interest rate on a 10-year U.S. government bond minus the rate on a 3-month one, in percentage points. Usually positive; below zero, the yield curve is &ldquo;inverted.&rdquo;</p>
+        </div>
       </div>
     </section>
 
@@ -1358,31 +1361,31 @@ recession months caught:  0 of 36</pre></div></div></div></div>
       <h2><i class="fa-solid fa-clock-rotate-left" style="color: var(--danger-color);"></i> Two Years Inverted, and No Recession</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> The model&rsquo;s biggest test: what happened in 2022&ndash;24?</p>
-        <p style="font-size: 15pt; line-height: 1.45; margin: 0;">Before 2022 an inverted curve had come before every U.S. recession since the 1960s. Then the spread was <strong>below zero every month from November 2022 to November 2024</strong>: 25 months.</p>
-        <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px;"><div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 11.5pt; margin: 0;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># four months of the 2022–24 inversion</span>
+        <p style="font-size: 15pt; line-height: 1.45; margin: 0;">An inverted curve had come before every U.S. recession since the 1960s. Then the spread was <strong>below zero for 25 months</strong>, November 2022 to November 2024.</p>
+        <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px;"><div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 10.5pt; margin: 0;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># four months of the 2022–24 inversion</span>
 for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&quot;2023-05&quot;</span>, <span class="t-str">&quot;2023-12&quot;</span>, <span class="t-str">&quot;2024-06&quot;</span>]:
     print(f<span class="t-str">&quot;{m}   spread {df.spread[m]:.2f}   P(recession 12m ahead) {p_hat[m]:.1%}   &quot;</span>
           f<span class="t-str">&quot;actual: {[&#x27;no recession&#x27;, &#x27;recession&#x27;][y[m]]}&quot;</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>2023-01   spread -1.16   P(recession 12m ahead) 31.1%   actual: no recession
 2023-05   spread -1.73   P(recession 12m ahead) 42.3%   actual: no recession
 2023-12   spread -1.42   P(recession 12m ahead) 36.1%   actual: no recession
 2024-06   spread -1.20   P(recession 12m ahead) 32.0%   actual: no recession</pre></div></div></div></div></div>
-        <div class="fragment fade-up" data-fragment-index="2" style="margin-top: 10px;"><p style="font-size: 15pt; margin: 0;">Against the 6.9% base rate: 31.1% is <strong>4.5 times</strong> it; 42.3% is <strong>6.1 times</strong>.</p></div>
+        <div class="fragment fade-up" data-fragment-index="2" style="margin-top: 10px;"><p style="font-size: 14pt; margin: 0 0 4px;">How worried was the model, compared with a typical month?</p><div style="display: grid; grid-template-columns: 210px 1fr 130px; align-items: center; gap: 10px; margin: 1px 0;"><span style="font-size: 13.5pt;">Typical month (base rate)</span><div style="height: 16px; width: 16.3%; background: #8C8580; border-radius: 3px;"></div><span style="font-size: 13.5pt; font-weight: 700;">6.9%</span></div><div style="display: grid; grid-template-columns: 210px 1fr 130px; align-items: center; gap: 10px; margin: 1px 0;"><span style="font-size: 13.5pt;">January 2023</span><div style="height: 16px; width: 73.5%; background: #C47B5A; border-radius: 3px;"></div><span style="font-size: 13.5pt; font-weight: 700;">31.1% &middot; 4.5&times;</span></div><div style="display: grid; grid-template-columns: 210px 1fr 130px; align-items: center; gap: 10px; margin: 1px 0;"><span style="font-size: 13.5pt;">May 2023</span><div style="height: 16px; width: 100.0%; background: #C0603A; border-radius: 3px;"></div><span style="font-size: 13.5pt; font-weight: 700;">42.3% &middot; 6.1&times;</span></div></div>
         <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 10px;">
-          <p style="font-size: 16pt;">Four to six times the base rate, month after month, and <strong>no recession</strong>: real GDP grew 2.9% in 2023 and 2.8% in 2024.</p>
+          <p style="font-size: 15.5pt;">Four to six times more worried than in a typical month, for two years, and <strong>no recession came</strong>: the economy grew 2.9% in 2023 and 2.8% in 2024.</p>
         </div>
       </div>
     </section>
 
     <section id="fig-inversion" style="padding: 18px 45px;">
       <h2 style="margin-bottom: 2px;"><i class="fa-solid fa-chart-line" style="color: var(--secondary-color);"></i> The Signal, and What Followed It</h2>
-      <div class="content" style="display: grid; grid-template-columns: 56% 44%; gap: 22px; align-items: center;">
+      <div class="content" style="display: grid; grid-template-columns: 62% 38%; gap: 22px; align-items: center;">
         <div class="r-stack" style="width: 100%; min-width: 0;"><img class="figure" src="figures/figure_005_inversion_s1.png" alt="The 10-year minus 3-month spread from 2015 to 2025, below zero every month from November 2022 to November 2024, shaded" style="max-width: 100%; max-height: 545px; width: auto; height: auto; display: block; margin: 0 auto;"><img class="figure fragment" data-fragment-index="1" src="figures/figure_005_inversion.png" alt="The same spread above, and below it the in-sample fitted recession probability at 25 to 42 per cent from January 2023 to September 2024 against a 6.9 per cent base rate, with no recession following" style="max-width: 100%; max-height: 545px; width: auto; height: auto; display: block; margin: 0 auto;"></div>
         <div>
-          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What did the model say, month by month?</p>
-          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Top:</strong> the spread. Shaded: the months it was below zero. The grey bar is the 2020 recession.</p>
-          <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px;"><p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Bottom:</strong> the model&rsquo;s probability. January 2023 to September 2024: <strong>25&ndash;42%</strong>, against the 6.9% base rate (dashed).</p></div>
+          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What did the model make of that spread?</p>
+          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Top:</strong> the spread from page 36. Shaded: the months it was below zero. Grey: the 2020 recession.</p>
+          <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px;"><p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Bottom:</strong> the model turns each month&rsquo;s spread into a probability. January 2023 to September 2024: <strong>25&ndash;42%</strong>; a typical month is 6.9% (dashed).</p></div>
           <div class="key-result fragment fade-up" data-fragment-index="2" style="margin-top: 10px;">
-            <p style="font-size: 14.5pt;">Confident, for two years, and nothing followed.</p>
+            <p style="font-size: 14.5pt;">High for two years, and no recession. Was the model broken? That is Poll 3.</p>
           </div>
         </div>
       </div>
@@ -1431,16 +1434,17 @@ for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&q
     </section>
     <section id="term-premium" style="padding: 30px 58px;">
       <h2><i class="fa-solid fa-layer-group" style="color: var(--accent-color);"></i> What Actually Happened</h2>
-      <div class="content" style="display: grid; grid-template-columns: 46% 54%; gap: 22px; align-items: center;">
+      <div class="content" style="display: grid; grid-template-columns: 43% 57%; gap: 22px; align-items: center;">
         <div>
           <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Why did the same spread mean something else?</p>
-          <p style="font-size: 14.5pt; line-height: 1.45; margin: 0;">A ten-year yield = <strong>expected short rates</strong> + a <strong>term premium</strong>: the extra pay for holding a long bond, which loses value when rates rise.</p>
-          <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 10px;"><p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Top:</strong> years of quantitative easing (the Fed buying long bonds) squeezed the premium: <strong>1.41</strong> points on average in 1990&ndash;2007, <strong>0.24</strong> during the inversion.</p></div>
-          <div class="fragment fade-up" data-fragment-index="2" style="margin-top: 10px;"><p style="font-size: 14.5pt; line-height: 1.45; margin: 0;"><strong>Bottom:</strong> put the 1990&ndash;2007 premium back, expectations held fixed, and the spread averages <strong>+0.02</strong> instead of <strong>&minus;1.15</strong>. No inversion.</p></div>
-          <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 10px;">
-            <p style="font-size: 14.5pt;">Same number, different meaning. <strong>A model assumes a past relationship continues; whether it does is a question about the economy.</strong></p>
+          <p style="font-size: 14pt; line-height: 1.45; margin: 0;">Lend to the government for <strong>10 years</strong> instead of 3 months and you ask a higher rate, for two reasons:</p>
+          <p style="font-size: 13.5pt; line-height: 1.4; margin: 4px 0 0;">&#9312; where you expect short-term rates to go over those 10 years;<br>&#9313; extra pay for locking your money up that long: the <strong>term premium</strong>.</p>
+          <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 8px;"><p style="font-size: 14pt; line-height: 1.45; margin: 0;"><strong>Top:</strong> years of Fed bond buying (quantitative easing) shrank that extra pay: <strong>1.41</strong> points on average in 1990&ndash;2007, <strong>0.24</strong> during the inversion.</p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="margin-top: 8px;"><p style="font-size: 14pt; line-height: 1.45; margin: 0;"><strong>Bottom:</strong> give the 10-year rate its old extra pay back, expectations unchanged, and the spread averages <strong>+0.02</strong> instead of <strong>&minus;1.15</strong>. No inversion.</p></div>
+          <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 8px;">
+            <p style="font-size: 14pt;">A below-zero spread used to mean &ldquo;markets expect a downturn.&rdquo; In 2022&ndash;24, much of it was <strong>missing extra pay</strong>. Same number, different meaning.</p>
           </div>
-          <p style="font-size: 11.5pt; color: var(--muted-color); margin-top: 6px;">Term premium: Kim&ndash;Wright estimates, Federal Reserve Board (FRED THREEFYTP10).</p>
+          <p style="font-size: 11pt; color: var(--muted-color); margin-top: 5px;">Term premium: Kim&ndash;Wright estimates, Federal Reserve Board (FRED THREEFYTP10).</p>
         </div>
         <div class="r-stack" style="width: 100%; min-width: 0;"><img class="figure" src="figures/figure_007_term_premium_s1.png" alt="The Kim-Wright ten-year term premium from 1990 to 2025, falling from about 2 points to near zero, against its 1990-2007 average of 1.41; 0.24 on average during the shaded inversion months" style="max-width: 100%; max-height: 515px; width: auto; height: auto; display: block; margin: 0 auto;"><img class="figure fragment" data-fragment-index="2" src="figures/figure_007_term_premium.png" alt="The same premium above, and below it the spread since 2015 as it was, averaging minus 1.15 during the inversion, and with the 1990-2007 premium put back, averaging plus 0.02" style="max-width: 100%; max-height: 515px; width: auto; height: auto; display: block; margin: 0 auto;"></div>
       </div>
@@ -1523,28 +1527,38 @@ for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&q
     <section id="workflow" style="padding: 26px 55px;">
       <h2 style="margin-bottom: 6px;"><i class="fa-solid fa-diagram-project" style="color: var(--success-color);"></i> A Classification Workflow</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What should you do, in order, the next time you classify?</p>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--secondary-color);">1</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Check the base rate first.</strong> One line; it sets how you evaluate everything after.</p></div>
-          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--danger-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--danger-color);">2</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Fit on the true distribution.</strong> Resampling (copying or dropping rows to even the classes) and <code>class_weight='balanced'</code> inflate every probability. If the probability is the product, fit unweighted and move the threshold.</p></div>
-          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--accent-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--accent-color);">3</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Score with a proper rule</strong> (rewards honest probabilities): Brier or log-loss, beside AUC. Accuracy only next to the base rate.</p></div>
-          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--success-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--success-color);">4</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Choose the threshold from costs.</strong> \(t^* = C_{FP}/(C_{FP}+C_{FN})\). Naming the costs is the hard part, and not a statistical one.</p></div>
-          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--secondary-color);">5</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Check calibration</strong> (says 30%, happens 30%) <strong>if the probability is used as a number</strong>, as in an expected-loss formula.</p></div>
-          <div style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--muted-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--muted-color);">6</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Ask whether the features still mean what they meant.</strong> Put it on the calendar.</p></div>
+          <div class="fragment fade-up" data-fragment-index="1" style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--danger-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--danger-color);">2</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Fit on the true distribution.</strong> Resampling (copying or dropping rows to even the classes) and <code>class_weight='balanced'</code> inflate every probability. If the probability is the product, fit unweighted and move the threshold.</p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--accent-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--accent-color);">3</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Score with a proper rule</strong> (rewards honest probabilities): Brier or log-loss, beside AUC. Accuracy only next to the base rate.</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--success-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--success-color);">4</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Choose the threshold from costs.</strong> \(t^* = C_{FP}/(C_{FP}+C_{FN})\). Naming the costs is the hard part, and not a statistical one.</p></div>
+          <div class="fragment fade-up" data-fragment-index="4" style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--secondary-color);">5</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Check calibration</strong> (says 30%, happens 30%) <strong>if the probability is used as a number</strong>, as in an expected-loss formula.</p></div>
+          <div class="fragment fade-up" data-fragment-index="5" style="display: grid; grid-template-columns: 38px 1fr; gap: 12px; background: #f8f6f3; border-radius: 8px; padding: 10px 18px; border-left: 4px solid var(--muted-color);"><p style="font-size: 16pt; font-weight: 700; color: var(--muted-color);">6</p><p style="font-size: 14pt; line-height: 1.45;"><strong>Ask whether the features still mean what they meant.</strong> Put it on the calendar.</p></div>
         </div>
       </div>
     </section>
 
-    <section id="discussion-3" style="padding: 34px 60px;">
-      <h2><i class="fa-solid fa-comments" style="color: var(--accent-color);"></i> Discussion 3 &mdash; &ldquo;Just Balance the Classes&rdquo;</h2>
+    <section id="balance-classes" style="padding: 30px 52px;">
+      <h2><i class="fa-solid fa-scale-balanced" style="color: var(--accent-color);"></i> &ldquo;Just Balance the Classes&rdquo;? What It Really Does</h2>
       <div class="content">
-        <div class="discussion-prompt">
-          <p class="bloom-level">4 minutes &bull; tables</p>
-          <p style="font-size: 16pt;">A teammate says: <em>&ldquo;Our default rate is only 3%. Let's resample the training set up to 50/50 before we fit &mdash; otherwise the model will never learn the minority class.&rdquo;</em></p>
-          <p style="font-size: 16pt; margin-top: 10px;">Give the <strong>strongest version</strong> of their argument. Then the strongest rebuttal. <strong>Where does the disagreement actually live?</strong></p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Should we fix a rare outcome by balancing the classes?</p>
+        <p style="font-size: 14.5pt; line-height: 1.45; margin: 0 0 10px;">A teammate: <em>&ldquo;Only 6.9% of months are recession months. Balance the classes to 50/50 so the model learns them.&rdquo;</em> We tried it on our data (balanced weights, the same effect as resampling).</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f8f6f3; border-radius: 8px; padding: 9px 14px; border-top: 4px solid var(--success-color);">
+            <p style="font-size: 13.5pt; margin: 0 0 4px;"><strong>Their point</strong></p><p style="font-size: 13pt; line-height: 1.4; margin: 0;">At 0.5 our honest model flags 0 months. The balanced model flags <strong>168</strong> and catches <strong>30 of 36</strong>.</p>
+          </div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f8f6f3; border-radius: 8px; padding: 9px 14px; border-top: 4px solid var(--danger-color);">
+            <p style="font-size: 13.5pt; margin: 0 0 4px;"><strong>The cost</strong></p><p style="font-size: 13pt; line-height: 1.4; margin: 0;">Every probability is inflated: the average goes from 6.9% to <strong>37.7%</strong>, May 2023 from 42.3% to <strong>95.0%</strong>. Of the months it calls 50% or more, only 17.9% had a recession ahead.</p>
+          </div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 8px; padding: 9px 14px; border-top: 4px solid var(--secondary-color);">
+            <p style="font-size: 13.5pt; margin: 0 0 4px;"><strong>What it really is</strong></p><p style="font-size: 13pt; line-height: 1.4; margin: 0;">The same ranking (AUC 0.811 both ways). Its 0.5 flags exactly the months our honest model flags at <strong>0.072</strong>.</p>
+          </div>
         </div>
-        <p style="margin-top: 16px; font-size: 15pt;">One table reports the argument, another reports the rebuttal, and a third names the real disagreement.</p>
-                <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>4</strong> to start the timer.</p>
+        <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 12px;">
+          <p style="font-size: 15pt;">Balancing is a <strong>threshold move in disguise</strong>, set by the 50/50 trick instead of the costs, and it breaks the probabilities. Fit on the true data and choose the threshold from the costs (page 32).</p>
         </div>
+      </div>
     </section>
 
     <section id="lab-preview" style="padding: 20px 42px;">
@@ -1552,14 +1566,14 @@ for m in [<span class="t-str">&quot;2023-01&quot;</span>, <span class="t-str">&q
       <div class="content" style="display: grid; grid-template-columns: 46% 54%; gap: 20px; align-items: center;">
         <div>
           <p style="font-size: 13.5pt; line-height: 1.45;">A <strong>different</strong> world, on purpose: 6,000 simulated loan applications, <strong>9.6%</strong> default, so approving everyone is <strong>90.4% accurate</strong>. It prints today's hook back at you:</p>
-          <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 10pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>acc = metrics.accuracy_score(y_te, pred)
+          <div class="mock colab mathjax_ignore tex2jax_ignore fragment fade-up" data-fragment-index="1" style="--mk-size: 10pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>acc = metrics.accuracy_score(y_te, pred)
 print(f<span class="t-str">&quot;model accuracy    : {acc:.1%}&quot;</span>)
 print(f<span class="t-str">&quot;baseline accuracy : {base_acc:.1%}&quot;</span>)
 print(<span class="t-str">&quot;predicted defaults:&quot;</span>, pred.sum(), <span class="t-str">&quot;of&quot;</span>, len(pred))</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>model accuracy    : 90.4%
 baseline accuracy : 90.4%
 predicted defaults: 0 of 1800</pre></div></div></div></div>
-          <p style="font-size: 13.5pt; line-height: 1.45;"><strong>Part 4 is yours.</strong> A false negative costs 60% of a $20,000 loan, a false positive the 8% margin. Choose the cheapest threshold on the <strong>training</strong> rows; price it on the test rows once.</p>
-          <div class="key-result" style="margin-top: 9px;">
+          <p class="fragment fade-up" data-fragment-index="2" style="font-size: 13.5pt; line-height: 1.45;"><strong>Part 4 is yours.</strong> A false negative costs 60% of a $20,000 loan, a false positive the 8% margin. Choose the cheapest threshold on the <strong>training</strong> rows; price it on the test rows once.</p>
+          <div class="key-result fragment fade-up" data-fragment-index="3" style="margin-top: 9px;">
             <p style="font-size: 13pt;"><strong>t = 0.121</strong>, next to the closed form's 0.118: <strong>$944</strong> per test applicant against <strong>$1,147</strong> at 0.5, <strong>21% more</strong>. Picked on the test rows: 0.103 and $926, flattering only because those rows also score it.</p>
           </div>
         </div>
