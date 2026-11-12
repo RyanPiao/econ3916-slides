@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=943e6e67a2fb9f40dec9d69004f33040">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=7f991298e82a21df6e6e5d0d74bd9d35">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classification: Logistic Regression</title>
@@ -96,6 +96,27 @@
       </div>
     </section>
 
+    <section>
+    <section id="room-vote" style="padding: 34px 50px;">
+      <h2><i class="fa-solid fa-cake-candles" style="color: var(--secondary-color);"></i> Two Numbers Before We Start</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 10px;"><i class="fa-solid fa-circle-question"></i> Can how sure you are predict whether you are right?</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+          <div style="background: #f0f5f8; border-radius: 10px; padding: 16px 22px; border-top: 5px solid var(--secondary-color);">
+            <p style="font-size: 15.5pt; font-weight: 700; margin: 0 0 6px;">1. A class of 30 people. What is the chance that at least two of them share a birthday?</p>
+            <p style="font-size: 13pt; color: var(--muted-color); margin: 0 0 10px;">Type a percent. No searching: a guess is fine.</p>
+            <div class="poll-number" data-poll-id="ch17-econ3916-poll-4" data-poll-voting data-min="0" data-max="100" data-step="0.1" data-unit="%"></div>
+          </div>
+          <div style="background: #fdf0ea; border-radius: 10px; padding: 16px 22px; border-top: 5px solid var(--accent-color);">
+            <p style="font-size: 15.5pt; font-weight: 700; margin: 0 0 6px;">2. How sure are you that your answer is within about 10 points of the truth?</p>
+            <p style="font-size: 13pt; color: var(--muted-color); margin: 0 0 10px;">0 = a pure guess, 100 = certain.</p>
+            <div class="poll-number" data-poll-id="ch17-econ3916-poll-5" data-poll-voting data-min="0" data-max="100" data-step="1"></div>
+          </div>
+        </div>
+        <p class="rl-count" style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 14px;"></p>
+        <p style="text-align: center; font-size: 13pt; color: var(--muted-color); margin-top: 4px;">We come back to these after Poll 2.</p>
+      </div>
+    </section>
     <section id="hook-tie" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-scale-balanced" style="color: var(--secondary-color);"></i> Right 93.1% of the Time</h2>
       <div class="content">
@@ -111,6 +132,7 @@
           <p style="font-size: 11.5pt; line-height: 1.4; color: var(--muted-color); margin: 0;"><strong>Recession:</strong> a broad fall in output, jobs and incomes that lasts more than a few months; the NBER dates them for the U.S. In our data, <strong>y = 1</strong> if the U.S. is in a recession 12 months later, <strong>0</strong> if not.<br><strong>Term spread:</strong> the interest rate on a 10-year U.S. government bond minus the rate on a 3-month one, in percentage points. Usually positive; below zero, the yield curve is &ldquo;inverted.&rdquo;</p>
         </div>
       </div>
+    </section>
     </section>
 
     <section id="hook-payload" style="padding: 34px 60px;">
@@ -1255,6 +1277,20 @@ recession months caught:  0 of 36</pre></div></div></div></div>
         </div>
         <button class="reset-btn" onclick="clearPoll('ch17-econ3916-poll-2')" style="position:absolute; bottom:14px; right:20px; font-size:11pt; padding:4px 10px;">Reset</button>
       </section>
+      <section id="room-logit" style="padding: 26px 50px;">
+        <h2 style="margin-bottom: 4px;"><i class="fa-solid fa-cake-candles" style="color: var(--secondary-color);"></i> Our Room, Scored Both Ways</h2>
+        <div class="content">
+          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 6px;"><i class="fa-solid fa-circle-question"></i> Does a room of people tell the same story as 523 months?</p>
+          <p class="rl-head" style="font-size: 14pt; line-height: 1.4; margin: 0;"></p>
+          <div class="rl-plot mathjax_ignore tex2jax_ignore" style="margin: 4px 0 2px;"></div>
+          <p class="rl-wait" style="font-size: 14pt; color: var(--muted-color); margin: 10px 0;"></p>
+          <div class="rl-readout" style="font-size: 13.5pt; line-height: 1.45;"></div>
+          <span class="rl-step fragment" data-fragment-index="1"></span><span class="rl-step fragment" data-fragment-index="2"></span><span class="rl-step fragment" data-fragment-index="3"></span>
+          <div class="key-result fragment fade-up" data-fragment-index="4" style="margin-top: 6px;">
+            <p style="font-size: 13.5pt;">Accuracy scores only the yes/no call, and the cut decides it. <strong>Brier scores the probability, and puts all zeros last</strong>, as on the 523 months. With this few answers, one person moves every number.</p>
+          </div>
+        </div>
+      </section>
     </section>
     <section id="divider-5" class="section-divider" data-state="is-section-divider">
       <h1>The Threshold Is a Business Decision</h1>
@@ -1755,6 +1791,163 @@ predicted defaults: 0 of 1800</pre></div></div></div></div>
     document.querySelectorAll(".poll-grid").forEach(function(g){var pid=g.dataset.pollId;g.querySelectorAll(".poll-option").forEach(function(o){o.addEventListener("click",function(){var go=function(){vote(pid,o.dataset.choice);};if(window.Poll){Poll.ready(pid,go);}else{go();}});});if(!g.parentNode.querySelector(".poll-vote-count")){var ce=document.createElement("div");ce.className="poll-vote-count";ce.dataset.pollId=pid;g.parentNode.insertBefore(ce,g.nextSibling);}fetchR(pid);setInterval(function(){if(document.hidden)return;var s=g.closest("section");if(s&&!s.classList.contains("present"))return;fetchR(pid);},2000);});
   })();
   </script>
+<script>
+/* ============================================================
+   Topic 17: THE ROOM'S LOGIT (3916, 11 Nov 2026; built on Topic 13's room experiment). a = the birthday answer in %
+   (ch17-econ3916-poll-4, 0-100), x = how sure (ch17-econ3916-poll-5, 0-100). y = 1 when 60 <= a <= 80 (the truth for
+   30 people is 70.6%). Logit of y on x/10 by Newton's method, so exp(slope) is the odds ratio per 10 points. If how
+   sure splits right from wrong perfectly the hill has no top (page 18), so it refits with scikit-learn's default
+   penalty (C = 1) and says so. Clicks: 1 accuracy at 0.5 against all zeros, 2 the cut at the base rate, 3 Brier.
+   Needs 8 pairs with at least 2 right and 2 wrong; otherwise Q on the reveal (or ?practice=1) loads made-up practice
+   numbers, labelled. Reads poll_votes; never writes. window.RoomLogit.paint(rows) takes planted rows for a test.
+   ============================================================ */
+(function () {
+  "use strict";
+  var ID_A = "ch17-econ3916-poll-4", ID_X = "ch17-econ3916-poll-5";
+  var NUM = /^\s*(?:[oe]\*?:)?\s*(-?\d+(?:\.\d+)?)\s*$/;
+  var MIN_N = 8, MIN_G = 2, LO = 60, HI = 80;
+  var RANGE = {}; RANGE[ID_A] = [0, 100]; RANGE[ID_X] = [0, 100];
+  // made-up practice numbers (answer %, how sure), shown only when Q is pressed on the reveal
+  var PRACTICE = [[70,90],[71,80],[65,60],[75,40],[10,20],[5,10],[25,30],[30,50],[15,15],[50,40],[40,60],[20,25],[8,5],[35,30],[12,20],[45,70],[18,10],[3,0]];
+  var practice = false, rows0 = [];
+
+  function pairs(rows) {
+    var first = {};
+    (rows || []).slice().sort(function (a, b) { return String(a.created_at || "") < String(b.created_at || "") ? -1 : 1; })
+      .forEach(function (r) {
+        if (!r || !RANGE[r.poll_id]) return;
+        var m = NUM.exec(String(r.choice)); if (!m) return;
+        var v = +m[1], rg = RANGE[r.poll_id]; if (v < rg[0] || v > rg[1]) return;
+        var f = first[r.voter_id] = first[r.voter_id] || {};
+        if (f[r.poll_id] === undefined) f[r.poll_id] = v;
+      });
+    return Object.keys(first).sort().filter(function (k) { return first[k][ID_A] !== undefined && first[k][ID_X] !== undefined; })
+      .map(function (k) { var a = first[k][ID_A]; return { a: a, x: first[k][ID_X], y: (a >= LO && a <= HI) ? 1 : 0 }; });
+  }
+  function sig(z) { return 1 / (1 + Math.exp(-z)); }
+  // maximise the log-likelihood minus lam/2 * slope^2 (lam = 1 is scikit-learn's C = 1); null when there is no top
+  function newton(P, lam) {
+    var a = 0, b = 0;
+    for (var it = 0; it < 200; it++) {
+      var g0 = 0, g1 = 0, h00 = 0, h01 = 0, h11 = 0;
+      P.forEach(function (p) { var x = p.x / 10, q = sig(a + b * x), w = q * (1 - q);
+        g0 += p.y - q; g1 += (p.y - q) * x; h00 += w; h01 += w * x; h11 += w * x * x; });
+      g1 -= lam * b; h11 += lam;
+      var det = h00 * h11 - h01 * h01; if (!(det > 1e-12)) return null;
+      var da = (h11 * g0 - h01 * g1) / det, db = (h00 * g1 - h01 * g0) / det;
+      a += da; b += db;
+      if (!isFinite(a) || !isFinite(b) || Math.abs(b) > 15) return null;
+      if (Math.abs(da) < 1e-10 && Math.abs(db) < 1e-10) return { a: a, b: b };
+    }
+    return null;
+  }
+  function fit(P) {
+    var n = P.length, k = P.filter(function (p) { return p.y === 1; }).length;
+    if (n < MIN_N || k < MIN_G || n - k < MIN_G) return { ok: false, n: n, k: k };
+    var r = newton(P, 0), pen = false;
+    if (!r) { r = newton(P, 1); pen = true; }
+    if (!r) return { ok: false, n: n, k: k };
+    var br = k / n, ps = P.map(function (p) { return sig(r.a + r.b * p.x / 10); });
+    function at(t) {
+      var fl = 0, tp = 0;
+      P.forEach(function (p, i) { if (ps[i] >= t) { fl++; if (p.y === 1) tp++; } });
+      return { flag: fl, tp: tp, fp: fl - tp, acc: (tp + (n - k - (fl - tp))) / n };
+    }
+    var bm = 0; P.forEach(function (p, i) { bm += (ps[i] - p.y) * (ps[i] - p.y); });
+    return { ok: true, n: n, k: k, br: br, a: r.a, b: r.b, pen: pen, or: Math.exp(r.b),
+             acc0: (n - k) / n, c5: at(0.5), cb: at(br), b0: br, bb: br * (1 - br), bm: bm / n };
+  }
+  function pc(v) { return (Math.round(v * 1000) / 10).toFixed(1) + "%"; }
+  function f3(v) { return v.toFixed(3).replace("-", "−"); }
+  function f2(v) { return v.toFixed(2).replace("-", "−"); }
+
+  var W = 1100, H = 210, L = 70, R = 1080, T = 14, B = 172, RIGHT = "#C47B5A", WRONG = "#8C8580";
+  function plot(P, F, step) {
+    var X = function (v) { return L + (R - L) * v / 100; }, Y = function (v) { return B - (B - T) * v; };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" font-family="inherit" style="width:100%;display:block" role="img" aria-label="Each answer as a dot: right answers at the top, wrong at the bottom, against how sure the person was, with the fitted logistic curve">';
+    s += '<rect x="' + L + '" y="' + T + '" width="' + (R - L) + '" height="' + (B - T) + '" fill="#fbfaf8" stroke="#d9d4cb"/>';
+    [0, 0.5, 1].forEach(function (v) { s += '<line x1="' + L + '" x2="' + R + '" y1="' + Y(v) + '" y2="' + Y(v) + '" stroke="#ece8e1"/><text x="' + (L - 8) + '" y="' + (Y(v) + 5) + '" text-anchor="end" font-size="14" fill="#777">' + (v * 100) + '%</text>'; });
+    for (var t = 0; t <= 100; t += 25) s += '<text x="' + X(t) + '" y="' + (B + 18) + '" text-anchor="middle" font-size="14" fill="#777">' + t + '</text>';
+    s += '<text x="' + ((L + R) / 2) + '" y="' + (H - 2) + '" text-anchor="middle" font-size="14" fill="#555">how sure you were (0 to 100)</text>';
+    s += '<text transform="translate(16 ' + ((T + B) / 2) + ') rotate(-90)" text-anchor="middle" font-size="13" fill="#555">chance of being right</text>';
+    if (step >= 1) s += '<line x1="' + L + '" x2="' + R + '" y1="' + Y(0.5) + '" y2="' + Y(0.5) + '" stroke="#6B8BA4" stroke-width="2" stroke-dasharray="8 6"/><text x="' + (R - 6) + '" y="' + (Y(0.5) - 7) + '" text-anchor="end" font-size="14" font-weight="700" fill="#6B8BA4">cut at 0.5: flags ' + F.c5.flag + '</text>';
+    if (step >= 2) s += '<line x1="' + L + '" x2="' + R + '" y1="' + Y(F.br) + '" y2="' + Y(F.br) + '" stroke="#6A8E6B" stroke-width="2" stroke-dasharray="8 6"/><text x="' + (R - 6) + '" y="' + (Y(F.br) - 7) + '" text-anchor="end" font-size="14" font-weight="700" fill="#6A8E6B">cut at the base rate, ' + F.br.toFixed(2) + ': flags ' + F.cb.flag + '</text>';
+    var d = "";
+    for (var v = 0; v <= 100; v += 1) d += (v ? " L" : "M") + X(v).toFixed(1) + " " + Y(sig(F.a + F.b * v / 10)).toFixed(1);
+    s += '<path d="' + d + '" fill="none" stroke="#2D2D2D" stroke-width="3"/>';
+    P.forEach(function (p, i) {
+      var j = ((i * 37) % 7 - 3) * 2.2, yy = p.y === 1 ? Y(1) + 9 + j : Y(0) - 9 - j;
+      s += '<circle cx="' + X(p.x) + '" cy="' + yy + '" r="7" fill="' + (p.y === 1 ? RIGHT : WRONG) + '" fill-opacity="' + (p.y === 1 ? 0.9 : 0.5) + '"/>';
+    });
+    s += '<circle cx="' + (L + 16) + '" cy="' + (T + 24) + '" r="6" fill="' + RIGHT + '"/><text x="' + (L + 28) + '" y="' + (T + 29) + '" font-size="14" fill="#555">right (60 to 80%)</text>';
+    s += '<circle cx="' + (L + 16) + '" cy="' + (B - 26) + '" r="6" fill="' + WRONG + '" fill-opacity="0.6"/><text x="' + (L + 28) + '" y="' + (B - 21) + '" font-size="14" fill="#555">wrong</text>';
+    return s + '</svg>';
+  }
+  function stepOf(sec) { return sec ? sec.querySelectorAll(".rl-step.visible").length : 0; }
+  function draw(rows) {
+    if (rows) rows0 = rows;
+    var P = practice ? PRACTICE.map(function (q) { var a = q[0]; return { a: a, x: q[1], y: (a >= LO && a <= HI) ? 1 : 0 }; }) : pairs(rows0);
+    var k = P.filter(function (p) { return p.y === 1; }).length;
+    [].forEach.call(document.querySelectorAll(".rl-count"), function (e) {
+      e.textContent = (!practice && P.length) ? P.length + " of you " + (P.length === 1 ? "has" : "have") + " sent both" : ""; });
+    var sec = document.getElementById("room-logit"); if (!sec) return;
+    var head = sec.querySelector(".rl-head"), host = sec.querySelector(".rl-plot"), out = sec.querySelector(".rl-readout"), wait = sec.querySelector(".rl-wait");
+    var F = fit(P);
+    if (!F.ok) {
+      head.innerHTML = ""; host.innerHTML = ""; out.innerHTML = "";
+      wait.style.display = "";
+      wait.textContent = "Waiting for at least " + MIN_N + " of you with both numbers, at least " + MIN_G + " right and " + MIN_G + " wrong (now " + P.length + ", " + k + " right). Q switches on practice numbers.";
+      return;
+    }
+    wait.style.display = "none";
+    var step = stepOf(sec), tag = practice ? ' <span style="color:#a06000">(practice numbers, made up)</span>' : "";
+    head.innerHTML = "<strong>" + F.n + "</strong> answers; <strong>" + F.k + "</strong> said 60 to 80% (the truth: 70.6%), a base rate of <strong>" + pc(F.br) + "</strong>. " +
+      "Each 10 points more sure multiplies the odds of being right by <strong>" + f2(F.or) + "</strong>." +
+      (F.pen ? ' <span style="color:var(--muted-color)">How sure splits right from wrong perfectly, so the hill has no top (page 18): fitted with scikit-learn&rsquo;s default penalty.</span>' : "") + tag;
+    host.innerHTML = plot(P, F, step);
+    var L1 = [];
+    if (step >= 1) L1.push("<strong>All zeros</strong> (&ldquo;nobody is right&rdquo;): accuracy <strong>" + pc(F.acc0) + "</strong>. <strong>The logit at 0.5</strong>: flags " + F.c5.flag + ", accuracy <strong>" + pc(F.c5.acc) + "</strong>" +
+      (F.c5.flag === 0 ? ": it flags nobody, so it ties the zeros, like 93.1% and 93.1%." : (F.c5.acc > F.acc0 ? ": here the confident ones carry it past the zeros." : "."))); 
+    if (step >= 2) L1.push("<strong>Cut at the base rate</strong>, " + F.br.toFixed(2) + ": flags " + F.cb.flag + ", catches <strong>" + F.cb.tp + " of " + F.k + "</strong>, " + F.cb.fp + " false alarm" + (F.cb.fp === 1 ? "" : "s") + "; accuracy " + pc(F.cb.acc) + ".");
+    if (step >= 3) L1.push("<strong>Brier</strong>, lower is better: all zeros <strong>" + f3(F.b0) + "</strong> &middot; the base rate for everyone " + f3(F.bb) + " &middot; the logit <strong>" + f3(F.bm) + "</strong>.");
+    out.innerHTML = L1.join("<br>");
+  }
+  window.RoomLogit = { pairs: pairs, fit: fit, paint: function (rows) { draw(rows); } };
+
+  var SU = "https://dpntbrsorgbivmntwmod.supabase.co";
+  var SK = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
+  function bestSession(rows) {
+    var by = {};
+    rows.forEach(function (r) { var k = String(r.session_key || ""); (by[k] = by[k] || []).push(r); });
+    var keys = Object.keys(by).sort().reverse(), pick = keys[0] || "";
+    for (var i = 0; i < keys.length; i++) { if (fit(pairs(by[keys[i]])).ok) { pick = keys[i]; break; } }
+    return by[pick] || [];
+  }
+  var HERE = ["room-vote", "room-logit"];
+  function cur() { var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide(); return s ? s.id : ""; }
+  function onRoom() { return HERE.indexOf(cur()) >= 0; }
+  function fetchRows() {
+    if (location.protocol === "file:") return;
+    var today = window.Poll ? Poll.q() : "";
+    var latest = !!(cur() === "room-logit" && today);
+    var url = SU + "/rest/v1/poll_votes?poll_id=in.(" + ID_A + "," + ID_X + ")&select=poll_id,choice,voter_id,created_at" +
+              (latest ? ",session_key&session_key=like.*-" + today.split("-").pop() : today);
+    fetch(url, { headers: { apikey: SK, Authorization: "Bearer " + SK, "Cache-Control": "no-cache, no-store" } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (rows) { if (rows) draw(latest ? bestSession(rows) : rows); })
+      .catch(function () {});
+  }
+  setInterval(function () { if (!document.hidden && onRoom()) fetchRows(); }, 4000);
+  if (window.Reveal && Reveal.on) {
+    Reveal.on("slidechanged", function () { if (onRoom()) { fetchRows(); draw(); } });
+    ["fragmentshown", "fragmenthidden"].forEach(function (ev) { Reveal.on(ev, function () { if (onRoom()) draw(); }); });
+  }
+  document.addEventListener("keydown", function (e) {     // Q on the reveal only: practice numbers on/off (Q on a poll slide moves the QR)
+    var t = e.target; if ((e.key === "q" || e.key === "Q") && cur() === "room-logit" && !(t && t.closest && t.closest("input,textarea"))) { practice = !practice; draw(); } });
+  if (/[?&]practice=1/.test(location.search)) practice = true;
+  setTimeout(function () { fetchRows(); draw(); }, 900);
+})();
+</script>
 <script>
 (function () {
   // 29 Sep 2026, Ryan: reveal's "?" panel only knew reveal's own keys. Every
