@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=4ec5ca8bd65b38778ab33e81b44b1069">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=8804e21c7fa3dd757faf3994fbbca3f4">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Model Evaluation: Metrics That Matter</title>
@@ -79,7 +79,7 @@
           <div class="fragment fade-up" data-fragment-index="2" style="background: #fdf0ea; border-radius: 12px; padding: 18px 22px; text-align: center; border-left: 4px solid var(--accent-color);">
             <p style="font-size: 13pt; color: var(--accent-color); letter-spacing: 1px;">THE 523 MONTHS</p>
             <p style="font-size: 15pt; margin-top: 6px;">36 months were followed by a recession within 12 months</p>
-            <p style="font-size: 30pt; font-weight: 700; color: var(--accent-color); margin-top: 8px;">36/523 = 6.9%</p>
+            <p style="font-size: 30pt; font-weight: 700; color: var(--accent-color); margin-top: 8px;">36/523 = 6.9%, the base rate</p>
           </div>
         </div>
         <p class="fragment fade-up" data-fragment-index="3" style="font-size: 16pt; margin-top: 18px; text-align: center;">&ldquo;Nobody is right&rdquo; scores <strong>12/13 = 92.3%</strong> on our room; &ldquo;no recession&rdquo; scores <strong>93.1%</strong> on the months.</p>
@@ -128,7 +128,7 @@
     <section id="hook-table" style="padding: 34px 60px;">
       <h2><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> A Model With an AUC of 0.811</h2>
       <div class="content">
-        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Chapter 17's model ranks well (AUC 0.811). Are its probabilities right?</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Chapter 17's model ranks well (AUC 0.811; a coin flip scores 0.5). Are its probabilities right?</p>
         <p style="font-size: 15pt; line-height: 1.55;">Group Chapter 17's predictions by how confident they were, and check what actually followed.</p>
         <table style="margin-top: 12px;">
           <tr><th>predicted band</th><th>months</th><th>mean predicted</th><th>actual rate</th></tr>
@@ -159,7 +159,7 @@
           </div>
         </div>
         <p style="font-size: 15.5pt; line-height: 1.55; margin-top: 18px;">All 21 fall between <strong>2023-01 and 2024-09</strong>: the 2022&ndash;24 inversion of Chapter 17. Calm predictions were right (296 months: 2.4% predicted, 1.7% happened). <strong>The confident ones were wrong, exactly where someone would act.</strong></p>
-        <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 14px; color: var(--primary-color);">The AUC of 0.811 does not know this and <em>cannot</em>. AUC measures <strong>ranking</strong>, and the ranking was never wrong. What failed was the <strong>level</strong>.</p>
+        <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 14px; color: var(--primary-color);">Said 33%, 0% happened, with an AUC of 0.811. <strong>By the end of the hour you will name that failure, and the check that finds it.</strong></p>
         <div class="fragment fade-up" style="background: #f8f6f3; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 14px 22px; margin-top: 14px;">
           <p style="font-size: 16pt; line-height: 1.45;"><strong>Today's main point.</strong> Every metric encodes an assumption about <em>what errors cost</em> &mdash; and you are making that assumption whether or not you notice.</p>
         </div>
@@ -218,7 +218,7 @@
     <section id="filled-matrix" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-table-cells" style="color: var(--secondary-color);"></i> Numbers in the Cells</h2>
       <div class="content">
-        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> At one threshold, what does each metric come out to? Work them out first.</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> At one threshold, what are recall and precision? Work those two out first.</p>
         <div style="display: grid; grid-template-columns: 58% 42%; gap: 20px; align-items: center;">
           <img class="figure" src="figures/figure_001_confusion_matrix.png" alt="Confusion matrix for the recession classifier at threshold 0.099: 28 true positives, 8 false negatives, 97 false positives and 390 true negatives, with margins of 36 recession months, 487 calm months and 125 alarms" style="width: 100%; max-height: 420px; object-fit: contain;">
           <div>
@@ -260,11 +260,11 @@
     <section id="f1-assumption" style="padding: 34px 60px;">
       <h2><i class="fa-solid fa-mask" style="color: var(--accent-color);"></i> What F1 Is Hiding</h2>
       <div class="content">
-        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> F1 rose from 0 to 0.35. What does it assume to get there?</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> \(F_1\) is 0.35 at this cutoff. What does it assume?</p>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 14px 24px; margin-top: 6px; text-align: center;">
-          $$F_1 = 2\cdot\frac{\text{Precision}\times\text{Recall}}{\text{Precision}+\text{Recall}}$$
+          $$F_1 = 2\cdot\frac{\text{Precision}\times\text{Recall}}{\text{Precision}+\text{Recall}} = 2\cdot\frac{0.224\times 0.778}{0.224+0.778} = 0.35$$
         </div>
-        <p style="font-size: 15pt; line-height: 1.55; margin-top: 12px;"><strong>Interpretation.</strong> The harmonic mean punishes imbalance. Precision 1.0 with recall 0.01 has an <em>arithmetic</em> mean of 0.50 and an \(F_1\) of about <strong>0.02</strong>. That is the right behaviour.</p>
+        <p style="font-size: 15pt; line-height: 1.55; margin-top: 12px;"><strong>Interpretation.</strong> The harmonic mean (an average pulled toward the smaller number) punishes imbalance. Precision 1.0 with recall 0.01 has an <em>arithmetic</em> mean of about 0.5 and an \(F_1\) of about <strong>0.02</strong>. That is the right behaviour.</p>
         <div class="fragment fade-up" style="background: #fdf0ea; border-left: 4px solid var(--accent-color); border-radius: 8px; padding: 18px 24px; margin-top: 16px;">
           <p style="font-size: 16pt; line-height: 1.5;">But note what it <em>assumes</em>: that precision and recall matter <strong>equally</strong>. That is a cost assumption, smuggled in as a formula.</p>
         </div>
@@ -276,12 +276,12 @@
       <section id="poll-1" style="padding: 34px 50px;">
         <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll: Which Number Is That?</h2>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 18px 24px; margin-top: 10px;">
-          <p style="font-size: 15.5pt; line-height: 1.55;">A model flags <strong>125 months</strong> as &ldquo;recession coming.&rdquo; <strong>28</strong> were right, out of <strong>36</strong> recession months in all. Your colleague reports: <em>&ldquo;78% &mdash; the model catches most recession months.&rdquo;</em></p>
+          <p style="font-size: 15.5pt; line-height: 1.55;">At Chapter 17's cutoff of 0.10, a model flags <strong>120 months</strong> as &ldquo;recession coming.&rdquo; <strong>26</strong> were right, out of <strong>36</strong> recession months in all. Your colleague reports: <em>&ldquo;72% &mdash; the model catches most recession months.&rdquo;</em></p>
           <p style="font-size: 15.5pt; font-weight: 600; margin-top: 8px;">Which metric is that, and what has the report left out?</p>
         </div>
         <div class="poll-grid" data-poll-id="ch18-econ3916-poll-1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; font-size: 14.5pt;">
           <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Precision &mdash; it leaves out how many recession months were missed</div>
-          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Recall &mdash; it leaves out that 97 of the 125 alarms were false</div>
+          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Recall &mdash; it leaves out that 94 of the 120 alarms were false</div>
           <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Accuracy &mdash; it leaves out the base rate</div>
           <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) FPR &mdash; it leaves out the size of the positive class</div>
         </div>
@@ -289,7 +289,7 @@
       <section id="poll-1-reveal" data-poll-results="ch18-econ3916-poll-1" style="padding: 30px 50px;">
         <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; That Is Recall</h2>
         <div class="poll-results-chart" data-poll-id="ch18-econ3916-poll-1" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:160px; margin:10px 60px 32px;"></div>
-        <p style="font-size: 15.5pt; line-height: 1.55;">\(28/36 = 0.78\) divides by everything that <em>happened</em>, so it is recall. <strong>The number is true and the sentence is misleading</strong> &mdash; a decision-maker acts on alarms, not on recession months, and 97 of 125 alarms were false.</p>
+        <p style="font-size: 15.5pt; line-height: 1.55;">\(26/36 = 0.72\) divides by everything that <em>happened</em>, so it is recall. <strong>The number is true and the sentence is misleading</strong> &mdash; a decision-maker acts on alarms, not on recession months, and 94 of 120 alarms were false.</p>
         <p style="font-size: 14.5pt; margin-top: 12px; color: var(--accent-color);"><strong>Find the denominator first.</strong> It tells you which question the metric answers, and therefore whose problem it addresses.</p>
       </section>
     </section>
@@ -311,7 +311,7 @@
           <div>
             <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 11pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-kw">from</span> sklearn.metrics <span class="t-kw">import</span> roc_curve, roc_auc_score
 fpr, tpr, thr = roc_curve(y, p)  <span class="t-com"># a point per cutoff</span>
-roc_auc_score(y, p)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>0.811</pre></div></div></div></div>
+round(roc_auc_score(y, p), 3)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>0.811</pre></div></div></div></div>
             <div class="fragment fade-up" data-fragment-index="1" style="margin-top: 12px;">
               <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 13pt; color: var(--muted-color); white-space: nowrap;">cutoff</span>
@@ -347,11 +347,11 @@ roc_auc_score(y, p)</code></pre><div class="mk-out mk-mono" style="display: bloc
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What can AUC see, and what can it never see?</p>
         <div class="fragment fade-up" style="background: #f2f5f1; border-radius: 10px; padding: 18px 24px; border-left: 4px solid var(--success-color); margin-top: 6px;">
  <p style="font-size: 16pt;"><strong>AUC is threshold-independent.</strong></p>
-          <p style="font-size: 14.5pt; margin-top: 6px; line-height: 1.5;">It sums up the whole curve, so the 0.5 default that wrecked Chapter 17's accuracy cannot touch it. A real strength.</p>
+          <p style="font-size: 14.5pt; margin-top: 6px; line-height: 1.5;">It sums up the whole curve, so the 0.5 default that caught none of Chapter 17's recession months cannot touch it. A real strength.</p>
         </div>
         <div class="fragment fade-up" style="background: #fdf0ea; border-radius: 10px; padding: 18px 24px; border-left: 4px solid var(--danger-color); margin-top: 16px;">
           <p style="font-size: 16pt;"><strong>AUC is invariant to any order-preserving transformation.</strong></p>
-          <p style="font-size: 14.5pt; margin-top: 6px; line-height: 1.5;">Halve every probability, square them, run them through any monotone function &mdash; the ranking is unchanged, so AUC is unchanged.</p>
+          <p style="font-size: 14.5pt; margin-top: 6px; line-height: 1.5;">Run every probability through any increasing function &mdash; the ranking is unchanged, so AUC is unchanged.</p>
         </div>
         <p class="fragment fade-up" style="font-size: 16pt; margin-top: 18px; color: var(--danger-color);"><strong>That is why AUC cannot see the 21 months.</strong> It is mathematically incapable of detecting it, because the failure is in the <em>level</em> and AUC reads only the <em>order</em>.</p>
       </div>
@@ -374,7 +374,7 @@ roc_auc_score(y, p)</code></pre><div class="mk-out mk-mono" style="display: bloc
       <section id="poll-2-reveal" data-poll-results="ch18-econ3916-poll-2" style="padding: 30px 50px;">
         <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; Exactly Unchanged</h2>
         <div class="poll-results-chart" data-poll-id="ch18-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:160px; margin:10px 60px 32px;"></div>
-        <p style="font-size: 15.5pt; line-height: 1.55;">Halving is order-preserving, so every pairwise comparison comes out the same way and the AUC is <strong>identical</strong>. Every probability is now wrong by a factor of two, and AUC reports no change at all.</p>
+        <p style="font-size: 15.5pt; line-height: 1.55;">Halving is order-preserving, so every pairwise comparison comes out the same way and the AUC is <strong>identical</strong>. Every probability is now half what it was, and AUC reports no change at all.</p>
         <p style="font-size: 15pt; margin-top: 12px; color: var(--accent-color);"><strong>You have just proved the next section in one keystroke.</strong> Ranking and level are separate things, and one common metric can only see one of them.</p>
       </section>
     </section>
@@ -417,8 +417,8 @@ roc_auc_score(y, p)</code></pre><div class="mk-out mk-mono" style="display: bloc
           <tr class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8;"><td>0.130</td><td><strong>0.50</strong></td><td><strong>0.24</strong></td></tr>
           <tr class="fragment fade-up" data-fragment-index="3"><td>0.100</td><td>0.72</td><td>0.22</td></tr>
         </table>
-        <p class="fragment fade-up" data-fragment-index="4" style="font-size: 16pt; line-height: 1.55; margin-top: 18px;">To catch <strong>half</strong> the recession months, about <strong>three alarms in four are false.</strong> To catch nearly three-quarters, precision <em>barely moves</em>: it is already near the floor.</p>
-        <p class="fragment fade-up" data-fragment-index="5" style="font-size: 15.5pt; margin-top: 16px; color: var(--accent-color);">That sentence is what a decision-maker needs. <strong>No summary number provides it</strong> &mdash; not AUC, not \(F_1\), not PR-AUC. Only the curve, read at the operating point you intend to use.</p>
+        <p class="fragment fade-up" data-fragment-index="4" style="font-size: 16pt; line-height: 1.55; margin-top: 18px;">To catch <strong>half</strong> the recession months, about <strong>three alarms in four are false.</strong> To catch nearly three-quarters, precision <em>barely moves</em>: 0.24 to 0.22.</p>
+        <p class="fragment fade-up" data-fragment-index="5" style="font-size: 15.5pt; margin-top: 16px; color: var(--accent-color);">That sentence is what a decision-maker needs. <strong>No summary number provides it</strong> &mdash; not AUC, not \(F_1\), not PR-AUC. Only the curve, read at the operating point, the cutoff you intend to use.</p>
       </div>
     </section>
 
@@ -483,7 +483,7 @@ roc_auc_score(y, p)</code></pre><div class="mk-out mk-mono" style="display: bloc
           </div>
         </div>
         <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 18px 24px; margin-top: 18px;">
- <p style="font-size: 16pt; line-height: 1.5;"><strong>They are independent:</strong> Poll 2 proved it. Halve every probability: the ranking, and so the AUC, is untouched; every level is now half what it should be.</p>
+ <p style="font-size: 16pt; line-height: 1.5;"><strong>They are independent:</strong> Poll 2 proved it. Halve every probability: the ranking, and so the AUC, is untouched; every level is now half what it was.</p>
         </div>
         <p class="fragment fade-up" data-fragment-index="4" style="font-size: 15pt; margin-top: 14px;"><strong>Only ranking</strong> (triage a queue, choose whom to audit)? Discrimination is enough. <strong>Using the number</strong> (expected loss, a policy trigger)? You need calibration, and AUC cannot tell you whether you have it.</p>
       </div>
@@ -504,7 +504,7 @@ pd.DataFrame({<span class="t-str">"months"</span>: g.size(),
  <p style="font-size: 14pt; line-height: 1.5; margin-top: 8px;">Perfect calibration puts every band on the 45&deg; line: <strong>predicted = happened.</strong> The hook's table, from one line of pandas.</p>
           </div>
         </div>
-        <p style="font-size: 14.5pt; margin-top: 8px;"><span class="fragment fade-up" data-fragment-index="1">Bottom two bands: close, slightly cautious. </span><span class="fragment fade-up" data-fragment-index="2">Middle two: too low (says 18%, 38% happened). </span><span class="fragment fade-up" data-fragment-index="3"><strong>Top band: says 33%, 0% happened.</strong></span></p>
+        <p style="font-size: 14.5pt; margin-top: 8px;"><span class="fragment fade-up" data-fragment-index="1">Bottom two bands: close, a little high. </span><span class="fragment fade-up" data-fragment-index="2">Middle two: too low (says 18%, 38% happened). </span><span class="fragment fade-up" data-fragment-index="3"><strong>Top band: says 33%, 0% happened.</strong></span></p>
       </div>
     </section>
 
@@ -514,7 +514,7 @@ pd.DataFrame({<span class="t-str">"months"</span>: g.size(),
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Where in time are the 21 confident months?</p>
         <img class="figure" src="figures/figure_006_confident_months.png" alt="Predicted recession probability month by month from 1982 to 2025 with recession-followed periods shaded, showing every month above 0.25 concentrated in 2023 and 2024" style="width: 100%; max-height: 375px; object-fit: contain; margin-top: 2px;">
         <p style="font-size: 15.5pt; line-height: 1.55; margin-top: 12px;">All 21 are the <strong>2022&ndash;24 inversion</strong>: <strong>one episode</strong>, not forty years of small misses. Chapter 17 said why: the term premium had shrunk, so the same inversion no longer meant the same thing.</p>
-        <p class="fragment fade-up" style="font-size: 15pt; margin-top: 10px; color: var(--accent-color);"><strong>Chapter 17 found this from the feature side; we found it from the evaluation side.</strong> Accuracy missed it, AUC could not see it &mdash; only comparing predicted levels against realised frequencies surfaced it.</p>
+        <p class="fragment fade-up" style="font-size: 15pt; margin-top: 10px; color: var(--accent-color);"><strong>Chapter 17 found this from the feature side; we found it from the evaluation side.</strong> Accuracy missed it, and AUC could not see it.</p>
       </div>
     </section>
 
@@ -523,7 +523,7 @@ pd.DataFrame({<span class="t-str">"months"</span>: g.size(),
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How much should 21 months convince us?</p>
         <div style="background: #f8f6f3; border-left: 5px solid var(--muted-color); border-radius: 8px; padding: 22px 26px; margin-top: 8px;">
-          <p style="font-size: 16pt; line-height: 1.55;">Twenty-one months is a <strong>small bin</strong>, and those months are <strong>not independent</strong> &mdash; they are consecutive months of one macroeconomic episode. A calibration table computed on autocorrelated data <em>overstates its own sample size.</em></p>
+          <p style="font-size: 16pt; line-height: 1.55;">Twenty-one months is a <strong>small bin</strong>, and those months are <strong>not independent</strong> &mdash; they are consecutive months of one macroeconomic episode. A calibration table computed on autocorrelated data (each month resembles the last; Chapter 20) <em>overstates its own sample size.</em></p>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px;">
           <div class="fragment fade-up" data-fragment-index="1" style="background: #f2f5f1; border-radius: 8px; padding: 16px 20px;">
@@ -535,7 +535,7 @@ pd.DataFrame({<span class="t-str">"months"</span>: g.size(),
             <p style="font-size: 14pt; margin-top: 6px; line-height: 1.5;">&ldquo;The failure rate at high probabilities is precisely 0%.&rdquo;</p>
           </div>
         </div>
-        <p style="font-size: 14.5pt; margin-top: 16px; color: var(--muted-color);">Everything today is <strong>in-sample</strong>. Chapter 20 supplies the machinery for evaluating models on dependent data. <em>A lecture about careful evaluation that oversold its own evidence would contradict itself.</em></p>
+        <p style="font-size: 14.5pt; margin-top: 16px; color: var(--muted-color);">Everything today is <strong>in-sample</strong>, on the months the model was fit to. Chapter 20 supplies the machinery for evaluating models on dependent data. <em>A lecture about careful evaluation that oversold its own evidence would contradict itself.</em></p>
       </div>
     </section>
 
@@ -622,7 +622,7 @@ pd.DataFrame({<span class="t-str">"months"</span>: g.size(),
  <div style="background: #fdf0ea; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 14px 26px; margin-top: 2px; text-align: center;">
  $$\frac{C_{FP}}{C_{FN}} = \frac{t}{1-t}$$
  </div>
-        <p style="font-size: 15.5pt; line-height: 1.55; margin-top: 14px;">Whatever cutoff you ship <em>asserts</em> an exchange rate between the two errors. <span class="fragment fade-up" data-fragment-index="1"><strong>0.5:</strong> 0.5/0.5, a false alarm and a miss cost <strong>the same</strong>.</span> <span class="fragment fade-up" data-fragment-index="2"><strong>0.1:</strong> 0.1/0.9 = 1/9, a miss is <strong>nine times worse</strong>.</span></p>
+        <p style="font-size: 15.5pt; line-height: 1.55; margin-top: 14px;">Whatever cutoff you ship <em>asserts</em> an exchange rate between the two errors, taking the probabilities at face value (Section 4). <span class="fragment fade-up" data-fragment-index="1"><strong>0.2:</strong> 0.2/0.8 = 1/4, a miss is <strong>four times worse</strong>.</span> <span class="fragment fade-up" data-fragment-index="2"><strong>0.1:</strong> 0.1/0.9 = 1/9, a miss is <strong>nine times worse</strong>.</span></p>
         <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 10px; padding: 18px 24px; margin-top: 18px;">
  <p style="font-size: 16pt; line-height: 1.55;"><i class="fa-solid fa-star" style="color: var(--accent-color);"></i> <strong>The most portable habit in this course.</strong> Compute that ratio for the cutoff you are about to ship, say it out loud in one sentence, and ask whether you would defend it to the person who bears the cost.</p>
           <p style="font-size: 14.5pt; margin-top: 8px; color: var(--muted-color);">If you would not, you have found your real threshold &mdash; by working backwards from a claim you <em>are</em> willing to defend.</p>
@@ -654,7 +654,7 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> One model, three decision-makers: where does each one's cutoff land?</p>
         <img class="figure" src="figures/figure_008_threshold_costs.png" alt="Bar chart comparing the theoretical cost-optimal threshold with the empirical one for three decision-makers, against the model's maximum predicted probability of 0.4231: the central banker's optimum is interior at 0.099 while the symmetric and asset-manager cases sit at an unreachable corner" style="width: 100%; max-height: 410px; object-fit: contain; margin-top: 2px;">
-        <p style="font-size: 14pt; margin-top: 8px; line-height: 1.45;">The <strong>central banker</strong> (a miss 9&times; worse) lands where the formula says: 0.099 against 0.100, catching <strong>28 of 36</strong> recession months for <strong>97 false alarms</strong>. The model never goes above <strong>0.4231</strong>, so the other two cutoffs are never reached: 0.5 for someone whose two errors cost the same, 0.8 for an asset manager who fears a false alarm 4&times; more. <strong>For them this model never fires.</strong></p>
+        <p style="font-size: 14pt; margin-top: 8px; line-height: 1.45;">The <strong>central banker</strong> (a miss 9&times; worse) lands where the formula says: 0.099 against 0.100, catching <strong>28 of 36</strong> recession months for <strong>97 false alarms</strong>. The model never goes above <strong>0.4231</strong>. The other two cutoffs: 0.5 for someone whose two errors cost the same, 0.8 for an asset manager who fears a false alarm 4&times; more. <span class="fragment fade-up">Neither is ever reached: <strong>for them this model never fires.</strong></span></p>
       </div>
     </section>
 
@@ -701,7 +701,7 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
         <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; A One-to-One Exchange Rate</h2>
         <div class="poll-results-chart" data-poll-id="ch18-econ3916-poll-4" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:160px; margin:10px 60px 32px;"></div>
         <p style="font-size: 15.5pt; line-height: 1.5;">From \(C_{FP}/C_{FN} = t/(1-t)\), a cutoff of 0.5 asserts <strong>1 : 1</strong>. There is no neutral cutoff &mdash; <strong>there is only a stated assumption and an unstated one.</strong></p>
-        <p style="font-size: 15pt; margin-top: 12px; color: var(--accent-color);">And in fraud, as the next two slides show, 1:1 is not merely arbitrary. It is <em>badly</em> wrong &mdash; and wrong in the direction most teams guess incorrectly.</p>
+        <p style="font-size: 15pt; margin-top: 12px; color: var(--accent-color);">D is what this reading <em>assumes</em>; B is what the cutoff <em>asserts</em>. The reading shows that in fraud, 1:1 is <em>badly</em> wrong.</p>
       </section>
     </section>
 
@@ -762,7 +762,7 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
         <div style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; margin-top: 8px; text-align: center;">
           $$\text{impact ratio} = \frac{0.180}{0.240} = 0.75$$
         </div>
-        <p class="fragment fade-up" style="font-size: 14pt; margin-top: 6px;">0.75 &lt; <strong>0.80</strong>, the EEOC's four-fifths rule: it <strong>flags</strong>, and must be published. <strong>It does not say the model is wrong:</strong> if group B's true rate is lower, a well-calibrated model advances fewer of them.</p>
+        <p class="fragment fade-up" style="font-size: 14pt; margin-top: 6px;">0.75 &lt; <strong>0.80</strong>, the EEOC's four-fifths rule: it <strong>flags</strong>. Local Law 144 publishes the ratio either way. <strong>It does not say the model is wrong:</strong> if group B's true rate is lower, a well-calibrated model advances fewer of them.</p>
       </div>
     </section>
 
@@ -776,7 +776,7 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
           <div class="fragment fade-up" data-fragment-index="2" style="background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--accent-color);"><p style="font-size: 15pt;"><strong>Equal false positive rates</strong> across groups</p></div>
           <div class="fragment fade-up" data-fragment-index="3" style="background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--danger-color);"><p style="font-size: 15pt;"><strong>Equal false negative rates</strong> across groups</p></div>
         </div>
-        <p class="fragment fade-up" data-fragment-index="4" style="font-size: 15pt; margin-top: 14px; line-height: 1.5;">Each is reasonable, and someone will insist on each. Equalise the false positive rates and calibration breaks for at least one group; restore calibration and an error-rate gap comes back.</p>
+        <p class="fragment fade-up" data-fragment-index="4" style="font-size: 15pt; margin-top: 14px; line-height: 1.5;">Each is reasonable, and someone will insist on each. Equalise both error rates and calibration breaks for at least one group; keep calibration and at most one of the two error rates can be equal.</p>
  <p class="fragment fade-up" data-fragment-index="5" style="font-size: 15.5pt; margin-top: 12px; color: var(--danger-color);"><strong>No technical escape.</strong> The people accountable choose; the analyst's job is to make the trade-off visible, not to settle it with a default.</p>
       </div>
     </section>
@@ -798,7 +798,7 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
           </div>
           <div class="fragment fade-up" data-fragment-index="2" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 15pt; font-weight: 700; color: #6B8BA4; margin: 0;">2</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Never report accuracy alone.</strong> 93.1% for a model that never fires (page 12).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Never report accuracy alone.</strong> 93.1% for a model that never fires (page 3).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="3" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 15pt; font-weight: 700; color: #6B8BA4; margin: 0;">3</p>
@@ -818,7 +818,7 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
           </div>
           <div class="fragment fade-up" data-fragment-index="7" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #2E7D5B;">
             <p style="font-size: 15pt; font-weight: 700; color: #2E7D5B; margin: 0;">7</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Report the operating point, not only the area,</strong> and re-check on a schedule: the 21 months came years after the fit (page 29).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Report the operating point (the cutoff you use), not only the area,</strong> and re-check on a schedule: the 21 months came years after the fit (page 29).</p>
           </div>
         </div>
         <p class="fragment fade-up" data-fragment-index="8" style="font-size: 13.5pt; margin-top: 8px; color: var(--accent-color);"><strong>Short of time? Steps 1, 4 and 5.</strong> And fix the metric before you fit: choosing it after seeing results is choosing the cost assumption that flatters you.</p>
@@ -828,7 +828,7 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
     <section id="exit-ticket" style="padding: 32px 60px;">
       <h2><i class="fa-solid fa-ticket" style="color: var(--accent-color);"></i> End-of-Class Check</h2>
       <div class="content">
-        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> One question, one minute.</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> One question, two minutes: tell your neighbour, then two of you tell the room.</p>
         <div style="background: #f0f5f8; border-radius: 10px; padding: 18px 24px;">
           <p style="font-size: 16pt; line-height: 1.65;">Fraud is 0.2% of transactions. Your model reports 99.8% accuracy.</p>
           <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What should you check first?</strong></p>
@@ -851,7 +851,7 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
             <p style="font-size: 14.5pt;"><strong>Part 1 (guided).</strong> ROC and precision-recall for one model at <strong>11.8% prevalence</strong> &mdash; and why they disagree.</p>
           </div>
           <div style="background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--accent-color);">
-            <p style="font-size: 14.5pt;"><strong>Part 2 (guided).</strong> Two models: AUC <strong>0.8468</strong> vs <strong>0.8431</strong>. A paired bootstrap over 500 test-set resamples puts the gap at <strong>+0.0038, 95% interval [&minus;0.0020, +0.0094]</strong>. It contains zero.</p>
+            <p style="font-size: 14.5pt;"><strong>Part 2 (guided).</strong> Two models: AUC <strong>0.8468</strong> vs <strong>0.8431</strong>. A paired bootstrap over 500 test-set resamples puts the gap at <strong>+0.0038, 95% interval [&minus;0.0020, +0.0094]</strong>. What does that interval say?</p>
           </div>
           <div style="background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--success-color);">
             <p style="font-size: 14.5pt;"><strong>Part 3 (guided).</strong> The expected-cost curve at 10:1 &mdash; threshold <strong>0.0905</strong>, chosen on the training rows, costs <strong>0.4692</strong> on the test rows, against 0.9437 at the default.</p>
