@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a6e1c9fa936418f514b1cdec26704014">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=945d3a7beb349d77e26c55e2d333db66">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series I: Trends and Decomposition</title>
@@ -86,14 +86,15 @@
     <section id="hook-1" style="padding: 34px 55px;">
       <h2><i class="fa-solid fa-fire" style="color: var(--danger-color);"></i> The Forecast Nobody Got Right</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How far off were the best inflation forecasters in 2021?</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 20px 24px;">
             <p style="font-size: 13pt; color: var(--muted-color); text-transform: uppercase; letter-spacing: 2px;">Federal Reserve, Dec 2020</p>
             <p style="font-size: 15pt; margin-top: 10px;">Forecast core PCE inflation for 2021:</p>
             <p style="font-size: 40pt; font-weight: 700; color: var(--secondary-color); margin: 6px 0;">1.8%</p>
-            <p style="font-size: 15pt;">Actual:</p>
-            <p style="font-size: 40pt; font-weight: 700; color: var(--danger-color); margin: 6px 0;">4.5%</p>
-            <p style="font-size: 13pt; color: var(--muted-color);">A 2.7-point miss &mdash; the worst in four decades</p>
+            <p style="font-size: 15pt;">Actual, fourth quarter to fourth quarter:</p>
+            <p style="font-size: 40pt; font-weight: 700; color: var(--danger-color); margin: 6px 0;">4.8%</p>
+            <p style="font-size: 13pt; color: var(--muted-color);">A 3-point miss (FRED <code>PCEPILFE</code>, current data)</p>
           </div>
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 20px 24px;">
             <p style="font-size: 13pt; color: var(--muted-color); text-transform: uppercase; letter-spacing: 2px;">Bank of England</p>
@@ -113,6 +114,7 @@
     <section id="hook-2" style="padding: 36px 60px;">
       <h2><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> The Shared Assumption</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What did every one of those models take for granted?</p>
         <p class="text-xl" style="margin-bottom: 18px;">Every one of those models assumed <strong style="color: var(--danger-color);">stationarity</strong> &mdash; that the statistical relationships driving inflation were stable through time.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
           <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 20px;"><p style="font-size: 15pt;"><i class="fa-solid fa-truck-ramp-box" style="color: var(--accent-color);"></i> <strong>Supply shocks</strong></p></div>
@@ -127,7 +129,7 @@
     </section>
 
     <section id="bridge" style="padding: 36px 60px;">
-      <h2><i class="fa-solid fa-bridge" style="color: var(--secondary-color);"></i> What Changes Today</h2>
+      <h2><i class="fa-solid fa-bridge" style="color: var(--secondary-color);"></i> What Changes Now</h2>
       <div class="content">
         <p class="text-lg" style="margin-bottom: 18px;">Chapters 12&ndash;19 all assumed rows were independent draws from one distribution. You shuffled freely in cross-validation and in the bootstrap. Today we drop that.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
@@ -147,33 +149,33 @@
     </section>
 
     <section id="roadmap" style="padding: 36px 60px;">
-      <h2><i class="fa-solid fa-map" style="color: var(--secondary-color);"></i> The Hour</h2>
+      <h2><i class="fa-solid fa-map" style="color: var(--secondary-color);"></i> Five Sections</h2>
       <div class="content">
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <div style="display: grid; grid-template-columns: 46px 1fr 92px; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--secondary-color);">
             <p style="font-size: 18pt; font-weight: 700; color: var(--secondary-color);">1</p>
             <p style="font-size: 15pt;"><strong>Grammar</strong> &mdash; trend, seasonality, residual, and memory</p>
-            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;">13 min</p>
+            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;"></p>
           </div>
           <div style="display: grid; grid-template-columns: 46px 1fr 92px; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--accent-color);">
             <p style="font-size: 18pt; font-weight: 700; color: var(--accent-color);">2</p>
             <p style="font-size: 15pt;"><strong>Decomposition</strong> &mdash; classical, STL, and how to read four panels</p>
-            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;">15 min</p>
+            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;"></p>
           </div>
           <div style="display: grid; grid-template-columns: 46px 1fr 92px; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--success-color);">
             <p style="font-size: 18pt; font-weight: 700; color: var(--success-color);">3</p>
             <p style="font-size: 15pt;"><strong>Stationarity</strong> &mdash; ADF, KPSS, and the 2&times;2 table</p>
-            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;">17 min</p>
+            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;"></p>
           </div>
           <div style="display: grid; grid-template-columns: 46px 1fr 92px; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--danger-color);">
             <p style="font-size: 18pt; font-weight: 700; color: var(--danger-color);">4</p>
             <p style="font-size: 15pt;"><strong>Structural breaks</strong> &mdash; four kinds, and two companies that got it wrong</p>
-            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;">15 min</p>
+            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;"></p>
           </div>
           <div style="display: grid; grid-template-columns: 46px 1fr 92px; align-items: center; background: #f8f6f3; border-radius: 8px; padding: 13px 20px; border-left: 4px solid var(--muted-color);">
             <p style="font-size: 18pt; font-weight: 700; color: var(--muted-color);">5</p>
             <p style="font-size: 15pt;"><strong>Never shuffle</strong> &mdash; validating a forecast correctly</p>
-            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;">6 min</p>
+            <p style="font-size: 13pt; color: var(--muted-color); text-align: right;"></p>
           </div>
         </div>
       </div>
@@ -188,6 +190,7 @@
 
     <section id="s1-components" style="padding: 22px 45px;">
       <h2 style="font-size: 27pt; margin-bottom: 6px;">Every Series Is Three Things</h2>
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What is a time series made of?</p>
       <div style="display: grid; grid-template-columns: 46% 54%; gap: 26px; align-items: center;">
         <div>
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 13px 20px; margin-bottom: 10px;">
@@ -210,6 +213,7 @@
     <section id="s1-additive" style="padding: 34px 60px;">
       <h2>Additive or Multiplicative?</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Does the seasonal swing stay the same size, or grow with the series?</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 20px 24px;">
             <p style="font-size: 15pt; font-weight: 700; color: var(--secondary-color); margin-bottom: 6px;">Additive</p>
@@ -223,9 +227,35 @@
           </div>
         </div>
         <div class="fragment fade-up" style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 18px;">
-          <p style="font-size: 15pt; margin: 0;"><strong>How to choose:</strong> look at the raw plot. Constant-height zig-zag &rarr; additive. Zig-zag that grows with the line &rarr; multiplicative. <strong>The shortcut:</strong> take logs, which turns multiplication into addition, then use the additive machinery. Retail sales: multiplicative. Unemployment claims: additive.</p>
+          <p style="font-size: 15pt; margin: 0;"><strong>How to choose:</strong> look at the raw plot. Constant-height zig-zag &rarr; additive. Zig-zag that grows with the line &rarr; multiplicative. <strong>The shortcut:</strong> take logs, which turns multiplication into addition, then use the additive machinery. </p>
         </div>
       </div>
+    </section>
+
+    <section>
+      <section id="poll-1" style="padding: 32px 50px;">
+        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll: Which Decomposition?</h2>
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 10px;">
+          <p style="font-size: 15pt; line-height: 1.55;">You plot monthly U.S. retail sales, 2000&ndash;2026. The line rises steadily, and the December spike sits about <strong>$43B above trend in 2002</strong> and about <strong>$69B above trend in 2024</strong>.</p>
+          <p style="font-size: 16pt; font-weight: 600; margin-top: 8px;">Which decomposition should you use?</p>
+        </div>
+        <div class="poll-grid" data-poll-id="ch20-econ3916-poll-1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; font-size: 14pt;">
+          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Additive &mdash; the spike is in December either way</div>
+          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Multiplicative, or log-transform then additive</div>
+          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Neither &mdash; the series has a structural break, so decomposition does not apply</div>
+          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Classical additive, because STL only handles additive data</div>
+        </div>
+      </section>
+      <section id="poll-1-reveal" data-poll-results="ch20-econ3916-poll-1" style="padding: 28px 50px;">
+        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; Multiplicative</h2>
+        <div class="poll-results-chart" data-poll-id="ch20-econ3916-poll-1" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:8px 60px 32px;"></div>
+        <div style="padding: 0 40px;">
+          <p style="font-size: 15pt; line-height: 1.6;">The seasonal swing grows <em>with the level</em>. That is the definition of multiplicative structure. Executed on FRED <code>RSXFSN</code>, the December factor is about <strong>1.147</strong> &mdash; December runs about <strong>14.7% above trend</strong>, and 14.7% of a bigger number is a bigger number.</p>
+          <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 13px 20px; margin-top: 12px;">
+            <p style="font-size: 14pt; margin: 0;"><strong>Why the wrong answers are tempting.</strong> <strong>C</strong> confuses &ldquo;has a break&rdquo; with &ldquo;cannot be decomposed&rdquo; &mdash; robust STL exists precisely for series with breaks. <strong>D</strong> has it backwards: STL <em>is</em> additive, which is exactly why you log-transform first.</p>
+          </div>
+        </div>
+      </section>
     </section>
 
     <section id="s1-lag" style="padding: 36px 60px;">
@@ -251,6 +281,7 @@
     <section id="s1-acf-formula" style="padding: 34px 60px;">
       <h2>Autocorrelation &mdash; Measuring Memory</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How much does today resemble \(k\) periods ago?</p>
         <p style="text-align: center; font-size: 20pt; margin: 12px 0;">$$\rho(k) = \frac{\operatorname{Cov}(Y_t,\, Y_{t-k})}{\operatorname{Var}(Y_t)}$$</p>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px;">
           <p style="font-size: 16pt; margin: 0;"><strong>Reading:</strong> how strongly does today resemble \(k\) periods ago? \(\rho(0) = 1\) always &mdash; a series is perfectly correlated with itself &mdash; and \(|\rho(k)| \leq 1\).</p>
@@ -271,16 +302,18 @@
 
     <section id="s1-acf-figure" style="padding: 26px 45px;">
       <h2>Two Signatures, One Series</h2>
-      <img src="figures/figure_002_acf_levels_vs_diff.png" alt="Two autocorrelation plots side by side: U.S. Real GDP in levels stays near 0.77 at lag 10, while its first difference falls inside the significance band by lag 3" style="width: 84%; display: block; margin: 6px auto 0;">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What does memory look like in levels, and after differencing?</p>
+      <img src="figures/figure_002_acf_levels_vs_diff.png" alt="Two autocorrelation plots side by side: U.S. Real GDP in levels stays near 0.77 at lag 10, while its first difference falls inside the significance band from lag 2" style="width: 84%; display: block; margin: 6px auto 0;">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 14px 70px 0;">
         <p style="font-size: 14pt; color: var(--danger-color); text-align: center;"><strong>Levels:</strong> still 0.77 at lag 10. The series remembers two and a half years back.</p>
-        <p style="font-size: 14pt; color: var(--success-color); text-align: center;"><strong>First difference:</strong> inside the band by lag 3. Memory gone.</p>
+        <p style="font-size: 14pt; color: var(--success-color); text-align: center;"><strong>First difference:</strong> inside the band from lag 2. Memory gone.</p>
       </div>
     </section>
 
     <section id="s1-keyconcept" style="padding: 40px 70px;">
       <h2><i class="fa-solid fa-key" style="color: var(--accent-color);"></i> Key Concept &mdash; Temporal Dependence</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Which of this semester's tools stop working on a time series?</p>
         <p class="text-xl" style="margin-bottom: 22px;">Time series observations are <strong>not independent</strong>. Each value depends on its predecessors. That single fact invalidates three things you have been doing all semester:</p>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 16px 24px;"><p style="font-size: 16pt; margin: 0;"><strong>Random shuffling in cross-validation</strong> <span style="color: var(--muted-color);">&mdash; Chapter 15</span></p></div>
@@ -291,31 +324,6 @@
       </div>
     </section>
 
-    <section>
-      <section id="poll-1" style="padding: 32px 50px;">
-        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll: Which Decomposition?</h2>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 10px;">
-          <p style="font-size: 15pt; line-height: 1.55;">You plot monthly U.S. retail sales, 2000&ndash;2026. The line rises steadily, and the December spike sits about <strong>$30B above trend in 2002</strong> and about <strong>$60B above trend in 2024</strong>.</p>
-          <p style="font-size: 16pt; font-weight: 600; margin-top: 8px;">Which decomposition should you use?</p>
-        </div>
-        <div class="poll-grid" data-poll-id="ch20-econ3916-poll-1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; font-size: 14pt;">
-          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Additive &mdash; the spike is in December either way</div>
-          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Multiplicative, or log-transform then additive</div>
-          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Neither &mdash; the series has a structural break, so decomposition does not apply</div>
-          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Classical additive, because STL only handles additive data</div>
-        </div>
-      </section>
-      <section id="poll-1-reveal" data-poll-results="ch20-econ3916-poll-1" style="padding: 28px 50px;">
-        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; Multiplicative</h2>
-        <div class="poll-results-chart" data-poll-id="ch20-econ3916-poll-1" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:8px 60px 32px;"></div>
-        <div style="padding: 0 40px;">
-          <p style="font-size: 15pt; line-height: 1.6;">The seasonal swing grows <em>with the level</em>. That is the definition of multiplicative structure. Executed on FRED <code>RSXFSN</code>, the December factor is <strong>1.1472</strong> &mdash; December runs about <strong>14.7% above trend</strong>, and 14.7% of a bigger number is a bigger number.</p>
-          <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 13px 20px; margin-top: 12px;">
-            <p style="font-size: 14pt; margin: 0;"><strong>Why the wrong answers are tempting.</strong> <strong>C</strong> confuses &ldquo;has a break&rdquo; with &ldquo;cannot be decomposed&rdquo; &mdash; robust STL exists precisely for series with breaks. <strong>D</strong> has it backwards: STL <em>is</em> additive, which is exactly why you log-transform first.</p>
-          </div>
-        </div>
-      </section>
-    </section>
 
     <section id="divider-2" class="section-divider" data-state="is-section-divider">
       <p style="font-size: 13pt; color: var(--secondary-color); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px;">Section 2</p>
@@ -327,16 +335,18 @@
     <section id="s2-classical" style="padding: 34px 60px;">
       <h2>Classical Decomposition, in One Slide</h2>
       <div class="content">
-        <p style="font-size: 15pt;">For an additive model with seasonal period \(m\), estimate the trend with a <strong>centered moving average</strong>:</p>
-        <p style="text-align: center; font-size: 19pt; margin: 10px 0;">$$\hat{T}_t = \frac{1}{m}\sum_{j=-\lfloor m/2 \rfloor}^{\lfloor m/2 \rfloor} y_{t+j}$$</p>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 15px 24px;">
-          <p style="font-size: 15pt; margin: 0;"><strong>Reading:</strong> average over one full seasonal cycle. Anything that repeats <em>within</em> the cycle averages out; what survives is the trend. For monthly data with annual seasonality, \(m = 12\).</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How do you pull a December effect out of a rising series?</p>
+        <p style="font-size: 15pt; margin: 0;"><strong>1. Trend:</strong> a <strong>centred</strong> 12-month moving average. Thirteen months, the two ends at half weight, so every calendar month counts once:</p>
+        <p style="text-align: center; font-size: 18pt; margin: 6px 0;">$$\hat{T}_t = \tfrac{1}{24}\,y_{t-6} + \tfrac{1}{12}\sum_{j=-5}^{5} y_{t+j} + \tfrac{1}{24}\,y_{t+6}$$</p>
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 12px 22px;">
+          <p style="font-size: 14.5pt; margin: 0;"><strong>Reading:</strong> average over one full year. What repeats <em>within</em> the year averages out; what survives is the trend. The first and last six months get no trend.</p>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 18px;">
-          <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 15px 18px;"><p style="font-size: 14pt; margin: 0;"><strong>2. Detrend</strong><br>\(y_t - \hat{T}_t\)</p></div>
-          <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 15px 18px;"><p style="font-size: 14pt; margin: 0;"><strong>3. Seasonal</strong><br>average the detrended values within each season &mdash; all the Januaries, all the Februaries</p></div>
-          <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 15px 18px;"><p style="font-size: 14pt; margin: 0;"><strong>4. Residual</strong><br>\(\hat{R}_t = y_t - \hat{T}_t - \hat{S}_t\)</p></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px;">
+          <div class="fragment" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 13px 16px;"><p style="font-size: 14pt; margin: 0;"><strong>2. Detrend</strong><br>additive: \(y_t - \hat{T}_t\)<br>multiplicative (retail): \(y_t / \hat{T}_t\)</p></div>
+          <div class="fragment" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 13px 16px;"><p style="font-size: 14pt; margin: 0;"><strong>3. Seasonal</strong><br>average step 2 for each calendar month &mdash; all the Januaries, all the Februaries &mdash; then rescale so the twelve average 0 (additive) or 1 (multiplicative)</p></div>
+          <div class="fragment" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 13px 16px;"><p style="font-size: 14pt; margin: 0;"><strong>4. Residual</strong><br>additive: \(y_t - \hat{T}_t - \hat{S}_t\)<br>multiplicative: \(y_t / (\hat{T}_t \hat{S}_t)\)</p></div>
         </div>
+        <p class="fragment" style="font-size: 13.5pt; color: var(--muted-color); margin: 10px 0 0;">Lab 20's <em>Write it yourself</em> builds steps 1&ndash;3 for retail sales by hand, in pandas.</p>
       </div>
     </section>
 
@@ -346,7 +356,7 @@
         <div style="display: flex; flex-direction: column; gap: 13px;">
           <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 17px 24px;">
             <p style="font-size: 16pt; font-weight: 700; color: var(--danger-color);">1. The seasonal pattern is frozen</p>
-            <p style="font-size: 15pt; margin-top: 6px;">Classical forces every December to carry the same factor. But executed on <code>RSXFSN</code>, STL shows the peak-to-trough seasonal swing narrowing from <strong>28.3 percentage points in 2001 to 23.7 in 2024</strong> &mdash; online retail flattened the holiday spike. Classical cannot see that.</p>
+            <p style="font-size: 15pt; margin-top: 6px;">Classical forces every December to carry the same factor. But executed on <code>RSXFSN</code>, STL shows the peak-to-trough seasonal swing narrowing from <strong>28.3 percentage points in 2001 to 23.3 in 2024</strong> &mdash; online retail flattened the holiday spike. Classical cannot see that.</p>
           </div>
           <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 17px 24px;">
             <p style="font-size: 16pt; font-weight: 700; color: var(--danger-color);">2. Outliers contaminate the trend</p>
@@ -362,6 +372,7 @@
 
     <section id="s2-drift" style="padding: 26px 40px;">
       <h2>Frozen vs. Drifting</h2>
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Is December's bump the same size every year?</p>
       <img src="figures/figure_009_seasonal_drift.png" alt="Left panel: classical multiplicative seasonal factors by month, December at plus 14.7 percent and February at minus 11.1 percent, one fixed pattern for all years. Right panel: STL seasonal factors for 2001 and 2024, with the December peak visibly lower in 2024" style="width: 92%; display: block; margin: 8px auto 0;">
       <p style="font-size: 14pt; text-align: center; margin-top: 10px; color: var(--muted-color);">Same series, same period. The left panel reports one answer for 26 years; the right panel lets the answer move.</p>
     </section>
@@ -369,6 +380,7 @@
     <section id="s2-stl" style="padding: 32px 55px;">
       <h2>STL &mdash; Seasonal-Trend Decomposition Using LOESS</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How do you let the seasonal pattern drift, and keep a shock out of the trend?</p>
         <p style="font-size: 15pt; margin-bottom: 14px;">STL (Cleveland et al. 1990) fits <em>both</em> the trend and the seasonal component with locally weighted regression, so both are allowed to drift gradually.</p>
         <pre style="background: #2d2d2d; border-radius: 8px; padding: 16px 22px; font-size: 15pt; color: #f8f8f2; overflow: hidden;"><code>stl = STL(np.log(retail), period=12, robust=True).fit()</code></pre>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px;">
@@ -386,12 +398,40 @@
 
     <section id="s2-panels" style="padding: 18px 40px;">
       <h2 style="font-size: 26pt; margin-bottom: 4px;">Four Panels, U.S. Retail Sales</h2>
-      <img src="figures/figure_003_stl_retail_panels.png" alt="Four stacked STL panels for U.S. retail sales: the observed series with a growing December spike, a smooth trend that does not crater in 2020, a seasonal panel oscillating about plus twelve percent each December, and a residual panel with one enormous negative spike in April 2020" style="height: 570px; display: block; margin: 0 auto;">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Where did April 2020 go: the trend or the residual?</p>
+      <img src="figures/figure_003_stl_retail_panels.png" alt="Four stacked STL panels for U.S. retail sales: the observed series with a growing December spike, a smooth trend that does not crater in 2020, a seasonal panel whose December peak runs between about plus 10 and plus 18 percent, and a residual panel with one enormous negative spike in April 2020" style="height: 548px; display: block; margin: 0 auto;">
+    </section>
+
+    <section>
+      <section id="poll-2" style="padding: 32px 50px;">
+        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll: Was That a Good Month?</h2>
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 10px;">
+          <p style="font-size: 15pt; line-height: 1.55;">STL on retail sales returns, for one month: <strong>trend $456.9B</strong>, <strong>seasonal +11.7%</strong>, <strong>residual +0.2%</strong>.</p>
+          <p style="font-size: 16pt; font-weight: 600; margin-top: 8px;">Your manager asks: &ldquo;Was that a good month?&rdquo;</p>
+        </div>
+        <div class="poll-grid" data-poll-id="ch20-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; font-size: 14pt;">
+          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Yes &mdash; sales came in about $55B above trend</div>
+          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) No &mdash; sales were only 0.2% above trend</div>
+          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) It was exactly as good as expected; only the +0.2% is news</div>
+          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Cannot say without the previous month's value</div>
+        </div>
+      </section>
+      <section id="poll-2-reveal" data-poll-results="ch20-econ3916-poll-2" style="padding: 28px 50px;">
+        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; As Expected</h2>
+        <div class="poll-results-chart" data-poll-id="ch20-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:8px 60px 32px;"></div>
+        <div style="padding: 0 40px;">
+          <p style="font-size: 15pt; line-height: 1.6;">The $55B is the <em>seasonal</em> component. December does that every year, and telling you so is the decomposition's entire job. Only the <strong>residual</strong> carries information you did not already have.</p>
+          <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 13px 20px; margin-top: 12px;">
+            <p style="font-size: 14pt; margin: 0;"><strong>A</strong> answers with the seasonal factor and calls it performance &mdash; the single most common misreading of a decomposition, and the one that gets a retail analyst promoted in December and fired in February. <strong>B</strong> attaches the right number to the wrong sentiment. <strong>D</strong> is exactly what decomposing frees you from.</p>
+          </div>
+        </div>
+      </section>
     </section>
 
     <section id="s2-reading" style="padding: 32px 50px;">
       <h2>Reading a Decomposition</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Which part of a month's sales is news?</p>
         <p style="font-size: 14pt; color: var(--muted-color); margin-bottom: 10px;">Executed on FRED <code>RSXFSN</code> with <code>STL(log, period=12, robust=True)</code></p>
         <table style="width: 100%; border-collapse: collapse; font-size: 16pt;">
           <thead>
@@ -404,13 +444,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td style="padding: 13px 16px; font-weight: 700;">Dec 2019</td><td style="padding: 13px 16px; text-align: center;">$509.5B</td><td style="padding: 13px 16px; text-align: center;">$454.5B</td><td style="padding: 13px 16px; text-align: center; color: var(--success-color); font-weight: 700;">+11.9%</td><td style="padding: 13px 16px; text-align: center;">+0.2%</td></tr>
-            <tr style="background: #faf9f7;"><td style="padding: 13px 16px; font-weight: 700;">Mar 2020</td><td style="padding: 13px 16px; text-align: center;">$418.9B</td><td style="padding: 13px 16px; text-align: center;">$463.3B</td><td style="padding: 13px 16px; text-align: center;">+2.0%</td><td style="padding: 13px 16px; text-align: center; color: var(--danger-color); font-weight: 700;">&minus;11.4%</td></tr>
-            <tr><td style="padding: 13px 16px; font-weight: 700;">Apr 2020</td><td style="padding: 13px 16px; text-align: center;">$370.6B</td><td style="padding: 13px 16px; text-align: center;">$466.5B</td><td style="padding: 13px 16px; text-align: center;">+0.4%</td><td style="padding: 13px 16px; text-align: center; color: var(--danger-color); font-weight: 700;">&minus;20.8%</td></tr>
+            <tr><td style="padding: 13px 16px; font-weight: 700;">Dec 2019</td><td style="padding: 13px 16px; text-align: center;">$511.4B</td><td style="padding: 13px 16px; text-align: center;">$456.9B</td><td style="padding: 13px 16px; text-align: center; color: var(--success-color); font-weight: 700;">+11.7%</td><td style="padding: 13px 16px; text-align: center;">+0.2%</td></tr>
+            <tr style="background: #faf9f7;"><td style="padding: 13px 16px; font-weight: 700;">Mar 2020</td><td style="padding: 13px 16px; text-align: center;">$421.2B</td><td style="padding: 13px 16px; text-align: center;">$466.0B</td><td style="padding: 13px 16px; text-align: center;">+2.1%</td><td style="padding: 13px 16px; text-align: center; color: var(--danger-color); font-weight: 700;">&minus;11.5%</td></tr>
+            <tr><td style="padding: 13px 16px; font-weight: 700;">Apr 2020</td><td style="padding: 13px 16px; text-align: center;">$373.0B</td><td style="padding: 13px 16px; text-align: center;">$469.3B</td><td style="padding: 13px 16px; text-align: center;">+0.5%</td><td style="padding: 13px 16px; text-align: center; color: var(--danger-color); font-weight: 700;">&minus;20.9%</td></tr>
           </tbody>
         </table>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 15px 22px; margin-top: 16px;">
-          <p style="font-size: 15pt; margin: 0;"><strong>December 2019 was entirely unsurprising.</strong> The trend says $454.5B; December typically adds 11.9%. The $55B holiday bump was the <em>expected</em> part. Two-tenths of a percent was the news.</p>
+          <p style="font-size: 15pt; margin: 0;"><strong>December 2019 was entirely unsurprising.</strong> The trend says $456.9B; December typically adds 11.7%. The $55B holiday bump was the <em>expected</em> part. Two-tenths of a percent was the news.</p>
         </div>
       </div>
     </section>
@@ -418,14 +458,15 @@
     <section id="s2-robust" style="padding: 34px 55px;">
       <h2>What <code>robust=True</code> Gives You</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What did <code>robust=True</code> do to the trend in spring 2020?</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 20px 24px;">
             <p style="font-size: 16pt; font-weight: 700; color: var(--secondary-color);">The trend barely moved</p>
-            <p style="font-size: 15pt; margin-top: 8px;">$454.5B in December 2019 &rarr; <strong>$466.5B in April 2020</strong>. Up, not down, through the worst retail month in modern record.</p>
+            <p style="font-size: 15pt; margin-top: 8px;">$456.9B in December 2019 &rarr; <strong>$469.3B in April 2020</strong>. Up, not down, through the worst retail month in modern record.</p>
           </div>
           <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 20px 24px;">
             <p style="font-size: 16pt; font-weight: 700; color: var(--danger-color);">The whole shock is in the residual</p>
-            <p style="font-size: 15pt; margin-top: 8px;"><strong>&minus;20.8%</strong>. It screams &ldquo;something abnormal happened&rdquo; in exactly the panel you built to say so.</p>
+            <p style="font-size: 15pt; margin-top: 8px;"><strong>&minus;20.9%</strong>. It screams &ldquo;something abnormal happened&rdquo; in exactly the panel you built to say so.</p>
           </div>
         </div>
         <div class="fragment fade-up" style="background: #f8f6f3; border-radius: 10px; padding: 17px 24px; margin-top: 20px;">
@@ -438,7 +479,7 @@
       <h2><i class="fa-solid fa-comments" style="color: var(--secondary-color);"></i> Discussion: Where Does COVID Belong?</h2>
       <div class="content">
         <div class="discussion-prompt" style="background: #f8f6f3; border-radius: 10px; padding: 18px 26px;">
-          <p class="text-lg" style="font-weight: 600; margin: 0;">STL with <code>robust=True</code> put April 2020 almost entirely in the <strong>residual</strong> (&minus;20.8%) and left the trend nearly flat. STL with <code>robust=False</code> would have pulled the <strong>trend</strong> down instead.</p>
+          <p class="text-lg" style="font-weight: 600; margin: 0;">STL with <code>robust=True</code> put April 2020 almost entirely in the <strong>residual</strong> (&minus;20.9%) and left the trend nearly flat. STL with <code>robust=False</code> would have pulled the <strong>trend</strong> down instead.</p>
         </div>
         <div style="display: flex; flex-direction: column; gap: 11px; margin-top: 16px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 14px 22px;"><p style="font-size: 16pt; margin: 0;"><strong>1.</strong> Which is the <em>right</em> answer &mdash; and does the question even have one?</p></div>
@@ -446,7 +487,6 @@
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 14px 22px;"><p style="font-size: 16pt; margin: 0;"><strong>3.</strong> Name one series where you would want the <em>opposite</em> choice.</p></div>
         </div>
         <p style="font-size: 14pt; color: var(--muted-color); text-align: center; margin-top: 16px;">Pairs &bull; 2 minutes &bull; then two volunteers</p>
-                <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>2</strong> to start the timer.</p>
         </div>
     </section>
 
@@ -474,7 +514,7 @@
     </section>
 
     <section id="s2-misconception" style="padding: 38px 65px;">
-      <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Common Misconception</h2>
+      <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Common Misconception: Seasonal Adjustment</h2>
       <div class="content">
         <div class="misconception" style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 22px 28px;">
           <p style="font-size: 19pt; font-style: italic; margin: 0;">&ldquo;Seasonal adjustment removes all time-series patterns.&rdquo;</p>
@@ -488,31 +528,6 @@
       </div>
     </section>
 
-    <section>
-      <section id="poll-2" style="padding: 32px 50px;">
-        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll: Was That a Good Month?</h2>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 10px;">
-          <p style="font-size: 15pt; line-height: 1.55;">STL on retail sales returns, for one month: <strong>trend $454.5B</strong>, <strong>seasonal +11.9%</strong>, <strong>residual +0.2%</strong>.</p>
-          <p style="font-size: 16pt; font-weight: 600; margin-top: 8px;">Your manager asks: &ldquo;Was that a good month?&rdquo;</p>
-        </div>
-        <div class="poll-grid" data-poll-id="ch20-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; font-size: 14pt;">
-          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Yes &mdash; sales came in about $55B above trend</div>
-          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) No &mdash; sales were only 0.2% above trend</div>
-          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) It was exactly as good as expected; only the +0.2% is news</div>
-          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Cannot say without the previous month's value</div>
-        </div>
-      </section>
-      <section id="poll-2-reveal" data-poll-results="ch20-econ3916-poll-2" style="padding: 28px 50px;">
-        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: C &mdash; As Expected</h2>
-        <div class="poll-results-chart" data-poll-id="ch20-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:8px 60px 32px;"></div>
-        <div style="padding: 0 40px;">
-          <p style="font-size: 15pt; line-height: 1.6;">The $55B is the <em>seasonal</em> component. December does that every year, and telling you so is the decomposition's entire job. Only the <strong>residual</strong> carries information you did not already have.</p>
-          <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 13px 20px; margin-top: 12px;">
-            <p style="font-size: 14pt; margin: 0;"><strong>A</strong> answers with the seasonal factor and calls it performance &mdash; the single most common misreading of a decomposition, and the one that gets a retail analyst promoted in December and fired in February. <strong>B</strong> attaches the right number to the wrong sentiment. <strong>D</strong> is exactly what decomposing frees you from.</p>
-          </div>
-        </div>
-      </section>
-    </section>
 
     <section id="divider-3" class="section-divider" data-state="is-section-divider">
       <p style="font-size: 13pt; color: var(--secondary-color); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 14px;">Section 3</p>
@@ -524,6 +539,7 @@
     <section id="s3-definition" style="padding: 32px 55px;">
       <h2>Weak Stationarity &mdash; Three Conditions</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What has to stay the same for a series to be stationary?</p>
         <div style="display: flex; flex-direction: column; gap: 12px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 16px 24px;">
             <p style="font-size: 17pt; margin: 0;"><strong>1.</strong> \(E[Y_t] = \mu\) for all \(t\) &mdash; <span style="color: var(--muted-color);">the mean does not drift</span></p>
@@ -558,6 +574,7 @@
     <section id="s3-randomwalk" style="padding: 32px 55px;">
       <h2>The Random Walk &mdash; and Its Cure</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Why does a random walk fail, and what fixes it?</p>
         <p style="text-align: center; font-size: 19pt; margin: 6px 0 4px;">$$Y_t = Y_{t-1} + \varepsilon_t, \qquad \varepsilon_t \sim \mathrm{WN}(0, \sigma^2)$$</p>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 15px 24px;">
           <p style="font-size: 15pt; margin: 0;"><strong>Reading:</strong> today equals yesterday plus a shock. There is no level to revert to &mdash; the series wanders. And its variance is \(\operatorname{Var}(Y_t) = t\sigma^2\), which grows without bound. Condition 2 fails.</p>
@@ -566,18 +583,14 @@
         <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 15px 24px;">
           <p style="font-size: 15pt; margin: 0;"><strong>Reading:</strong> difference it once and the wandering cancels, leaving pure white noise. A series that becomes stationary after \(d\) differences is <strong>integrated of order \(d\)</strong>, written \(I(d)\).</p>
         </div>
-        <p style="font-size: 16pt; margin-top: 16px; text-align: center;">Real GDP in levels is \(I(1)\). Quarterly GDP growth is \(I(0)\).</p>
+        <p style="font-size: 16pt; margin-top: 16px; text-align: center;">Real GDP in levels is \(I(1)\). Its quarterly change is \(I(0)\).</p>
       </div>
-    </section>
-
-    <section id="s3-gdp-figure" style="padding: 16px 40px;">
-      <h2 style="font-size: 26pt; margin-bottom: 2px;">The Same Series, Twice</h2>
-      <img src="figures/figure_004_gdp_levels_vs_diff.png" alt="Two stacked panels of U.S. Real GDP: the level rising from about 10 to 24 trillion chained 2017 dollars with ADF p equals 0.9925 and KPSS p equals 0.010, and the first difference oscillating around zero with ADF p below ten to the minus six and KPSS p equals 0.100, annotated with the minus 1,631 billion drop in 2020 Q2 and the plus 1,481 billion rebound in 2020 Q3" style="height: 590px; display: block; margin: 0 auto;">
     </section>
 
     <section id="s3-adf" style="padding: 32px 55px;">
       <h2>ADF &mdash; Testing for a Unit Root</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How do you test for a unit root?</p>
         <p style="text-align: center; font-size: 17pt; margin: 6px 0;">$$\Delta Y_t = \alpha + \beta t + \gamma Y_{t-1} + \sum_{j=1}^{p}\delta_j \Delta Y_{t-j} + \varepsilon_t$$</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 12px;">
           <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 15px 22px;">
@@ -599,6 +612,7 @@
     <section id="s3-kpss" style="padding: 34px 60px;">
       <h2>KPSS &mdash; and Why You Run Both</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Why run a second test with the opposite null?</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 18px 24px;">
             <p style="font-size: 16pt; font-weight: 700; color: var(--secondary-color);">ADF</p>
@@ -614,51 +628,6 @@
         </div>
         <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 16px 26px; margin-top: 14px;">
           <p style="font-size: 15pt; margin: 0;">This is the same logic as reporting precision <em>and</em> recall in Chapter 18. One number can be made to look good on its own.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="s3-table" style="padding: 36px 60px;">
-      <h2>The 2&times;2 Table</h2>
-      <table style="width: 100%; border-collapse: collapse; font-size: 17pt; margin-top: 14px;">
-        <thead>
-          <tr style="background: #f0f5f8;">
-            <th style="padding: 15px 20px; text-align: left; border-bottom: 2px solid var(--secondary-color);">ADF</th>
-            <th style="padding: 15px 20px; text-align: left; border-bottom: 2px solid var(--secondary-color);">KPSS</th>
-            <th style="padding: 15px 20px; text-align: left; border-bottom: 2px solid var(--secondary-color);">What you do</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding: 16px 20px;">Reject \(H_0\)</td><td style="padding: 16px 20px;">Don't reject</td><td style="padding: 16px 20px; color: var(--success-color); font-weight: 700;">Stationary &mdash; model it as is</td></tr>
-          <tr style="background: #faf9f7;"><td style="padding: 16px 20px;">Don't reject</td><td style="padding: 16px 20px;">Reject \(H_0\)</td><td style="padding: 16px 20px; color: var(--secondary-color); font-weight: 700;">Non-stationary &mdash; difference it</td></tr>
-          <tr><td style="padding: 16px 20px;">Reject \(H_0\)</td><td style="padding: 16px 20px;">Reject \(H_0\)</td><td style="padding: 16px 20px; color: var(--accent-color); font-weight: 700;">Conflict &mdash; add a trend term, re-test; do <em>not</em> difference</td></tr>
-          <tr style="background: #faf9f7;"><td style="padding: 16px 20px;">Don't reject</td><td style="padding: 16px 20px;">Don't reject</td><td style="padding: 16px 20px; color: var(--muted-color); font-weight: 700;">Inconclusive &mdash; more data, or another test</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section id="s3-executed" style="padding: 32px 50px;">
-      <h2>Executed: U.S. Real GDP</h2>
-      <div class="content">
-        <p style="font-size: 14pt; color: var(--muted-color); margin-bottom: 10px;">FRED <code>GDPC1</code>, 1990 Q1 &ndash; 2026 Q2, quarterly, chained 2017 dollars ($10,047.4B &rarr; $24,269.6B)</p>
-        <table style="width: 100%; border-collapse: collapse; font-size: 16pt;">
-          <thead>
-            <tr style="background: #f0f5f8;">
-              <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid var(--secondary-color);">Series</th>
-              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">ADF stat</th>
-              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">ADF \(p\)</th>
-              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">KPSS stat</th>
-              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">KPSS \(p\)</th>
-              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">Result</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td style="padding: 14px 16px; font-weight: 700;">Levels</td><td style="padding: 14px 16px; text-align: center;">0.858</td><td style="padding: 14px 16px; text-align: center;">0.9925</td><td style="padding: 14px 16px; text-align: center;">1.692</td><td style="padding: 14px 16px; text-align: center;">0.010</td><td style="padding: 14px 16px; color: var(--secondary-color); font-weight: 700;">Difference it</td></tr>
-            <tr style="background: #faf9f7;"><td style="padding: 14px 16px; font-weight: 700;">First difference</td><td style="padding: 14px 16px; text-align: center;">&minus;14.260</td><td style="padding: 14px 16px; text-align: center;">&lt; 1e&minus;6</td><td style="padding: 14px 16px; text-align: center;">0.190</td><td style="padding: 14px 16px; text-align: center;">0.100</td><td style="padding: 14px 16px; color: var(--success-color); font-weight: 700;">Stationary &#10003;</td></tr>
-          </tbody>
-        </table>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 18px;">
-          <p style="font-size: 16pt; margin: 0;"><strong>GDP is \(I(1)\).</strong> The differenced series is your modelling target &mdash; and its two most extreme values are <strong>2020 Q2 at &minus;$1,631.2B</strong> and <strong>2020 Q3 at +$1,480.9B</strong>, back to back.</p>
         </div>
       </div>
     </section>
@@ -690,13 +659,67 @@
       </section>
     </section>
 
+    <section id="s3-table" style="padding: 36px 60px;">
+      <h2>The 2&times;2 Table</h2>
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What do you do with each pair of results?</p>
+      <table style="width: 100%; border-collapse: collapse; font-size: 17pt; margin-top: 14px;">
+        <thead>
+          <tr style="background: #f0f5f8;">
+            <th style="padding: 15px 20px; text-align: left; border-bottom: 2px solid var(--secondary-color);">ADF</th>
+            <th style="padding: 15px 20px; text-align: left; border-bottom: 2px solid var(--secondary-color);">KPSS</th>
+            <th style="padding: 15px 20px; text-align: left; border-bottom: 2px solid var(--secondary-color);">What you do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding: 16px 20px;">Reject \(H_0\)</td><td style="padding: 16px 20px;">Don't reject</td><td style="padding: 16px 20px; color: var(--success-color); font-weight: 700;">Stationary &mdash; model it as is</td></tr>
+          <tr style="background: #faf9f7;"><td style="padding: 16px 20px;">Don't reject</td><td style="padding: 16px 20px;">Reject \(H_0\)</td><td style="padding: 16px 20px; color: var(--secondary-color); font-weight: 700;">Non-stationary &mdash; difference it</td></tr>
+          <tr><td style="padding: 16px 20px;">Reject \(H_0\)</td><td style="padding: 16px 20px;">Reject \(H_0\)</td><td style="padding: 16px 20px; color: var(--accent-color); font-weight: 700;">Conflict &mdash; add a trend term, re-test; do <em>not</em> difference</td></tr>
+          <tr style="background: #faf9f7;"><td style="padding: 16px 20px;">Don't reject</td><td style="padding: 16px 20px;">Don't reject</td><td style="padding: 16px 20px; color: var(--muted-color); font-weight: 700;">Inconclusive &mdash; more data, or another test</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="s3-gdp-figure" style="padding: 16px 40px;">
+      <h2 style="font-size: 26pt; margin-bottom: 2px;">The Same Series, Twice</h2>
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What does differencing do to real GDP?</p>
+      <img src="figures/figure_004_gdp_levels_vs_diff.png" alt="Two stacked panels of U.S. Real GDP: the level rising from about 10 to 24 trillion chained 2017 dollars with ADF p equals 0.9947 and KPSS p at or below 0.010, and the first difference oscillating around zero with ADF p below ten to the minus six and KPSS p at or above 0.100, annotated with the minus 1,631 billion drop in 2020 Q2 and the plus 1,481 billion rebound in 2020 Q3" style="height: 528px; display: block; margin: 0 auto;">
+    </section>
+
+    <section id="s3-executed" style="padding: 32px 50px;">
+      <h2>Executed: U.S. Real GDP</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What do both tests say about real GDP?</p>
+        <p style="font-size: 14pt; color: var(--muted-color); margin-bottom: 10px;">FRED <code>GDPC1</code>, 1990 Q1 &ndash; 2026 Q3, quarterly, chained 2017 dollars ($10,047.4B &rarr; $24,611.1B)</p>
+        <table style="width: 100%; border-collapse: collapse; font-size: 16pt;">
+          <thead>
+            <tr style="background: #f0f5f8;">
+              <th style="padding: 12px 16px; text-align: left; border-bottom: 2px solid var(--secondary-color);">Series</th>
+              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">ADF stat</th>
+              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">ADF \(p\)</th>
+              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">KPSS stat</th>
+              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">KPSS \(p\)</th>
+              <th style="padding: 12px 16px; border-bottom: 2px solid var(--secondary-color);">Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding: 14px 16px; font-weight: 700;">Levels</td><td style="padding: 14px 16px; text-align: center;">1.045</td><td style="padding: 14px 16px; text-align: center;">0.995</td><td style="padding: 14px 16px; text-align: center;">1.702</td><td style="padding: 14px 16px; text-align: center;">0.010</td><td style="padding: 14px 16px; color: var(--secondary-color); font-weight: 700;">Difference it</td></tr>
+            <tr style="background: #faf9f7;"><td style="padding: 14px 16px; font-weight: 700;">First difference</td><td style="padding: 14px 16px; text-align: center;">&minus;14.260</td><td style="padding: 14px 16px; text-align: center;">&lt; 1e&minus;6</td><td style="padding: 14px 16px; text-align: center;">0.225</td><td style="padding: 14px 16px; text-align: center;">0.100</td><td style="padding: 14px 16px; color: var(--success-color); font-weight: 700;">Stationary &#10003;</td></tr>
+          </tbody>
+        </table>
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 18px;">
+          <p style="font-size: 16pt; margin: 0;"><strong>GDP is \(I(1)\).</strong> The differenced series is your modelling target &mdash; and its two most extreme values are <strong>2020 Q2 at &minus;$1,631.2B</strong> and <strong>2020 Q3 at +$1,480.9B</strong>, back to back.</p>
+        </div>
+      </div>
+    </section>
+
+
     <section id="discussion-2" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-comments" style="color: var(--secondary-color);"></i> Discussion: When the Table Does Not Cooperate</h2>
       <div class="content">
         <div class="discussion-prompt" style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px;">
-          <p style="font-size: 15pt; margin: 0;"><strong>Run this morning, both from FRED <code>GDPC1</code>, differenced once:</strong></p>
-          <p style="font-size: 15pt; margin-top: 8px;">From <strong>1960</strong> &mdash; KPSS returns <strong>0.8440, \(p = 0.010\)</strong>. It <em>rejects</em> stationarity, while ADF strongly rejects the unit root.</p>
-          <p style="font-size: 15pt; margin-top: 5px;">From <strong>1990</strong> &mdash; KPSS returns <strong>0.190, \(p = 0.100\)</strong>, and everything is clean.</p>
+          <p style="font-size: 15pt; margin: 0;"><strong>Both from FRED <code>GDPC1</code>, differenced once:</strong></p>
+          <p style="font-size: 15pt; margin-top: 8px;">From <strong>1960</strong> &mdash; KPSS returns <strong>0.922, \(p = 0.010\)</strong>. It <em>rejects</em> stationarity, while ADF strongly rejects the unit root.</p>
+          <p style="font-size: 15pt; margin-top: 5px;">From <strong>1990</strong> &mdash; KPSS returns <strong>0.225, \(p = 0.100\)</strong>, and everything is clean.</p>
         </div>
         <div style="display: flex; flex-direction: column; gap: 9px; margin-top: 14px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 12px 20px;"><p style="font-size: 15pt; margin: 0;"><strong>1.</strong> Same series, two samples, opposite results. What changed?</p></div>
@@ -704,7 +727,6 @@
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 12px 20px;"><p style="font-size: 15pt; margin: 0;"><strong>3.</strong> What do you do next &mdash; and what goes in the methods section?</p></div>
         </div>
         <p style="font-size: 14pt; color: var(--muted-color); text-align: center; margin-top: 12px;">Pairs &bull; 2 minutes</p>
-                <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>2</strong> to start the timer.</p>
         </div>
     </section>
 
@@ -712,7 +734,7 @@
       <h2><i class="fa-solid fa-lightbulb" style="color: var(--accent-color);"></i> Debrief: Disagreement Is a Finding</h2>
       <div class="content">
         <div style="background: #f8f6f3; border-radius: 10px; padding: 15px 22px;">
-          <p style="font-size: 15pt; margin: 0;"><strong>1. The sample spans regimes.</strong> 1960 onwards contains the Great Inflation, the Volcker disinflation and the Great Moderation. GDP <em>growth</em> is not one process across those &mdash; mean and variance both shift. And dropping 2020 does not fix it: the 1960 sample still fails at <strong>0.762, \(p = 0.010\)</strong>. This is not a COVID artifact.</p>
+          <p style="font-size: 15pt; margin: 0;"><strong>1. The sample spans regimes.</strong> 1960 onwards contains the Great Inflation, the Volcker disinflation and the Great Moderation. GDP <em>growth</em> is not one process across those &mdash; mean and variance both shift. And dropping 2020 does not fix it: the 1960 sample still fails at <strong>1.167, \(p = 0.010\)</strong>. This is not a COVID artifact.</p>
         </div>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 15px 22px; margin-top: 12px;">
           <p style="font-size: 15pt; margin: 0;"><strong>2. Three reasons.</strong> A structural break inside the differenced series; a changing variance (the Great Moderation is literally a variance break); a remaining deterministic trend. Over- or under-differencing is the fourth.</p>
@@ -727,7 +749,7 @@
     </section>
 
     <section id="s3-misconception" style="padding: 38px 65px;">
-      <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Common Misconception</h2>
+      <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Common Misconception: &ldquo;I Included a Time Trend&rdquo;</h2>
       <div class="content">
         <div class="misconception" style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 22px 28px;">
           <p style="font-size: 18pt; font-style: italic; margin: 0;">&ldquo;My model is fine on non-stationary data &mdash; I included a time trend.&rdquo;</p>
@@ -751,7 +773,8 @@
 
     <section id="s4-fourkinds" style="padding: 22px 40px;">
       <h2 style="font-size: 27pt; margin-bottom: 4px;">Four Kinds of Break</h2>
-      <img src="figures/figure_005_break_taxonomy.png" alt="Four panels: a level shift where the mean drops permanently, a trend break where the slope flattens, a variance break where volatility widens, and a parameter break where a scatter's fitted line reverses sign" style="height: 430px; display: block; margin: 4px auto;">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> In what ways can a series' rules change?</p>
+      <img src="figures/figure_005_break_taxonomy.png" alt="Four panels: a level shift where the mean drops permanently, a trend break where the slope flattens, a variance break where volatility widens, and a parameter break where a scatter's fitted line reverses sign" style="height: 368px; display: block; margin: 4px auto;">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; margin: 8px 40px 0;">
         <p style="font-size: 13.5pt; margin: 0;"><strong>1. Level shift.</strong> MBTA weekday ridership fell from ~1.2M trips to a trough near 142,000 in spring 2020; by 2025 it had recovered to roughly three-quarters of its pre-pandemic level.</p>
         <p style="font-size: 13.5pt; margin: 0;"><strong>2. Trend break.</strong> U.S. labor productivity grew ~2.5%/yr 1995&ndash;2005, then ~1.2% 2005&ndash;2019. Same direction, different slope.</p>
@@ -782,6 +805,7 @@
 
     <section id="s4-two-companies" style="padding: 24px 45px;">
       <h2 style="font-size: 27pt; margin-bottom: 6px;">Two Companies Whose Revenue Exploded</h2>
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Both revenues more than doubled: was either a change in the growth rate?</p>
       <img src="figures/figure_008_nvidia_peloton.png" alt="Left: Nvidia data-center revenue rising from 3.83 billion dollars before the ChatGPT launch to 10.32 and then 18.40 billion, far above the 4 to 5 billion an autoregressive model would forecast. Right: Peloton total revenue climbing from 0.92 to 1.83 to 4.02 billion dollars, followed by a fiscal 2022 callout listing a 2.8 billion dollar net loss, a 400 million dollar factory write-off and a 95 percent stock decline" style="width: 92%; display: block; margin: 4px auto 0;">
       <p style="font-size: 15pt; text-align: center; margin-top: 10px;">Both more than doubled in two years. <strong>Only one of them was a change in the growth rate.</strong></p>
     </section>
@@ -849,12 +873,14 @@
     <section id="s4-pelt" style="padding: 32px 55px;">
       <h2>Unknown Dates: Bai-Perron and PELT</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How do you find a break when you do not know the date?</p>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px;">
           <p style="font-size: 15pt; margin: 0;"><strong>Bai-Perron (1998)</strong> extends Chow to <em>unknown</em> dates, testing sequentially for multiple breaks. Worth knowing: Hall et al. (2025) show it loses power when breaks sit near the <em>ends</em> of the sample &mdash; which is exactly where COVID sits.</p>
         </div>
         <pre style="background: #2d2d2d; border-radius: 8px; padding: 15px 22px; font-size: 14pt; color: #f8f8f2; overflow: hidden; margin-top: 16px;"><code>gdp_growth = gdp.pct_change().dropna() * 100
 algo = rpt.Pelt(model="rbf").fit(gdp_growth.values)
 breakpoints = algo.predict(pen=1)</code></pre>
+        <p style="font-size: 13.5pt; color: var(--muted-color); margin: 8px 0 0;">By default ruptures only tries a break at every fifth quarter (<code>jump=5</code>), and the date it reports is the last quarter <em>before</em> the break.</p>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 15px 22px;">
             <p style="font-size: 15pt; margin: 0;"><code>model="rbf"</code> detects shifts in the <em>whole distribution</em> &mdash; mean <strong>and</strong> variance. Which is what a recession does.</p>
@@ -868,17 +894,19 @@ breakpoints = algo.predict(pen=1)</code></pre>
 
     <section id="s4-sweep" style="padding: 14px 40px;">
       <h2 style="font-size: 25pt; margin-bottom: 0;">One Penalty, Four Answers</h2>
-      <img src="figures/figure_006_pelt_penalty_sweep.png" alt="Four stacked panels of quarterly U.S. real GDP growth from 1960 to 2026, with PELT breakpoints marked as dashed vertical lines: 28 breaks at penalty 0.5, 11 at penalty 1, 2 at penalty 2, and none at penalty 10" style="height: 580px; display: block; margin: 0 auto;">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Does the answer depend on the penalty?</p>
+      <img src="figures/figure_006_pelt_penalty_sweep.png" alt="Four stacked panels of quarterly U.S. real GDP growth from 1990 to 2026, with PELT breakpoints marked as dashed vertical lines: 14 breaks at penalty 0.5, 4 at penalty 1, 2 at penalty 1.5 (1991 and 2000, the COVID break gone), and none at penalty 2" style="height: 552px; display: block; margin: 0 auto;">
     </section>
 
     <section id="s4-misconception" style="padding: 38px 65px;">
-      <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Common Misconception</h2>
+      <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Common Misconception: &ldquo;The Algorithm Found the Breaks&rdquo;</h2>
       <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Who found the breaks: the algorithm, or you?</p>
         <div class="misconception" style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 22px 28px;">
           <p style="font-size: 19pt; font-style: italic; margin: 0;">&ldquo;The algorithm found the breaks.&rdquo;</p>
         </div>
         <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 20px 26px; margin-top: 20px;">
-          <p style="font-size: 17pt; margin: 0;">The algorithm found the breaks <strong>at the penalty you chose</strong>. Same series, same code: 28 breaks, or none.</p>
+          <p style="font-size: 17pt; margin: 0;">The algorithm found the breaks <strong>at the penalty you chose</strong>. Same series, same code: 14 breaks, or none.</p>
         </div>
         <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 18px 26px; margin-top: 16px;">
           <p style="font-size: 16pt; margin: 0;"><strong>What to report:</strong> the penalty, and evidence that your conclusion survives a sweep around it. An unreported <code>pen</code> is an unreported researcher degree of freedom.</p>
@@ -898,7 +926,6 @@ breakpoints = algo.predict(pen=1)</code></pre>
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 14px 22px;"><p style="font-size: 16pt; margin: 0;"><strong>3.</strong> Does it matter that you knew about COVID <em>before</em> you ran the algorithm?</p></div>
         </div>
         <p style="font-size: 14pt; color: var(--muted-color); text-align: center; margin-top: 16px;">Pairs &bull; 2 minutes &bull; then one volunteer plays the analyst</p>
-                <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>2</strong> to start the timer.</p>
         </div>
     </section>
 
@@ -906,10 +933,10 @@ breakpoints = algo.predict(pen=1)</code></pre>
       <h2><i class="fa-solid fa-lightbulb" style="color: var(--accent-color);"></i> Debrief: Discover With PELT, Test With Chow</h2>
       <div class="content">
         <div style="background: #f8f6f3; border-radius: 10px; padding: 15px 22px;">
-          <p style="font-size: 15pt; margin: 0;"><strong>1. The objection:</strong> &ldquo;You tuned the penalty until you got the break you already believed in.&rdquo; And it is a fair point &mdash; 0.5 gives 28 breaks, 10 gives none.</p>
+          <p style="font-size: 15pt; margin: 0;"><strong>1. The objection:</strong> &ldquo;You tuned the penalty until you got the break you already believed in.&rdquo; And it is a fair point &mdash; 0.5 gives 14 breaks, 2 gives none.</p>
         </div>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 15px 22px; margin-top: 12px;">
-          <p style="font-size: 15pt; margin: 0;"><strong>2. What you bring:</strong> the sweep itself, plus the fact that 2020 Q2 survives <em>every</em> penalty that returns any break at all. A break robust across the range is a finding; one that appears only at <code>pen=0.7</code> is not.</p>
+          <p style="font-size: 15pt; margin: 0;"><strong>2. What you bring:</strong> the sweep itself, and what it shows. On GDP growth from 1990 the COVID break appears at 0.5 and 1 and is gone at 1.5, where only 1991 and 2000 remain. A break that holds across the range is a finding; one that needs a low penalty is a candidate, not a result.</p>
         </div>
         <div style="background: #f8f6f3; border-radius: 10px; padding: 15px 22px; margin-top: 12px;">
           <p style="font-size: 15pt; margin: 0;"><strong>3. Yes &mdash; and it helps.</strong> A date you can name in advance lets you use the <strong>Chow test</strong> on a pre-registered hypothesis. That is far stronger evidence than a search.</p>
@@ -1021,7 +1048,7 @@ tscv = TimeSeriesSplit(n_splits=5)</code></pre>
     </section>
 
     <section id="s5-misconception" style="padding: 38px 65px;">
-      <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Common Misconception</h2>
+      <h2><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Common Misconception: One 80/20 Split</h2>
       <div class="content">
         <div class="misconception" style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 22px 28px;">
           <p style="font-size: 19pt; font-style: italic; margin: 0;">&ldquo;I can just do a simple 80/20 split on my time series.&rdquo;</p>
@@ -1070,7 +1097,7 @@ tscv = TimeSeriesSplit(n_splits=5)</code></pre>
         <div style="display: flex; flex-direction: column; gap: 10px;">
           <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 14px 22px;"><p style="font-size: 15pt; margin: 0;"><strong>Parts 1&ndash;3 (guided).</strong> Pull <code>RSXFSN</code>, run classical multiplicative decomposition, then STL on the log with <code>robust=True</code>. Compare the two seasonal panels.</p></div>
           <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 14px 22px;"><p style="font-size: 15pt; margin: 0;"><strong>Parts 4&ndash;5 (Part 5 yours).</strong> <code>GDPC1</code> from 1990, ADF and KPSS on levels and first difference. <strong>Read both tests before you write your answer</strong> &mdash; from 1990 the difference passes both; from 1960 it does not.</p></div>
-          <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 14px 22px;"><p style="font-size: 15pt; margin: 0;"><strong>Part 6 (yours).</strong> PELT on GDP growth: <code>model='rbf'</code>, <code>pen=1</code>; re-run at 0.5 and 2. <strong>Then Write it yourself:</strong> finish <code>seasonal_index()</code>.</p></div>
+          <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 14px 22px;"><p style="font-size: 15pt; margin: 0;"><strong>Part 6 (yours).</strong> PELT on GDP growth with the cost model and penalty from Section 4; re-run at 0.5 and 2. <strong>Then Write it yourself:</strong> finish <code>seasonal_index()</code>.</p></div>
           <div style="background: #f8f6f3; border-radius: 10px; padding: 14px 22px;"><p style="font-size: 15pt; margin: 0;"><strong>Part 7 (bonus).</strong> Boston Case-Shiller. Use the <strong>NSA</strong> series <code>BOXRHTNSA</code> &mdash; running <code>STL(period=12)</code> on the seasonally adjusted one decomposes the adjuster's residue, not the housing market.</p></div>
         </div>
       </div>
