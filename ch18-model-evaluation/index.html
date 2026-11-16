@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=67a75b45069e5ed0fd50edf6a4b0177e">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=eb0fac69372f7f5249673d071254ee5e">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Model Evaluation: Metrics That Matter</title>
@@ -132,7 +132,7 @@
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Chapter 17's model ranks well (AUC 0.811; a coin flip scores 0.5). Are its probabilities right?</p>
         <p style="font-size: 15pt; line-height: 1.55;">Group Chapter 17's predictions by how confident they were, and check what actually followed.</p>
         <table style="margin-top: 12px;">
-          <tr><th>predicted band</th><th>months</th><th>mean predicted</th><th>actual rate</th></tr>
+          <tr><th>model&rsquo;s probability</th><th>months</th><th>model said, on average</th><th>what happened</th></tr>
           <tr><td>0.00 &ndash; 0.05</td><td>296</td><td>0.024</td><td>0.017</td></tr>
           <tr><td>0.05 &ndash; 0.10</td><td>107</td><td>0.072</td><td>0.047</td></tr>
           <tr><td>0.10 &ndash; 0.15</td><td>65</td><td>0.122</td><td>0.200</td></tr>
