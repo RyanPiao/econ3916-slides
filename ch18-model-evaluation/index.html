@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=eb0fac69372f7f5249673d071254ee5e">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=7944a56b5a22290b7ffa65d79d523363">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Model Evaluation: Metrics That Matter</title>
@@ -318,7 +318,7 @@ round(roc_auc_score(y, p), 3)</code></pre><div class="mk-out mk-mono" style="dis
               </div>
               <p class="t18-roc-out" style="font-size: 13.5pt; line-height: 1.5; margin: 8px 0 0;"></p>
             </div>
-            <p class="fragment fade-up" data-fragment-index="2" style="font-size: 14pt; line-height: 1.5; margin-top: 10px;">Each cutoff is one of Chapter 17's confusion matrices; the curve is all of them, joined. <strong>TPR</strong> is recall. <strong>FPR</strong> is the share of calm months flagged.</p>
+            <p class="fragment fade-up" data-fragment-index="2" style="font-size: 14pt; line-height: 1.5; margin-top: 10px;">Each cutoff is one of Chapter 17's confusion matrices; the curve is all of them, joined. <strong>TPR</strong> is recall. <strong>FPR</strong> is the share of calm months flagged. This is the <strong>ROC curve</strong> (receiver operating characteristic, a name from radar). <strong>AUC</strong> is the <strong>area under</strong> it: 1 is perfect, 0.5 is the diagonal of a coin flip.</p>
           </div>
         </div>
       </div>
@@ -328,13 +328,14 @@ round(roc_auc_score(y, p), 3)</code></pre><div class="mk-out mk-mono" style="dis
       <h2><i class="fa-solid fa-ranking-star" style="color: var(--secondary-color);"></i> What AUC Actually Measures</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> AUC is 0.811. 81% of what: months, alarms, or pairs?</p>
-        <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-left: 5px solid var(--secondary-color); border-radius: 8px; padding: 24px 28px; margin-top: 8px;">
-          <p style="font-size: 18pt; line-height: 1.5;"><strong>AUC is the probability that a randomly chosen positive case receives a higher predicted score than a randomly chosen negative case.</strong></p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 6px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 12px 16px;"><p style="font-size: 14.5pt; margin: 0;"><strong>1. Make every pair.</strong><br>Pair each of the 36 recession months with each of the 487 calm months:<br>36 &times; 487 = <strong>17,532 pairs</strong></p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 12px 16px;"><p style="font-size: 14.5pt; margin: 0;"><strong>2. Which got the higher probability?</strong><br>Recession month higher: <strong>14,222</strong> pairs<br>Calm month higher: 3,310<br>Ties: 0</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 12px 16px;"><p style="font-size: 14.5pt; margin: 0;"><strong>3. Divide.</strong><br>14,222 / 17,532 = <strong>0.811</strong><br>That is the AUC.</p></div>
         </div>
-        <p class="fragment fade-up" data-fragment-index="1" style="font-size: 15.5pt; line-height: 1.55; margin-top: 18px;"><strong>Count it.</strong> Pair each of the 36 recession months with each of the 487 calm months: 36 &times; 487 = <strong>17,532 pairs</strong>. The recession month gets the higher probability in <strong>14,222</strong> of them: 14,222 / 17,532 = <strong>0.811</strong>.</p>
- <p class="fragment fade-up" data-fragment-index="2" style="font-size: 15.5pt; margin-top: 12px;">It measures <strong>ranking</strong>, and nothing more.</p>
-        <div class="fragment fade-up" data-fragment-index="3" style="background: #fdf0ea; border-left: 4px solid var(--danger-color); border-radius: 8px; padding: 14px 22px; margin-top: 14px;">
- <p style="font-size: 14.5pt;"><strong>Common misconception:</strong> &ldquo;An AUC of 0.81 means the model is 81% accurate.&rdquo; It says nothing about accuracy at any threshold, nothing about whether the probabilities are believable, and nothing about the cases you actually act on.</p>
+        <p class="fragment fade-up" data-fragment-index="4" style="font-size: 15pt; margin-top: 14px;"><strong>AUC is the chance that a random recession month gets a higher probability than a random calm month.</strong> It measures <strong>ranking</strong>, and nothing more: 81% of <em>pairs</em>.</p>
+        <div class="fragment fade-up" data-fragment-index="5" style="background: #fdf2f2; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 12px 18px; margin-top: 10px;">
+          <p style="font-size: 14pt; margin: 0;"><strong>Common misconception:</strong> &ldquo;An AUC of 0.81 means the model is 81% accurate.&rdquo; It says nothing about accuracy at any threshold, nothing about whether the probabilities are believable, and nothing about the cases you actually act on.</p>
         </div>
       </div>
     </section>
