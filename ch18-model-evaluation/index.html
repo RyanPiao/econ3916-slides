@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=37df625d09a2a54964538091beeb120c">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=76c7505357ff4f01fc231447c2e940d7">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Model Evaluation: Metrics That Matter</title>
@@ -770,10 +770,17 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
       <h2><i class="fa-solid fa-calculator" style="color: var(--danger-color);"></i> Work the Arithmetic for One Merchant</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Does tightening a fraud filter make money?</p>
-        <p style="font-size: 14pt; margin-top: 2px;">1,000,000 transactions &bull; 0.3% fraudulent &bull; average order $120 at a 25% margin ($30) &bull; a fraudulent order costs about <strong>$553</strong> all-in, from the $4.61-per-$1-of-fraud estimate.</p>
-        <img class="figure" src="figures/figure_009_fraud_waterfall.png" alt="Waterfall chart of the fraud tightening: 1.49 million dollars of fraud prevented, minus 0.60 million of lost margin on 19,940 false declines, minus 1.99 million of lost customer lifetime value, for a net destruction of 1.10 million dollars" style="width: 100%; max-height: 300px; object-fit: contain; margin-top: 6px;">
-        <p style="font-size: 15pt; margin-top: 8px;">Tighten to catch <strong>90% of fraud</strong> at a <strong>2% false-decline rate</strong>: roughly <strong>$2.6M of cost</strong> against <strong>$1.49M saved.</strong> The tightening destroys about a million dollars of value &mdash; and <strong>every number on the fraud team's dashboard improves while it happens.</strong></p>
-        <p class="fragment fade-up" style="font-size: 14.5pt; margin-top: 8px; color: var(--accent-color);">The benefit is concentrated, measured and <strong>attributed to the fraud team</strong>. The cost is diffuse, delayed, and lands in <strong>another department's revenue line</strong>. <strong>The measurement asymmetry, not the cost asymmetry, is what makes this mistake persistent</strong> &mdash; Chapter 2's Goodhart problem in a machine-learning setting.</p>
+        <p style="font-size: 14pt; margin: 2px 0 8px;">One merchant: <strong>1,000,000</strong> orders, 0.3% fraud (3,000 fraud, 997,000 good). An order earns <strong>$30</strong> margin ($120 at 25%). A fraud order costs about <strong>$553</strong> all-in ($4.61 per $1 of fraud). Tighten the filter to catch <strong>90% of fraud</strong>; it wrongly declines <strong>2% of good orders</strong>.</p>
+        <table style="width: 100%; font-size: 14pt; border-collapse: collapse;">
+          <tr style="border-bottom: 2px solid #ccc;"><th style="text-align: left; padding: 5px 8px;">step</th><th style="text-align: left; padding: 5px 8px;">arithmetic</th><th style="text-align: right; padding: 5px 8px;">effect</th></tr>
+          <tr class="fragment fade-up" data-fragment-index="1" style="border-bottom: 1px solid #e5e5e5;"><td style="padding: 6px 8px;"><strong>1. Fraud stopped</strong></td><td style="padding: 6px 8px;">3,000 &times; 90% = 2,700 orders &times; $553</td><td style="padding: 6px 8px; text-align: right; color: #1F7A5A;"><strong>+$1.49M</strong></td></tr>
+          <tr class="fragment fade-up" data-fragment-index="2" style="border-bottom: 1px solid #e5e5e5;"><td style="padding: 6px 8px;"><strong>2. Good orders declined</strong></td><td style="padding: 6px 8px;">997,000 &times; 2% = 19,940 orders &times; $30 margin</td><td style="padding: 6px 8px; text-align: right; color: var(--danger-color);"><strong>&minus;$0.60M</strong></td></tr>
+          <tr class="fragment fade-up" data-fragment-index="3" style="border-bottom: 1px solid #e5e5e5;"><td style="padding: 6px 8px;"><strong>3. Customers who leave</strong></td><td style="padding: 6px 8px;">a third of 19,940 &asymp; 6,650 customers &times; $300 lifetime margin</td><td style="padding: 6px 8px; text-align: right; color: var(--danger-color);"><strong>&minus;$1.99M</strong></td></tr>
+          <tr class="fragment fade-up" data-fragment-index="4" style="border-top: 2px solid #999;"><td style="padding: 6px 8px;"><strong>Net</strong></td><td style="padding: 6px 8px;">1.49 &minus; 0.60 &minus; 1.99 (costs: 2.6M against 1.49M saved)</td><td style="padding: 6px 8px; text-align: right; color: var(--danger-color);"><strong>&minus;$1.10M</strong></td></tr>
+        </table>
+        <p class="fragment fade-up" data-fragment-index="3" style="font-size: 12.5pt; color: #666; margin: 4px 0 0;">Row 3 is an assumption: surveys find about a third of wrongly declined buyers do not return; $300 is illustrative.</p>
+        <p class="fragment fade-up" data-fragment-index="5" style="font-size: 14.5pt; margin-top: 10px;"><strong>The fraud team's dashboard shows only row 1</strong>, and fraud caught rises to 90%. Rows 2 and 3 land later, in <strong>another department's revenue line</strong>.</p>
+        <div class="fragment fade-up" data-fragment-index="6" style="background: #fdf8ec; border-radius: 10px; border-left: 4px solid var(--accent-color); padding: 10px 16px; margin-top: 8px;"><p style="font-size: 14.5pt; margin: 0;"><strong>The measurement asymmetry, not the cost asymmetry, is what makes this mistake persistent:</strong> Chapter 2's Goodhart problem in a machine-learning setting.</p></div>
       </div>
     </section>
 
@@ -799,12 +806,15 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
       <h2><i class="fa-solid fa-scale-unbalanced-flip" style="color: var(--secondary-color);"></i> Computing an Impact Ratio</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How does a hiring audit turn fairness into a number?</p>
-        <p style="font-size: 14pt; margin-top: 2px;">New York City's Local Law 144: a hiring algorithm needs a published bias audit every year, with this arithmetic.</p>
-        <img class="figure" src="figures/figure_010_impact_ratio.png" alt="Selection rates of 0.240 for Group A and 0.180 for Group B, giving an impact ratio of 0.75 shown against the 0.80 four-fifths threshold" style="width: 100%; max-height: 270px; object-fit: contain; margin-top: 4px;">
-        <div style="background: #f8f6f3; border-radius: 8px; padding: 12px 20px; margin-top: 8px; text-align: center;">
-          $$\text{impact ratio} = \frac{0.180}{0.240} = 0.75$$
+        <p style="font-size: 14pt; margin: 2px 0 10px;">New York City's Local Law 144: a hiring algorithm needs a published bias audit every year, with this arithmetic. An illustrative audit of two groups of applicants:</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 12px 16px;"><p style="font-size: 14.5pt; margin: 0;"><strong>1. Each group's selection rate.</strong><br>The share of its applicants the tool advances.<br>Group A: 240 of 1,000 = <strong>0.240</strong><br>Group B: 108 of 600 = <strong>0.180</strong></p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 12px 16px;"><p style="font-size: 14.5pt; margin: 0;"><strong>2. Divide: lower over higher.</strong><br>impact ratio = 0.180 / 0.240 = <strong>0.75</strong><br>Group B is advanced at three-quarters of Group A's rate.</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 12px 16px;"><p style="font-size: 14.5pt; margin: 0;"><strong>3. Compare with 0.80.</strong><br>The EEOC's <strong>four-fifths rule</strong>: below 0.80 flags.<br>0.75 &lt; 0.80: <strong>it flags</strong>. Local Law 144 publishes the ratio either way.</p></div>
         </div>
-        <p class="fragment fade-up" style="font-size: 14pt; margin-top: 6px;">0.75 &lt; <strong>0.80</strong>, the EEOC's four-fifths rule: it <strong>flags</strong>. Local Law 144 publishes the ratio either way. <strong>It does not say the model is wrong:</strong> if group B's true rate is lower, a well-calibrated model advances fewer of them.</p>
+        <div class="fragment fade-up" data-fragment-index="4" style="background: #fdf2f2; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 12px 18px; margin-top: 14px;">
+          <p style="font-size: 14.5pt; margin: 0;"><strong>A flag is not proof the model is wrong.</strong> If group B's true rate of the outcome is lower, a well-calibrated model advances fewer of them. And raising the ratio means a lower cutoff for group B: the same predicted probability means advance for one applicant and reject for another.</p>
+        </div>
       </div>
     </section>
 
