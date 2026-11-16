@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=2947455a8480ace9632da720bac8c70d">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=67a75b45069e5ed0fd50edf6a4b0177e">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Model Evaluation: Metrics That Matter</title>
@@ -50,7 +50,7 @@
       </div>
     </section>
 
-    <section id="this-week" data-term="2026-fall" style="padding: 34px 60px;">
+    <section id="this-week" data-term="2026-fall" data-visibility="hidden" style="padding: 34px 60px;">
       <h2><i class="fa-regular fa-calendar" style="color: var(--secondary-color);"></i> This Week, and the Dates That Moved</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 10px;"><i class="fa-solid fa-circle-question"></i> What is due, and when?</p>
@@ -793,31 +793,31 @@ closed form 0.0909 (test rows)       : 0.4683</pre></div></div></div></div>
         <div style="display: flex; flex-direction: column; gap: 5px;">
           <div class="fragment fade-up" data-fragment-index="1" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #C47B5A;">
             <p style="font-size: 15pt; font-weight: 700; color: #C47B5A; margin: 0;">1</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Report the base rate first.</strong> Accuracy's floor, PR-AUC's baseline and precision all move with it: 6.9% here (page 3).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Report the base rate first.</strong> Accuracy's floor, PR-AUC's baseline and precision all move with it: 6.9% here (page 2).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="2" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 15pt; font-weight: 700; color: #6B8BA4; margin: 0;">2</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Never report accuracy alone.</strong> 93.1% for a model that never fires (page 3).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Never report accuracy alone.</strong> 93.1% for a model that never fires (page 2).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="3" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 15pt; font-weight: 700; color: #6B8BA4; margin: 0;">3</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Pick the curve by the balance.</strong> ROC when classes are balanced; precision-recall when positives are rare (page 21).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Pick the curve by the balance.</strong> ROC when classes are balanced; precision-recall when positives are rare (page 20).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="4" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #C47B5A;">
             <p style="font-size: 15pt; font-weight: 700; color: #C47B5A; margin: 0;">4</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Check calibration if the probability is used as a number.</strong> AUC cannot see it; the band table can (page 28).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Check calibration if the probability is used as a number.</strong> AUC cannot see it; the band table can (page 27).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="5" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #C47B5A;">
             <p style="font-size: 15pt; font-weight: 700; color: #C47B5A; margin: 0;">5</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Choose the threshold from costs, and say its exchange rate.</strong> Then check the model ever reaches it (pages 36&ndash;38).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Choose the threshold from costs, and say its exchange rate.</strong> Then check the model ever reaches it (pages 35&ndash;37).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="6" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #6B8BA4;">
             <p style="font-size: 15pt; font-weight: 700; color: #6B8BA4; margin: 0;">6</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Split the headline metrics by subgroup.</strong> An impact ratio is one example (page 46).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Split the headline metrics by subgroup.</strong> An impact ratio is one example (page 45).</p>
           </div>
           <div class="fragment fade-up" data-fragment-index="7" style="display: grid; grid-template-columns: 34px 1fr; align-items: center; background: #f8f6f3; border-radius: 6px; padding: 4px 14px; border-left: 3px solid #2E7D5B;">
             <p style="font-size: 15pt; font-weight: 700; color: #2E7D5B; margin: 0;">7</p>
-            <p style="font-size: 13pt; margin: 0;"><strong>Report the operating point (the cutoff you use), not only the area,</strong> and re-check on a schedule: the 21 months came years after the fit (page 29).</p>
+            <p style="font-size: 13pt; margin: 0;"><strong>Report the operating point (the cutoff you use), not only the area,</strong> and re-check on a schedule: the 21 months came years after the fit (page 28).</p>
           </div>
         </div>
         <p class="fragment fade-up" data-fragment-index="8" style="font-size: 13.5pt; margin-top: 8px; color: var(--accent-color);"><strong>Short of time? Steps 1, 4 and 5.</strong> And fix the metric before you fit: choosing it after seeing results is choosing the cost assumption that flatters you.</p>
