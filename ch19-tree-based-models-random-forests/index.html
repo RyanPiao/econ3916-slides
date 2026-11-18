@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=d6402ddae9893567220bb37ec7a0c90b">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a86bde6e9439ba11f464b93e08ec3f78">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>
@@ -676,7 +676,7 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
           var lean = "";
           if (mo !== null && me !== null) {
             lean = ((mo - TRUE) * (me - TRUE) < 0)
-              ? "They leaned opposite ways, so averaging them cancels. That is why a forest hides features from each tree (page 27)."
+              ? "They leaned opposite ways, so averaging them cancels. That is why a forest hides features from each tree (page 28)."
               : "Both leaned the same way: an error everyone shares does not average away. That is the floor (page 23).";
           }
           set("ab-lean", lean);
@@ -984,7 +984,7 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
     
     </section>
     <section id="demo-bootstrap" style="padding: 10px 30px 10px 30px !important;">
-     <iframe allow="accelerometer" loading="lazy" scrolling="no" src="https://ryanpiao.github.io/visual-ml-hub/bootstrap_sampling.html" style="flex: 1; width: 111%; height: 111%; border: none; overflow: hidden; transform: scale(0.9); transform-origin: top left;">
+     <iframe allow="accelerometer" loading="lazy" scrolling="no" src="https://ryanpiao.github.io/visual-ml-hub/bootstrap_sampling.html" style="display: block; width: 980px; height: 111%; margin: 0 auto; border: none; overflow: hidden; transform: scale(0.95); transform-origin: top center;">
      </iframe>
      <p style="font-size: 10pt; color: var(--muted-color); text-align: center; margin: 0;">
       <i class="fa-solid fa-sliders">
@@ -1126,6 +1126,16 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
       </div>
      </div>
     </section>
+    <section id="demo-forest-averaging" style="padding: 10px 30px 10px 30px !important;">
+     <iframe allow="accelerometer" loading="lazy" scrolling="no" src="https://ryanpiao.github.io/visual-ml-hub/forest_averaging.html" style="flex: 1; width: 111%; height: 111%; border: none; overflow: hidden; transform: scale(0.9); transform-origin: top left;">
+     </iframe>
+     <p style="font-size: 10pt; color: var(--muted-color); text-align: center; margin: 0;">
+      <i class="fa-solid fa-sliders">
+      </i>
+      Gold = true function &bull; Blue = ensemble &bull; Slide B: 1 &rarr; 100 trees
+     </p>
+    
+    </section>
     <section class="section-divider" data-state="is-section-divider" id="divider-rf">
      <h1>
       <i class="fa-solid fa-tree">
@@ -1175,16 +1185,7 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
     <section data-visibility="hidden" id="slide-extra-56b" style="padding: 0; display: flex; align-items: center; justify-content: center; background: #fff;">
      <img alt="slides_part2_slides_part2_page_014.png" src="extra-slides/slides_part2_slides_part2_page_014.png" style="max-height: 625px; max-width: 1260px; object-fit: contain;">
     </section>
-    <section id="demo-forest-averaging" style="padding: 10px 30px 10px 30px !important;">
-     <iframe allow="accelerometer" loading="lazy" scrolling="no" src="https://ryanpiao.github.io/visual-ml-hub/forest_averaging.html" style="flex: 1; width: 111%; height: 111%; border: none; overflow: hidden; transform: scale(0.9); transform-origin: top left;">
-     </iframe>
-     <p style="font-size: 10pt; color: var(--muted-color); text-align: center; margin: 0;">
-      <i class="fa-solid fa-sliders">
-      </i>
-      Gold = true function &bull; Blue = ensemble &bull; Slide B: 1 &rarr; 100 trees
-     </p>
     
-    </section>
     <section id="rf-numerical">
      <h2>
       <i class="fa-solid fa-calculator">
