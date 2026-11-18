@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0563d35cd0fc1a216993c2dae7793fb2">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=d6402ddae9893567220bb37ec7a0c90b">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>
@@ -577,17 +577,55 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
       </div>
     
     </section>
+    <section id="airbnb-clues" data-phone-next="airbnb-vote" style="padding: 26px 55px;">
+      <h2><i class="fa-solid fa-mobile-screen" style="color: var(--secondary-color);"></i> Your Clues, on Your Phone</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Each of you is one tree, and each tree sees only some features.</p>
+        <div data-arm="nuid-parity" style="margin-top: 6px;">
+          <div class="arm-block" data-arm-version="room">
+            <div style="display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: center;">
+              <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 16px 22px;">
+                <p style="font-size: 17pt; margin: 0 0 10px;"><strong>Scan to open this page on your phone.</strong> It shows one real Boston Airbnb and <strong>half of its clues</strong>: odd and even NUIDs get <strong>different</strong> clues.</p>
+                <p style="font-size: 15pt; margin: 0; color: var(--muted-color);">Keep your clues to yourself. The price box is under your clues, on the same phone.</p>
+              </div>
+              <div><div class="ab-qr" data-url="https://ryanpiao.github.io/econ3916-slides/ch19-tree-based-models-random-forests/#/airbnb-clues" style="width: 280px; height: 280px;"></div>
+                <p style="font-size: 10.5pt; margin: 6px 0 0; color: var(--muted-color); word-break: break-all;">https://ryanpiao.github.io/econ3916-slides/ch19-tree-based-models-random-forests/#/airbnb-clues</p></div>
+            </div>
+          </div>
+          <div class="arm-block" data-arm-version="pending" hidden>
+            <div style="background: #f8f6f3; border-radius: 8px; padding: 16px 22px;">
+              <p style="font-size: 16pt; margin: 0 0 10px;">Check in with your NUID to see your clues.</p>
+              <button type="button" data-arm-checkin class="arm-checkin">Check in</button>
+            </div>
+          </div>
+          <div class="arm-block" data-arm-version="odd" hidden><p class="arm-label">Odd NUID &middot; location and size</p>
+            <div style="background: #fdf0ea; border-left: 4px solid #C47B5A; border-radius: 8px; padding: 16px 22px;"><p style="font-size: 17pt; line-height: 1.6; margin: 0;">One night in a whole apartment in Boston.<br>In <strong>Fenway</strong>, near Fenway Park<br>A whole serviced apartment<br><strong>1 bedroom, 1 bath, sleeps 2</strong></p></div></div>
+          <div class="arm-block" data-arm-version="even" hidden><p class="arm-label">Even NUID &middot; reviews and amenities</p>
+            <div style="background: #f0f5f8; border-left: 4px solid #6B8BA4; border-radius: 8px; padding: 16px 22px;"><p style="font-size: 17pt; line-height: 1.6; margin: 0;">One night in a whole apartment in Boston.<br>Rated <strong>4.84 stars</strong> from <strong>146 reviews</strong><br>Washer in the unit, kitchen, wifi<br>Window air conditioner, pets allowed</p></div></div>
+        </div>
+      </div>
+      <script>(function () {
+        function draw() {
+          var el = document.querySelector("#airbnb-clues .ab-qr");
+          if (!el || el.__done || !window.qrcode) return;
+          var q = window.qrcode(0, "M"); q.addData(el.getAttribute("data-url")); q.make();
+          el.innerHTML = q.createSvgTag({ cellSize: 6, margin: 1, scalable: true }); el.__done = 1;
+          var svg = el.querySelector("svg"); if (svg) { svg.style.width = "100%"; svg.style.height = "100%"; }
+        }
+        if (window.qrcode) draw();
+        else { var s = document.createElement("script");
+          s.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js";
+          s.onload = draw; document.head.appendChild(s); }
+      })();</script>
+    </section>
     <section id="airbnb-vote" style="padding: 30px 55px;">
       <h2><i class="fa-solid fa-house" style="color: var(--secondary-color);"></i> Price One Boston Airbnb</h2>
       <div class="content">
-        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Each of you is one tree. Can the room price a listing better than any one of you?</p>
-        <p style="font-size: 15.5pt; margin: 0 0 6px;">One night in a whole apartment in Boston. Using <strong>only your group's clues</strong> on the screen, what does it cost per night, in dollars?</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Can the room price a listing better than any one of you?</p>
+        <p style="font-size: 16pt; margin: 0 0 6px;">One night in a whole apartment in Boston. Using <strong>only the clues on your phone</strong>, what does it cost per night, in dollars?</p>
         <div class="poll-number" data-poll-id="ch19-econ3916-poll-4" data-poll-voting data-min="0" data-max="2000" data-step="1" data-arm="nuid-parity" style="margin-top: 10px;"></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px;">
-          <div style="background: #fdf0ea; border-left: 4px solid #C47B5A; border-radius: 8px; padding: 12px 18px;"><p style="font-size: 13pt; font-weight: 700; color: #C47B5A; margin: 0 0 6px;">NUID ends in an ODD digit: use only these</p><p style="font-size: 15.5pt; margin: 0; line-height: 1.5;">In <strong>Fenway</strong>, near Fenway Park<br>A whole serviced apartment<br><strong>1 bedroom, 1 bath, sleeps 2</strong></p></div>
-          <div style="background: #f0f5f8; border-left: 4px solid #6B8BA4; border-radius: 8px; padding: 12px 18px;"><p style="font-size: 13pt; font-weight: 700; color: #6B8BA4; margin: 0 0 6px;">NUID ends in an EVEN digit: use only these</p><p style="font-size: 15.5pt; margin: 0; line-height: 1.5;">Rated <strong>4.84 stars</strong> from <strong>146 reviews</strong><br>Washer in the unit, kitchen, wifi<br>Window air conditioner, pets allowed</p></div>
-        </div>
-        <p style="font-size: 12.5pt; margin-top: 10px; text-align: center; color: var(--muted-color);">Answers so far: odd <strong data-poll-fill="ch19-econ3916-poll-4" data-key="n.odd">&mdash;</strong> &middot; even <strong data-poll-fill="ch19-econ3916-poll-4" data-key="n.even">&mdash;</strong></p>
+        <div style="background: #f8f6f3; border-radius: 10px; padding: 14px 22px; margin-top: 18px; text-align: center;"><p style="font-size: 15pt; margin: 0;">The price box is <strong>under your clues</strong> on the page you scanned. No clues yet? Scan the code on the previous page.</p></div>
+        <p style="font-size: 12.5pt; margin-top: 12px; text-align: center; color: var(--muted-color);">Answers so far: odd <strong data-poll-fill="ch19-econ3916-poll-4" data-key="n.odd">&mdash;</strong> &middot; even <strong data-poll-fill="ch19-econ3916-poll-4" data-key="n.even">&mdash;</strong></p>
       </div>
     </section>
     <section id="airbnb-reveal" style="padding: 24px 50px;">
@@ -601,19 +639,35 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
           <div class="fragment fade-up" data-fragment-index="3" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 8px 14px;"><p style="font-size: 13.5pt; margin: 0;"><strong>Two clue sets.</strong> Odd averaged <strong class="ab-odd">&mdash;</strong>, even <strong class="ab-even">&mdash;</strong>. <span class="ab-lean"></span></p></div>
         </div>
         <p class="ab-wait" style="font-size: 12pt; color: var(--muted-color); margin: 6px 0 0; text-align: center;"></p>
+        <p class="ab-demo" style="font-size: 13pt; font-weight: 700; color: var(--danger-color); margin: 4px 0 0; text-align: center;"></p>
         <p style="font-size: 11pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;">The listing's nightly price when Inside Airbnb collected Boston's listings, 20 Sep 2026: $279.</p>
       </div>
       <script>(function () {
         var PID = "ch19-econ3916-poll-4", TRUE = 279, MIN_N = 4;
+        // made-up practice guesses (Q on this page, or ?demo=1): odd leans high, even low, so the "opposite" line shows
+        var DEMO = [350,300,280,250,400,320,220,450,300,260,380].map(function (v, k) { return { voter_id: "demo-o" + k, choice: "o:" + v, created_at: "2026-01-01T00:00:" + (10 + k) + "Z", poll_id: PID }; })
+          .concat([180,200,150,250,220,300,175,140,260,199,230].map(function (v, k) { return { voter_id: "demo-e" + k, choice: "e:" + v, created_at: "2026-01-01T00:01:" + (10 + k) + "Z", poll_id: PID }; }));
+        var demo = /[?&]demo=1/.test(location.search), painting = false;
+        function cur() { var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide(); return s && s.id; }
+        function paintDemo() { if (!window.Poll || !Poll.showNumbers) return; painting = true; try { Poll.showNumbers(PID, DEMO); } finally { painting = false; } }
+        document.addEventListener("keydown", function (e) {
+          var t = e.target;
+          if ((e.key === "q" || e.key === "Q") && cur() === "airbnb-reveal" && !(t && t.closest && t.closest("input,textarea"))) {
+            demo = !demo; if (demo) paintDemo(); else { set("ab-demo", ""); if (Poll.refreshNumbers) Poll.refreshNumbers(PID); }
+          }
+        });
+        if (demo) setTimeout(paintDemo, 1500);
         function mean(a) { return a.length ? a.reduce(function (s, x) { return s + x; }, 0) / a.length : null; }
         function d0(x) { return x === null ? "—" : "$" + Math.round(x).toLocaleString("en-US"); }
         function set(c, t) { [].forEach.call(document.querySelectorAll("#airbnb-reveal ." + c), function (e) { e.textContent = t; }); }
         document.addEventListener("pollnumbers", function (e) {
           var d = e.detail; if (!d || d.pollId !== PID || !d.data) return;
+          if (demo && !painting) { setTimeout(paintDemo, 0); return; }
+          set("ab-demo", demo ? "Practice data: made up, not this room. Press Q to turn it off." : "");
           var all = (d.data.all || []).filter(function (v) { return v > 0 && v <= 2000; });
           var odd = (d.data.odd || []).filter(function (v) { return v > 0 && v <= 2000; });
           var even = (d.data.even || []).filter(function (v) { return v > 0 && v <= 2000; });
-          if (all.length < MIN_N) { set("ab-wait", "Waiting for votes: " + all.length + " so far."); return; }
+          if (all.length < MIN_N) { ["ab-single","ab-mean","ab-miss","ab-odd","ab-even"].forEach(function (c) { set(c, "\u2014"); }); set("ab-lean", ""); set("ab-wait", "Waiting for votes: " + all.length + " so far. Press Q for practice data."); return; }
           set("ab-wait", "");
           var m = mean(all), single = mean(all.map(function (v) { return Math.abs(v - TRUE); }));
           set("ab-single", d0(single)); set("ab-mean", d0(m)); set("ab-miss", d0(Math.abs(m - TRUE)));
