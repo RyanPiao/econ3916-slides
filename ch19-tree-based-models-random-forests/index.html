@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=893ecd8c65f3d9b6f91f223da94ac55e">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=3badf5819d185bae307faa866da377a7">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>
@@ -628,7 +628,8 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
         <p style="font-size: 12.5pt; margin-top: 12px; text-align: center; color: var(--muted-color);">Answers so far: odd <strong data-poll-fill="ch19-econ3916-poll-4" data-key="n.odd">&mdash;</strong> &middot; even <strong data-poll-fill="ch19-econ3916-poll-4" data-key="n.even">&mdash;</strong></p>
       </div>
     </section>
-    <section id="airbnb-reveal" style="padding: 24px 50px;">
+    <section id="airbnb-reveal" data-state="ab-reveal" style="padding: 24px 50px;">
+      <style>.ab-reveal #ec-qr { display: none !important; }</style>
       <h2><i class="fa-solid fa-tree" style="color: var(--secondary-color);"></i> Many Trees, One Forest</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 4px;"><i class="fa-solid fa-circle-question"></i> Did the room's average beat a typical single guess?</p>
@@ -650,12 +651,26 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
         var demo = /[?&]demo=1/.test(location.search), painting = false;
         function cur() { var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide(); return s && s.id; }
         function paintDemo() { if (!window.Poll || !Poll.showNumbers) return; painting = true; try { Poll.showNumbers(PID, DEMO); } finally { painting = false; } }
-        document.addEventListener("keydown", function (e) {
+        var lastToggle = 0;
+        function toggle() {
+          var now = Date.now(); if (now - lastToggle < 400) return; lastToggle = now;
+          demo = !demo; if (demo) paintDemo(); else { set("ab-demo", ""); if (Poll.refreshNumbers) Poll.refreshNumbers(PID); }
+        }
+        // poll.js takes Q on a poll slide for its QR box, so this page claims Q first (capture on window)
+        window.addEventListener("keydown", function (e) {
           var t = e.target;
-          if ((e.key === "q" || e.key === "Q") && cur() === "airbnb-reveal" && !(t && t.closest && t.closest("input,textarea"))) {
-            demo = !demo; if (demo) paintDemo(); else { set("ab-demo", ""); if (Poll.refreshNumbers) Poll.refreshNumbers(PID); }
+          if ((e.key === "q" || e.key === "Q") && !e.metaKey && !e.ctrlKey && !e.altKey && cur() === "airbnb-reveal" && !(t && t.closest && t.closest("input,textarea"))) {
+            e.preventDefault(); e.stopImmediatePropagation(); toggle();
           }
-        });
+        }, true);
+        // Q in the speaker view: the preview gets reveal's triggerKey 81 (toggled here, and poll.js relays it),
+        // the projector gets poll.js's {pollqr: "cycle"}, taken here before the QR box cycles
+        window.addEventListener("message", function (ev) {
+          var d; try { d = JSON.parse(ev.data); } catch (err) { return; }
+          if (!d || cur() !== "airbnb-reveal") return;
+          if (d.pollqr === "cycle") { ev.stopImmediatePropagation(); toggle(); }
+          else if (d.method === "triggerKey" && d.args && d.args[0] === 81) toggle();
+        }, true);
         if (demo) setTimeout(paintDemo, 1500);
         function mean(a) { return a.length ? a.reduce(function (s, x) { return s + x; }, 0) / a.length : null; }
         function d0(x) { return x === null ? "—" : "$" + Math.round(x).toLocaleString("en-US"); }
