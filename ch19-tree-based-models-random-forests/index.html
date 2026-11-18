@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=09e34870814961291c546fb90945f545">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0563d35cd0fc1a216993c2dae7793fb2">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>
@@ -541,6 +541,7 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
      </p>
     
     </section>
+    <section>
     <section id="unstable-root">
       <h2>Change the Sample, Get a Different Tree</h2>
       <div class="content">
@@ -575,6 +576,59 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
         </div>
       </div>
     
+    </section>
+    <section id="airbnb-vote" style="padding: 30px 55px;">
+      <h2><i class="fa-solid fa-house" style="color: var(--secondary-color);"></i> Price One Boston Airbnb</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Each of you is one tree. Can the room price a listing better than any one of you?</p>
+        <p style="font-size: 15.5pt; margin: 0 0 6px;">One night in a whole apartment in Boston. Using <strong>only your group's clues</strong> on the screen, what does it cost per night, in dollars?</p>
+        <div class="poll-number" data-poll-id="ch19-econ3916-poll-4" data-poll-voting data-min="0" data-max="2000" data-step="1" data-arm="nuid-parity" style="margin-top: 10px;"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 14px;">
+          <div style="background: #fdf0ea; border-left: 4px solid #C47B5A; border-radius: 8px; padding: 12px 18px;"><p style="font-size: 13pt; font-weight: 700; color: #C47B5A; margin: 0 0 6px;">NUID ends in an ODD digit: use only these</p><p style="font-size: 15.5pt; margin: 0; line-height: 1.5;">In <strong>Fenway</strong>, near Fenway Park<br>A whole serviced apartment<br><strong>1 bedroom, 1 bath, sleeps 2</strong></p></div>
+          <div style="background: #f0f5f8; border-left: 4px solid #6B8BA4; border-radius: 8px; padding: 12px 18px;"><p style="font-size: 13pt; font-weight: 700; color: #6B8BA4; margin: 0 0 6px;">NUID ends in an EVEN digit: use only these</p><p style="font-size: 15.5pt; margin: 0; line-height: 1.5;">Rated <strong>4.84 stars</strong> from <strong>146 reviews</strong><br>Washer in the unit, kitchen, wifi<br>Window air conditioner, pets allowed</p></div>
+        </div>
+        <p style="font-size: 12.5pt; margin-top: 10px; text-align: center; color: var(--muted-color);">Answers so far: odd <strong data-poll-fill="ch19-econ3916-poll-4" data-key="n.odd">&mdash;</strong> &middot; even <strong data-poll-fill="ch19-econ3916-poll-4" data-key="n.even">&mdash;</strong></p>
+      </div>
+    </section>
+    <section id="airbnb-reveal" style="padding: 24px 50px;">
+      <h2><i class="fa-solid fa-tree" style="color: var(--secondary-color);"></i> Many Trees, One Forest</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 4px;"><i class="fa-solid fa-circle-question"></i> Did the room's average beat a typical single guess?</p>
+        <div class="poll-number-results" data-poll-id="ch19-econ3916-poll-4" data-min="0" data-max="1000" data-arm="nuid-parity" data-ref="279" data-ref-label="actual 279" data-label-odd="Odd: location clues" data-label-even="Even: review clues" style="margin-top: 2px;"></div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 8px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #fdf2f2; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 8px 14px;"><p style="font-size: 13.5pt; margin: 0;"><strong>One tree.</strong> A typical single guess missed by <strong class="ab-single">&mdash;</strong>.</p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #eef6f1; border-radius: 10px; border-left: 4px solid #1F7A5A; padding: 8px 14px;"><p style="font-size: 13.5pt; margin: 0;"><strong>The forest.</strong> The room's average, <strong class="ab-mean">&mdash;</strong>, missed by <strong class="ab-miss">&mdash;</strong>.</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 8px 14px;"><p style="font-size: 13.5pt; margin: 0;"><strong>Two clue sets.</strong> Odd averaged <strong class="ab-odd">&mdash;</strong>, even <strong class="ab-even">&mdash;</strong>. <span class="ab-lean"></span></p></div>
+        </div>
+        <p class="ab-wait" style="font-size: 12pt; color: var(--muted-color); margin: 6px 0 0; text-align: center;"></p>
+        <p style="font-size: 11pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;">The listing's nightly price when Inside Airbnb collected Boston's listings, 20 Sep 2026: $279.</p>
+      </div>
+      <script>(function () {
+        var PID = "ch19-econ3916-poll-4", TRUE = 279, MIN_N = 4;
+        function mean(a) { return a.length ? a.reduce(function (s, x) { return s + x; }, 0) / a.length : null; }
+        function d0(x) { return x === null ? "—" : "$" + Math.round(x).toLocaleString("en-US"); }
+        function set(c, t) { [].forEach.call(document.querySelectorAll("#airbnb-reveal ." + c), function (e) { e.textContent = t; }); }
+        document.addEventListener("pollnumbers", function (e) {
+          var d = e.detail; if (!d || d.pollId !== PID || !d.data) return;
+          var all = (d.data.all || []).filter(function (v) { return v > 0 && v <= 2000; });
+          var odd = (d.data.odd || []).filter(function (v) { return v > 0 && v <= 2000; });
+          var even = (d.data.even || []).filter(function (v) { return v > 0 && v <= 2000; });
+          if (all.length < MIN_N) { set("ab-wait", "Waiting for votes: " + all.length + " so far."); return; }
+          set("ab-wait", "");
+          var m = mean(all), single = mean(all.map(function (v) { return Math.abs(v - TRUE); }));
+          set("ab-single", d0(single)); set("ab-mean", d0(m)); set("ab-miss", d0(Math.abs(m - TRUE)));
+          var mo = mean(odd), me = mean(even);
+          set("ab-odd", d0(mo)); set("ab-even", d0(me));
+          var lean = "";
+          if (mo !== null && me !== null) {
+            lean = ((mo - TRUE) * (me - TRUE) < 0)
+              ? "They leaned opposite ways, so averaging them cancels. That is why a forest hides features from each tree (page 27)."
+              : "Both leaned the same way: an error everyone shares does not average away. That is the floor (page 23).";
+          }
+          set("ab-lean", lean);
+        });
+      })();</script>
+    </section>
     </section>
     <section id="variance-problem">
      <h2>

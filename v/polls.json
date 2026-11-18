@@ -92,8 +92,9 @@
   "ch18-econ3916-poll-3": "18-3",
   "ch18-econ3916-poll-4": "18-4",
   "ch19-econ3916-poll-1": "19-1",
-  "ch19-econ3916-poll-2": "19-2",
-  "ch19-econ3916-poll-3": "19-3",
+  "ch19-econ3916-poll-2": "19-3",
+  "ch19-econ3916-poll-3": "19-4",
+  "ch19-econ3916-poll-4": "19-2",
   "ch20-econ3916-poll-1": "20-1",
   "ch20-econ3916-poll-2": "20-2",
   "ch20-econ3916-poll-3": "20-3",
@@ -329,9 +330,13 @@
   ],
   "19-2": [
    "ch19-tree-based-models-random-forests",
-   "ch19-econ3916-poll-2"
+   "ch19-econ3916-poll-4"
   ],
   "19-3": [
+   "ch19-tree-based-models-random-forests",
+   "ch19-econ3916-poll-2"
+  ],
+  "19-4": [
    "ch19-tree-based-models-random-forests",
    "ch19-econ3916-poll-3"
   ],
