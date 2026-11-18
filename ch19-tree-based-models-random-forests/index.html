@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=9cda4a060cf39d830363072cdd346c52">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=941a471c4deb647285a7089378a58cf5">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>
@@ -721,6 +721,7 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
         <div class="fragment fade-up" data-fragment-index="4" style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 10px 16px; margin-top: 8px;"><p style="font-size: 14.5pt; margin: 0;"><strong>Hands:</strong> draw 100 rows <em>with replacement</em> from 100. How many different rows turn up: about 50, about 63, or about 90?</p></div>
       </div>
     </section>
+    <section>
     <section id="bootstrap-63-37">
       <h2>Every Tree Only Sees Two Thirds of the Data</h2>
       <div class="content">
@@ -873,6 +874,16 @@ Test R&sup2;:  0.6161</pre></div></div></div></div>
         <p style="font-size: 14.5pt; margin: 6px 0 0; color: var(--muted-color); text-align: center;">One real draw, not an illustration &mdash; 63 in, 37 out.</p>
       </div>
     
+    </section>
+    <section id="demo-bootstrap" style="padding: 10px 30px 10px 30px !important;">
+     <iframe allow="accelerometer" loading="lazy" scrolling="no" src="https://ryanpiao.github.io/visual-ml-hub/bootstrap_sampling.html" style="flex: 1; width: 111%; height: 111%; border: none; overflow: hidden; transform: scale(0.9); transform-origin: top left;">
+     </iframe>
+     <p style="font-size: 10pt; color: var(--muted-color); text-align: center; margin: 0;">
+      <i class="fa-solid fa-sliders">
+      </i>
+      20 rows, 5 bootstrap samples &bull; x2 = drawn twice, OOB = never drawn &bull; Play, or drag the slider to Summary
+     </p>
+    </section>
     </section>
     <section id="out-of-bag">
       <h2>The 37% You Left Out Is a Free Test Set</h2>
