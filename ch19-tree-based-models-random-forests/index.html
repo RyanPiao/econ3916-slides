@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a86bde6e9439ba11f464b93e08ec3f78">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=4024eb2e01d9ef94399dbded4ab051c3">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>
@@ -1365,21 +1365,57 @@ print(f<span class="t-str">"Test R&sup2;: {r2_score(y_test, rf.predict(X_test)):
     <section id="mdi-vs-permutation">
       <h2>Two Ways to Ask &ldquo;Which Feature Mattered?&rdquo;</h2>
       <div class="content">
-        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Two ways to ask which feature mattered: do they agree?</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 4px;">
-          <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f4f8; border-radius: 12px; padding: 16px 20px;">
-            <p style="font-size: 18pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 8px;">Mean decrease in impurity (MDI)</p>
-            <p style="font-size: 14.5pt; margin: 0 0 8px;"><strong>How:</strong> add up how much each feature reduced impurity (Gini for classes, squared error for numbers) across every split. Free: it falls out of training.</p>
-            <p style="font-size: 14.5pt; margin: 0; color: var(--danger-color);"><strong>Blind spot:</strong> it favours features with many possible split points. A feature with many distinct values, like average occupancy or population, can look important just because it offers more places to cut.</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Which features did the forest lean on? Two ways to ask.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #f0f4f8; border-radius: 12px; padding: 12px 16px;">
+            <p style="font-size: 17pt; font-weight: 700; color: var(--secondary-color); margin: 0 0 4px;">1. Mean decrease in impurity (MDI)</p>
+            <div class="mathjax_ignore tex2jax_ignore">
+            <svg viewBox="0 0 520 190" width="100%" role="img" aria-label="A small tree: the root splits on income and lowers impurity by 0.30, a lower income split by 0.05, an age split by 0.10. Income adds to 0.35, age to 0.10.">
+              <rect x="170" y="2" width="180" height="50" rx="8" fill="#2C3E50"/><text x="260" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">income?</text><text x="260" y="44" text-anchor="middle" font-size="14" fill="#D5DBDB">drop 0.30</text>
+              <path d="M220 52 L 110 84 M300 52 L 410 84" stroke="#2C3E50" stroke-width="2" fill="none"/>
+              <rect x="30" y="84" width="160" height="50" rx="8" fill="#EAF2F8" stroke="#2E86AB" stroke-width="2"/><text x="110" y="104" text-anchor="middle" font-size="16" font-weight="700" fill="#2C3E50">income?</text><text x="110" y="126" text-anchor="middle" font-size="14" fill="#2E86AB">drop 0.05</text>
+              <rect x="330" y="84" width="160" height="50" rx="8" fill="#FDF2F7" stroke="#A23B72" stroke-width="2"/><text x="410" y="104" text-anchor="middle" font-size="16" font-weight="700" fill="#2C3E50">age?</text><text x="410" y="126" text-anchor="middle" font-size="14" fill="#A23B72">drop 0.10</text>
+              <text x="260" y="160" text-anchor="middle" font-size="16" fill="#2C3E50"><tspan font-weight="700" fill="#2E86AB">income</tspan> 0.30 + 0.05 = 0.35 &#160; &#183; &#160; <tspan font-weight="700" fill="#A23B72">age</tspan> 0.10</text>
+              <text x="260" y="184" text-anchor="middle" font-size="13" fill="#7F8C8D">made-up numbers, one tree; a forest adds over every tree</text>
+            </svg>
+            </div>
+            <p style="font-size: 13.5pt; margin: 4px 0 4px;"><strong>Add up</strong> each feature's drops in impurity at every split it was used (Gini for classes, squared error for numbers). <strong>Free:</strong> it comes out of training.</p>
+            <p style="font-size: 13.5pt; margin: 0; color: var(--danger-color);"><strong>Blind spot:</strong> a feature with many possible cut points, like average occupancy or population, gets more chances to look useful.</p>
           </div>
-          <div class="fragment fade-up" data-fragment-index="2" style="background: #FDF2F7; border-radius: 12px; padding: 16px 20px;">
-            <p style="font-size: 18pt; font-weight: 700; color: var(--accent-color); margin: 0 0 8px;">Permutation importance</p>
-            <p style="font-size: 14.5pt; margin: 0 0 8px;"><strong>How:</strong> shuffle one column, re-score the fitted model, and see how much the score falls. Costs one pass per feature.</p>
-            <p style="font-size: 14.5pt; margin: 0 0 8px; color: var(--success-color);"><strong>Better:</strong> it measures what the model actually loses, so the number of cut points cannot flatter a feature.</p>
-            <p style="font-size: 14.5pt; margin: 0; color: var(--danger-color);"><strong>Blind spot:</strong> shuffle one of two related columns, like latitude and longitude, and the model leans on the other, so both look less important than they are.</p>
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #FDF2F7; border-radius: 12px; padding: 12px 16px;">
+            <p style="font-size: 17pt; font-weight: 700; color: var(--accent-color); margin: 0 0 4px;">2. Permutation importance</p>
+            <div class="mathjax_ignore tex2jax_ignore">
+            <svg viewBox="0 0 520 190" width="100%" role="img" aria-label="A table of test rows with the income column shuffled; test R-squared falls from 0.80 to 0.62, so income's importance is 0.18.">
+              <g font-size="15" fill="#2C3E50">
+                <text x="70" y="22" text-anchor="middle" font-weight="700">income</text><text x="170" y="22" text-anchor="middle" font-weight="700">age</text><text x="270" y="22" text-anchor="middle" font-weight="700">rooms</text>
+                <rect x="20" y="30" width="100" height="112" rx="6" fill="#FDEDEC" stroke="#C0392B" stroke-width="2"/>
+                <text x="70" y="54" text-anchor="middle">6.1</text><text x="70" y="80" text-anchor="middle">2.3</text><text x="70" y="106" text-anchor="middle">8.4</text><text x="70" y="132" text-anchor="middle">4.0</text>
+                <text x="170" y="54" text-anchor="middle">31</text><text x="170" y="80" text-anchor="middle">12</text><text x="170" y="106" text-anchor="middle">45</text><text x="170" y="132" text-anchor="middle">20</text>
+                <text x="270" y="54" text-anchor="middle">5.2</text><text x="270" y="80" text-anchor="middle">4.1</text><text x="270" y="106" text-anchor="middle">6.3</text><text x="270" y="132" text-anchor="middle">5.0</text>
+              </g>
+              <text x="70" y="162" text-anchor="middle" font-size="14" font-weight="700" fill="#C0392B">shuffled</text>
+              <text x="330" y="62" font-size="16" fill="#2C3E50">test R&#178; before: <tspan font-weight="700">0.80</tspan></text>
+              <text x="330" y="90" font-size="16" fill="#2C3E50">after shuffling: <tspan font-weight="700" fill="#C0392B">0.62</tspan></text>
+              <text x="330" y="122" font-size="17" font-weight="700" fill="#A23B72">income: 0.18</text>
+              <text x="260" y="184" text-anchor="middle" font-size="13" fill="#7F8C8D">made-up numbers; the model is not refitted</text>
+            </svg>
+            </div>
+            <p style="font-size: 13.5pt; margin: 4px 0 4px;"><strong>Shuffle</strong> one column of the test rows, re-score the fitted model, and see how far the score falls. It measures what the model actually loses.</p>
+            <p style="font-size: 13.5pt; margin: 0; color: var(--danger-color);"><strong>Blind spot:</strong> shuffle one of two related columns, like latitude and longitude, and the model leans on the other, so both look smaller.</p>
           </div>
         </div>
+        <p class="fragment fade-up" data-fragment-index="3" style="font-size: 14.5pt; margin: 10px 0 0; text-align: center;"><strong>Compare them by rank</strong>: the scales differ. Lab 19 Part 2 asks where its two lists disagree, and why.</p>
       </div>
+    </section>
+    <section id="demo-shap" style="padding: 10px 30px 10px 30px !important;">
+     <iframe allow="accelerometer" loading="lazy" scrolling="no" src="https://ryanpiao.github.io/visual-ml-hub/shap_waterfall.html" style="flex: 1; width: 111%; height: 111%; border: none; overflow: hidden; transform: scale(0.9); transform-origin: top left;">
+     </iframe>
+     <p style="font-size: 10.5pt; color: var(--muted-color); text-align: center; margin: 0 auto; max-width: 980px;">
+      <i class="fa-solid fa-hand-pointer">
+      </i>
+      <strong>SHAP</strong> splits one prediction into pushes: start at the average prediction (0.27 here), each feature pushes it up (red) or down (blue), and the pushes add up to this borrower&rsquo;s prediction. Simulated loans; pick a borrower from the dropdown. In Python: <code>shap.TreeExplainer(model).shap_values(X)</code>
+     </p>
+    
     </section>
     <section data-visibility="hidden" id="slide-extra-62b" style="padding: 0; display: flex; align-items: center; justify-content: center; background: #fff;">
      <img alt="slides_part3_slides_part3_page_010.png" src="extra-slides/slides_part3_slides_part3_page_010.png" style="max-height: 625px; max-width: 1260px; object-fit: contain;">
@@ -1418,16 +1454,7 @@ print(f<span class="t-str">"Test R&sup2;: {r2_score(y_test, rf.predict(X_test)):
     <section data-visibility="hidden" id="slide-extra-65" style="padding: 0; display: flex; align-items: center; justify-content: center; background: #fff;">
      <img alt="slides_part3_slides_part3_page_013.png" src="extra-slides/slides_part3_slides_part3_page_013.png" style="max-height: 625px; max-width: 1260px; object-fit: contain;">
     </section>
-    <section id="demo-shap" style="padding: 10px 30px 10px 30px !important;">
-     <iframe allow="accelerometer" loading="lazy" scrolling="no" src="https://ryanpiao.github.io/visual-ml-hub/shap_waterfall.html" style="flex: 1; width: 111%; height: 111%; border: none; overflow: hidden; transform: scale(0.9); transform-origin: top left;">
-     </iframe>
-     <p style="font-size: 10pt; color: var(--muted-color); text-align: center; margin: 0;">
-      <i class="fa-solid fa-hand-pointer">
-      </i>
-      Select observation from dropdown &bull; Red = pushes toward default &bull; Blue = pushes away
-     </p>
     
-    </section>
     <section>
      <section id="poll-3" style="padding: 34px 50px;">
         <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll: What Does Feature Importance Tell You?</h2>
