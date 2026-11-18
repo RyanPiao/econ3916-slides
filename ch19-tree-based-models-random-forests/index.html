@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=4024eb2e01d9ef94399dbded4ab051c3">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=893ecd8c65f3d9b6f91f223da94ac55e">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>
@@ -1427,17 +1427,13 @@ print(f<span class="t-str">"Test R&sup2;: {r2_score(y_test, rf.predict(X_test)):
       Decision Scenario: The Feature Importance Trap
      </h2>
      <div class="content">
-        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> The forest ranks credit inquiries first. Should the bank block them?</p>
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> The forest ranks credit inquiries first. Should the bank cut them?</p>
       <div style="background: #e3f2fd; padding: 25px; border-radius: 12px;">
        <p style="font-size: 16pt;">
-        You advise a bank on mortgage default prediction. Random Forest achieves excellent AUC. Feature importance:
-        <strong>
-         "prior credit inquiries"
-        </strong>
-        is #1.
+        The bank&rsquo;s own mortgage borrowers: a random forest predicts which of them will default in the next year, with an excellent AUC. Feature importance ranks <strong>recent credit inquiries</strong> (how often a borrower applied for other credit this year) #1.
        </p>
        <p style="font-size: 18pt; margin-top: 15px; font-weight: bold;">
-        The bank&rsquo;s chief risk officer says: "Inquiries drive defaults. Block credit checks after 3 and defaults will fall."
+        The bank&rsquo;s chief risk officer says: "Inquiries drive defaults. Stop our borrowers from applying for credit more than 3 times a year, and their defaults will fall."
        </p>
       </div>
       <p style="font-size: 20pt; margin-top: 20px; text-align: center; font-weight: bold; color: var(--danger-color);">
@@ -1472,7 +1468,7 @@ print(f<span class="t-str">"Test R&sup2;: {r2_score(y_test, rf.predict(X_test)):
        <p style="font-size: 15pt; line-height: 1.6;">Importance measures what helps the model <strong>predict</strong>. A and C read prediction as cause; D mixes up importance with how confident the model is.</p>
        <div style="background: #FDEDEC; border-left: 4px solid var(--danger-color); padding: 14px 20px; border-radius: 0 8px 8px 0; margin-top: 14px;">
         <p style="font-size: 15pt; margin: 0;"><strong>Neither importance is causal.</strong> Both answer &ldquo;what is this model leaning on?&rdquo;, never &ldquo;what would change the outcome if we intervened?&rdquo;</p>
-        <p style="font-size: 15pt; margin: 8px 0 0;"><strong>The bank:</strong> many credit inquiries signal money trouble that is already there. Blocking credit checks hides the signal; it does not make anyone less likely to default.</p>
+        <p style="font-size: 15pt; margin: 8px 0 0;"><strong>The bank:</strong> many credit inquiries signal money trouble that is already there. Stopping the applications hides the signal; it does not make anyone less likely to default. Using inquiries to <em>flag</em> borrowers early, and offer help, is fine: that is prediction.</p>
        </div>
       </div>
      </section>
