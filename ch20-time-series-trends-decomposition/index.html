@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=7d01d7e9c807f3753a63292b3e4cc660">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=79049856d4938fde9512b9b1f44afd33">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series I: Trends and Decomposition</title>
@@ -755,19 +755,20 @@
       <h2>ADF &mdash; Testing for a Unit Root</h2>
       <div class="content">
         <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How do you test for a unit root?</p>
-        <p style="text-align: center; font-size: 17pt; margin: 6px 0;">$$\Delta Y_t = \alpha + \beta t + \gamma Y_{t-1} + \sum_{j=1}^{p}\delta_j \Delta Y_{t-j} + \varepsilon_t$$</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 12px;">
-          <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 15px 22px;">
+        <div style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 10px 20px;"><p style="font-size: 15pt; margin: 0;"><strong>Unit root:</strong> in \(Y_t = \rho\, Y_{t-1} + \varepsilon_t\), the weight on yesterday is exactly \(\rho = 1\): the random walk from the last page, where a shock <em>never fades</em>. With \(\rho &lt; 1\) (say 0.8) each shock fades and the series comes back to its level.</p><p style="font-size: 13.5pt; margin: 4px 0 0; color: var(--muted-color);">Subtract \(Y_{t-1}\) from both sides: \(\Delta Y_t = (\rho - 1)\,Y_{t-1} + \varepsilon_t\). So ADF&rsquo;s \(\gamma\) below is \(\rho - 1\): \(\gamma = 0\) means a unit root.</p></div>
+        <p class="fragment" data-fragment-index="1" style="text-align: center; font-size: 17pt; margin: 2px 0;">$$\Delta Y_t = \alpha + \beta t + \gamma Y_{t-1} + \sum_{j=1}^{p}\delta_j \Delta Y_{t-j} + \varepsilon_t$$</p>
+        <div class="fragment" data-fragment-index="1" style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 4px;">
+          <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 10px 20px;">
             <p style="font-size: 15pt; margin: 0;"><strong>\(H_0: \gamma = 0\)</strong><br><span style="color: var(--muted-color);">unit root &rarr; non-stationary</span></p>
           </div>
-          <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 15px 22px;">
+          <div style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 10px 20px;">
             <p style="font-size: 15pt; margin: 0;"><strong>\(H_1: \gamma &lt; 0\)</strong><br><span style="color: var(--muted-color);">mean-reverting &rarr; stationary</span></p>
           </div>
         </div>
-        <div style="background: #f8f6f3; border-radius: 10px; padding: 16px 24px; margin-top: 16px;">
+        <div class="fragment" data-fragment-index="2" style="background: #f8f6f3; border-radius: 10px; padding: 10px 20px; margin-top: 10px;">
           <p style="font-size: 15pt; margin: 0;"><strong>Reading:</strong> if \(\gamma &lt; 0\), a high value today pulls tomorrow <em>down</em> &mdash; there is a level to come back to. Reject the null and you have evidence of stationarity. The lagged differences are there only to soak up autocorrelation.</p>
         </div>
-        <div style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 15px 24px; margin-top: 12px;">
+        <div class="fragment" data-fragment-index="3" style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 10px 20px; margin-top: 10px;">
           <p style="font-size: 15pt; margin: 0;"><strong>Watch out:</strong> the statistic does <em>not</em> follow a \(t\)-distribution. Compare against Dickey-Fuller critical values &mdash; <code>statsmodels</code> reports them for you, so read them rather than eyeballing 1.96.</p>
         </div>
       </div>
