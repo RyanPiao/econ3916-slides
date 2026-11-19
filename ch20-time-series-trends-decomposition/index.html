@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=a9e55cb4c195331d0c9cdb80cc291282">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=3085cec523633bcc310e16c95da1b3d6">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series I: Trends and Decomposition</title>
@@ -370,14 +370,14 @@
       </div>
     </section>
 
-    <section id="s1-acf-figure" style="padding: 26px 45px;">
+    <section id="s1-acf-figure" class="sp-slide" style="padding: 26px 45px;">
       <h2>Two Signatures, One Series</h2>
       <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What does memory look like in levels, and after differencing?</p>
-      <img src="figures/figure_002_acf_levels_vs_diff.png" alt="Two autocorrelation plots side by side: U.S. Real GDP in levels stays near 0.77 at lag 10, while its first difference falls inside the significance band from lag 2" style="width: 84%; display: block; margin: 6px auto 0;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 14px 70px 0;">
-        <p style="font-size: 14pt; color: var(--danger-color); text-align: center;"><strong>Levels:</strong> still 0.77 at lag 10. The series remembers two and a half years back.</p>
-        <p style="font-size: 14pt; color: var(--success-color); text-align: center;"><strong>First difference:</strong> inside the band from lag 2. Memory gone.</p>
-      </div>
+     <div class="sp-plot mathjax_ignore tex2jax_ignore" style="width:1180px;height:430px;margin:0 auto;pointer-events:none;"></div>
+     <p class="sp-cap" style="font-size:17pt;font-weight:600;color:var(--text-color,#1f2937);text-align:center;margin:4px 0 0;min-height:1.4em;">Levels: the bars shrink slowly; at lag 10 the autocorrelation is still 0.77. The series remembers two and a half years.</p>
+     <p style="font-size:11pt;color:var(--muted-color);text-align:center;margin:2px 0 0;">Each bar = the autocorrelation at one lag (one quarter) &bull; shaded band = too small to tell from zero (±1.96/√n) &bull; FRED GDPC1 from 1990</p>
+     <span class="fragment sp-step" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></span>
+     <script type="application/json" class="sp-data">{"data":[{"type":"bar","x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"y":[0.976,0.953,0.93,0.907,0.883,0.86,0.836,0.813,0.789,0.766,0.743,0.72,0.697,0.675,0.653,0.631,0.61,0.589,0.567,0.545],"marker":{"color":"#C47B5A"},"xaxis":"x","yaxis":"y","width":0.5},{"type":"bar","x":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"y":[-0.174,-0.036,-0.01,-0.046,0.043,-0.067,0.021,0.053,0.006,0.004,-0.009,0.038,-0.019,-0.027,0.022,0.014,-0.032,-0.017,0.065,-0.024],"marker":{"color":"#1F7A5A"},"xaxis":"x2","yaxis":"y2","width":0.5}],"layout":{"width":1180,"height":430,"autosize":false,"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","font":{"family":"Source Sans 3, sans-serif","size":15,"color":"#1f2937"},"showlegend":false,"hovermode":false,"dragmode":false,"margin":{"l":70,"r":20,"t":46,"b":46},"xaxis":{"domain":[0,0.47],"anchor":"y","title":{"text":"Lag (quarters)","font":{"size":15}},"tickfont":{"size":13},"dtick":5},"yaxis":{"domain":[0,1],"title":{"text":"Autocorrelation","font":{"size":15}},"tickfont":{"size":13},"gridcolor":"#e8e5df","zeroline":false,"automargin":true,"anchor":"x","range":[-0.35,1.05]},"xaxis2":{"domain":[0.53,1],"anchor":"y2","title":{"text":"Lag (quarters)","font":{"size":15}},"tickfont":{"size":13},"dtick":5},"yaxis2":{"domain":[0,1],"title":{"text":"","font":{"size":15}},"tickfont":{"size":13},"gridcolor":"#e8e5df","zeroline":false,"automargin":true,"anchor":"x2","range":[-0.35,1.05],"showticklabels":false}},"states":[{"restyle":{"visible":[true,false]},"relayout":{"shapes":[{"type":"rect","xref":"x","yref":"y","x0":0.5,"x1":20.5,"y0":-0.1617,"y1":0.1617,"fillcolor":"rgba(47,111,143,0.14)","line":{"width":0},"layer":"below"}],"annotations":[{"xref":"paper","yref":"paper","x":0,"y":1.1,"xanchor":"left","showarrow":false,"text":"<b>Real GDP in levels<\/b>","font":{"size":17,"color":"#C47B5A"}},{"xref":"x","yref":"y","x":10,"y":0.766,"ax":50,"ay":-40,"text":"lag 10: 0.77","showarrow":true,"arrowhead":2,"font":{"size":15}}],"xaxis2.visible":false,"yaxis2.visible":false},"cap":"Levels: the bars shrink slowly; at lag 10 the autocorrelation is still 0.77. The series remembers two and a half years."},{"restyle":{"visible":[true,true]},"relayout":{"shapes":[{"type":"rect","xref":"x","yref":"y","x0":0.5,"x1":20.5,"y0":-0.1617,"y1":0.1617,"fillcolor":"rgba(47,111,143,0.14)","line":{"width":0},"layer":"below"},{"type":"rect","xref":"x2","yref":"y2","x0":0.5,"x1":20.5,"y0":-0.1617,"y1":0.1617,"fillcolor":"rgba(47,111,143,0.14)","line":{"width":0},"layer":"below"}],"annotations":[{"xref":"paper","yref":"paper","x":0,"y":1.1,"xanchor":"left","showarrow":false,"text":"<b>Real GDP in levels<\/b>","font":{"size":17,"color":"#C47B5A"}},{"xref":"x","yref":"y","x":10,"y":0.766,"ax":50,"ay":-40,"text":"lag 10: 0.77","showarrow":true,"arrowhead":2,"font":{"size":15}},{"xref":"paper","yref":"paper","x":0.53,"y":1.1,"xanchor":"left","showarrow":false,"text":"<b>The same data, differenced once<\/b>","font":{"size":17,"color":"#1F7A5A"}},{"xref":"x2","yref":"y2","x":2,"y":-0.036,"ax":60,"ay":-70,"text":"inside the band from lag 2","showarrow":true,"arrowhead":2,"font":{"size":15}}],"xaxis2.visible":true,"yaxis2.visible":true},"cap":"Differenced: lag 1 is −0.174, just outside the band (±0.162); from lag 2 every bar is inside. Memory gone."}]}</script>
     </section>
 
     <section id="s1-keyconcept" style="padding: 40px 70px;">
