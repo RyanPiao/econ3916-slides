@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=eb6d47f4465ff26a8b66ada635e36c2d">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=490c6e0d85637fccf0fd32f9b4a9a56e">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series I: Trends and Decomposition</title>
@@ -151,8 +151,8 @@
             </div>
             <div class="arm-block" data-arm-version="odd" hidden><p class="arm-label">Odd NUID &middot; the raw number</p>
               <div style="background: #fdf0ea; border-left: 4px solid #C47B5A; border-radius: 8px; padding: 16px 22px;"><p style="font-size: 17pt; line-height: 1.6; margin: 0;">U.S. retail sales, <strong>December 2019</strong>: <strong>511.4 billion dollars</strong>.<br>November 2019: 461.2 billion dollars.<br>Up <strong>10.9%</strong> in one month, the biggest month of the year.</p></div></div>
-            <div class="arm-block" data-arm-version="even" hidden><p class="arm-label">Even NUID &middot; the calendar taken out</p>
-              <div style="background: #f0f5f8; border-left: 4px solid #6B8BA4; border-radius: 8px; padding: 16px 22px;"><p style="font-size: 17pt; line-height: 1.6; margin: 0;">U.S. retail sales, <strong>December 2019</strong>: <strong>511.4 billion dollars</strong>.<br>With the calendar taken out, the underlying level of sales that month was <strong>456.9 billion</strong>.<br>December usually adds about <strong>53.5 billion</strong> to that level.</p></div></div>
+            <div class="arm-block" data-arm-version="even" hidden><p class="arm-label">Even NUID &middot; a normal December</p>
+              <div style="background: #f0f5f8; border-left: 4px solid #6B8BA4; border-radius: 8px; padding: 16px 22px;"><p style="font-size: 17pt; line-height: 1.6; margin: 0;">U.S. retail sales, <strong>December 2019</strong>: <strong>511.4 billion dollars</strong>.<br>An ordinary month around then (no holiday shopping) ran about <strong>456.9 billion</strong>.<br>Every December, holiday shopping adds about <strong>53.5 billion</strong> on top.</p></div></div>
           </div>
         </div>
         <script>(function () {
@@ -475,7 +475,7 @@
           <div class="mr-dots mathjax_ignore" style="width: 1160px; height: 260px; margin: 0 auto;"></div>
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 6px;">
             <div class="fragment fade-up" data-fragment-index="1" style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid #C47B5A; padding: 8px 14px;"><p style="font-size: 13.5pt; margin: 0;"><strong>Raw number.</strong> Odd&rsquo;s median: <strong class="mc-odd">&mdash;</strong>. A 10.9% jump in one month looks like a boom.</p></div>
-            <div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid #6B8BA4; padding: 8px 14px;"><p style="font-size: 13.5pt; margin: 0;"><strong>Calendar taken out.</strong> Even&rsquo;s median: <strong class="mc-even">&mdash;</strong>. 456.9 + 53.5 = 510.4 billion expected, against 511.4.</p></div>
+            <div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid #6B8BA4; padding: 8px 14px;"><p style="font-size: 13.5pt; margin: 0;"><strong>A normal December.</strong> Even&rsquo;s median: <strong class="mc-even">&mdash;</strong>. Ordinary month 456.9 + holidays 53.5 = 510.4 billion expected, against 511.4.</p></div>
             <div class="fragment fade-up" data-fragment-index="3" style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 8px 14px;"><p style="font-size: 13.5pt; margin: 0;"><strong>What the decomposition says: +0.2%.</strong> The 55 billion above the trend is December being December: the seasonal part.</p></div>
           </div>
           <p class="fragment fade-up" data-fragment-index="4" style="font-size: 16pt; font-weight: 700; color: var(--success-color); text-align: center; margin: 10px 0 0;">So the answer is C, as expected: only the residual is news.</p>
@@ -523,7 +523,7 @@
               '<text x="' + X(t) + '" y="246" font-size="16" text-anchor="middle" fill="#6B645E">' + (t < 0 ? "\u2212" + (-t) : t) + "%</text>";
             s += '<line x1="' + X(DECOMP) + '" x2="' + X(DECOMP) + '" y1="14" y2="222" stroke="#1F7A5A" stroke-width="3" stroke-dasharray="7 5"/>' +
               '<text x="' + (X(DECOMP) + 8) + '" y="18" font-size="16" fill="#1F7A5A" font-weight="700">decomposition: +' + DECOMP.toFixed(1) + "%</text>";
-            [[odd, 80, "#C47B5A", "Odd: raw number"], [even, 175, "#6B8BA4", "Even: calendar out"]].forEach(function (row) {
+            [[odd, 80, "#C47B5A", "Odd: raw number"], [even, 175, "#6B8BA4", "Even: normal December"]].forEach(function (row) {
               var v = row[0], y = row[1];
               s += '<text x="0" y="' + (y + 6) + '" font-size="18" font-weight="700" fill="' + row[2] + '">' + row[3] + "</text>" +
                    '<text x="0" y="' + (y + 28) + '" font-size="14" fill="#6B645E">n = ' + v.length + "</text>";
