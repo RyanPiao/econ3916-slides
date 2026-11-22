@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=007db9583197f7acbb2f6de667e8f342">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=c85f4f6fe5f2bf614be9286dcb8284ca">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series II: Prophet, ARIMA & Structural Breaks</title>
@@ -66,6 +66,7 @@
       </div>
     </section>
 
+    <section>
     <section id="retrieval" style="padding: 36px 60px;">
       <h2><i class="fa-solid fa-brain" style="color: var(--secondary-color);"></i> Retrieval Practice</h2>
       <div class="content">
@@ -78,7 +79,21 @@
         <p style="margin-top: 18px; color: var(--accent-color); font-weight: 600; font-size: 16pt;"><i class="fa-solid fa-arrow-right"></i> Both converge on today: <strong>when should a forecasting model stop trusting itself?</strong></p>
       </div>
     </section>
+      <section id="thursday-fixes" data-term="2026-fall">
+        <h2><i class="fa-solid fa-rotate-left" style="color: var(--secondary-color);"></i> Four Fixes From Thursday</h2>
+        <div class="content">
+          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Four things from Thursday, said more carefully.</p>
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px;">
+          <div class="fragment fade-up" data-fragment-index="1" style="background: #fdf2f2; border-radius: 10px; border-left: 4px solid var(--danger-color); padding: 11px 18px;"><p style="font-size: 15pt; margin: 0;"><strong>1. The Phillips curve after COVID.</strong> Unemployment was <strong>low</strong>, 3.6% in June 2022, while CPI inflation hit 9.0%. Same labor market as 2019 (3.5% unemployed, 1.7% inflation), far more inflation: the curve moved up and got steeper. It still slopes down.</p></div>
+          <div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 11px 18px;"><p style="font-size: 15pt; margin: 0;"><strong>2. Why we never shuffle a time series:</strong> <strong>autocorrelation</strong>. This month depends on last month, so a shuffled fold trains on the future. Not multicollinearity, which is about two <em>columns</em> moving together.</p></div>
+          <div class="fragment fade-up" data-fragment-index="3" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 11px 18px;"><p style="font-size: 15pt; margin: 0;"><strong>3. December 2019&rsquo;s residual was +0.2%,</strong> not 2%. Sales came in as expected: the 55 billion above trend was December being December.</p></div>
+          <div class="fragment fade-up" data-fragment-index="4" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid var(--secondary-color); padding: 11px 18px;"><p style="font-size: 15pt; margin: 0;"><strong>4. Nvidia&rsquo;s 3.83 billion</strong> was quarterly data-center <strong>revenue</strong>, not market cap: a trend break in what it sells, not in what it is worth.</p></div>
+          </div>
+        </div>
+      </section>
+    </section>
 
+    <section>
     <section id="hook-target" style="padding: 36px 60px;">
       <h2><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> August 2022. Target Reports.</h2>
       <div class="content">
@@ -89,18 +104,168 @@
             <p style="font-size: 12pt; color: var(--muted-color); margin-top: 5px;">$1.82B &rarr; $183M</p>
           </div>
           <div class="fragment fade-up" style="background: #f0f5f8; border-radius: 12px; padding: 20px; text-align: center; border-left: 4px solid var(--secondary-color);">
-            <p style="font-size: 34pt; font-weight: 700; color: var(--secondary-color); line-height: 1;">+43%</p>
+            <p style="font-size: 34pt; font-weight: 700; color: var(--secondary-color); line-height: 1;">+36%</p>
             <p style="font-size: 13.5pt; margin-top: 8px;">inventory, year on year</p>
-            <p style="font-size: 12pt; color: var(--muted-color); margin-top: 5px;">to $15.1B</p>
+            <p style="font-size: 12pt; color: var(--muted-color); margin-top: 5px;">to $15.3B</p>
           </div>
           <div class="fragment fade-up" style="background: #f4f2ee; border-radius: 12px; padding: 20px; text-align: center; border-left: 4px solid var(--accent-color);">
             <p style="font-size: 34pt; font-weight: 700; color: var(--accent-color); line-height: 1;">$1.5B</p>
-            <p style="font-size: 13.5pt; margin-top: 8px;">purchase orders cancelled</p>
+            <p style="font-size: 13.5pt; margin-top: 8px;">of fall orders cut</p>
             <p style="font-size: 12pt; color: var(--muted-color); margin-top: 5px;">plus mass markdowns</p>
           </div>
         </div>
         <p class="fragment fade-up" style="font-size: 16pt; margin-top: 24px; line-height: 1.55;">Full-year operating income fell <strong>57%</strong>, from $8.9B to $3.8B. Mountains of patio furniture, appliances and televisions that nobody wanted.</p>
       </div>
+    </section>
+      <section id="cpi-clues" data-phone-next="cpi-vote" style="padding: 26px 55px;">
+        <h2><i class="fa-solid fa-mobile-screen" style="color: var(--secondary-color);"></i> Your Data, on Your Phone</h2>
+        <div class="content">
+          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> One forecast, two sets of training data: does the data you were given change your forecast?</p>
+          <div data-arm="nuid-parity" style="margin-top: 6px;">
+            <div class="arm-block" data-arm-version="room">
+              <div style="display: grid; grid-template-columns: 1fr 300px; gap: 28px; align-items: center;">
+                <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 16px 22px;">
+                  <p style="font-size: 17pt; margin: 0 0 10px;"><strong>Open the link in the chat, or scan the code.</strong> Your phone shows a chart of one monthly series: you are the forecasting model, and the chart is <strong>your training data</strong>. Odd and even NUIDs get <strong>different</strong> data.</p>
+                  <p style="font-size: 15pt; margin: 0; color: var(--muted-color);">Keep your chart to yourself and <strong>stay on your card page</strong>. The answer box is under your chart.</p>
+                </div>
+                <div><div class="mc-qr" data-url="https://ryanpiao.github.io/econ3916-slides/ch21-time-series-prophet-arima-structural-breaks/#/cpi-clues" style="width: 280px; height: 280px;"></div>
+                  <p style="font-size: 10.5pt; margin: 6px 0 0; color: var(--muted-color); word-break: break-all;">https://ryanpiao.github.io/econ3916-slides/ch21-time-series-prophet-arima-structural-breaks/#/cpi-clues</p></div>
+              </div>
+            </div>
+            <div class="arm-block" data-arm-version="pending" hidden>
+              <div style="background: #f8f6f3; border-radius: 8px; padding: 16px 22px;">
+                <p style="font-size: 16pt; margin: 0 0 10px;">Check in with your NUID to see your data.</p>
+                <button type="button" data-arm-checkin class="arm-checkin">Check in</button>
+              </div>
+            </div>
+            <div class="arm-block" data-arm-version="odd" hidden><p class="arm-label">Odd NUID &middot; 72 months</p>
+              <div style="background: #fdf0ea; border-left: 4px solid #C47B5A; border-radius: 8px; padding: 12px 16px;"><p style="font-size: 16pt; line-height: 1.45; margin: 0 0 8px;">Your model was trained on <strong>months 1 to 72</strong>. Forecast <strong>month 102</strong>.</p><p style="font-size: 13pt; margin: 0 0 4px;"><strong>A monthly U.S. series, in percent</strong></p><svg viewBox="0 0 560 280" width="100%" style="display:block;max-width:560px;font-family:inherit;background:#fff;border-radius:6px"><line x1="52" x2="538" y1="216.5" y2="216.5" stroke="#e8e5df"/><text x="46" y="221.5" font-size="18" text-anchor="end" fill="#6B645E">0%</text><line x1="52" x2="538" y1="177.6" y2="177.6" stroke="#e8e5df"/><text x="46" y="182.6" font-size="18" text-anchor="end" fill="#6B645E">2%</text><line x1="52" x2="538" y1="138.7" y2="138.7" stroke="#e8e5df"/><text x="46" y="143.7" font-size="18" text-anchor="end" fill="#6B645E">4%</text><line x1="52" x2="538" y1="99.8" y2="99.8" stroke="#e8e5df"/><text x="46" y="104.8" font-size="18" text-anchor="end" fill="#6B645E">6%</text><line x1="52" x2="538" y1="60.9" y2="60.9" stroke="#e8e5df"/><text x="46" y="65.9" font-size="18" text-anchor="end" fill="#6B645E">8%</text><line x1="52" x2="538" y1="22.0" y2="22.0" stroke="#e8e5df"/><text x="46" y="27.0" font-size="18" text-anchor="end" fill="#6B645E">10%</text><text x="102.9" y="256" font-size="18" text-anchor="middle" fill="#6B645E">12</text><text x="214.0" y="256" font-size="18" text-anchor="middle" fill="#6B645E">36</text><text x="325.1" y="256" font-size="18" text-anchor="middle" fill="#6B645E">60</text><text x="436.2" y="256" font-size="18" text-anchor="middle" fill="#6B645E">84</text><path d="M52.0,221.0 L56.6,218.2 L61.3,217.0 L65.9,218.6 L70.5,215.9 L75.1,213.1 L79.8,212.2 L84.4,211.9 L89.0,216.4 L93.7,214.1 L98.3,208.1 L102.9,204.1 L107.5,192.5 L112.2,200.1 L116.8,199.2 L121.4,193.7 L126.1,195.6 L130.7,195.5 L135.3,199.7 L139.9,196.0 L144.6,186.4 L149.2,183.7 L153.8,183.8 L158.5,176.6 L163.1,167.7 L167.7,161.9 L172.3,169.1 L177.0,174.2 L181.6,180.4 L186.2,184.6 L190.9,183.0 L195.5,179.0 L200.1,174.1 L204.7,177.2 L209.4,174.3 L214.0,175.1 L218.6,174.7 L223.3,172.5 L227.9,171.2 L232.5,168.5 L237.1,162.4 L241.8,161.9 L246.4,161.0 L251.0,165.1 L255.7,171.2 L260.3,168.1 L264.9,174.8 L269.5,177.6 L274.2,187.6 L278.8,187.0 L283.4,179.9 L288.1,177.6 L292.7,181.6 L297.3,184.0 L301.9,181.0 L306.6,182.7 L311.2,183.8 L315.8,182.8 L320.5,175.8 L325.1,171.4 L329.7,166.0 L334.3,171.0 L339.0,187.5 L343.6,210.5 L348.2,212.7 L352.9,202.6 L357.5,197.2 L362.1,191.6 L366.7,189.5 L371.4,192.6 L376.0,193.7 L380.6,190.9" fill="none" stroke="#2d2d2d" stroke-width="2.2"/><circle cx="380.6" cy="190.9" r="5" fill="#C47B5A"/><line x1="519.5" x2="519.5" y1="22" y2="236" stroke="#2F6F8F" stroke-width="2" stroke-dasharray="5 4"/><text x="519.5" y="119.3" font-size="30" font-weight="700" text-anchor="middle" fill="#2F6F8F" paint-order="stroke" stroke="#fff" stroke-width="6">?</text><text x="513.5" y="36" font-size="18" font-weight="700" text-anchor="end" fill="#2F6F8F">month 102</text></svg><p style="font-size: 14pt; font-weight: 700; color: #C47B5A; margin: 6px 0 0;">&#9679; Your last data point: month 72, 1.3%</p><p style="font-size: 10.5pt; color: var(--muted-color); margin: 4px 0 0;">Monthly, N = 72 months. The series is named after the vote.</p></div></div>
+            <div class="arm-block" data-arm-version="even" hidden><p class="arm-label">Even NUID &middot; 90 months</p>
+              <div style="background: #f0f5f8; border-left: 4px solid #6B8BA4; border-radius: 8px; padding: 12px 16px;"><p style="font-size: 16pt; line-height: 1.45; margin: 0 0 8px;">Your model was trained on <strong>months 1 to 90</strong>. Forecast <strong>month 102</strong>.</p><p style="font-size: 13pt; margin: 0 0 4px;"><strong>A monthly U.S. series, in percent</strong></p><svg viewBox="0 0 560 280" width="100%" style="display:block;max-width:560px;font-family:inherit;background:#fff;border-radius:6px"><line x1="52" x2="538" y1="216.5" y2="216.5" stroke="#e8e5df"/><text x="46" y="221.5" font-size="18" text-anchor="end" fill="#6B645E">0%</text><line x1="52" x2="538" y1="177.6" y2="177.6" stroke="#e8e5df"/><text x="46" y="182.6" font-size="18" text-anchor="end" fill="#6B645E">2%</text><line x1="52" x2="538" y1="138.7" y2="138.7" stroke="#e8e5df"/><text x="46" y="143.7" font-size="18" text-anchor="end" fill="#6B645E">4%</text><line x1="52" x2="538" y1="99.8" y2="99.8" stroke="#e8e5df"/><text x="46" y="104.8" font-size="18" text-anchor="end" fill="#6B645E">6%</text><line x1="52" x2="538" y1="60.9" y2="60.9" stroke="#e8e5df"/><text x="46" y="65.9" font-size="18" text-anchor="end" fill="#6B645E">8%</text><line x1="52" x2="538" y1="22.0" y2="22.0" stroke="#e8e5df"/><text x="46" y="27.0" font-size="18" text-anchor="end" fill="#6B645E">10%</text><text x="102.9" y="256" font-size="18" text-anchor="middle" fill="#6B645E">12</text><text x="214.0" y="256" font-size="18" text-anchor="middle" fill="#6B645E">36</text><text x="325.1" y="256" font-size="18" text-anchor="middle" fill="#6B645E">60</text><text x="436.2" y="256" font-size="18" text-anchor="middle" fill="#6B645E">84</text><path d="M52.0,221.0 L56.6,218.2 L61.3,217.0 L65.9,218.6 L70.5,215.9 L75.1,213.1 L79.8,212.2 L84.4,211.9 L89.0,216.4 L93.7,214.1 L98.3,208.1 L102.9,204.1 L107.5,192.5 L112.2,200.1 L116.8,199.2 L121.4,193.7 L126.1,195.6 L130.7,195.5 L135.3,199.7 L139.9,196.0 L144.6,186.4 L149.2,183.7 L153.8,183.8 L158.5,176.6 L163.1,167.7 L167.7,161.9 L172.3,169.1 L177.0,174.2 L181.6,180.4 L186.2,184.6 L190.9,183.0 L195.5,179.0 L200.1,174.1 L204.7,177.2 L209.4,174.3 L214.0,175.1 L218.6,174.7 L223.3,172.5 L227.9,171.2 L232.5,168.5 L237.1,162.4 L241.8,161.9 L246.4,161.0 L251.0,165.1 L255.7,171.2 L260.3,168.1 L264.9,174.8 L269.5,177.6 L274.2,187.6 L278.8,187.0 L283.4,179.9 L288.1,177.6 L292.7,181.6 L297.3,184.0 L301.9,181.0 L306.6,182.7 L311.2,183.8 L315.8,182.8 L320.5,175.8 L325.1,171.4 L329.7,166.0 L334.3,171.0 L339.0,187.5 L343.6,210.5 L348.2,212.7 L352.9,202.6 L357.5,197.2 L362.1,191.6 L366.7,189.5 L371.4,192.6 L376.0,193.7 L380.6,190.9 L385.3,189.8 L389.9,184.1 L394.5,164.6 L399.1,136.1 L403.8,120.9 L408.4,113.5 L413.0,114.5 L417.7,116.3 L422.3,112.4 L426.9,95.2 L431.5,82.3 L436.2,77.0 L440.8,69.5 L445.4,62.1 L450.1,49.8 L454.7,56.4 L459.3,50.4 L463.9,41.9" fill="none" stroke="#2d2d2d" stroke-width="2.2"/><circle cx="463.9" cy="41.9" r="5" fill="#C47B5A"/><line x1="519.5" x2="519.5" y1="22" y2="236" stroke="#2F6F8F" stroke-width="2" stroke-dasharray="5 4"/><text x="519.5" y="119.3" font-size="30" font-weight="700" text-anchor="middle" fill="#2F6F8F" paint-order="stroke" stroke="#fff" stroke-width="6">?</text><text x="513.5" y="36" font-size="18" font-weight="700" text-anchor="end" fill="#2F6F8F">month 102</text></svg><p style="font-size: 14pt; font-weight: 700; color: #C47B5A; margin: 6px 0 0;">&#9679; Your last data point: month 90, 9.0%</p><p style="font-size: 10.5pt; color: var(--muted-color); margin: 4px 0 0;">Monthly, N = 90 months. The series is named after the vote.</p></div></div>
+          </div>
+        </div>
+        <script>(function () {
+          function draw() {
+            var el = document.querySelector("#cpi-clues .mc-qr");
+            if (!el || el.__done || !window.qrcode) return;
+            var q = window.qrcode(0, "M"); q.addData(el.getAttribute("data-url")); q.make();
+            el.innerHTML = q.createSvgTag({ cellSize: 6, margin: 1, scalable: true }); el.__done = 1;
+            var svg = el.querySelector("svg"); if (svg) { svg.style.width = "100%"; svg.style.height = "100%"; }
+          }
+          if (window.qrcode) draw();
+          else { var s = document.createElement("script");
+            s.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js";
+            s.onload = draw; document.head.appendChild(s); }
+        })();</script>
+      </section>
+      <section id="cpi-vote" style="padding: 30px 55px;">
+        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Your Forecast: Month 102</h2>
+        <div class="content">
+          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> You are the model. Your data stops where your chart stops.</p>
+          <p style="font-size: 16pt; margin: 0 0 6px;">Using <strong>only the chart on your phone</strong>: what will the series be at <strong>month 102</strong>, in percent? <span style="color: var(--muted-color);">One number, for example 2.5.</span></p>
+          <div class="poll-number" data-poll-id="ch21-econ3916-poll-5" data-poll-voting data-min="-5" data-max="25" data-step="0.1" data-unit="%" data-arm="nuid-parity" style="margin-top: 10px;"></div>
+          <div style="background: #f8f6f3; border-radius: 10px; padding: 14px 22px; margin-top: 18px; text-align: center;"><p style="font-size: 15pt; margin: 0;">The answer box is <strong>under your chart</strong> on the page you opened. No chart yet? Use the link in the chat, or scan the code on the previous page.</p></div>
+          <p style="font-size: 12.5pt; margin-top: 12px; text-align: center; color: var(--muted-color);">Answers so far: odd <strong data-poll-fill="ch21-econ3916-poll-5" data-key="n.odd">&mdash;</strong> &middot; even <strong data-poll-fill="ch21-econ3916-poll-5" data-key="n.even">&mdash;</strong></p>
+        </div>
+        <script>(function () {
+          // poll.js gives number boxes a decimal keypad, which on an iPhone has no minus sign
+          function fix() { [].forEach.call(document.querySelectorAll('.poll-number[data-poll-id="ch21-econ3916-poll-5"] input'), function (i) {
+            if (i.getAttribute("inputmode") !== "text") i.setAttribute("inputmode", "text"); }); }
+          fix(); new MutationObserver(fix).observe(document.documentElement, { childList: true, subtree: true });
+        })();</script>
+      </section>
+      <section id="cpi-reveal" data-state="mc-reveal" style="padding: 24px 50px;">
+        <style>.mc-reveal #ec-qr { display: none !important; }</style>
+        <h2><i class="fa-solid fa-mobile-screen" style="color: var(--secondary-color);"></i> Your Forecasts: Two Windows, Two Answers</h2>
+        <div class="content">
+          <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 4px;"><i class="fa-solid fa-circle-question"></i> Did the training window move the forecast?</p>
+          <div class="poll-number-results" data-poll-id="ch21-econ3916-poll-5" data-min="-5" data-max="25" data-arm="nuid-parity" style="display: none;"></div>
+          <div class="mr-dots mathjax_ignore" style="width: 1160px; height: 240px; margin: 0 auto;"></div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-top: 4px;">
+            <div class="fragment fade-up" data-fragment-index="1" style="background: #fdf0ea; border-radius: 10px; border-left: 4px solid #C47B5A; padding: 7px 12px;"><p style="font-size: 12.5pt; margin: 0;"><strong>72 months.</strong> Odd&rsquo;s median: <strong class="mc-odd">&mdash;</strong>. All calm, &minus;0.2% to 2.9%: the window never saw a break.</p></div>
+            <div class="fragment fade-up" data-fragment-index="2" style="background: #f0f5f8; border-radius: 10px; border-left: 4px solid #6B8BA4; padding: 7px 12px;"><p style="font-size: 12.5pt; margin: 0;"><strong>90 months.</strong> Even&rsquo;s median: <strong class="mc-even">&mdash;</strong>. The window ends at the peak, 9.0%, still rising.</p></div>
+            <div class="fragment fade-up mr-arcard" data-fragment-index="3" style="background: #f8f6f3; border-radius: 10px; border-left: 4px solid #6B645E; padding: 7px 12px;"><p style="font-size: 12.5pt; margin: 0;"><strong>A simple model on each window</strong> (rings), AR(1): next month = constant + &phi; &times; this month. 1.7% from 72 months; 13.8% from 90, where &phi; = 1.03 &gt; 1 never turns back.</p></div>
+            <div class="fragment fade-up mr-actual" data-fragment-index="4" style="background: #eef5ee; border-radius: 10px; border-left: 4px solid var(--success-color); padding: 7px 12px;"><p style="font-size: 12.5pt; margin: 0;"><strong>What happened: 3.1%.</strong> The series is U.S. CPI inflation; month 72 is Dec 2020, month 90 June 2022, month 102 June 2023.</p></div>
+          </div>
+          <p class="fragment fade-up" data-fragment-index="5" style="font-size: 15.5pt; font-weight: 700; color: var(--success-color); text-align: center; margin: 8px 0 0;">Neither half was careless: each extended what its window showed. Which past to learn from is a choice, and today&rsquo;s models make it for you.</p>
+          <p class="mc-wait" style="font-size: 12pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;"></p>
+          <p class="mc-demo" style="font-size: 13pt; font-weight: 700; color: var(--danger-color); margin: 2px 0 0; text-align: center;"></p>
+          <p style="font-size: 11pt; color: var(--muted-color); margin: 2px 0 0; text-align: center;">U.S. CPI, 12-month change, month 1 = Jan 2015. FRED CPIAUCSL (BLS), seasonally adjusted; unadjusted June 2023: 3.0%.</p>
+        </div>
+        <script>(function () {
+          var PID = "ch21-econ3916-poll-5", MIN_N = 4, TRUTH = 3.07, AR = [1.73, 13.77];
+          // made-up practice answers (Q on this page, or ?demo=1): odd near the calm years, even pulled up by the peak
+          var DEMO = [1.5,2,2,1.8,2.5,1,2.2,3,1.5,2,2.4].map(function (v, k) { return { voter_id: "demo-o" + k, choice: "o:" + v, created_at: "2026-01-01T00:00:" + (10 + k) + "Z", poll_id: PID }; })
+            .concat([7,9,6,10,8,5,9.5,12,7.5,6,8.5].map(function (v, k) { return { voter_id: "demo-e" + k, choice: "e:" + v, created_at: "2026-01-01T00:01:" + (10 + k) + "Z", poll_id: PID }; }));
+          var demo = /[?&]demo=1/.test(location.search), painting = false, lastToggle = 0;
+          function cur() { var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide(); return s && s.id; }
+          function paintDemo() { if (!window.Poll || !Poll.showNumbers) return; painting = true; try { Poll.showNumbers(PID, DEMO); } finally { painting = false; } }
+          function toggle() {
+            var now = Date.now(); if (now - lastToggle < 400) return; lastToggle = now;
+            demo = !demo; if (demo) paintDemo(); else { set("mc-demo", ""); if (Poll.refreshNumbers) Poll.refreshNumbers(PID); }
+          }
+          // poll.js takes Q on a poll slide for its QR box, so this page claims Q first (as T19's and T20's reveals do)
+          window.addEventListener("keydown", function (e) {
+            var t = e.target;
+            if ((e.key === "q" || e.key === "Q") && !e.metaKey && !e.ctrlKey && !e.altKey && cur() === "cpi-reveal" && !(t && t.closest && t.closest("input,textarea"))) {
+              e.preventDefault(); e.stopImmediatePropagation(); toggle();
+            }
+          }, true);
+          window.addEventListener("message", function (ev) {
+            var d; try { d = JSON.parse(ev.data); } catch (err) { return; }
+            if (!d || cur() !== "cpi-reveal") return;
+            if (d.pollqr === "cycle") { ev.stopImmediatePropagation(); toggle(); }
+            else if (d.method === "triggerKey" && d.args && d.args[0] === 81) toggle();
+          }, true);
+          if (demo) setTimeout(paintDemo, 1500);
+          function median(a) { if (!a.length) return null; var b = a.slice().sort(function (x, y) { return x - y; }), m = b.length >> 1;
+            return b.length % 2 ? b[m] : (b[m - 1] + b[m]) / 2; }
+          function p1(x) { return x === null ? "\u2014" : (x < 0 ? "\u2212" : "") + Math.abs(x).toFixed(1) + "%"; }
+          function set(c, t) { [].forEach.call(document.querySelectorAll("#cpi-reveal ." + c), function (e) { e.textContent = t; }); }
+          function dots(odd, even) {
+            var box = document.querySelector("#cpi-reveal .mr-dots"); if (!box) return;
+            var all = odd.concat(even, [TRUTH], AR), lo = Math.min(0, Math.floor(Math.min.apply(null, all))),
+                hi = Math.max(10, Math.ceil(Math.max.apply(null, all))), st = hi - lo <= 12 ? 1 : (hi - lo <= 24 ? 2 : 5), L = 260, R = 1130;
+            function X(v) { return L + (v - lo) / (hi - lo) * (R - L); }
+            var s = '<svg viewBox="0 0 1160 240" width="1160" height="240" style="font-family:inherit">';
+            for (var t = lo; t <= hi; t += st) s += '<line x1="' + X(t) + '" x2="' + X(t) + '" y1="20" y2="210" stroke="#e8e5df"/>' +
+              '<text x="' + X(t) + '" y="232" font-size="16" text-anchor="middle" fill="#6B645E">' + (t < 0 ? "\u2212" + (-t) : t) + "%</text>";
+            s += '<g class="mr-truth" style="opacity:0;transition:opacity .4s"><line x1="' + X(TRUTH) + '" x2="' + X(TRUTH) + '" y1="14" y2="210" stroke="#1F7A5A" stroke-width="3" stroke-dasharray="7 5"/>' +
+              '<text x="' + (X(TRUTH) + 8) + '" y="18" font-size="16" fill="#1F7A5A" font-weight="700">what happened: ' + TRUTH.toFixed(1) + "%</text></g>";
+            [[odd, 75, "#C47B5A", "Odd: 72 months", AR[0]], [even, 160, "#6B8BA4", "Even: 90 months", AR[1]]].forEach(function (row) {
+              var v = row[0], y = row[1];
+              // the AR(1) forecast from this window: a hollow ring, shown from click 3 (works with no votes at all)
+              s += '<g class="mr-ar" style="opacity:0;transition:opacity .4s"><circle cx="' + X(row[4]) + '" cy="' + y + '" r="14" fill="none" stroke="' + row[2] + '" stroke-width="4"/>' +
+                   '<text x="' + X(row[4]) + '" y="' + (y + 36) + '" font-size="14" font-weight="700" text-anchor="middle" fill="' + row[2] + '">AR(1) ' + row[4].toFixed(1) + "%</text></g>";
+              s += '<text x="0" y="' + (y + 6) + '" font-size="18" font-weight="700" fill="' + row[2] + '">' + row[3] + "</text>" +
+                   '<text x="0" y="' + (y + 28) + '" font-size="14" fill="#6B645E">n = ' + v.length + "</text>";
+              v.forEach(function (x, k) { var j = ((k * 37) % 9 - 4) * 5;
+                s += '<circle cx="' + X(x) + '" cy="' + (y + j) + '" r="9" fill="' + row[2] + '" fill-opacity="0.75" stroke="#fff"/>'; });
+              var m = median(v);
+              if (m !== null) s += '<line x1="' + X(m) + '" x2="' + X(m) + '" y1="' + (y - 30) + '" y2="' + (y + 30) + '" stroke="#1f2937" stroke-width="4"/>' +
+                '<text x="' + (X(m) + 8) + '" y="' + (y - 18) + '" font-size="16" font-weight="700" fill="#1f2937">median ' + p1(m) + "</text>";
+            });
+            box.innerHTML = s + "</svg>"; truth();
+          }
+          // the AR rings and the actual value stay hidden until their cards (clicks 3 and 4; reveal renumbers
+          // data-fragment-index, so they are found by class), so nobody reads it off the chart first
+          function truth() { var sl = document.getElementById("cpi-reveal"); if (!sl) return;
+            var g = sl.querySelector(".mr-truth"); if (g) g.style.opacity = sl.querySelector(".mr-actual.visible") ? 1 : 0;
+            [].forEach.call(sl.querySelectorAll(".mr-ar"), function (e) { e.style.opacity = sl.querySelector(".mr-arcard.visible") ? 1 : 0; }); }
+          (function hook() { if (window.Reveal && Reveal.on && Reveal.isReady && Reveal.isReady()) {
+              Reveal.on("fragmentshown", truth); Reveal.on("fragmenthidden", truth); Reveal.on("slidechanged", truth); truth(); }
+            else setTimeout(hook, 300); })();
+          document.addEventListener("pollnumbers", function (e) {
+            var d = e.detail; if (!d || d.pollId !== PID || !d.data) return;
+            if (demo && !painting) { setTimeout(paintDemo, 0); return; }
+            set("mc-demo", demo ? "Practice data: made up, not this room. Press Q to turn it off." : "");
+            var all = d.data.all || [], odd = d.data.odd || [], even = d.data.even || [];
+            dots(odd, even);
+            if (all.length < MIN_N) { set("mc-odd", "\u2014"); set("mc-even", "\u2014"); set("mc-wait", "Waiting for votes: " + all.length + " so far. Press Q for practice data, or teach from the AR(1) rings."); return; }
+            set("mc-wait", ""); set("mc-odd", p1(median(odd))); set("mc-even", p1(median(even)));
+          });
+        })();</script>
+      </section>
     </section>
 
     <section id="hook-cause" style="padding: 36px 60px;">
@@ -111,7 +276,7 @@
         <div class="fragment fade-up" style="background: #f8f6f3; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 20px 26px; margin-top: 22px;">
           <p style="font-size: 17pt; line-height: 1.5;">The structural break Chapter 20 taught you to <strong>detect</strong> had already happened. The forecasting system had no mechanism to <strong>respond</strong> to it.</p>
         </div>
-        <p class="fragment fade-up" style="font-size: 15pt; color: var(--muted-color); margin-top: 18px; font-style: italic;">Hold that sentence. You will reproduce this exact failure on your own laptop in about forty minutes.</p>
+        <p class="fragment fade-up" style="font-size: 15pt; color: var(--muted-color); margin-top: 18px; font-style: italic;">Hold that sentence. You will reproduce this exact failure on your own laptop later in this hour.</p>
       </div>
     </section>
 
@@ -166,11 +331,14 @@
       </div>
     </section>
 
-    <section id="ar-ma-figure" style="padding: 30px 50px;">
+    <section id="ar-ma-figure" class="sp-slide" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-chart-line" style="color: var(--secondary-color);"></i> One Shock, Two Mechanisms</h2>
       <div class="content" style="text-align: center;">
-        <img src="figures/figure_003_ar_ma_intuition.png" alt="AR(1) with phi = 0.85 above MA(1) with theta = 0.7, each showing the response to a single unit shock at t = 30 — the AR response decays over roughly twenty periods while the MA response is back at zero two periods later" style="max-height: 470px; width: auto;">
-        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px; font-style: italic;">Simulated, \(n = 90\), seed 7. This is the shape of the two mechanisms &mdash; not a claim about CPI.</p>
+     <div class="sp-plot mathjax_ignore tex2jax_ignore" style="width:1100px;height:430px;margin:0 auto;pointer-events:none;"></div>
+     <p class="sp-cap" style="font-size:17pt;font-weight:600;color:var(--text-color,#1f2937);text-align:center;margin:4px 0 0;min-height:1.4em;">One surprise of size 1 hits the series at period 0. How long does it last?</p>
+     <p style="font-size:11pt;color:var(--muted-color);text-align:center;margin:2px 0 0;">Orange = AR, the value carries forward &bull; blue = MA, only the surprise carries forward &bull; same parameters as the chapter&rsquo;s simulation (&#966; = 0.85, &#952; = 0.7)</p>
+     <span class="fragment sp-step" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></span><span class="fragment sp-step" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></span>
+     <script type="application/json" class="sp-data">{"data":[{"type":"bar","x":[0],"y":[1.0],"marker":{"color":"#6B7280"},"width":0.5},{"type":"scatter","x":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"y":[1.0,0.85,0.7225,0.6141,0.522,0.4437,0.3771,0.3206,0.2725,0.2316,0.1969,0.1673,0.1422,0.1209,0.1028,0.0874,0.0743,0.0631,0.0536,0.0456,0.0388],"mode":"lines+markers","line":{"color":"#C47B5A","width":3},"marker":{"size":8}},{"type":"scatter","x":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"y":[1.0,0.7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"mode":"lines+markers","line":{"color":"#2F6F8F","width":3},"marker":{"size":8}}],"layout":{"width":1100,"height":430,"autosize":false,"paper_bgcolor":"rgba(0,0,0,0)","plot_bgcolor":"rgba(0,0,0,0)","font":{"family":"Source Sans 3, sans-serif","size":15,"color":"#1f2937"},"showlegend":false,"hovermode":false,"dragmode":false,"margin":{"l":80,"r":30,"t":30,"b":60},"xaxis":{"title":{"text":"Periods after the shock","font":{"size":16}},"tickfont":{"size":14},"dtick":2,"range":[-0.6,20.6],"gridcolor":"#e8e5df"},"yaxis":{"title":{"text":"Effect of the shock","font":{"size":16}},"tickfont":{"size":14},"range":[-0.05,1.15],"gridcolor":"#e8e5df","zeroline":true,"zerolinecolor":"#9CA3AF"}},"states":[{"restyle":{"visible":[true,false,false]},"relayout":{"annotations":[{"x":0.5,"y":1.07,"xref":"x","yref":"y","text":"<b>a shock of 1 hits at period 0<\/b>","showarrow":false,"font":{"size":16,"color":"#6B7280"},"xanchor":"left"}]},"cap":"One surprise of size 1 hits the series at period 0. How long does it last?"},{"restyle":{"visible":[true,true,false]},"relayout":{"annotations":[{"x":4,"y":0.642,"xref":"x","yref":"y","text":"<b>AR(1), &#966; = 0.85: momentum<\/b>","showarrow":false,"font":{"size":16,"color":"#C47B5A"},"xanchor":"left"}]},"cap":"AR(1), φ = 0.85: each period keeps 85% of the last. Below half after 5 periods, still 0.20 after 10."},{"restyle":{"visible":[true,true,true]},"relayout":{"annotations":[{"x":4,"y":0.642,"xref":"x","yref":"y","text":"<b>AR(1), &#966; = 0.85: momentum<\/b>","showarrow":false,"font":{"size":16,"color":"#C47B5A"},"xanchor":"left"},{"x":2.9,"y":0.12,"xref":"x","yref":"y","text":"<b>MA(1), &#952; = 0.7: correction<\/b>","showarrow":false,"font":{"size":16,"color":"#2F6F8F"},"xanchor":"left"}]},"cap":"MA(1), θ = 0.7: 70% of the shock next period, then zero from period 2. AR is still at 0.20 after 10."}]}</script>
       </div>
     </section>
 
@@ -220,6 +388,7 @@
             </div>
           </div>
           <p style="text-align: center; font-size: 15pt; color: var(--muted-color); margin-top: 14px;"><i class="fa-solid fa-arrow-rotate-left"></i> &nbsp;fails step 3 &rarr; back to step 1</p>
+          <p style="font-size: 15.5pt; margin-top: 10px; line-height: 1.5;"><strong>ARIMA(\(p, d, q\))</strong> = difference the series \(d\) times until it is stationary, then model what is left as momentum (AR, \(p\)) plus correction (MA, \(q\)). The \(d\) is already decided: Chapter 20&rsquo;s ADF and KPSS tests set it.</p>
           <div style="background: #f8f6f3; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 16px 24px; margin-top: 16px;">
             <p style="font-size: 16.5pt; line-height: 1.5;"><code>auto_arima()</code> automates <strong>step 2 only</strong>. Steps 1 and 3 are still yours. Skipping identification is the single most common error in applied time series work.</p>
           </div>
@@ -229,37 +398,41 @@
       <section id="acf-pacf-rules" style="padding: 34px 60px;">
         <h3><i class="fa-solid fa-table-list" style="color: var(--accent-color);"></i> Reading ACF and PACF</h3>
         <div class="content">
-          <table style="width: 100%; font-size: 15.5pt; border-collapse: collapse; margin-top: 10px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 4px 0 2px;">
+            <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 8px 14px;"><p style="font-size: 14pt; margin: 0;"><strong>ACF at lag \(k\):</strong> the plain correlation between today and \(k\) periods ago (Chapter 20).</p></div>
+            <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 8px 14px;"><p style="font-size: 14pt; margin: 0;"><strong>PACF at lag \(k\):</strong> partial autocorrelation, the same correlation after removing what lags 1 to \(k-1\) already explain.</p></div>
+          </div>
+          <table style="width: 100%; font-size: 15.5pt; border-collapse: collapse; margin-top: 6px;">
             <thead>
               <tr style="border-bottom: 2px solid var(--secondary-color);">
-                <th style="text-align: left; padding: 12px 14px;">Pattern</th>
-                <th style="text-align: left; padding: 12px 14px;">ACF</th>
-                <th style="text-align: left; padding: 12px 14px;">PACF</th>
-                <th style="text-align: left; padding: 12px 14px;">Model</th>
+                <th style="text-align: left; padding: 8px 14px;">Pattern</th>
+                <th style="text-align: left; padding: 8px 14px;">ACF</th>
+                <th style="text-align: left; padding: 8px 14px;">PACF</th>
+                <th style="text-align: left; padding: 8px 14px;">Model</th>
               </tr>
             </thead>
             <tbody>
               <tr style="border-bottom: 1px solid var(--line-color);">
-                <td style="padding: 12px 14px;"><strong>AR(\(p\))</strong></td>
-                <td style="padding: 12px 14px;">decays</td>
-                <td style="padding: 12px 14px; color: var(--accent-color); font-weight: 600;">cuts off after \(p\)</td>
-                <td style="padding: 12px 14px;">read \(p\) off the PACF</td>
+                <td style="padding: 8px 14px;"><strong>AR(\(p\))</strong></td>
+                <td style="padding: 8px 14px;">decays</td>
+                <td style="padding: 8px 14px; color: var(--accent-color); font-weight: 600;">cuts off after \(p\)</td>
+                <td style="padding: 8px 14px;">read \(p\) off the PACF</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--line-color);">
-                <td style="padding: 12px 14px;"><strong>MA(\(q\))</strong></td>
-                <td style="padding: 12px 14px; color: var(--accent-color); font-weight: 600;">cuts off after \(q\)</td>
-                <td style="padding: 12px 14px;">decays</td>
-                <td style="padding: 12px 14px;">read \(q\) off the ACF</td>
+                <td style="padding: 8px 14px;"><strong>MA(\(q\))</strong></td>
+                <td style="padding: 8px 14px; color: var(--accent-color); font-weight: 600;">cuts off after \(q\)</td>
+                <td style="padding: 8px 14px;">decays</td>
+                <td style="padding: 8px 14px;">read \(q\) off the ACF</td>
               </tr>
               <tr>
-                <td style="padding: 12px 14px;"><strong>ARMA(\(p,q\))</strong></td>
-                <td style="padding: 12px 14px;">decays</td>
-                <td style="padding: 12px 14px;">decays</td>
-                <td style="padding: 12px 14px;">start small, compare AIC</td>
+                <td style="padding: 8px 14px;"><strong>ARMA(\(p,q\))</strong></td>
+                <td style="padding: 8px 14px;">decays</td>
+                <td style="padding: 8px 14px;">decays</td>
+                <td style="padding: 8px 14px;">start small, compare AIC</td>
               </tr>
             </tbody>
           </table>
-          <p style="font-size: 15pt; margin-top: 18px; line-height: 1.55;"><strong>&ldquo;Cuts off&rdquo;</strong> means the values drop inside the confidence band \(\pm 1.96/\sqrt{T}\) and stay there. <strong>&ldquo;Decays&rdquo;</strong> means a gradual, geometric decline.</p>
+          <p style="font-size: 15pt; margin-top: 10px; line-height: 1.5;"><strong>&ldquo;Cuts off&rdquo;</strong> means the values drop inside the confidence band \(\pm 1.96/\sqrt{T}\) and stay there. <strong>&ldquo;Decays&rdquo;</strong> means a gradual, geometric decline. <strong>AIC</strong> scores each candidate&rsquo;s fit, penalised for the number of parameters: lower is better.</p>
         </div>
       </section>
     </section>
@@ -384,9 +557,23 @@
         </div>
       </section>
 
-      <section id="ljung-box-trap" style="padding: 32px 55px;">
+      <section id="poll-2" style="padding: 32px 55px;">
+        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Reading a Diagnostic</h2>
+        <div class="content">
+          <p class="text-lg" style="line-height: 1.55;">You fit ARIMA(0,1,2) to log CPI and Ljung-Box returns \(p = 1.0000\) at every lag you test. What is the right response?</p>
+          <div class="poll-grid" data-poll-id="ch21-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 15pt;">
+            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Well specified &mdash; move on to forecasting</div>
+            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Check what is <em>in</em> the residual vector before believing it</div>
+            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Increase \(q\) until the \(p\)-values fall below 0.05</div>
+            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Ljung-Box does not apply to differenced series</div>
+          </div>
+        </div>
+      </section>
+      <section id="ljung-box-trap" data-poll-results="ch21-econ3916-poll-2" style="padding: 24px 55px;">
         <h3><i class="fa-solid fa-bug" style="color: var(--danger-color);"></i> Now Run It. Twice.</h3>
         <div class="content">
+          <p style="font-size: 16pt; font-weight: 700; color: var(--success-color); margin: 0 0 8px;">Poll answer: B. A perfect score is a smell: check what is in the residual vector before you believe the test.</p>
+          <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:0 300px 26px;"></div>
           <p style="font-size: 15.5pt; line-height: 1.5;"><code>pmdarima</code>'s <code>resid()</code> returns <strong>the raw first observation as element 0</strong>, not a residual. On log CPI that element is <strong>4.84595</strong>, against actual residuals near 0.0016.</p>
           <table style="width: 100%; font-size: 15pt; border-collapse: collapse; margin-top: 16px;">
             <thead>
@@ -434,27 +621,14 @@
           <div style="background: #fdf0ea; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 20px 26px;">
             <p style="font-size: 18pt; line-height: 1.55;"><strong>ARIMA(0, 1, 2) is not adequate.</strong> It is clean at short lags and rejects hard from lag 12 onward.</p>
           </div>
-          <p style="font-size: 16.5pt; margin-top: 20px; line-height: 1.55;">The tests at 18 and 24 pool every lag from 1 up, so they inherit the rejection at 12. The residual ACF spikes at lags <strong>11, 12 and 15</strong> &mdash; around a year, like the <strong>&minus;0.18 PACF spike</strong> we walked past twenty minutes ago. Structure near the annual lag is left in a series that has already been seasonally adjusted.</p>
+          <p style="font-size: 16.5pt; margin-top: 20px; line-height: 1.55;">The tests at 18 and 24 pool every lag from 1 up, so they inherit the rejection at 12. The residual ACF spikes at lags <strong>11, 12 and 15</strong> &mdash; around a year, like the <strong>&minus;0.18 PACF spike</strong> we walked past a few slides back. Structure near the annual lag is left in a series that has already been seasonally adjusted.</p>
           <p class="fragment fade-up" style="font-size: 16.5pt; margin-top: 18px; line-height: 1.55;"><i class="fa-solid fa-arrow-rotate-left" style="color: var(--secondary-color);"></i> A seasonal term is the obvious next iteration. <strong>That is what &ldquo;cycle&rdquo; means</strong> &mdash; the diagnostic sent us back to step 1, and we go.</p>
         </div>
       </section>
     </section>
 
-    <section id="poll-2" style="padding: 32px 55px;">
-      <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Reading a Diagnostic</h2>
-      <div class="content">
-        <p class="text-lg" style="line-height: 1.55;">You fit ARIMA(0,1,2) to log CPI and Ljung-Box returns \(p = 1.0000\) at every lag you test. What is the right response?</p>
-        <div class="poll-grid" data-poll-id="ch21-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 15pt;">
-          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Well specified &mdash; move on to forecasting</div>
-          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Check what is <em>in</em> the residual vector before believing it</div>
-          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Increase \(q\) until the \(p\)-values fall below 0.05</div>
-          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Ljung-Box does not apply to differenced series</div>
-        </div>
-      </div>
-    </section>
     <section id="poll-2-reveal" data-poll-results="ch21-econ3916-poll-2" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; A Perfect Score Is a Smell</h2>
-      <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:160px; margin:10px 60px 32px;"></div>
       <div class="content">
         <p style="font-size: 16.5pt; line-height: 1.55;">A \(p\)-value of <em>exactly</em> 1.0000 at every lag is a warning sign. Here one contaminating element was doing all the work. <strong>Print the first few residuals. Look at their standard deviation. Then read the test.</strong></p>
       </div>
@@ -495,7 +669,7 @@
         <p style="font-size: 15.5pt; line-height: 1.5;">Millions of business series, no analyst time for per-series ACF inspection. Taylor &amp; Letham reframed forecasting as a <strong>regression problem</strong>.</p>
         <p style="font-size: 17pt; text-align: center; margin: 12px 0 6px;">$$y(t) = g(t) + s(t) + h(t) + \varepsilon_t$$</p>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; font-size: 14pt;">
-          <div style="background: #fdf0ea; border-radius: 8px; padding: 14px 16px; text-align: center;"><p><strong>\(g(t)\)</strong><br>trend, with changepoints</p></div>
+          <div style="background: #fdf0ea; border-radius: 8px; padding: 14px 16px; text-align: center;"><p><strong>\(g(t)\)</strong><br>trend, with changepoints: dates where its slope may change</p></div>
           <div style="background: #f0f5f8; border-radius: 8px; padding: 14px 16px; text-align: center;"><p><strong>\(s(t)\)</strong><br>Fourier seasonality</p></div>
           <div style="background: #f0f5f8; border-radius: 8px; padding: 14px 16px; text-align: center;"><p><strong>\(h(t)\)</strong><br>holiday effects</p></div>
           <div style="background: #f4f2ee; border-radius: 8px; padding: 14px 16px; text-align: center;"><p><strong>\(\varepsilon_t\)</strong><br>noise</p></div>
@@ -597,6 +771,7 @@
         <p style="font-size: 17pt; line-height: 1.55; margin-top: 16px;">It absorbs the surge into the slope of its last segment instead &mdash; and then extends <strong>that</strong> slope forward.</p>
         <div class="fragment fade-up" style="background: #fdf0ea; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 20px 26px; margin-top: 22px;">
           <p style="font-size: 18pt; line-height: 1.55;">A model trained through a regime change, extrapolating the regime it happened to end in, with no warning. That is the August 2022 earnings call, reproduced on your laptop with forty lines of Python.</p>
+          <p style="font-size: 15.5pt; line-height: 1.5; margin-top: 8px; color: var(--muted-color);">The even half of the room did this in the forecast vote: a window ending at the peak, extended forward.</p>
         </div>
       </div>
     </section>
@@ -720,19 +895,15 @@
                 <td style="text-align: center; padding: 12px 14px;">0.00344</td>
                 <td style="text-align: center; padding: 12px 14px;">0.00533</td>
               </tr>
-              <tr style="border-bottom: 1px solid var(--line-color);">
+              <tr>
                 <td style="padding: 12px 14px;"><strong>CPI &mdash; MASE</strong></td>
                 <td style="text-align: center; padding: 12px 14px; font-weight: 700; color: var(--accent-color);">1.268</td>
                 <td style="text-align: center; padding: 12px 14px; font-weight: 700;">1.966</td>
               </tr>
-              <tr>
-                <td style="padding: 12px 14px;"><strong>UNRATE &mdash; MASE</strong></td>
-                <td style="text-align: center; padding: 12px 14px; font-weight: 700; color: var(--success-color);">0.664</td>
-                <td style="text-align: center; padding: 12px 14px; font-weight: 700; color: var(--danger-color);">5.334</td>
-              </tr>
             </tbody>
           </table>
-          <p style="font-size: 15.5pt; margin-top: 14px;">ARIMA wins both. But by <strong>1.6&times;</strong> on CPI and <strong>8.0&times;</strong> on unemployment &mdash; same code, same metric, wildly different margins.</p>
+          <p style="font-size: 15.5pt; margin-top: 14px;">ARIMA beats Prophet on CPI by about <strong>1.6&times;</strong>, and both score above 1. Above 1 against which naive forecast, though? That is the next question.</p>
+          <p style="font-size: 13.5pt; margin-top: 8px; color: var(--muted-color);">Unemployment is the lab&rsquo;s Challenge: there the order you choose (\(d = 0\) or \(d = 1\)) changes the answer, so run it both ways.</p>
         </div>
       </section>
 
@@ -823,8 +994,8 @@
       <h2><i class="fa-solid fa-ticket" style="color: var(--accent-color);"></i> End-of-Class Check</h2>
       <div class="content">
         <div style="background: #f0f5f8; border-radius: 10px; padding: 18px 24px;">
-          <p style="font-size: 16pt; line-height: 1.65;">A colleague evaluates a CPI forecasting model with standard 5-fold cross-validation, shuffling the data randomly.</p>
-          <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What is wrong?</strong></p>
+          <p style="font-size: 16pt; line-height: 1.65;">A model&rsquo;s training window ends at the peak of a surge.</p>
+          <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What does it forecast, and how would you find out it is wrong?</strong></p>
         </div>
         <div style="background: #f4f7f4; border-left: 4px solid var(--accent-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
           <p style="font-size: 15.5pt; line-height: 1.6;"><strong>Any answer earns full credit</strong> &mdash; attendance marks that you were here, not that you were right. You get the reasoning either way.</p>
@@ -851,7 +1022,7 @@
         <div style="background: #f8f6f3; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 16px 22px; margin-top: 18px;">
           <p style="font-size: 15.5pt; line-height: 1.5;"><strong>Two things that will cost you an hour if you forget them.</strong> Use <code>.asfreq('MS')</code>, not <code>index.freq = 'MS'</code>, which raises a <code>ValueError</code> because October 2025 is missing. And slice the residuals: <code>arima_model.resid()[1:]</code>.</p>
         </div>
-        <p style="font-size: 15pt; margin-top: 16px; line-height: 1.5;">The optional Extension visualises the changepoints; the take-home Challenge runs the whole pipeline again on <strong>UNRATE</strong> &mdash; where, as you saw, Prophet scores 5.33.</p>
+        <p style="font-size: 15pt; margin-top: 16px; line-height: 1.5;">The optional Extension visualises the changepoints; the take-home Challenge runs the whole pipeline again on <strong>UNRATE</strong>. Its answer depends on the order you choose: try \(d = 0\) and \(d = 1\).</p>
       </div>
     </section>
 
@@ -1629,5 +1800,59 @@
   if (Reveal.isReady()) start(); else Reveal.on('ready', start);
 })();
 </script>
+<script id="step-plots">(function () {
+  // Step plots (T19, 18 Nov 2026): a chart drawn in the slide, one fragment per state, so the clicker drives it
+  // and the projector and the speaker view always match. Mouse is off on purpose (pointer-events: none; staticPlot would
+  // blank the 3-D scenes); the hub page is for playing.
+  var PLOTLY = "https://cdn.plot.ly/plotly-3.4.0.min.js", loading = null;
+  function lib() {
+    if (window.Plotly) return Promise.resolve();
+    if (!loading) loading = new Promise(function (ok, no) { var s = document.createElement("script"); s.src = PLOTLY;
+      s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+    return loading;
+  }
+  function spec(sec) { var el = sec.querySelector("script.sp-data"); if (!el) return null;
+    if (!el.__spec) el.__spec = JSON.parse(el.textContent); return el.__spec; }
+  function step(sec) { return sec.querySelectorAll(".fragment.sp-step.visible").length; }
+  function apply(sec) {
+    var sp = spec(sec), gd = sec.querySelector(".sp-plot"); if (!sp || !gd || !gd.__ready) return;
+    var k = Math.min(step(sec), sp.states.length - 1); if (gd.__k === k) return; gd.__k = k;
+    var st = sp.states[k], cap = sec.querySelector(".sp-cap"); if (cap) cap.textContent = st.cap || "";
+    // optional: elements marked data-sp-hl="k" light up on state k (19 Nov: page 17's step boxes)
+    [].forEach.call(sec.querySelectorAll("[data-sp-hl]"), function (e) { var on = +e.getAttribute("data-sp-hl") === k;
+      if (e.__bg === undefined) e.__bg = e.style.background;
+      e.style.outline = on ? "3px solid #C0583E" : "none"; e.style.background = on ? "#fdf0ea" : e.__bg;
+      e.style.opacity = on ? "1" : "0.55"; e.style.transition = "all .25s"; });
+    if (st.frame) Plotly.animate(gd, [st.frame], { mode: "immediate", frame: { duration: 0, redraw: true }, transition: { duration: 0 } });
+    if (st.restyle) Plotly.restyle(gd, st.restyle);
+    if (st.relayout) Plotly.relayout(gd, st.relayout);
+  }
+  function draw(sec) {
+    var sp = spec(sec), gd = sec.querySelector(".sp-plot"); if (!sp || !gd || gd.__ready || gd.__busy) return;
+    gd.__busy = 1;
+    lib().then(function () {
+      return Plotly.newPlot(gd, sp.data, sp.layout, { displayModeBar: false, responsive: false, scrollZoom: false, doubleClick: false, showAxisDragHandles: false });
+    }).then(function () { return sp.frames ? Plotly.addFrames(gd, sp.frames) : null; })
+      .then(function () { gd.__busy = 0; gd.__ready = 1; gd.__k = -1; apply(sec); })
+      .catch(function () { gd.__busy = 0; var c = sec.querySelector(".sp-cap");
+        if (c) c.textContent = "The chart did not load (no internet?). The link below opens it."; });
+  }
+  function purge(sec) { var gd = sec.querySelector(".sp-plot"); if (gd && gd.__ready && window.Plotly) { Plotly.purge(gd); gd.__ready = 0; } }
+  function sync() {
+    if (!window.Reveal || !Reveal.getCurrentSlide) return;
+    var cur = Reveal.getCurrentSlide();
+    [].forEach.call(document.querySelectorAll("section.sp-slide"), function (sec) {
+      if (sec === cur) { draw(sec); apply(sec); } else purge(sec);   // one WebGL chart at a time per window
+    });
+  }
+  function boot() {
+    if (!window.Reveal || !Reveal.on) return setTimeout(boot, 300);
+    ["ready", "slidechanged", "fragmentshown", "fragmenthidden"].forEach(function (e) { Reveal.on(e, sync); });
+    setInterval(sync, 700);   // a state restored by the speaker view's setState lands here too
+    setTimeout(function () { lib().catch(function () {}); }, 4000);
+    sync();
+  }
+  boot();
+})();</script>
 </body>
 </html>
