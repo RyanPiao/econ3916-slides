@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=72474ebdf6862ee89029907b87929a86">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=3105b603ca297728a9b6f4edb4ab0a2e">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series II: Prophet, ARIMA & Structural Breaks</title>
@@ -829,25 +829,28 @@
       </div>
     </section>
 
-    <section id="poll-3" style="padding: 32px 55px;">
-      <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; The Metric Bites Back</h2>
-      <div class="content">
-        <p class="text-lg" style="line-height: 1.55;">A retailer tunes its demand model to minimise MAPE. Six months later, stores are <em>systematically</em> short of stock. Most likely mechanical cause?</p>
-        <div class="poll-grid" data-poll-id="ch21-econ3916-poll-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
-          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) The model is underfitting &mdash; it needs more parameters</div>
-          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) MAPE penalises over-forecasting harder, so the model learned to forecast low</div>
-          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) MAPE is undefined at zero demand, so those days were dropped</div>
-          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) The training data ended before the demand shift</div>
+    <section>
+      <section id="poll-3" style="padding: 32px 55px;">
+        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; The Metric Bites Back</h2>
+        <div class="content">
+          <p class="text-lg" style="line-height: 1.55;">A retailer tunes its demand model to minimise MAPE. Six months later, stores are <em>systematically</em> short of stock. Most likely mechanical cause?</p>
+          <div class="poll-grid" data-poll-id="ch21-econ3916-poll-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
+            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) The model is underfitting &mdash; it needs more parameters</div>
+            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) MAPE penalises over-forecasting harder, so the model learned to forecast low</div>
+            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) MAPE is undefined at zero demand, so those days were dropped</div>
+            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) The training data ended before the demand shift</div>
+          </div>
         </div>
-      </div>
-    </section>
-    <section id="poll-3-reveal" data-poll-results="ch21-econ3916-poll-3" style="padding: 30px 50px;">
-      <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; The Metric Taught It To</h2>
-      <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-3" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:4px 300px 26px;"></div>
-      <div class="content">
-        <p style="font-size: 16pt; line-height: 1.45;">The word doing the work is <strong>systematically</strong>. C and D are real problems, but they give noise or a one-off miss, not a lean in one direction. Only the asymmetry does that: <span class="fragment fade-up">here is how it teaches a model to forecast low.</span></p>
-        <img class="fragment fade-up" src="figures/figure_013_mape_bias.png" alt="A worked example: demand is 50 or 150 with equal chance, mean 100. Average MAPE against the forecast is lowest at 50, 33 percent; forecasting the mean, 100, scores 67 percent; forecasting 150 scores 100 percent." style="width: 100%; height: auto; display: block; margin: 6px auto 0;">
-      </div>
+      </section>
+
+      <section id="poll-3-reveal" data-poll-results="ch21-econ3916-poll-3" style="padding: 30px 50px;">
+        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; The Metric Taught It To</h2>
+        <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-3" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:4px 300px 26px;"></div>
+        <div class="content">
+          <p style="font-size: 16pt; line-height: 1.45;">The word doing the work is <strong>systematically</strong>. C and D are real problems, but they give noise or a one-off miss, not a lean in one direction. Only the asymmetry does that: <span class="fragment fade-up">here is how it teaches a model to forecast low.</span></p>
+          <img class="fragment fade-up" src="figures/figure_013_mape_bias.png" alt="A worked example: demand is 50 or 150 with equal chance, mean 100. Average MAPE against the forecast is lowest at 50, 33 percent; forecasting the mean, 100, scores 67 percent; forecasting 150 scores 100 percent." style="width: 100%; height: auto; display: block; margin: 6px auto 0;">
+        </div>
+      </section>
     </section>
 
     <section id="mase" style="padding: 34px 55px;">
@@ -911,11 +914,12 @@
       <section id="poll-4" style="padding: 32px 55px;">
         <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Write the Conclusion</h2>
         <div class="content">
-          <p class="text-lg" style="line-height: 1.55;">Your ARIMA scores <strong>MASE = 1.27</strong> on CPI. Write the sentence that goes in your lab write-up.</p>
-          <div class="poll-grid" data-poll-id="ch21-econ3916-poll-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
-            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) The model loses to a random walk &mdash; abandon it</div>
-            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) A 24-step error over a 1-step naive error is not an apples-to-apples comparison</div>
-            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) MASE above 1 is impossible &mdash; there is a bug in the code</div>
+          <p class="text-lg" style="line-height: 1.5;">Your ARIMA scores <strong>MASE = 1.27</strong> on CPI: the top error divided by the bottom one. Which sentence goes in your lab write-up?</p>
+          <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 10px;"><svg viewBox="0 0 1160 100" xmlns="http://www.w3.org/2000/svg" font-family="inherit" style="width:100%;display:block" role="img" aria-label="How the 1.27 is built. Top: ARIMA trained to July 2024 makes 24 forecasts at once, 1 to 24 months ahead. Bottom: in the training data, the naive forecast predicts each next month from the month before."><defs><marker id="t21p4-m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8C8580"/></marker></defs><text x="0" y="28" font-size="17" font-weight="700" fill="#C47B5A">top: ARIMA</text><rect x="150" y="10" width="455" height="24" rx="4" fill="#dfe7ee" stroke="#6B8BA4" stroke-width="2"/><text x="162" y="28" font-size="15" fill="#2D2D2D">trained to Jul 2024</text><rect x="612" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="633" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="654" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="675" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="696" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="717" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="738" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="759" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="780" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="801" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="822" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="843" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="864" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="885" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="906" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="927" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="948" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="969" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="990" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="1011" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="1032" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="1053" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="1074" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><rect x="1095" y="10" width="18" height="24" rx="3" fill="#f6d8c9" stroke="#C47B5A" stroke-width="1.5"/><text x="612" y="52" font-size="15" fill="#C47B5A">24 forecasts, all made in Jul 2024: 1 to 24 months ahead</text><text x="0" y="78" font-size="17" font-weight="700" fill="#8C8580">bottom: naive</text><rect x="150" y="62" width="455" height="24" rx="4" fill="#eceae6" stroke="#8C8580" stroke-width="2"/><path d="M170,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M200,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M230,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M260,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M290,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M320,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M350,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M380,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M410,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M440,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M470,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M500,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M530,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><path d="M560,80 q15,-12 30,0" fill="none" stroke="#8C8580" stroke-width="2" marker-end="url(#t21p4-m)"/><text x="612" y="80" font-size="15" fill="#8C8580">in the training data, each month predicted from the month before</text></svg></div>
+          <div class="poll-grid" data-poll-id="ch21-econ3916-poll-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; font-size: 14.5pt;">
+            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) ARIMA loses to the naive forecast, so drop it</div>
+            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) The 1.27 divides a 24-month error by a 1-month error: not a like-for-like comparison</div>
+            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) MASE above 1 is impossible, so the code has a bug</div>
             <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) The forecast was 27% off</div>
           </div>
         </div>
