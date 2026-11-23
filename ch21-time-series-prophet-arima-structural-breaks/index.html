@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=fc6ac4a0169819e6f532f07772fab1fa">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=b03f8f9d5890ca846636b57fa83375e4">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series II: Prophet, ARIMA & Structural Breaks</title>
@@ -388,24 +388,25 @@
             <tbody>
               <tr style="border-bottom: 1px solid var(--line-color);">
                 <td style="padding: 8px 14px;"><strong>AR(\(p\))</strong></td>
-                <td style="padding: 8px 14px;">decays</td>
-                <td style="padding: 8px 14px; color: var(--accent-color); font-weight: 600;">cuts off after \(p\)</td>
+                <td style="padding: 5px 14px;"><span style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>decays</span><svg viewBox="0 0 150 60" width="150" height="60" role="img" aria-label="AR ACF, lags 1 to 10: 0.85, 0.72, 0.61, 0.52, 0.44, 0.38, 0.32, 0.27, 0.23, 0.20" style="flex:none;display:block"><rect x="0" y="31.3" width="150" height="9.4" fill="#e8e5df"/><line x1="0" x2="150" y1="36" y2="36" stroke="#8C8580" stroke-width="1"/><rect x="6" y="7.1" width="9" height="28.9" fill="#6B8BA4"/><rect x="20" y="11.4" width="9" height="24.6" fill="#6B8BA4"/><rect x="34" y="15.1" width="9" height="20.9" fill="#6B8BA4"/><rect x="48" y="18.3" width="9" height="17.7" fill="#6B8BA4"/><rect x="62" y="20.9" width="9" height="15.1" fill="#6B8BA4"/><rect x="76" y="23.2" width="9" height="12.8" fill="#6B8BA4"/><rect x="90" y="25.1" width="9" height="10.9" fill="#6B8BA4"/><rect x="104" y="26.7" width="9" height="9.3" fill="#6B8BA4"/><rect x="118" y="28.1" width="9" height="7.9" fill="#6B8BA4"/><rect x="132" y="29.3" width="9" height="6.7" fill="#6B8BA4"/></svg></span></td>
+                <td style="padding: 5px 14px; color: var(--accent-color); font-weight: 600;"><span style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>cuts off after \(p\)</span><svg viewBox="0 0 150 60" width="150" height="60" role="img" aria-label="AR PACF, lags 1 to 10: 0.85, 0.00, 0.00, -0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00" style="flex:none;display:block"><rect x="0" y="31.3" width="150" height="9.4" fill="#e8e5df"/><line x1="0" x2="150" y1="36" y2="36" stroke="#8C8580" stroke-width="1"/><rect x="6" y="7.1" width="9" height="28.9" fill="#C47B5A"/></svg></span></td>
                 <td style="padding: 8px 14px;">read \(p\) off the PACF</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--line-color);">
                 <td style="padding: 8px 14px;"><strong>MA(\(q\))</strong></td>
-                <td style="padding: 8px 14px; color: var(--accent-color); font-weight: 600;">cuts off after \(q\)</td>
-                <td style="padding: 8px 14px;">decays</td>
+                <td style="padding: 5px 14px; color: var(--accent-color); font-weight: 600;"><span style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>cuts off after \(q\)</span><svg viewBox="0 0 150 60" width="150" height="60" role="img" aria-label="MA ACF, lags 1 to 10: 0.47, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00" style="flex:none;display:block"><rect x="0" y="31.3" width="150" height="9.4" fill="#e8e5df"/><line x1="0" x2="150" y1="36" y2="36" stroke="#8C8580" stroke-width="1"/><rect x="6" y="20.0" width="9" height="16.0" fill="#C47B5A"/></svg></span></td>
+                <td style="padding: 5px 14px;"><span style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>decays</span><svg viewBox="0 0 150 60" width="150" height="60" role="img" aria-label="MA PACF, lags 1 to 10: 0.47, -0.28, 0.19, -0.13, 0.09, -0.06, 0.04, -0.03, 0.02, -0.01" style="flex:none;display:block"><rect x="0" y="31.3" width="150" height="9.4" fill="#e8e5df"/><line x1="0" x2="150" y1="36" y2="36" stroke="#8C8580" stroke-width="1"/><rect x="6" y="20.0" width="9" height="16.0" fill="#6B8BA4"/><rect x="20" y="36.0" width="9" height="9.6" fill="#6B8BA4"/><rect x="34" y="29.7" width="9" height="6.3" fill="#6B8BA4"/><rect x="48" y="36.0" width="9" height="4.3" fill="#6B8BA4"/><rect x="62" y="33.0" width="9" height="3.0" fill="#6B8BA4"/><rect x="76" y="36.0" width="9" height="2.1" fill="#6B8BA4"/><rect x="90" y="34.6" width="9" height="1.4" fill="#6B8BA4"/><rect x="104" y="36.0" width="9" height="1.0" fill="#6B8BA4"/><rect x="118" y="35.3" width="9" height="0.7" fill="#6B8BA4"/><rect x="132" y="36.0" width="9" height="0.5" fill="#6B8BA4"/></svg></span></td>
                 <td style="padding: 8px 14px;">read \(q\) off the ACF</td>
               </tr>
               <tr>
                 <td style="padding: 8px 14px;"><strong>ARMA(\(p,q\))</strong></td>
-                <td style="padding: 8px 14px;">decays</td>
-                <td style="padding: 8px 14px;">decays</td>
+                <td style="padding: 5px 14px;"><span style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>decays</span><svg viewBox="0 0 150 60" width="150" height="60" role="img" aria-label="ARMA ACF, lags 1 to 10: 0.92, 0.78, 0.67, 0.57, 0.48, 0.41, 0.35, 0.30, 0.25, 0.21" style="flex:none;display:block"><rect x="0" y="31.3" width="150" height="9.4" fill="#e8e5df"/><line x1="0" x2="150" y1="36" y2="36" stroke="#8C8580" stroke-width="1"/><rect x="6" y="4.6" width="9" height="31.4" fill="#6B8BA4"/><rect x="20" y="9.3" width="9" height="26.7" fill="#6B8BA4"/><rect x="34" y="13.3" width="9" height="22.7" fill="#6B8BA4"/><rect x="48" y="16.7" width="9" height="19.3" fill="#6B8BA4"/><rect x="62" y="19.6" width="9" height="16.4" fill="#6B8BA4"/><rect x="76" y="22.1" width="9" height="13.9" fill="#6B8BA4"/><rect x="90" y="24.2" width="9" height="11.8" fill="#6B8BA4"/><rect x="104" y="25.9" width="9" height="10.1" fill="#6B8BA4"/><rect x="118" y="27.5" width="9" height="8.5" fill="#6B8BA4"/><rect x="132" y="28.7" width="9" height="7.3" fill="#6B8BA4"/></svg></span></td>
+                <td style="padding: 5px 14px;"><span style="display:flex;align-items:center;justify-content:space-between;gap:10px;"><span>decays</span><svg viewBox="0 0 150 60" width="150" height="60" role="img" aria-label="ARMA PACF, lags 1 to 10: 0.92, -0.45, 0.27, -0.18, 0.12, -0.08, 0.06, -0.04, 0.03, -0.02" style="flex:none;display:block"><rect x="0" y="31.3" width="150" height="9.4" fill="#e8e5df"/><line x1="0" x2="150" y1="36" y2="36" stroke="#8C8580" stroke-width="1"/><rect x="6" y="4.6" width="9" height="31.4" fill="#6B8BA4"/><rect x="20" y="36.0" width="9" height="15.3" fill="#6B8BA4"/><rect x="34" y="26.7" width="9" height="9.3" fill="#6B8BA4"/><rect x="48" y="36.0" width="9" height="6.1" fill="#6B8BA4"/><rect x="62" y="31.8" width="9" height="4.2" fill="#6B8BA4"/><rect x="76" y="36.0" width="9" height="2.9" fill="#6B8BA4"/><rect x="90" y="34.0" width="9" height="2.0" fill="#6B8BA4"/><rect x="104" y="36.0" width="9" height="1.4" fill="#6B8BA4"/><rect x="118" y="35.0" width="9" height="1.0" fill="#6B8BA4"/><rect x="132" y="36.0" width="9" height="0.7" fill="#6B8BA4"/></svg></span></td>
                 <td style="padding: 8px 14px;">start small, compare AIC</td>
               </tr>
             </tbody>
           </table>
+          <p style="font-size: 11.5pt; color: var(--muted-color); margin: 4px 0 0;">Bars: the true values at lags 1 to 10 for page 8&rsquo;s AR (&phi; = 0.85; its ACF is that page&rsquo;s 0.85, 0.72, 0.61 &hellip;), page 9&rsquo;s MA (&theta; = 0.7) and the two combined, so \(p = q = 1\) and each cut comes after lag 1. Grey strip: the band for \(T = 200\).</p>
           <p style="font-size: 15pt; margin-top: 10px; line-height: 1.5;"><strong>&ldquo;Cuts off&rdquo;</strong> means the values drop inside the confidence band \(\pm 1.96/\sqrt{T}\) and stay there. <strong>&ldquo;Decays&rdquo;</strong> means a gradual, geometric decline. <strong>AIC</strong> scores each candidate&rsquo;s fit, penalised for the number of parameters: lower is better.</p>
         </div>
       </section>
@@ -473,7 +474,7 @@
     <section id="acf-pacf-real" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-signal" style="color: var(--secondary-color);"></i> Identification on the Real Series</h2>
       <div class="content" style="text-align: center;">
-        <img src="figures/figure_002_acf_pacf.png" alt="ACF and PACF of the first-differenced log CPI out to 24 lags, with the 95 percent band shaded — the ACF spike at lag 1 is 0.46 and the PACF has a significant negative spike of minus 0.18 at lag 12" style="max-height: 440px; width: auto;">
+        <img src="figures/figure_002_acf_pacf.png" alt="ACF (left) and PACF (right) of the monthly change in log CPI out to 24 lags, side by side, with the 95 percent band of plus or minus 0.094 shaded. Lag 1 is 0.46 in both; the PACF has a negative spike of minus 0.18 at lag 12." style="width: 100%; height: auto; display: block; margin: 0 auto;">
         <p style="font-size: 14pt; margin-top: 8px; line-height: 1.5;">\(T = 438\) monthly changes, so the band is \(\pm 1.96/\sqrt{438} = \pm 0.094\). Lag 1 is <strong>0.46</strong> in both. The PACF's <strong>&minus;0.18 at lag 12</strong> is the annual echo that survived seasonal adjustment.</p>
       </div>
     </section>
@@ -493,7 +494,7 @@
           </div>
         </div>
         <div class="fragment fade-up" style="background: #f8f6f3; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 18px 24px; margin-top: 20px;">
-          <p style="font-size: 16.5pt; line-height: 1.55;">Say it out loud: it picked <strong>\(p = 0\)</strong>. Two MA terms captured the persistence better than any AR term did &mdash; on a series whose lag-1 autocorrelation is 0.46. That is not what the plot makes you expect.</p>
+          <p style="font-size: 16.5pt; line-height: 1.55;">It picked <strong>\(p = 0\)</strong>. Two MA terms captured the persistence better than any AR term did &mdash; on a series whose lag-1 autocorrelation is 0.46. That is not what the plot makes you expect.</p>
         </div>
       </div>
     </section>
@@ -501,7 +502,7 @@
     <section id="arima-forecast-figure" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-arrow-trend-up" style="color: var(--secondary-color);"></i> The Forecast</h2>
       <div class="content" style="text-align: center;">
-        <img src="figures/figure_004_arima_forecast.png" alt="Last 60 months of training data, the 24 held-out months, and the ARIMA(0,1,2) forecast from the July 2024 origin — the forecast is a near-straight line that tracks actual log CPI closely until actuals rise above it in 2026" style="max-height: 430px; width: auto;">
+        <img src="figures/figure_004_arima_forecast.png" alt="Log CPI from January 2022, the 24 held-out months, and the ARIMA(0,1,2) forecast from the July 2024 origin with its 95 percent interval shaded. The forecast is a near-straight line that tracks actual log CPI closely until actuals rise above it in 2026, still inside the interval." style="width: 100%; height: auto; display: block; margin: 0 auto;">
         <p style="font-size: 14pt; margin-top: 8px; line-height: 1.5;">24 steps ahead from a <strong>2024-07</strong> origin. Mean absolute error <strong>0.0034 log points</strong> &mdash; roughly a third of a percent of the index level.</p>
       </div>
     </section>
@@ -520,14 +521,19 @@
             <p style="font-size: 16.5pt; line-height: 1.55;"><strong>In words:</strong> add up the squared autocorrelations <em>of the residuals</em> out to lag \(h\), weighted for sample size. If the model captured everything, the residuals are white noise and \(Q\) is small.</p>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; font-size: 15pt;">
-            <div style="background: #f0f5f8; border-radius: 8px; padding: 16px 20px;">
+            <div class="fragment fade-up" style="background: #f0f5f8; border-radius: 8px; padding: 12px 18px;">
               <p><strong>\(p > 0.05\)</strong> &mdash; fail to reject. No detectable structure left.</p>
+              <div class="mathjax_ignore"><svg viewBox="0 0 480 92" width="480" height="92" role="img" aria-label="Simulated white-noise residuals: every autocorrelation inside the band" style="display:block;margin:8px auto 0"><rect x="0" y="38.3" width="480" height="19.4" fill="#e8e5df"/><line x1="0" x2="480" y1="48" y2="48" stroke="#8C8580"/><rect x="14.0" y="48.0" width="22" height="8.0" fill="#6B8BA4"/><rect x="52.5" y="47.8" width="22" height="0.6" fill="#6B8BA4"/><rect x="91.0" y="48.0" width="22" height="7.6" fill="#6B8BA4"/><rect x="129.5" y="48.0" width="22" height="3.9" fill="#6B8BA4"/><rect x="168.0" y="48.0" width="22" height="5.0" fill="#6B8BA4"/><rect x="206.5" y="47.9" width="22" height="0.6" fill="#6B8BA4"/><rect x="245.0" y="48.0" width="22" height="4.2" fill="#6B8BA4"/><rect x="283.5" y="48.0" width="22" height="3.9" fill="#6B8BA4"/><rect x="322.0" y="47.5" width="22" height="0.6" fill="#6B8BA4"/><rect x="360.5" y="48.0" width="22" height="0.6" fill="#6B8BA4"/><rect x="399.0" y="47.4" width="22" height="0.6" fill="#6B8BA4"/><rect x="437.5" y="48.0" width="22" height="6.5" fill="#6B8BA4"/><text x="25" y="90" font-size="14" text-anchor="middle" fill="#6B645E">lag 1</text><text x="448.5" y="90" font-size="14" text-anchor="middle" fill="#6B645E">12</text></svg></div>
+              <p style="font-size: 12.5pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;">Residuals that are white noise: every bar inside the band. <strong>Q = 10.1, p = 0.61</strong></p>
             </div>
-            <div style="background: #fdf0ea; border-radius: 8px; padding: 16px 20px;">
+            <div class="fragment fade-up" style="background: #fdf0ea; border-radius: 8px; padding: 12px 18px;">
               <p><strong>\(p < 0.05\)</strong> &mdash; reject. Structure remains &rarr; the model is misspecified &rarr; back to step 1.</p>
+              <div class="mathjax_ignore"><svg viewBox="0 0 480 92" width="480" height="92" role="img" aria-label="Simulated residuals with momentum left in: the first lags stand far outside the band" style="display:block;margin:8px auto 0"><rect x="0" y="38.3" width="480" height="19.4" fill="#e8e5df"/><line x1="0" x2="480" y1="48" y2="48" stroke="#8C8580"/><rect x="14.0" y="13.5" width="22" height="34.5" fill="#C47B5A"/><rect x="52.5" y="33.5" width="22" height="14.5" fill="#C47B5A"/><rect x="91.0" y="42.1" width="22" height="5.9" fill="#6B8BA4"/><rect x="129.5" y="46.8" width="22" height="1.2" fill="#6B8BA4"/><rect x="168.0" y="47.5" width="22" height="0.6" fill="#6B8BA4"/><rect x="206.5" y="48.0" width="22" height="2.1" fill="#6B8BA4"/><rect x="245.0" y="48.0" width="22" height="5.0" fill="#6B8BA4"/><rect x="283.5" y="48.0" width="22" height="11.0" fill="#C47B5A"/><rect x="322.0" y="48.0" width="22" height="3.8" fill="#6B8BA4"/><rect x="360.5" y="48.0" width="22" height="7.7" fill="#6B8BA4"/><rect x="399.0" y="48.0" width="22" height="9.2" fill="#6B8BA4"/><rect x="437.5" y="48.0" width="22" height="7.6" fill="#6B8BA4"/><text x="25" y="90" font-size="14" text-anchor="middle" fill="#6B645E">lag 1</text><text x="448.5" y="90" font-size="14" text-anchor="middle" fill="#6B645E">12</text></svg></div>
+              <p style="font-size: 12.5pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;">Momentum the model missed: the first lags stand out. <strong>Q = 75, p &lt; 0.001</strong></p>
             </div>
           </div>
-          <p style="font-size: 14.5pt; color: var(--muted-color); margin-top: 14px; font-style: italic;">If the test fails on the <em>squared</em> residuals instead, that is volatility clustering &mdash; the variance itself is moving. Beyond us today.</p>
+          <p style="font-size: 12pt; color: var(--muted-color); margin: 6px 0 0;">Small charts: residual ACF, lags 1 to 12, simulated with \(T = 200\); grey strip = the 95% band.</p>
+          <p style="font-size: 14.5pt; color: var(--muted-color); margin-top: 10px; font-style: italic;">If the test fails on the <em>squared</em> residuals instead, that is volatility clustering &mdash; the variance itself is moving. Beyond us today.</p>
         </div>
       </section>
 
@@ -585,7 +591,7 @@
       <section id="ljung-box-figure" style="padding: 28px 45px;">
         <h3><i class="fa-solid fa-chart-column" style="color: var(--danger-color);"></i> Dropping One Element Reverses the Test</h3>
         <div class="content" style="text-align: center;">
-          <img src="figures/figure_005_ljung_box_trap.png" alt="Above: the residual series with a single enormous spike at observation 0 labelled as the raw first observation. Below: Ljung-Box p-values at lags 6, 12, 18 and 24 on a log scale, all 1.0000 when element 0 is kept and 0.5795, 0.0033, 0.0013 and 0.0022 when it is dropped" style="max-height: 470px; width: auto;">
+          <img src="figures/figure_005_ljung_box_trap.png" alt="Left: the residual series with a single enormous spike at observation 0 labelled as the raw first observation. Right: Ljung-Box p-values at lags 6, 12, 18 and 24 on a log scale, all 1.0000 when element 0 is kept and 0.5795, 0.0033, 0.0013 and 0.0022 when it is dropped" style="width: 100%; height: auto; display: block; margin: 0 auto;">
         </div>
       </section>
 
@@ -595,7 +601,8 @@
           <div style="background: #fdf0ea; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 20px 26px;">
             <p style="font-size: 18pt; line-height: 1.55;"><strong>ARIMA(0, 1, 2) is not adequate.</strong> It is clean at short lags and rejects hard from lag 12 onward.</p>
           </div>
-          <p style="font-size: 16.5pt; margin-top: 20px; line-height: 1.55;">The tests at 18 and 24 pool every lag from 1 up, so they inherit the rejection at 12. The residual ACF spikes at lags <strong>11, 12 and 15</strong> &mdash; around a year, like the <strong>&minus;0.18 PACF spike</strong> we walked past a few slides back. Structure near the annual lag is left in a series that has already been seasonally adjusted.</p>
+          <img src="figures/figure_009_resid_acf.png" alt="Residual ACF of ARIMA(0,1,2) on log CPI, lags 1 to 24, with the 95 percent band of plus or minus 0.096. Lags 11 (plus 0.17), 12 (minus 0.11) and 15 (plus 0.14) stand outside the band, around a year; lags 4 and 23 just clear it." style="width: 100%; height: auto; display: block; margin: 14px auto 0;">
+          <p style="font-size: 16.5pt; margin-top: 10px; line-height: 1.55;">The tests at 18 and 24 pool every lag from 1 up, so they inherit the rejection at 12. The residual ACF spikes at lags <strong>11, 12 and 15</strong> &mdash; around a year, like the <strong>&minus;0.18 PACF spike</strong> we walked past a few slides back. Structure near the annual lag is left in a series that has already been seasonally adjusted.</p>
           <p class="fragment fade-up" style="font-size: 16.5pt; margin-top: 18px; line-height: 1.55;"><i class="fa-solid fa-arrow-rotate-left" style="color: var(--secondary-color);"></i> A seasonal term is the obvious next iteration. <strong>That is what &ldquo;cycle&rdquo; means</strong> &mdash; the diagnostic sent us back to step 1, and we go.</p>
         </div>
       </section>
