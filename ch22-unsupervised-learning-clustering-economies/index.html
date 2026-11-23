@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=94abefbd0ecdef67352494dd52e19143">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=aac3f2e076a2652891bb08899189a444">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Unsupervised Learning: Clustering Economies</title>
@@ -183,7 +183,7 @@
     <section id="lloyds-intuition">
      <h2>Lloyd's Algorithm &mdash; Intuition</h2>
      <div class="content">
-      <p style="font-size: 16pt; line-height: 1.6;">Imagine 160 people in a room. Divide them into 4 groups based on 20 characteristics. No labels.</p>
+      <p style="font-size: 16pt; line-height: 1.6;">Take the lab&rsquo;s 209 economies. Divide them into 4 groups based on 10 indicators. No labels.</p>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px;">
        <div style="background: #f8f6f3; padding: 18px; border-radius: 8px; text-align: center;">
         <p style="font-size: 28pt; margin-bottom: 8px;"><i class="fa-solid fa-dice" style="color: var(--secondary-color);"></i></p>
@@ -291,11 +291,11 @@
       <p style="font-size: 16pt;">K-Means uses <strong>Euclidean distance</strong> &mdash; treats all dimensions equally. But economic variables have wildly different scales:</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
        <div style="background: #F9F0EE; padding: 16px; border-radius: 8px; text-align: center;">
-        <p style="font-size: 24pt; font-weight: 700; color: var(--danger-color);">\$300 &ndash; \$120,000</p>
+        <p style="font-size: 24pt; font-weight: 700; color: var(--danger-color);">\$1,155 &ndash; \$163,354</p>
         <p style="font-size: 13pt; color: var(--muted-color);">GDP per capita range</p>
        </div>
        <div style="background: #EEF2F0; padding: 16px; border-radius: 8px; text-align: center;">
-        <p style="font-size: 24pt; font-weight: 700; color: var(--success-color);">25 &ndash; 65</p>
+        <p style="font-size: 24pt; font-weight: 700; color: var(--success-color);">24 &ndash; 59</p>
         <p style="font-size: 13pt; color: var(--muted-color);">Gini index range</p>
        </div>
       </div>
@@ -491,7 +491,7 @@ X_pca = pca.fit_transform(X_scaled)
      <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
       <img alt="2D PCA scatter plot with K-Means cluster coloring and country labels" class="figure" src="figures/ch22-pca-country-clusters.png" style="max-height: 420px;">
      </div>
-     <p class="footnote">PC1 &asymp; "general development" axis. PC2 captures secondary variation (trade openness, resource dependence). Resist over-interpretation &mdash; PCA finds variance, economists supply meaning.</p>
+     <p class="footnote">PC1 &asymp; a &ldquo;general development&rdquo; axis. On the lab&rsquo;s data, PC2 loads mostly on unemployment (+0.735) and inequality (Gini, +0.588); trade barely enters (+0.060). Resist over-interpretation: PCA finds variance, economists supply meaning.</p>
     </section>
 
     <section class="section-divider" data-state="is-section-divider" id="section-5">
@@ -534,9 +534,9 @@ X_pca = pca.fit_transform(X_scaled)
     <section id="cluster-profiles">
      <h2>What Does Each Cluster Look Like?</h2>
      <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
-      <img alt="Cluster profiles — heatmap of standardized cluster means across 8 development indicators" class="figure" src="figures/ch22-cluster-profiles.png" style="max-height: 420px;">
+      <img alt="Cluster profiles: heatmap of illustrative standardized means for four groups, A to D, across 8 development indicators" class="figure" src="figures/ch22-cluster-profiles-groups.png" style="max-height: 420px;">
      </div>
-     <p class="footnote">Illustrative centroids in standardized units (z-scores), not the lab's clusters. Clusters 0 and 3 sit at opposite ends; Clusters 1 and 2 sit close to the middle &mdash; the boundary cases.</p>
+     <p class="footnote">Illustrative centroids in standardized units (z-scores), not the lab's clusters. Groups A and D sit at opposite ends; Groups B and C sit close to the middle &mdash; the boundary cases.</p>
     </section>
 
     <section id="discussion">
