@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0dae0d8b511c4278f36730ed986768c9">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0a4a839b6b201217f66e26dec6b17271">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series II: Prophet, ARIMA & Structural Breaks</title>
@@ -466,7 +466,7 @@
         <h3><i class="fa-solid fa-chart-area" style="color: var(--accent-color);"></i> Level, and Log</h3>
         <div class="content" style="text-align: center;">
           <img src="figures/figure_001_cpi_log_cpi.png" alt="US CPI, monthly, 1990 to 2026: the level above curves upward; log CPI below is close to a straight line, with a visible steepening in the shaded January 2021 to June 2023 surge." style="width: 100%; height: auto; display: block; margin: 0 auto;">
-          <p style="font-size: 14pt; margin-top: 6px;">Logs turn steady percentage growth into a straight line. Remember the steepening in the shaded years: it comes back with Prophet on page 30.</p>
+          <p style="font-size: 14pt; margin-top: 6px;">Logs turn steady percentage growth into a straight line. Remember the steepening in the shaded years: it comes back with Prophet on page 33.</p>
         </div>
       </section>
     </section>
@@ -512,103 +512,100 @@
       <p style="font-size: 17pt; color: var(--muted-color); margin-top: 18px; font-style: italic;">The step everyone skips, and the pitfall waiting for anyone who does not</p>
     </section>
 
-    <section>
-      <section id="ljung-box" style="padding: 34px 60px;">
-        <h2><i class="fa-solid fa-stethoscope" style="color: var(--secondary-color);"></i> The Ljung-Box Test</h2>
-        <div class="content">
-          <p style="font-size: 16pt; text-align: center; margin: 4px 0;">$$Q = T(T+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{T-k}$$</p>
-          <div style="background: #f8f6f3; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 18px 24px; margin-top: 12px;">
-            <p style="font-size: 16.5pt; line-height: 1.55;"><strong>In words:</strong> add up the squared autocorrelations <em>of the residuals</em> out to lag \(h\), weighted for sample size. If the model captured everything, the residuals are white noise and \(Q\) is small.</p>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; font-size: 15pt;">
-            <div class="fragment fade-up" style="background: #f0f5f8; border-radius: 8px; padding: 12px 18px;">
-              <p><strong>\(p > 0.05\)</strong> &mdash; fail to reject. No detectable structure left.</p>
-              <div class="mathjax_ignore"><svg viewBox="0 0 480 92" width="480" height="92" role="img" aria-label="Simulated white-noise residuals: every autocorrelation inside the band" style="display:block;margin:8px auto 0"><rect x="0" y="38.3" width="480" height="19.4" fill="#e8e5df"/><line x1="0" x2="480" y1="48" y2="48" stroke="#8C8580"/><rect x="14.0" y="48.0" width="22" height="8.0" fill="#6B8BA4"/><rect x="52.5" y="47.8" width="22" height="0.6" fill="#6B8BA4"/><rect x="91.0" y="48.0" width="22" height="7.6" fill="#6B8BA4"/><rect x="129.5" y="48.0" width="22" height="3.9" fill="#6B8BA4"/><rect x="168.0" y="48.0" width="22" height="5.0" fill="#6B8BA4"/><rect x="206.5" y="47.9" width="22" height="0.6" fill="#6B8BA4"/><rect x="245.0" y="48.0" width="22" height="4.2" fill="#6B8BA4"/><rect x="283.5" y="48.0" width="22" height="3.9" fill="#6B8BA4"/><rect x="322.0" y="47.5" width="22" height="0.6" fill="#6B8BA4"/><rect x="360.5" y="48.0" width="22" height="0.6" fill="#6B8BA4"/><rect x="399.0" y="47.4" width="22" height="0.6" fill="#6B8BA4"/><rect x="437.5" y="48.0" width="22" height="6.5" fill="#6B8BA4"/><text x="25" y="90" font-size="14" text-anchor="middle" fill="#6B645E">lag 1</text><text x="448.5" y="90" font-size="14" text-anchor="middle" fill="#6B645E">12</text></svg></div>
-              <p style="font-size: 12.5pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;">Residuals that are white noise: every bar inside the band. <strong>Q = 10.1, p = 0.61</strong></p>
-            </div>
-            <div class="fragment fade-up" style="background: #fdf0ea; border-radius: 8px; padding: 12px 18px;">
-              <p><strong>\(p < 0.05\)</strong> &mdash; reject. Structure remains &rarr; the model is misspecified &rarr; back to step 1.</p>
-              <div class="mathjax_ignore"><svg viewBox="0 0 480 92" width="480" height="92" role="img" aria-label="Simulated residuals with momentum left in: the first lags stand far outside the band" style="display:block;margin:8px auto 0"><rect x="0" y="38.3" width="480" height="19.4" fill="#e8e5df"/><line x1="0" x2="480" y1="48" y2="48" stroke="#8C8580"/><rect x="14.0" y="13.5" width="22" height="34.5" fill="#C47B5A"/><rect x="52.5" y="33.5" width="22" height="14.5" fill="#C47B5A"/><rect x="91.0" y="42.1" width="22" height="5.9" fill="#6B8BA4"/><rect x="129.5" y="46.8" width="22" height="1.2" fill="#6B8BA4"/><rect x="168.0" y="47.5" width="22" height="0.6" fill="#6B8BA4"/><rect x="206.5" y="48.0" width="22" height="2.1" fill="#6B8BA4"/><rect x="245.0" y="48.0" width="22" height="5.0" fill="#6B8BA4"/><rect x="283.5" y="48.0" width="22" height="11.0" fill="#C47B5A"/><rect x="322.0" y="48.0" width="22" height="3.8" fill="#6B8BA4"/><rect x="360.5" y="48.0" width="22" height="7.7" fill="#6B8BA4"/><rect x="399.0" y="48.0" width="22" height="9.2" fill="#6B8BA4"/><rect x="437.5" y="48.0" width="22" height="7.6" fill="#6B8BA4"/><text x="25" y="90" font-size="14" text-anchor="middle" fill="#6B645E">lag 1</text><text x="448.5" y="90" font-size="14" text-anchor="middle" fill="#6B645E">12</text></svg></div>
-              <p style="font-size: 12.5pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;">Momentum the model missed: the first lags stand out. <strong>Q = 75, p &lt; 0.001</strong></p>
-            </div>
-          </div>
-          <p style="font-size: 12pt; color: var(--muted-color); margin: 6px 0 0;">Small charts: residual ACF, lags 1 to 12, simulated with \(T = 200\); grey strip = the 95% band.</p>
-          <p style="font-size: 14.5pt; color: var(--muted-color); margin-top: 10px; font-style: italic;">If the test fails on the <em>squared</em> residuals instead, that is volatility clustering &mdash; the variance itself is moving. Beyond us today.</p>
+    <section id="ljung-box" style="padding: 34px 60px;">
+      <h2><i class="fa-solid fa-stethoscope" style="color: var(--secondary-color);"></i> The Ljung-Box Test</h2>
+      <div class="content">
+        <p style="font-size: 16pt; text-align: center; margin: 4px 0;">$$Q = T(T+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{T-k}$$</p>
+        <div style="background: #f8f6f3; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 18px 24px; margin-top: 12px;">
+          <p style="font-size: 16.5pt; line-height: 1.55;"><strong>In words:</strong> add up the squared autocorrelations <em>of the residuals</em> out to lag \(h\), weighted for sample size. If the model captured everything, the residuals are white noise and \(Q\) is small.</p>
         </div>
-      </section>
-
-      <section id="poll-2" style="padding: 32px 55px;">
-        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Reading a Diagnostic</h2>
-        <div class="content">
-          <p class="text-lg" style="line-height: 1.55;">You fit ARIMA(0,1,2) to log CPI and Ljung-Box returns \(p = 1.0000\) at every lag you test. What is the right response?</p>
-          <div class="poll-grid" data-poll-id="ch21-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 15pt;">
-            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Well specified &mdash; move on to forecasting</div>
-            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Check what is <em>in</em> the residual vector before believing it</div>
-            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Increase \(q\) until the \(p\)-values fall below 0.05</div>
-            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Ljung-Box does not apply to differenced series</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; font-size: 15pt;">
+          <div class="fragment fade-up" style="background: #f0f5f8; border-radius: 8px; padding: 12px 18px;">
+            <p><strong>\(p > 0.05\)</strong> &mdash; fail to reject. No detectable structure left.</p>
+            <div class="mathjax_ignore"><svg viewBox="0 0 480 92" width="480" height="92" role="img" aria-label="Simulated white-noise residuals: every autocorrelation inside the band" style="display:block;margin:8px auto 0"><rect x="0" y="38.3" width="480" height="19.4" fill="#e8e5df"/><line x1="0" x2="480" y1="48" y2="48" stroke="#8C8580"/><rect x="14.0" y="48.0" width="22" height="8.0" fill="#6B8BA4"/><rect x="52.5" y="47.8" width="22" height="0.6" fill="#6B8BA4"/><rect x="91.0" y="48.0" width="22" height="7.6" fill="#6B8BA4"/><rect x="129.5" y="48.0" width="22" height="3.9" fill="#6B8BA4"/><rect x="168.0" y="48.0" width="22" height="5.0" fill="#6B8BA4"/><rect x="206.5" y="47.9" width="22" height="0.6" fill="#6B8BA4"/><rect x="245.0" y="48.0" width="22" height="4.2" fill="#6B8BA4"/><rect x="283.5" y="48.0" width="22" height="3.9" fill="#6B8BA4"/><rect x="322.0" y="47.5" width="22" height="0.6" fill="#6B8BA4"/><rect x="360.5" y="48.0" width="22" height="0.6" fill="#6B8BA4"/><rect x="399.0" y="47.4" width="22" height="0.6" fill="#6B8BA4"/><rect x="437.5" y="48.0" width="22" height="6.5" fill="#6B8BA4"/><text x="25" y="90" font-size="14" text-anchor="middle" fill="#6B645E">lag 1</text><text x="448.5" y="90" font-size="14" text-anchor="middle" fill="#6B645E">12</text></svg></div>
+            <p style="font-size: 12.5pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;">Residuals that are white noise: every bar inside the band. <strong>Q = 10.1, p = 0.61</strong></p>
+          </div>
+          <div class="fragment fade-up" style="background: #fdf0ea; border-radius: 8px; padding: 12px 18px;">
+            <p><strong>\(p < 0.05\)</strong> &mdash; reject. Structure remains &rarr; the model is misspecified &rarr; back to step 1.</p>
+            <div class="mathjax_ignore"><svg viewBox="0 0 480 92" width="480" height="92" role="img" aria-label="Simulated residuals with momentum left in: the first lags stand far outside the band" style="display:block;margin:8px auto 0"><rect x="0" y="38.3" width="480" height="19.4" fill="#e8e5df"/><line x1="0" x2="480" y1="48" y2="48" stroke="#8C8580"/><rect x="14.0" y="13.5" width="22" height="34.5" fill="#C47B5A"/><rect x="52.5" y="33.5" width="22" height="14.5" fill="#C47B5A"/><rect x="91.0" y="42.1" width="22" height="5.9" fill="#6B8BA4"/><rect x="129.5" y="46.8" width="22" height="1.2" fill="#6B8BA4"/><rect x="168.0" y="47.5" width="22" height="0.6" fill="#6B8BA4"/><rect x="206.5" y="48.0" width="22" height="2.1" fill="#6B8BA4"/><rect x="245.0" y="48.0" width="22" height="5.0" fill="#6B8BA4"/><rect x="283.5" y="48.0" width="22" height="11.0" fill="#C47B5A"/><rect x="322.0" y="48.0" width="22" height="3.8" fill="#6B8BA4"/><rect x="360.5" y="48.0" width="22" height="7.7" fill="#6B8BA4"/><rect x="399.0" y="48.0" width="22" height="9.2" fill="#6B8BA4"/><rect x="437.5" y="48.0" width="22" height="7.6" fill="#6B8BA4"/><text x="25" y="90" font-size="14" text-anchor="middle" fill="#6B645E">lag 1</text><text x="448.5" y="90" font-size="14" text-anchor="middle" fill="#6B645E">12</text></svg></div>
+            <p style="font-size: 12.5pt; color: var(--muted-color); margin: 4px 0 0; text-align: center;">Momentum the model missed: the first lags stand out. <strong>Q = 75, p &lt; 0.001</strong></p>
           </div>
         </div>
-      </section>
-      <section id="ljung-box-trap" data-poll-results="ch21-econ3916-poll-2" style="padding: 24px 55px;">
-        <h3><i class="fa-solid fa-bug" style="color: var(--danger-color);"></i> Now Run It. Twice.</h3>
-        <div class="content">
-          <p style="font-size: 16pt; font-weight: 700; color: var(--success-color); margin: 0 0 8px;">Poll answer: B. A perfect score is a smell: check what is in the residual vector before you believe the test.</p>
-          <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:0 300px 26px;"></div>
-          <p style="font-size: 15.5pt; line-height: 1.5;"><code>pmdarima</code>'s <code>resid()</code> returns <strong>the raw first observation as element 0</strong>, not a residual. On log CPI that element is <strong>4.84595</strong>, against actual residuals near 0.0016.</p>
-          <table style="width: 100%; font-size: 15pt; border-collapse: collapse; margin-top: 16px;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--secondary-color);">
-                <th style="text-align: left; padding: 10px 14px;">Ljung-Box \(p\)</th>
-                <th style="text-align: center; padding: 10px 14px;">lag 6</th>
-                <th style="text-align: center; padding: 10px 14px;">lag 12</th>
-                <th style="text-align: center; padding: 10px 14px;">lag 18</th>
-                <th style="text-align: center; padding: 10px 14px;">lag 24</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom: 1px solid var(--line-color);">
-                <td style="padding: 11px 14px;"><code>resid()</code></td>
-                <td style="text-align: center; padding: 11px 14px; color: var(--muted-color);">1.0000</td>
-                <td style="text-align: center; padding: 11px 14px; color: var(--muted-color);">1.0000</td>
-                <td style="text-align: center; padding: 11px 14px; color: var(--muted-color);">1.0000</td>
-                <td style="text-align: center; padding: 11px 14px; color: var(--muted-color);">1.0000</td>
-              </tr>
-              <tr>
-                <td style="padding: 11px 14px;"><code>resid()[1:]</code></td>
-                <td style="text-align: center; padding: 11px 14px;">0.5795</td>
-                <td style="text-align: center; padding: 11px 14px; color: var(--danger-color); font-weight: 700;">0.0033</td>
-                <td style="text-align: center; padding: 11px 14px; color: var(--danger-color); font-weight: 700;">0.0013</td>
-                <td style="text-align: center; padding: 11px 14px; color: var(--danger-color); font-weight: 700;">0.0022</td>
-              </tr>
-            </tbody>
-          </table>
-          <p style="font-size: 15.5pt; margin-top: 16px; line-height: 1.5;">One contaminating element lifts the residual standard deviation from <strong>0.0024 to 0.2376</strong> &mdash; about a hundredfold &mdash; which crushes every autocorrelation coefficient toward zero.</p>
-        </div>
-      </section>
+        <p style="font-size: 12pt; color: var(--muted-color); margin: 6px 0 0;">Small charts: residual ACF, lags 1 to 12, simulated with \(T = 200\); grey strip = the 95% band.</p>
+        <p style="font-size: 14.5pt; color: var(--muted-color); margin-top: 10px; font-style: italic;">If the test fails on the <em>squared</em> residuals instead, that is volatility clustering &mdash; the variance itself is moving. Beyond us today.</p>
+      </div>
     </section>
 
-    <section>
-      <section id="ljung-box-figure" style="padding: 28px 45px;">
-        <h3><i class="fa-solid fa-chart-column" style="color: var(--danger-color);"></i> Dropping One Element Reverses the Test</h3>
-        <div class="content" style="text-align: center;">
-          <img src="figures/figure_005_ljung_box_trap.png" alt="Left: the residual series with a single enormous spike at observation 0 labelled as the raw first observation. Right: Ljung-Box p-values at lags 6, 12, 18 and 24 on a log scale, all 1.0000 when element 0 is kept and 0.5795, 0.0033, 0.0013 and 0.0022 when it is dropped" style="width: 100%; height: auto; display: block; margin: 0 auto;">
+    <section id="poll-2" style="padding: 32px 55px;">
+      <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Reading a Diagnostic</h2>
+      <div class="content">
+        <p class="text-lg" style="line-height: 1.55;">You fit ARIMA(0,1,2) to log CPI and Ljung-Box returns \(p = 1.0000\) at every lag you test. What is the right response?</p>
+        <div class="poll-grid" data-poll-id="ch21-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 15pt;">
+          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) Well specified &mdash; move on to forecasting</div>
+          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) Check what is <em>in</em> the residual vector before believing it</div>
+          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) Increase \(q\) until the \(p\)-values fall below 0.05</div>
+          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) Ljung-Box does not apply to differenced series</div>
         </div>
-      </section>
-
-      <section id="verdict" style="padding: 34px 60px;">
-        <h3><i class="fa-solid fa-gavel" style="color: var(--accent-color);"></i> So Is the Model Adequate?</h3>
-        <div class="content">
-          <div style="background: #fdf0ea; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 20px 26px;">
-            <p style="font-size: 18pt; line-height: 1.55;"><strong>ARIMA(0, 1, 2) is not adequate.</strong> It is clean at short lags and rejects hard from lag 12 onward.</p>
-          </div>
-          <img src="figures/figure_009_resid_acf.png" alt="Residual ACF of ARIMA(0,1,2) on log CPI, lags 1 to 24, with the 95 percent band of plus or minus 0.096. Lags 11 (plus 0.17), 12 (minus 0.11) and 15 (plus 0.14) stand outside the band, around a year; lags 4 and 23 just clear it." style="width: 100%; height: auto; display: block; margin: 14px auto 0;">
-          <p style="font-size: 16.5pt; margin-top: 10px; line-height: 1.55;">Lags <strong>11, 12 and 15</strong> sit outside the band: around a year, like the <strong>&minus;0.18 PACF spike</strong> a few slides back. A series that is already seasonally adjusted still has structure near the annual lag.</p>
-          <p class="fragment fade-up" style="font-size: 16.5pt; margin-top: 18px; line-height: 1.55;"><i class="fa-solid fa-arrow-rotate-left" style="color: var(--secondary-color);"></i> A seasonal term is the obvious next try. <strong>That is what &ldquo;cycle&rdquo; means</strong>: the diagnostic sends us back to step 1.</p>
-        </div>
-      </section>
+      </div>
     </section>
 
-    <section id="poll-2-reveal" data-poll-results="ch21-econ3916-poll-2" style="padding: 30px 50px;">
+    <section id="ljung-box-trap" data-poll-results="ch21-econ3916-poll-2" style="padding: 24px 55px;">
+      <h3><i class="fa-solid fa-bug" style="color: var(--danger-color);"></i> Now Run It. Twice.</h3>
+      <div class="content">
+        <p style="font-size: 16pt; font-weight: 700; color: var(--success-color); margin: 0 0 8px;">Poll answer: B. A perfect score is a smell: check what is in the residual vector before you believe the test.</p>
+        <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:0 300px 26px;"></div>
+        <p style="font-size: 15.5pt; line-height: 1.5;"><code>pmdarima</code>'s <code>resid()</code> puts <strong>the raw first observation in element 0</strong>, not a residual. <span class="fragment fade-up">Why: with \(d = 1\) the model forecasts monthly <em>changes</em>. January 1990 has no month before it, so its forecast is only the drift, 0.002, as if last month&rsquo;s log CPI were 0. The &ldquo;residual&rdquo; is log CPI itself: 4.848 &minus; 0.002 = <strong>4.84595</strong>, against real residuals near 0.0016.</span></p>
+        <table style="width: 100%; font-size: 15pt; border-collapse: collapse; margin-top: 16px;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--secondary-color);">
+              <th style="text-align: left; padding: 10px 14px;">Ljung-Box \(p\)</th>
+              <th style="text-align: center; padding: 10px 14px;">lag 6</th>
+              <th style="text-align: center; padding: 10px 14px;">lag 12</th>
+              <th style="text-align: center; padding: 10px 14px;">lag 18</th>
+              <th style="text-align: center; padding: 10px 14px;">lag 24</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--line-color);">
+              <td style="padding: 11px 14px;"><code>resid()</code></td>
+              <td style="text-align: center; padding: 11px 14px; color: var(--muted-color);">1.0000</td>
+              <td style="text-align: center; padding: 11px 14px; color: var(--muted-color);">1.0000</td>
+              <td style="text-align: center; padding: 11px 14px; color: var(--muted-color);">1.0000</td>
+              <td style="text-align: center; padding: 11px 14px; color: var(--muted-color);">1.0000</td>
+            </tr>
+            <tr>
+              <td style="padding: 11px 14px;"><code>resid()[1:]</code></td>
+              <td style="text-align: center; padding: 11px 14px;">0.5795</td>
+              <td style="text-align: center; padding: 11px 14px; color: var(--danger-color); font-weight: 700;">0.0033</td>
+              <td style="text-align: center; padding: 11px 14px; color: var(--danger-color); font-weight: 700;">0.0013</td>
+              <td style="text-align: center; padding: 11px 14px; color: var(--danger-color); font-weight: 700;">0.0022</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="fragment fade-up" style="font-size: 15.5pt; margin-top: 12px; line-height: 1.5;">That one value lifts the residual standard deviation from <strong>0.0024 to 0.2376</strong>, about a hundredfold. Every autocorrelation is divided by it, so all of them shrink toward 0, \(Q \approx 0\) and \(p = 1.0000\) at every lag. <strong>Fix:</strong> <code>resid()[1:]</code>, the second row.</p>
+      </div>
+    </section>
+
+    <section id="ljung-box-figure" style="padding: 28px 45px;">
+      <h3><i class="fa-solid fa-chart-column" style="color: var(--danger-color);"></i> Dropping One Element Reverses the Test</h3>
+      <div class="content" style="text-align: center;">
+        <img src="figures/figure_005_ljung_box_trap.png" alt="Left: the residual series with a single enormous spike at observation 0 labelled as the raw first observation. Right: Ljung-Box p-values at lags 6, 12, 18 and 24 on a log scale, all 1.0000 when element 0 is kept and 0.5795, 0.0033, 0.0013 and 0.0022 when it is dropped" style="width: 100%; height: auto; display: block; margin: 0 auto;">
+      </div>
+    </section>
+
+    <section id="verdict" style="padding: 34px 60px;">
+      <h3><i class="fa-solid fa-gavel" style="color: var(--accent-color);"></i> So Is the Model Adequate?</h3>
+      <div class="content">
+        <div style="background: #fdf0ea; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 20px 26px;">
+          <p style="font-size: 18pt; line-height: 1.55;"><strong>ARIMA(0, 1, 2) is not adequate.</strong> It is clean at short lags and rejects hard from lag 12 onward.</p>
+        </div>
+        <img src="figures/figure_009_resid_acf.png" alt="Residual ACF of ARIMA(0,1,2) on log CPI, lags 1 to 24, with the 95 percent band of plus or minus 0.096. Lags 11 (plus 0.17), 12 (minus 0.11) and 15 (plus 0.14) stand outside the band, around a year; lags 4 and 23 just clear it." style="width: 100%; height: auto; display: block; margin: 14px auto 0;">
+        <p style="font-size: 16.5pt; margin-top: 10px; line-height: 1.55;">Lags <strong>11, 12 and 15</strong> sit outside the band: around a year, like the <strong>&minus;0.18 PACF spike</strong> a few slides back. A series that is already seasonally adjusted still has structure near the annual lag.</p>
+        <p class="fragment fade-up" style="font-size: 16.5pt; margin-top: 18px; line-height: 1.55;"><i class="fa-solid fa-arrow-rotate-left" style="color: var(--secondary-color);"></i> A seasonal term is the obvious next try. <strong>That is what &ldquo;cycle&rdquo; means</strong>: the diagnostic sends us back to step 1.</p>
+      </div>
+    </section>
+
+    <section id="poll-2-reveal" data-visibility="hidden" data-poll-results="ch21-econ3916-poll-2" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; A Perfect Score Is a Smell</h2>
       <div class="content">
         <p style="font-size: 16.5pt; line-height: 1.55;">A \(p\)-value of <em>exactly</em> 1.0000 at every lag is a warning sign. Here one contaminating element was doing all the work. <strong>Print the first few residuals. Look at their standard deviation. Then read the test.</strong></p>
@@ -625,18 +622,33 @@
       <div class="content">
         <p style="font-size: 15.5pt; text-align: center; margin: 2px 0;">$$\phi(B)\,\Phi(B^m)\,(1-B)^d\,(1-B^m)^D\, Y_t = \theta(B)\,\Theta(B^m)\,\varepsilon_t$$</p>
         <div style="background: #f8f6f3; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 16px 24px; margin-top: 10px;">
-          <p style="font-size: 16.5pt; line-height: 1.5;"><strong>In words:</strong> the <em>uppercase</em> letters are the same AR / I / MA machinery running again at lag \(m\) instead of lag 1. For monthly data \(m = 12\), and \((1-B^{12})Y_t = Y_t - Y_{t-12}\) subtracts last year's same month.</p>
+          <p style="font-size: 16pt; line-height: 1.45;"><strong>In words:</strong> the <em>uppercase</em> letters are the same AR / I / MA machinery at lag \(m\) instead of lag 1: \((1-B^{12})Y_t = Y_t - Y_{t-12}\), this month minus the same month last year.</p>
         </div>
-        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 8px;"><svg viewBox="0 0 1160 130" xmlns="http://www.w3.org/2000/svg" font-family="inherit" style="width:100%;display:block" role="img" aria-label="Two years of months, 2024 and 2025. July 2025 is linked to June 2025 (lag 1, lowercase p, d, q) and to July 2024 (lag 12, uppercase P, D, Q)."><defs><marker id="t21sa-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B8BA4"/></marker><marker id="t21sa-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C47B5A"/></marker></defs><rect x="28" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="51.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="74" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="97.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">F</text><rect x="120" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="143.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">M</text><rect x="166" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="189.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">A</text><rect x="212" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="235.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">M</text><rect x="258" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="281.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="304" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="327.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="350" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="373.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">A</text><rect x="396" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="419.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">S</text><rect x="442" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="465.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">O</text><rect x="488" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="511.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">N</text><rect x="534" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="557.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">D</text><rect x="580" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="603.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="626" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="649.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">F</text><rect x="672" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="695.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">M</text><rect x="718" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="741.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">A</text><rect x="764" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="787.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">M</text><rect x="810" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="833.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="856" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="879.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="902" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="925.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">A</text><rect x="948" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="971.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">S</text><rect x="994" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="1017.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">O</text><rect x="1040" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="1063.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">N</text><rect x="1086" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="1109.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">D</text><line x1="580" x2="580" y1="54" y2="102" stroke="#8C8580" stroke-width="2"/><text x="30" y="120" font-size="16" fill="#8C8580">2024</text><text x="584" y="120" font-size="16" fill="#8C8580">2025</text><rect x="856" y="60" width="46" height="36" fill="#fdf0ea" stroke="#2D2D2D" stroke-width="2.5"/><text x="879.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><g class="fragment" data-fragment-index="1"><rect x="810" y="60" width="46" height="36" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="2.5"/><text x="833.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><rect x="856" y="60" width="46" height="36" fill="#fdf0ea" stroke="#2D2D2D" stroke-width="2.5"/><text x="879.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><path d="M833.0,98 Q856.0,118 876.0,100" fill="none" stroke="#6B8BA4" stroke-width="3" marker-end="url(#t21sa-b)"/><text x="913.0" y="120" font-size="17" font-weight="700" fill="#6B8BA4">lag 1: last month (p, d, q)</text></g><g class="fragment" data-fragment-index="2"><rect x="304" y="60" width="46" height="36" fill="#fdf0ea" stroke="#C47B5A" stroke-width="2.5"/><text x="327.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><rect x="856" y="60" width="46" height="36" fill="#fdf0ea" stroke="#2D2D2D" stroke-width="2.5"/><text x="879.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><path d="M327.0,58 C387.0,20 819.0,20 879.0,56" fill="none" stroke="#C47B5A" stroke-width="3" marker-end="url(#t21sa-o)"/><text x="603.0" y="24" font-size="17" font-weight="700" text-anchor="middle" fill="#C47B5A">lag 12: same month last year (P, D, Q)</text></g></svg></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 10px; font-size: 14pt;">
+        <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 8px;"><svg viewBox="0 0 1160 166" xmlns="http://www.w3.org/2000/svg" font-family="inherit" style="width:100%;display:block" role="img" aria-label="Two years of months, 2024 and 2025. July 2025 is linked to June 2025 (lag 1, lowercase p, d, q) and to July 2024 (lag 12, uppercase P, D, Q)."><defs><marker id="t21sa-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6B8BA4"/></marker><marker id="t21sa-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C47B5A"/></marker></defs><rect x="28" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="51.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="74" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="97.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">F</text><rect x="120" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="143.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">M</text><rect x="166" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="189.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">A</text><rect x="212" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="235.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">M</text><rect x="258" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="281.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="304" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="327.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="350" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="373.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">A</text><rect x="396" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="419.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">S</text><rect x="442" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="465.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">O</text><rect x="488" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="511.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">N</text><rect x="534" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="557.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">D</text><rect x="580" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="603.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="626" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="649.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">F</text><rect x="672" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="695.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">M</text><rect x="718" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="741.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">A</text><rect x="764" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="787.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">M</text><rect x="810" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="833.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="856" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="879.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">J</text><rect x="902" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="925.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">A</text><rect x="948" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="971.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">S</text><rect x="994" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="1017.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">O</text><rect x="1040" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="1063.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">N</text><rect x="1086" y="60" width="46" height="36" fill="#fff" stroke="#D5CEC7" stroke-width="1.5"/><text x="1109.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D">D</text><line x1="580" x2="580" y1="54" y2="102" stroke="#8C8580" stroke-width="2"/><text x="30" y="120" font-size="16" fill="#8C8580">2024</text><text x="584" y="120" font-size="16" fill="#8C8580">2025</text><rect x="856" y="60" width="46" height="36" fill="#fdf0ea" stroke="#2D2D2D" stroke-width="2.5"/><text x="879.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><g class="fragment" data-fragment-index="1"><rect x="810" y="60" width="46" height="36" fill="#f0f5f8" stroke="#6B8BA4" stroke-width="2.5"/><text x="833.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><rect x="856" y="60" width="46" height="36" fill="#fdf0ea" stroke="#2D2D2D" stroke-width="2.5"/><text x="879.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><path d="M833.0,98 Q856.0,118 876.0,100" fill="none" stroke="#6B8BA4" stroke-width="3" marker-end="url(#t21sa-b)"/><text x="913.0" y="120" font-size="17" font-weight="700" fill="#6B8BA4">lag 1: last month (p, d, q)</text></g><g class="fragment" data-fragment-index="2"><rect x="304" y="60" width="46" height="36" fill="#fdf0ea" stroke="#C47B5A" stroke-width="2.5"/><text x="327.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><rect x="856" y="60" width="46" height="36" fill="#fdf0ea" stroke="#2D2D2D" stroke-width="2.5"/><text x="879.0" y="84" font-size="16" text-anchor="middle" fill="#2D2D2D" font-weight="700">J</text><path d="M327.0,58 C387.0,20 819.0,20 879.0,56" fill="none" stroke="#C47B5A" stroke-width="3" marker-end="url(#t21sa-o)"/><text x="603.0" y="24" font-size="17" font-weight="700" text-anchor="middle" fill="#C47B5A">lag m = 12: same month last year (P, D, Q)</text></g><g class="fragment" data-fragment-index="3"><text x="580" y="156" font-size="18" text-anchor="middle" fill="#2D2D2D"><tspan font-weight="700">d</tspan> and <tspan font-weight="700">D</tspan> count differences (each usually 0 or 1); <tspan font-weight="700">m = 12</tspan> is how far back the seasonal one reaches. Our CPI pick: d = 1, D = 0, Q = 1.</text></g></svg></div>
+        <div class="fragment fade-up" data-fragment-index="4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px; font-size: 14pt;">
           <div style="background: #f0f5f8; border-radius: 8px; padding: 10px 18px;">
-            <p>Think of it as <strong>month fixed effects</strong> &mdash; except estimated from the data's own autocorrelation instead of imposed as dummies.</p>
+            <p>Like <strong>month fixed effects</strong>, but estimated from the data&rsquo;s own autocorrelation, not imposed as dummies.</p>
           </div>
           <div style="background: #f0f5f8; border-radius: 8px; padding: 10px 18px;">
             <p>Ch 20's <strong>STL</strong> pulled seasonality out <em>before</em> modelling. SARIMA estimates it <em>jointly</em> with trend and noise.</p>
           </div>
         </div>
-        <p style="font-size: 15pt; margin-top: 10px; line-height: 1.45;"><i class="fa-solid fa-arrow-right" style="color: var(--danger-color);"></i> Our diagnostic just sent us here: residual structure around lag <strong>12</strong>. <span class="fragment fade-up" data-fragment-index="3"><strong>We tried it:</strong> <code>auto_arima(seasonal=True, m=12)</code> adds one seasonal MA term, SARIMA(0,1,2)(0,0,1)[12], and Ljung-Box still rejects at lags 12, 18 and 24 (\(p\) = 0.010, 0.004, 0.010). The spikes at 11 and 15 are not seasonal terms, so the cycle goes round again.</span></p>
+        <p style="font-size: 15pt; margin-top: 10px; line-height: 1.45;"><i class="fa-solid fa-arrow-right" style="color: var(--danger-color);"></i> Our diagnostic just sent us here: residual structure around lag <strong>12</strong>. <strong>Next page:</strong> what the seasonal term does on our own CPI.</p>
+      </div>
+    </section>
+
+    <section id="sarima-cpi" style="padding: 26px 50px;">
+      <h2><i class="fa-solid fa-flask" style="color: var(--accent-color);"></i> SARIMA on Our CPI: Lag 12 Fixed, the Forecast Not</h2>
+      <div class="content">
+        <img class="fragment fade-up" src="figures/figure_010_sarima_resid_acf.png" alt="Residual ACF at lags 1 to 24 for ARIMA(0,1,2) and for SARIMA(0,1,2)(0,0,1)[12], side by side. The seasonal term moves lag 12 from minus 0.11 to 0.01; lags 11 and 15 stay outside the 95 percent band." style="width: 100%; height: auto; display: block; margin: 0 auto;">
+        <table class="fragment fade-up" style="width: 100%; font-size: 13.5pt; border-collapse: collapse; margin-top: 6px;">
+          <thead><tr style="border-bottom: 2px solid var(--secondary-color);"><th style="text-align: left; padding: 4px 12px;">Model</th><th style="text-align: center; padding: 4px 12px;">residual ACF, lag 12</th><th style="text-align: center; padding: 4px 12px;">Ljung-Box \(p\), lag 12 / 24</th><th style="text-align: center; padding: 4px 12px;">AIC</th><th style="text-align: center; padding: 4px 12px;">MASE, 24 months</th></tr></thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 4px 12px;">ARIMA(0,1,2), the lab&rsquo;s</td><td style="text-align: center; padding: 4px 12px;">&minus;0.11</td><td style="text-align: center; padding: 4px 12px;">0.0033 / 0.0022</td><td style="text-align: center; padding: 4px 12px;">&minus;3821.2</td><td style="text-align: center; padding: 4px 12px;"><strong>1.27</strong></td></tr>
+            <tr><td style="padding: 4px 12px;">SARIMA(0,1,2)(0,0,1)[12]</td><td style="text-align: center; padding: 4px 12px;">0.01</td><td style="text-align: center; padding: 4px 12px;">0.0103 / 0.0095</td><td style="text-align: center; padding: 4px 12px;">&minus;3824.8</td><td style="text-align: center; padding: 4px 12px;" style="color: var(--danger-color);"><strong>1.54</strong></td></tr>
+          </tbody>
+        </table>
+        <p class="fragment fade-up" style="font-size: 15pt; margin-top: 8px; line-height: 1.4;">The seasonal term fixed lag 12 and the fit improved a little (lower AIC), but Ljung-Box still rejects, and the 24-month forecast got <strong>worse</strong>. A better fit in the sample is not a better forecast.</p>
       </div>
     </section>
 
@@ -665,11 +677,11 @@
     <section id="prophet-changepoint-mechanism" style="padding: 34px 60px;">
       <h2><i class="fa-solid fa-scissors" style="color: var(--accent-color);"></i> Changepoints Are LASSO in Disguise</h2>
       <div class="content">
-        <p style="font-size: 16.5pt; line-height: 1.55;">Prophet lays down candidate trend breaks on a <strong>uniform grid</strong>, then applies a <strong>sparse Laplace (L1) prior</strong> that shrinks break magnitudes toward zero. On our CPI, 9 of the 25 end up below 0.01.</p>
-        <div style="background: #f0f5f8; border-left: 5px solid var(--secondary-color); border-radius: 8px; padding: 18px 24px; margin-top: 20px;">
-          <p style="font-size: 17pt; line-height: 1.55;"><i class="fa-solid fa-link"></i> <strong>That is Chapter 16.</strong> LASSO shrinks regression coefficients to zero; Prophet shrinks <em>trend slopes</em> to zero. Same penalty, different object.</p>
+        <p style="font-size: 16pt; line-height: 1.45;"><strong>25 candidate breaks</strong> on a grid; a <strong>Laplace (L1) prior</strong> shrinks each size, \(\delta\), toward zero.</p>
+        <img src="figures/figure_011_prophet_deltas.png" alt="All 25 changepoint candidates on our CPI, 1991 to 2017, drawn as stems of height delta. Nine are shrunk to about zero; the largest are August 2017 (+0.23, trend growth from minus 0.1 to 3.8 percent a year), October 2008 (minus 0.12) and November 2009 (+0.12). A right axis reads delta as percentage points of trend growth a year (delta times 16.7)." style="width: 100%; height: auto; display: block; margin: 6px auto 0;">
+        <div class="fragment fade-up" style="background: #f0f5f8; border-left: 5px solid var(--secondary-color); border-radius: 8px; padding: 10px 20px; margin-top: 8px;">
+          <p style="font-size: 15.5pt; line-height: 1.45;"><i class="fa-solid fa-link"></i> <strong>That is Chapter 16:</strong> LASSO shrinks regression coefficients to zero; Prophet shrinks <em>trend changes</em>. <code>changepoint_prior_scale</code> sets how hard (lab: <strong>0.05</strong>): lower is a stiffer, smoother trend.</p>
         </div>
-        <p style="font-size: 16pt; margin-top: 20px; line-height: 1.55;">The tuning parameter is <code>changepoint_prior_scale</code>. Lower means a stiffer prior and a smoother trend; higher lets the trend bend more freely. Our lab uses the default, <strong>0.05</strong>.</p>
       </div>
     </section>
 
@@ -711,39 +723,37 @@
       </div>
     </section>
 
-    <section>
-      <section id="prophet-changepoints-found" style="padding: 32px 55px;">
-        <h2><i class="fa-solid fa-list-ol" style="color: var(--accent-color);"></i> What Prophet Found on Our CPI</h2>
-        <div class="content">
-          <p style="font-size: 15.5pt;">25 changepoints. The five largest, by magnitude of \(\delta\):</p>
-          <table style="width: 100%; font-size: 15.5pt; border-collapse: collapse; margin-top: 12px;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--secondary-color);">
-                <th style="text-align: left; padding: 10px 14px;">Date</th>
-                <th style="text-align: right; padding: 10px 14px;">\(\delta\)</th>
-                <th style="text-align: left; padding: 10px 24px;">Direction</th>
-                <th style="text-align: left; padding: 10px 14px;">What was happening</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 9px 14px;">2017-08</td><td style="text-align: right; padding: 9px 14px; font-weight: 700; color: var(--accent-color);">+0.2320</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:110px;height:14px;border-radius:3px;background:#C47B5A;margin-right:10px;vertical-align:middle"></span>acceleration</td><td style="padding: 9px 14px;">largest in the sample</td></tr>
-              <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 9px 14px;">2008-10</td><td style="text-align: right; padding: 9px 14px;">&minus;0.1192</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:57px;height:14px;border-radius:3px;background:#6B8BA4;margin-right:10px;vertical-align:middle"></span>deceleration</td><td style="padding: 9px 14px;">financial crisis</td></tr>
-              <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 9px 14px;">2009-11</td><td style="text-align: right; padding: 9px 14px;">+0.1163</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:55px;height:14px;border-radius:3px;background:#C47B5A;margin-right:10px;vertical-align:middle"></span>acceleration</td><td style="padding: 9px 14px;">recovery</td></tr>
-              <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 9px 14px;">1991-02</td><td style="text-align: right; padding: 9px 14px;">&minus;0.0770</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:37px;height:14px;border-radius:3px;background:#6B8BA4;margin-right:10px;vertical-align:middle"></span>deceleration</td><td style="padding: 9px 14px;">early-1990s recession</td></tr>
-              <tr><td style="padding: 9px 14px;">1998-11</td><td style="text-align: right; padding: 9px 14px;">+0.0607</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:29px;height:14px;border-radius:3px;background:#C47B5A;margin-right:10px;vertical-align:middle"></span>acceleration</td><td style="padding: 9px 14px;">&mdash;</td></tr>
-            </tbody>
-          </table>
-          <p class="fragment fade-up" style="font-size: 16pt; margin-top: 16px; line-height: 1.5;">The 2008 / 2009 pair is the crisis, down then back up, landing where you would want it to. <strong>Now look at the range.</strong></p>
-        </div>
-      </section>
+    <section id="prophet-changepoints-found" style="padding: 32px 55px;">
+      <h2><i class="fa-solid fa-list-ol" style="color: var(--accent-color);"></i> What Prophet Found on Our CPI</h2>
+      <div class="content">
+        <p style="font-size: 15.5pt;">25 changepoints; the five largest. \(\delta\) is how much the trend&rsquo;s slope changes at that date: \(\delta = 0.1\) is about 1.7 percentage points of trend growth a year.</p>
+        <table style="width: 100%; font-size: 15.5pt; border-collapse: collapse; margin-top: 12px;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--secondary-color);">
+              <th style="text-align: left; padding: 10px 14px;">Date</th>
+              <th style="text-align: right; padding: 10px 14px;">\(\delta\)</th>
+              <th style="text-align: left; padding: 10px 24px;">Direction</th>
+              <th style="text-align: center; padding: 10px 12px;">Trend growth, % a year</th><th style="text-align: left; padding: 10px 14px;">What was happening</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 9px 14px;">2017-08</td><td style="text-align: right; padding: 9px 14px; font-weight: 700; color: var(--accent-color);">+0.2320</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:110px;height:14px;border-radius:3px;background:#C47B5A;margin-right:10px;vertical-align:middle"></span>acceleration</td><td style="text-align: center; padding: 9px 12px;">&minus;0.1 &rarr; <strong>3.8</strong></td><td style="padding: 9px 14px;">largest in the sample</td></tr>
+            <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 9px 14px;">2008-10</td><td style="text-align: right; padding: 9px 14px;">&minus;0.1192</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:57px;height:14px;border-radius:3px;background:#6B8BA4;margin-right:10px;vertical-align:middle"></span>deceleration</td><td style="text-align: center; padding: 9px 12px;">2.4 &rarr; <strong>0.4</strong></td><td style="padding: 9px 14px;">financial crisis</td></tr>
+            <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 9px 14px;">2009-11</td><td style="text-align: right; padding: 9px 14px;">+0.1163</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:55px;height:14px;border-radius:3px;background:#C47B5A;margin-right:10px;vertical-align:middle"></span>acceleration</td><td style="text-align: center; padding: 9px 12px;">0.4 &rarr; <strong>2.3</strong></td><td style="padding: 9px 14px;">recovery</td></tr>
+            <tr style="border-bottom: 1px solid var(--line-color);"><td style="padding: 9px 14px;">1991-02</td><td style="text-align: right; padding: 9px 14px;">&minus;0.0770</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:37px;height:14px;border-radius:3px;background:#6B8BA4;margin-right:10px;vertical-align:middle"></span>deceleration</td><td style="text-align: center; padding: 9px 12px;">4.5 &rarr; <strong>3.2</strong></td><td style="padding: 9px 14px;">early-1990s recession</td></tr>
+            <tr><td style="padding: 9px 14px;">1998-11</td><td style="text-align: right; padding: 9px 14px;">+0.0607</td><td style="padding: 9px 24px;"><span style="display:inline-block;width:29px;height:14px;border-radius:3px;background:#C47B5A;margin-right:10px;vertical-align:middle"></span>acceleration</td><td style="text-align: center; padding: 9px 12px;">1.9 &rarr; <strong>2.9</strong></td><td style="padding: 9px 14px;">&mdash;</td></tr>
+          </tbody>
+        </table>
+        <p class="fragment fade-up" style="font-size: 16pt; margin-top: 16px; line-height: 1.5;">The 2008 / 2009 pair is the crisis, down then back up, landing where you would want it to. <strong>Now look at the range.</strong></p>
+      </div>
+    </section>
 
-      <section id="changepoint-wall" style="padding: 30px 45px;">
-        <h3><i class="fa-solid fa-ban" style="color: var(--danger-color);"></i> The Changepoints Stop in 2017</h3>
-        <div class="content" style="text-align: center;">
-          <img src="figures/figure_006_prophet_changepoints.png" alt="Log CPI 1990 to 2026 with the Prophet fit, forecast and 80 percent interval. The 25 changepoint candidates are ticks from February 1991 to August 2017; after August 2017 the chart is shaded: no changepoint can go there, and the 2021 to 2022 surge falls inside the shaded part, absorbed into the last slope." style="width: 100%; height: auto; display: block; margin: 0 auto;">
-          <p style="font-size: 14pt; margin-top: 6px; line-height: 1.45;">They span <strong>1991-02 to 2017-08</strong> and stop: Prophet places candidates only in the <strong>first 80%</strong> of the training window.</p>
-        </div>
-      </section>
+    <section id="changepoint-wall" style="padding: 30px 45px;">
+      <h3><i class="fa-solid fa-ban" style="color: var(--danger-color);"></i> The Changepoints Stop in 2017</h3>
+      <div class="content" style="text-align: center;">
+        <img src="figures/figure_006_prophet_changepoints.png" alt="Log CPI 1990 to 2026 with the Prophet fit, forecast and 80 percent interval. The 25 changepoint candidates are ticks from February 1991 to August 2017; after August 2017 the chart is shaded: no changepoint can go there, and the 2021 to 2022 surge falls inside the shaded part, absorbed into the last slope." style="width: 100%; height: auto; display: block; margin: 0 auto;">
+        <p style="font-size: 14pt; margin-top: 6px; line-height: 1.45;">They span <strong>1991-02 to 2017-08</strong> and stop: Prophet places candidates only in the <strong>first 80%</strong> of the training window.</p>
+      </div>
     </section>
 
     <section id="target-connection" style="padding: 34px 60px;">
