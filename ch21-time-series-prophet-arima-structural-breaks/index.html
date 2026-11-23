@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=f85eeb6684ad572c35d8d4572d25595a">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=5eb0855872bd80842c50d0a320d1a017">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series II: Prophet, ARIMA & Structural Breaks</title>
@@ -83,7 +83,7 @@
 
     <section>
     <section id="hook-target" style="padding: 36px 60px;">
-      <h2><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> August 2022. Target Reports.</h2>
+      <h2><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> August 2022. <svg role="img" aria-label="Target logo" viewBox="0 0 300 300" style="height:1.05em;width:1.05em;vertical-align:-0.18em;margin:0 0.18em 0 0.1em;"><path fill="#FFF" stroke="#E50024" stroke-width="50" d="m149,25a125,125 0 1,0 2,0zm2,100a25,25 0 1,1-2,0z"/></svg>Target Reports.</h2>
       <div class="content">
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 10px;">
           <div style="background: #fdf0ea; border-radius: 12px; padding: 20px; text-align: center; border-left: 4px solid var(--danger-color);">
@@ -185,6 +185,8 @@
         </div>
         <script>(function () {
           var PID = "ch21-econ3916-poll-5", MIN_N = 4, TRUTH = 3.07, AR = [1.73, 13.77];
+          // the chart each half saw, drawn small in the label column (same scale for both; dashed line = month 102)
+          var MINI = ["<g><line x1=\"0\" x2=\"230\" y1=\"62\" y2=\"62\" stroke=\"#e8e5df\"/><line x1=\"230\" x2=\"230\" y1=\"18\" y2=\"62\" stroke=\"#6B645E\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\"/><polyline points=\"0.0,63.0 2.3,62.4 4.6,62.1 6.8,62.4 9.1,61.9 11.4,61.2 13.7,61.1 15.9,61.0 18.2,62.0 20.5,61.5 22.8,60.2 25.0,59.3 27.3,56.8 29.6,58.4 31.9,58.3 34.2,57.1 36.4,57.5 38.7,57.5 41.0,58.4 43.3,57.6 45.5,55.5 47.8,54.9 50.1,54.9 52.4,53.4 54.7,51.5 56.9,50.2 59.2,51.7 61.5,52.9 63.8,54.2 66.0,55.1 68.3,54.8 70.6,53.9 72.9,52.8 75.1,53.5 77.4,52.9 79.7,53.1 82.0,53.0 84.3,52.5 86.5,52.2 88.8,51.6 91.1,50.3 93.4,50.2 95.6,50.0 97.9,50.9 100.2,52.2 102.5,51.5 104.8,53.0 107.0,53.6 109.3,55.8 111.6,55.6 113.9,54.1 116.1,53.6 118.4,54.5 120.7,55.0 123.0,54.3 125.2,54.7 127.5,54.9 129.8,54.7 132.1,53.2 134.4,52.3 136.6,51.1 138.9,52.2 141.2,55.7 143.5,60.7 145.7,61.2 148.0,59.0 150.3,57.8 152.6,56.6 154.9,56.2 157.1,56.8 159.4,57.1 161.7,56.5\" fill=\"none\" stroke=\"#C47B5A\" stroke-width=\"2.5\" stroke-linejoin=\"round\"/><circle cx=\"161.7\" cy=\"56.5\" r=\"4\" fill=\"#C47B5A\"/></g>", "<g><line x1=\"0\" x2=\"230\" y1=\"147\" y2=\"147\" stroke=\"#e8e5df\"/><line x1=\"230\" x2=\"230\" y1=\"103\" y2=\"147\" stroke=\"#6B645E\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\"/><polyline points=\"0.0,148.0 2.3,147.4 4.6,147.1 6.8,147.4 9.1,146.9 11.4,146.2 13.7,146.1 15.9,146.0 18.2,147.0 20.5,146.5 22.8,145.2 25.0,144.3 27.3,141.8 29.6,143.4 31.9,143.3 34.2,142.1 36.4,142.5 38.7,142.5 41.0,143.4 43.3,142.6 45.5,140.5 47.8,139.9 50.1,139.9 52.4,138.4 54.7,136.5 56.9,135.2 59.2,136.7 61.5,137.9 63.8,139.2 66.0,140.1 68.3,139.8 70.6,138.9 72.9,137.8 75.1,138.5 77.4,137.9 79.7,138.1 82.0,138.0 84.3,137.5 86.5,137.2 88.8,136.6 91.1,135.3 93.4,135.2 95.6,135.0 97.9,135.9 100.2,137.2 102.5,136.5 104.8,138.0 107.0,138.6 109.3,140.8 111.6,140.6 113.9,139.1 116.1,138.6 118.4,139.5 120.7,140.0 123.0,139.3 125.2,139.7 127.5,139.9 129.8,139.7 132.1,138.2 134.4,137.3 136.6,136.1 138.9,137.2 141.2,140.7 143.5,145.7 145.7,146.2 148.0,144.0 150.3,142.8 152.6,141.6 154.9,141.2 157.1,141.8 159.4,142.1 161.7,141.5 164.0,141.2 166.2,140.0 168.5,135.8 170.8,129.6 173.1,126.3 175.3,124.8 177.6,125.0 179.9,125.4 182.2,124.5 184.5,120.8 186.7,118.0 189.0,116.9 191.3,115.3 193.6,113.7 195.8,111.0 198.1,112.4 200.4,111.1 202.7,109.3\" fill=\"none\" stroke=\"#6B8BA4\" stroke-width=\"2.5\" stroke-linejoin=\"round\"/><circle cx=\"202.7\" cy=\"109.3\" r=\"4\" fill=\"#6B8BA4\"/></g>"];
           // made-up practice answers (Q on this page, or ?demo=1): odd near the calm years, even pulled up by the peak
           var DEMO = [1.5,2,2,1.8,2.5,1,2.2,3,1.5,2,2.4].map(function (v, k) { return { voter_id: "demo-o" + k, choice: "o:" + v, created_at: "2026-01-01T00:00:" + (10 + k) + "Z", poll_id: PID }; })
             .concat([7,9,6,10,8,5,9.5,12,7.5,6,8.5].map(function (v, k) { return { voter_id: "demo-e" + k, choice: "e:" + v, created_at: "2026-01-01T00:01:" + (10 + k) + "Z", poll_id: PID }; }));
@@ -223,7 +225,8 @@
               '<text x="' + X(t) + '" y="232" font-size="16" text-anchor="middle" fill="#6B645E">' + (t < 0 ? "\u2212" + (-t) : t) + "%</text>";
             s += '<g class="mr-truth" style="opacity:0;transition:opacity .4s"><line x1="' + X(TRUTH) + '" x2="' + X(TRUTH) + '" y1="14" y2="210" stroke="#1F7A5A" stroke-width="3" stroke-dasharray="7 5"/>' +
               '<text x="' + (X(TRUTH) + 8) + '" y="18" font-size="16" fill="#1F7A5A" font-weight="700">what happened: ' + TRUTH.toFixed(1) + "%</text></g>";
-            [[odd, 75, "#C47B5A", "Odd: 72 months", AR[0]], [even, 160, "#6B8BA4", "Even: 90 months", AR[1]]].forEach(function (row) {
+            [[odd, 75, "#C47B5A", "Odd: 72 months", AR[0]], [even, 160, "#6B8BA4", "Even: 90 months", AR[1]]].forEach(function (row, i) {
+              s += MINI[i];
               var v = row[0], y = row[1];
               // the AR(1) forecast from this window: a hollow ring, shown from click 3 (works with no votes at all)
               s += '<g class="mr-ar" style="opacity:0;transition:opacity .4s"><circle cx="' + X(row[4]) + '" cy="' + y + '" r="14" fill="none" stroke="' + row[2] + '" stroke-width="4"/>' +
