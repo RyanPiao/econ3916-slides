@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=0a4a839b6b201217f66e26dec6b17271">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6c38ccf853e092ed47ce04f031e6e48b">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series II: Prophet, ARIMA & Structural Breaks</title>
@@ -677,8 +677,8 @@
     <section id="prophet-changepoint-mechanism" style="padding: 34px 60px;">
       <h2><i class="fa-solid fa-scissors" style="color: var(--accent-color);"></i> Changepoints Are LASSO in Disguise</h2>
       <div class="content">
-        <p style="font-size: 16pt; line-height: 1.45;"><strong>25 candidate breaks</strong> on a grid; a <strong>Laplace (L1) prior</strong> shrinks each size, \(\delta\), toward zero.</p>
-        <img src="figures/figure_011_prophet_deltas.png" alt="All 25 changepoint candidates on our CPI, 1991 to 2017, drawn as stems of height delta. Nine are shrunk to about zero; the largest are August 2017 (+0.23, trend growth from minus 0.1 to 3.8 percent a year), October 2008 (minus 0.12) and November 2009 (+0.12). A right axis reads delta as percentage points of trend growth a year (delta times 16.7)." style="width: 100%; height: auto; display: block; margin: 6px auto 0;">
+        <p style="font-size: 15.5pt; line-height: 1.4;"><strong>25 candidate breaks</strong> on a grid; a <strong>Laplace (L1) prior</strong> shrinks each size, \(\delta\), toward zero. \(\delta\) is how much the trend&rsquo;s slope changes at that date: \(\delta = 0.1\) is about 1.7 percentage points of trend growth a year.</p>
+        <img src="figures/figure_011_prophet_deltas.png" alt="All 25 changepoint candidates on our CPI, 1991 to 2017, drawn as stems of height delta. Nine are shrunk to about zero; the largest are August 2017 (+0.23, trend growth from minus 0.1 to 3.8 percent a year), October 2008 (minus 0.12) and November 2009 (+0.12). A right axis reads delta as percentage points of trend growth a year (delta times 16.7)." style="width: 94%; height: auto; display: block; margin: 6px auto 0;">
         <div class="fragment fade-up" style="background: #f0f5f8; border-left: 5px solid var(--secondary-color); border-radius: 8px; padding: 10px 20px; margin-top: 8px;">
           <p style="font-size: 15.5pt; line-height: 1.45;"><i class="fa-solid fa-link"></i> <strong>That is Chapter 16:</strong> LASSO shrinks regression coefficients to zero; Prophet shrinks <em>trend changes</em>. <code>changepoint_prior_scale</code> sets how hard (lab: <strong>0.05</strong>): lower is a stiffer, smoother trend.</p>
         </div>
@@ -726,7 +726,7 @@
     <section id="prophet-changepoints-found" style="padding: 32px 55px;">
       <h2><i class="fa-solid fa-list-ol" style="color: var(--accent-color);"></i> What Prophet Found on Our CPI</h2>
       <div class="content">
-        <p style="font-size: 15.5pt;">25 changepoints; the five largest. \(\delta\) is how much the trend&rsquo;s slope changes at that date: \(\delta = 0.1\) is about 1.7 percentage points of trend growth a year.</p>
+        <p style="font-size: 15.5pt;">25 changepoints; the five largest, by the size of \(\delta\) (page 31):</p>
         <table style="width: 100%; font-size: 15.5pt; border-collapse: collapse; margin-top: 12px;">
           <thead>
             <tr style="border-bottom: 2px solid var(--secondary-color);">
