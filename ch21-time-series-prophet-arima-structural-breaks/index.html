@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=6c38ccf853e092ed47ce04f031e6e48b">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=72474ebdf6862ee89029907b87929a86">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Series II: Prophet, ARIMA & Structural Breaks</title>
@@ -757,13 +757,12 @@
     </section>
 
     <section id="target-connection" style="padding: 34px 60px;">
-      <h2><i class="fa-solid fa-arrows-left-right-to-line" style="color: var(--danger-color);"></i> You Have Just Rebuilt Target</h2>
+      <h2><i class="fa-solid fa-arrows-left-right-to-line" style="color: var(--danger-color);"></i> You Have Just Rebuilt <svg role="img" aria-label="Target logo" viewBox="0 0 300 300" style="height:1.05em;width:1.05em;vertical-align:-0.18em;margin:0 0.18em 0 0.1em;"><path fill="#FFF" stroke="#E50024" stroke-width="50" d="m149,25a125,125 0 1,0 2,0zm2,100a25,25 0 1,1-2,0z"/></svg>Target</h2>
       <div class="content">
-        <p style="font-size: 17pt; line-height: 1.55;">The single largest trend break in this sample is the <strong>2021&ndash;22 inflation surge</strong>. Prophet's changepoint mechanism <em>structurally cannot</em> place a changepoint there.</p>
-        <p style="font-size: 17pt; line-height: 1.55; margin-top: 16px;">It absorbs the surge into the slope of its last segment instead &mdash; and then extends <strong>that</strong> slope forward.</p>
-        <div class="fragment fade-up" style="background: #fdf0ea; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 20px 26px; margin-top: 22px;">
-          <p style="font-size: 18pt; line-height: 1.55;">A model trained through a regime change, extrapolating the regime it happened to end in, with no warning. That is the August 2022 earnings call, reproduced on your laptop with forty lines of Python.</p>
-          <p style="font-size: 15.5pt; line-height: 1.5; margin-top: 8px; color: var(--muted-color);">The even half of the room did this in the forecast vote: a window ending at the peak, extended forward.</p>
+        <p style="font-size: 16pt; line-height: 1.45;">The largest trend break in this sample is the <strong>2021&ndash;22 surge</strong>, and Prophet <em>structurally cannot</em> place a changepoint there. It absorbs the surge into its last slope and extends <strong>that</strong> slope forward.</p>
+        <img class="fragment fade-up" src="figures/figure_012_target_twice.png" alt="Two panels. Left: the room's even half, CPI inflation for the 90 months to June 2022 ending at the 9.0 percent peak; an AR(1) carries it to 13.8 percent while the actual was 3.1 percent. Right: log CPI with Prophet's trend, whose last bend is August 2017; its slope of 3.8 percent a year is carried through the forecast." style="width: 100%; height: auto; display: block; margin: 8px auto 0;">
+        <div class="fragment fade-up" style="background: #fdf0ea; border-left: 5px solid var(--danger-color); border-radius: 8px; padding: 12px 22px; margin-top: 10px;">
+          <p style="font-size: 16.5pt; line-height: 1.45;">A model trained through a regime change, extrapolating the regime it happened to end in, with no warning. That is the August 2022 earnings call, reproduced on your laptop with forty lines of Python.</p>
         </div>
       </div>
     </section>
@@ -806,30 +805,28 @@
       <p style="font-size: 17pt; color: var(--muted-color); margin-top: 18px; font-style: italic;">The question we have been postponing since the forecast slide</p>
     </section>
 
-    <section>
-      <section id="mape" style="padding: 34px 55px;">
-        <h2><i class="fa-solid fa-percent" style="color: var(--accent-color);"></i> MAPE, and Why Not</h2>
-        <div class="content">
-          <p style="font-size: 16pt; text-align: center; margin: 4px 0;">$$\text{MAPE} = \frac{1}{h}\sum_{t=1}^{h}\left|\frac{y_t - \hat{y}_t}{y_t}\right| \times 100$$</p>
-          <div style="background: #f8f6f3; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 15px 24px; margin-top: 10px;">
-            <p style="font-size: 16.5pt; line-height: 1.5;"><strong>In words:</strong> the average percentage miss. &ldquo;We were off by 3% on average.&rdquo; Intuitive, universally used in business, and broken three ways.</p>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px; font-size: 14.5pt;">
-            <div style="background: #fdf0ea; border-radius: 8px; padding: 15px 18px;"><p><strong>1. Undefined at zero.</strong> Divide by \(y_t = 0\) and it explodes. Common in intermittent demand.</p></div>
-            <div style="background: #fdf0ea; border-radius: 8px; padding: 15px 18px;"><p><strong>2. Asymmetric.</strong> It punishes over-forecasting far harder than under-forecasting.</p></div>
-            <div style="background: #fdf0ea; border-radius: 8px; padding: 15px 18px;"><p><strong>3. Scale-dependent.</strong> 5% on GDP is not comparable to 5% on unemployment claims.</p></div>
-          </div>
-          <p style="font-size: 15.5pt; margin-top: 16px;">Flaw 2 is the dangerous one, and it is worth a picture.</p>
+    <section id="mape" style="padding: 34px 55px;">
+      <h2><i class="fa-solid fa-percent" style="color: var(--accent-color);"></i> MAPE, and Why Not</h2>
+      <div class="content">
+        <p style="font-size: 16pt; text-align: center; margin: 4px 0;">$$\text{MAPE} = \frac{1}{h}\sum_{t=1}^{h}\left|\frac{y_t - \hat{y}_t}{y_t}\right| \times 100$$</p>
+        <div style="background: #f8f6f3; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 15px 24px; margin-top: 10px;">
+          <p style="font-size: 16.5pt; line-height: 1.5;"><strong>In words:</strong> the average percentage miss. &ldquo;We were off by 3% on average.&rdquo; Intuitive, universally used in business, and broken three ways.</p>
         </div>
-      </section>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px; font-size: 14.5pt;">
+          <div style="background: #fdf0ea; border-radius: 8px; padding: 15px 18px;"><p><strong>1. Undefined at zero.</strong> Divide by \(y_t = 0\) and it is undefined; near 0 it becomes enormous. Common in intermittent demand.</p></div>
+          <div style="background: #fdf0ea; border-radius: 8px; padding: 15px 18px;"><p><strong>2. Asymmetric.</strong> It punishes over-forecasting far harder than under-forecasting.</p></div>
+          <div style="background: #fdf0ea; border-radius: 8px; padding: 15px 18px;"><p><strong>3. Scale-dependent.</strong> 5% on GDP is not comparable to 5% on unemployment claims.</p></div>
+        </div>
+        <p style="font-size: 15.5pt; margin-top: 16px;">Flaw 2 is the dangerous one, and it is worth a picture.</p>
+      </div>
+    </section>
 
-      <section id="mape-asymmetry" style="padding: 28px 45px;">
-        <h3><i class="fa-solid fa-scale-unbalanced" style="color: var(--danger-color);"></i> The Asymmetry, Drawn</h3>
-        <div class="content" style="text-align: center;">
-          <img src="figures/figure_008_mape_asymmetry.png" alt="MAPE contribution as a function of the forecast when the actual value is 100 — the left branch rises to a ceiling of 100 percent as the forecast falls toward zero, while the right branch rises without bound as the forecast grows" style="max-height: 400px; width: auto;">
-          <p style="font-size: 15pt; margin-top: 8px; line-height: 1.5;">Under-forecasting is <strong>capped at 100%</strong> &mdash; the worst you can do is predict 0. Over-forecasting is <strong>unbounded</strong>: predict 300 against 100 and you score 200%; predict 1,000 and you score 900%.</p>
-        </div>
-      </section>
+    <section id="mape-asymmetry" style="padding: 28px 45px;">
+      <h3><i class="fa-solid fa-scale-unbalanced" style="color: var(--danger-color);"></i> The Asymmetry, Drawn</h3>
+      <div class="content" style="text-align: center;">
+        <img src="figures/figure_008_mape_asymmetry.png" alt="MAPE contribution as a function of the forecast when the actual value is 100 — the left branch rises to a ceiling of 100 percent as the forecast falls toward zero, while the right branch rises without bound as the forecast grows; marked: predict 0 scores 100 percent, 300 scores 200 percent, 1,000 scores 900 percent" style="width: 100%; height: auto; display: block; margin: 0 auto;">
+        <p style="font-size: 15pt; margin-top: 8px; line-height: 1.5;">Under-forecasting is <strong>capped at 100%</strong> &mdash; the worst you can do is predict 0. Over-forecasting is <strong>unbounded</strong>: predict 300 against 100 and you score 200%; predict 1,000 and you score 900%.</p>
+      </div>
     </section>
 
     <section id="poll-3" style="padding: 32px 55px;">
@@ -846,9 +843,10 @@
     </section>
     <section id="poll-3-reveal" data-poll-results="ch21-econ3916-poll-3" style="padding: 30px 50px;">
       <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; The Metric Taught It To</h2>
-      <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-3" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:160px; margin:10px 60px 32px;"></div>
+      <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-3" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:4px 300px 26px;"></div>
       <div class="content">
-        <p style="font-size: 16.5pt; line-height: 1.55;">The word doing the work in the question is <strong>systematically</strong>. C and D are real problems, but they produce noise or a one-off miss &mdash; not a persistent lean in one direction. Only the asymmetry does that.</p>
+        <p style="font-size: 16pt; line-height: 1.45;">The word doing the work is <strong>systematically</strong>. C and D are real problems, but they give noise or a one-off miss, not a lean in one direction. Only the asymmetry does that: <span class="fragment fade-up">here is how it teaches a model to forecast low.</span></p>
+        <img class="fragment fade-up" src="figures/figure_013_mape_bias.png" alt="A worked example: demand is 50 or 150 with equal chance, mean 100. Average MAPE against the forecast is lowest at 50, 33 percent; forecasting the mean, 100, scores 67 percent; forecasting 150 scores 100 percent." style="width: 100%; height: auto; display: block; margin: 6px auto 0;">
       </div>
     </section>
 
@@ -857,7 +855,7 @@
       <div class="content">
         <p style="font-size: 15pt; text-align: center; margin: 2px 0;">$$\text{MASE} = \frac{\frac{1}{h}\sum_{t=1}^{h}\left|e_t\right|}{\frac{1}{T-m}\sum_{t=m+1}^{T}\left|Y_t - Y_{t-m}\right|}$$</p>
         <div style="background: #f8f6f3; border-left: 5px solid var(--accent-color); border-radius: 8px; padding: 15px 24px; margin-top: 10px;">
-          <p style="font-size: 16.5pt; line-height: 1.5;"><strong>In words:</strong> your average error, divided by the average error of the dumbest defensible forecast &mdash; <em>&ldquo;predict the same value as \(m\) periods ago.&rdquo;</em> The denominator is the whole idea.</p>
+          <p style="font-size: 16.5pt; line-height: 1.5;"><strong>In words:</strong> your average error, divided by the average error of the simplest defensible forecast &mdash; <em>&ldquo;predict the same value as \(m\) periods ago.&rdquo;</em> The denominator is the whole idea.</p>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px; font-size: 15pt;">
           <div style="background: #f0f5f8; border-radius: 8px; padding: 14px 18px; text-align: center;"><p><strong style="color: var(--success-color);">&lt; 1</strong><br>beats naive</p></div>
@@ -903,31 +901,34 @@
       <section id="mase-figure" style="padding: 28px 45px;">
         <h3><i class="fa-solid fa-chart-simple" style="color: var(--accent-color);"></i> Two Series, Two Results</h3>
         <div class="content" style="text-align: center;">
-          <img src="figures/figure_007_mase_comparison.png" alt="MASE for ARIMA and Prophet on CPI and on the unemployment rate with a dashed line at MASE equal to one — ARIMA is 1.27 and Prophet 1.97 on CPI, ARIMA 0.66 and Prophet 5.33 on unemployment" style="max-height: 410px; width: auto;">
+          <img src="figures/figure_007_mase_comparison.png" alt="MASE for ARIMA and Prophet on CPI and on the unemployment rate with a dashed line at MASE equal to one — ARIMA is 1.27 and Prophet 1.97 on CPI, ARIMA 0.66 and Prophet 5.33 on unemployment" style="width: 100%; height: auto; display: block; margin: 0 auto;">
           <p style="font-size: 15pt; margin-top: 8px; line-height: 1.5;">Prophet's 5.3 on UNRATE is the trend-extrapolation failure made numeric: unemployment is <strong>mean-reverting</strong>, and Prophet projects a slope into a series that does not have one.</p>
         </div>
       </section>
     </section>
 
-    <section id="poll-4" style="padding: 32px 55px;">
-      <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Write the Conclusion</h2>
-      <div class="content">
-        <p class="text-lg" style="line-height: 1.55;">Your ARIMA scores <strong>MASE = 1.27</strong> on CPI. Write the sentence that goes in your lab write-up.</p>
-        <div class="poll-grid" data-poll-id="ch21-econ3916-poll-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
-          <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) The model loses to a random walk &mdash; abandon it</div>
-          <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) A 24-step error over a 1-step naive error is not an apples-to-apples comparison</div>
-          <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) MASE above 1 is impossible &mdash; there is a bug in the code</div>
-          <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) The forecast was 27% off</div>
+    <section>
+      <section id="poll-4" style="padding: 32px 55px;">
+        <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; Write the Conclusion</h2>
+        <div class="content">
+          <p class="text-lg" style="line-height: 1.55;">Your ARIMA scores <strong>MASE = 1.27</strong> on CPI. Write the sentence that goes in your lab write-up.</p>
+          <div class="poll-grid" data-poll-id="ch21-econ3916-poll-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; font-size: 14.5pt;">
+            <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) The model loses to a random walk &mdash; abandon it</div>
+            <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) A 24-step error over a 1-step naive error is not an apples-to-apples comparison</div>
+            <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) MASE above 1 is impossible &mdash; there is a bug in the code</div>
+            <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) The forecast was 27% off</div>
+          </div>
         </div>
-      </div>
-    </section>
-    <section id="poll-4-reveal" data-poll-results="ch21-econ3916-poll-4" style="padding: 30px 50px;">
-      <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; Mind the Horizon</h2>
-      <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-4" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:150px; margin:8px 60px 32px;"></div>
-      <div class="content">
-        <p style="font-size: 16.5pt; line-height: 1.55;">A 24-step-ahead forecast is a <strong>far harder problem</strong> than the one-step-ahead errors it is being divided by. For MASE to mean &ldquo;beats naive,&rdquo; numerator and denominator must sit on the <strong>same horizon</strong>.</p>
-        <p style="font-size: 15.5pt; line-height: 1.5; margin-top: 12px; color: var(--muted-color);">D is also wrong for a separate reason worth naming: MASE is a ratio of errors, not a percentage of the level.</p>
-      </div>
+      </section>
+
+      <section id="poll-4-reveal" data-poll-results="ch21-econ3916-poll-4" style="padding: 30px 50px;">
+        <h2><i class="fa-solid fa-circle-check" style="color: var(--success-color);"></i> Answer: B &mdash; Mind the Horizon</h2>
+        <div class="poll-results-chart" data-poll-id="ch21-econ3916-poll-4" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:4px 300px 26px;"></div>
+        <div class="content">
+          <p style="font-size: 15.5pt; line-height: 1.45;">A 24-step forecast is a <strong>far harder job</strong> than the one-step errors it is divided by. For MASE to mean &ldquo;beats naive,&rdquo; top and bottom must sit on the <strong>same horizon</strong>. (D is wrong too: MASE is a ratio of errors, not a percent of the level.)</p>
+          <img class="fragment fade-up" src="figures/figure_014_mase_horizon.png" alt="Average absolute error on CPI over 24 months from July 2024: ARIMA 0.34 percent; the one-month naive error MASE divides by, 0.27 percent; the naive forecast on the same 24 months, 3.06 percent. 0.34 over 0.27 is MASE 1.27; on the same horizon 0.34 over 3.06 is 0.11." style="width: 86%; height: auto; display: block; margin: 4px auto 0;">
+        </div>
+      </section>
     </section>
 
     <section id="expanding-windows" style="padding: 34px 55px;">
