@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=aac3f2e076a2652891bb08899189a444">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=5988724aa4835a093386b333ccbbffe2">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Unsupervised Learning: Clustering Economies</title>
@@ -81,6 +81,20 @@
      </div>
     </section>
 
+    <section id="room-vote" style="padding: 30px 55px;">
+      <h2><i class="fa-solid fa-mobile-screen" style="color: var(--secondary-color);"></i> Check In: Your Dot</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Today the room is the data set. Where is your dot?</p>
+        <div style="background: #f0f5f8; border-left: 4px solid var(--secondary-color); border-radius: 8px; padding: 16px 22px;">
+          <p style="font-size: 17pt; line-height: 1.5;">Type the <strong>last four digits of your NUID</strong>, for example 4821. That is one dot: <strong>48 across, 21 up</strong>, on a grid from 0 to 99.</p>
+          <p style="font-size: 14.5pt; color: var(--muted-color); margin-top: 6px;">Your vote is also today&rsquo;s check-in. Keep the number to yourself.</p>
+        </div>
+        <div class="poll-number" data-poll-id="ch22-econ3916-poll-1" data-poll-voting data-min="0" data-max="9999" data-step="1" style="margin-top: 14px;"></div>
+        <p style="font-size: 13pt; margin-top: 10px; text-align: center; color: var(--muted-color);">Dots so far: <strong data-poll-fill="ch22-econ3916-poll-1" data-key="n">&mdash;</strong></p>
+      </div>
+    </section>
+
+
     <section id="hook">
      <h2><i class="fa-solid fa-bolt" style="color: var(--accent-color);"></i> The Nubank Question</h2>
      <div class="content">
@@ -112,6 +126,7 @@
         <div class="fragment key-result" style="margin-top: 14px;">
          <p><strong>Stakes:</strong> monthly revenue per active customer rose from <strong>\$11 &rarr; \$15</strong> in 2025</p>
         </div>
+        <p style="font-size: 11pt; color: var(--muted-color); margin-top: 8px;">Source: Nu Holdings, Q4 2025 results (25 Feb 2026): 131 million customers, ARPAC \$15 against \$11.1 a year earlier. Segment names from Nu&rsquo;s 2025 investor materials.</p>
        </div>
       </div>
      </div>
@@ -156,6 +171,28 @@
      </div>
     </section>
 
+    <section id="room-dots" data-state="room22" style="padding: 26px 50px;">
+      <h2><i class="fa-solid fa-braille" style="color: var(--secondary-color);"></i> Our Room: How Many Groups Do You See?</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 6px;"><i class="fa-solid fa-circle-question"></i> Before any algorithm: these are our dots. How many groups are there?</p>
+        <div class="poll-number-results" data-poll-id="ch22-econ3916-poll-1" data-min="0" data-max="9999" style="display: none;"></div>
+        <div style="display: grid; grid-template-columns: 470px 1fr; gap: 26px; align-items: start;">
+          <div style="position: relative; width: 470px; height: 430px;">
+            <div class="r22-plot mathjax_ignore" data-layer="grey" style="position: absolute; inset: 0;"></div>
+            
+          </div>
+          <div><div style="background: #f8f6f3; border-radius: 10px; padding: 16px 20px;">
+            <p style="font-size: 16pt; line-height: 1.5;">One dot per student: the first two of your four digits across, the last two up. There is no \(y\) here, nothing to predict.</p>
+            <p style="font-size: 16pt; line-height: 1.5; margin-top: 10px;">How many groups do you see? <strong>Hold a number in your head.</strong></p>
+            <p style="font-size: 13.5pt; color: var(--muted-color); margin-top: 10px;">Hold your answer. We run K-Means on these same dots after the algorithm.</p>
+          </div></div>
+        </div>
+        <p class="r22-demo" style="font-size: 13pt; font-weight: 700; color: var(--danger-color); margin: 4px 0 0;"></p>
+        <p class="r22-wait" style="font-size: 12pt; color: var(--muted-color); margin: 2px 0 0;"></p>
+      </div>
+    </section>
+
+
     <section id="poll-1">
      <h2><i class="fa-solid fa-chart-bar" style="color: var(--secondary-color);"></i> Class Poll</h2>
      <div class="content">
@@ -183,27 +220,26 @@
     <section id="lloyds-intuition">
      <h2>Lloyd's Algorithm &mdash; Intuition</h2>
      <div class="content">
-      <p style="font-size: 16pt; line-height: 1.6;">Take the lab&rsquo;s 209 economies. Divide them into 4 groups based on 10 indicators. No labels.</p>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px;">
-       <div style="background: #f8f6f3; padding: 18px; border-radius: 8px; text-align: center;">
-        <p style="font-size: 28pt; margin-bottom: 8px;"><i class="fa-solid fa-dice" style="color: var(--secondary-color);"></i></p>
-        <p style="font-size: 14pt; font-weight: 600;">Step 0: Initialize</p>
-        <p style="font-size: 13pt; color: var(--muted-color);">Place K "representatives" randomly</p>
-       </div>
-       <div class="fragment" style="background: #f8f6f3; padding: 18px; border-radius: 8px; text-align: center;">
-        <p style="font-size: 28pt; margin-bottom: 8px;"><i class="fa-solid fa-arrows-to-dot" style="color: var(--accent-color);"></i></p>
-        <p style="font-size: 14pt; font-weight: 600;">Step 1: Assign</p>
-        <p style="font-size: 13pt; color: var(--muted-color);">Each observation &rarr; nearest centroid</p>
-       </div>
-       <div class="fragment" style="background: #f8f6f3; padding: 18px; border-radius: 8px; text-align: center;">
-        <p style="font-size: 28pt; margin-bottom: 8px;"><i class="fa-solid fa-calculator" style="color: var(--success-color);"></i></p>
-        <p style="font-size: 14pt; font-weight: 600;">Step 2: Update</p>
-        <p style="font-size: 13pt; color: var(--muted-color);">Recompute centroid = <strong>mean</strong></p>
-       </div>
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 4px;"><i class="fa-solid fa-circle-question"></i> How does K-Means split dots into groups, with no labels?</p>
+      <p style="font-size: 15pt; line-height: 1.5;">Lab 22 does this to 209 economies on 10 indicators. Here: six dots, two indicators.</p>
+      <div style="display: grid; grid-template-columns: 1fr 440px; gap: 22px; align-items: start; margin-top: 8px;">
+        <div>
+         <div style="background: #f8f6f3; padding: 10px 16px; border-radius: 8px; border-left: 4px solid var(--secondary-color);"><p style="font-size: 15pt;"><strong>Step 0, start:</strong> put \(K\) centroids (&#215;) somewhere. Here \(K = 2\), and a bad start.</p></div>
+         <div class="fragment" data-fragment-index="1" style="background: #f8f6f3; padding: 10px 16px; border-radius: 8px; border-left: 4px solid var(--accent-color); margin-top: 8px;"><p style="font-size: 15pt;"><strong>Step 1, assign:</strong> each dot joins its nearest &#215;.</p></div>
+         <div class="fragment" data-fragment-index="2" style="background: #f8f6f3; padding: 10px 16px; border-radius: 8px; border-left: 4px solid var(--success-color); margin-top: 8px;"><p style="font-size: 15pt;"><strong>Step 2, update:</strong> move each &#215; to the <strong>mean</strong> of its dots.</p></div>
+         <div class="fragment" data-fragment-index="3" style="background: #f8f6f3; padding: 10px 16px; border-radius: 8px; margin-top: 8px;"><p style="font-size: 15pt;"><i class="fa-solid fa-repeat"></i> <strong>Repeat:</strong> B is now 1.12 from orange and 7.27 from blue, so it switches.</p></div>
+         <div class="fragment" data-fragment-index="4" style="background: #eef5ee; padding: 10px 16px; border-radius: 8px; margin-top: 8px;"><p style="font-size: 15pt;"><strong>Stop</strong> when no dot changes group. WCSS, the total squared distance from each dot to its &#215;, fell at every step: 284 &#8594; 72.2 &#8594; 20.7 &#8594; 2.7.</p></div>
+        </div>
+        <div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 440 470" width="440" height="470" xmlns="http://www.w3.org/2000/svg" font-family="inherit" role="img" aria-label="Lloyd's algorithm on six dots, K = 2, one step per click: assign, update, assign again (B switches groups), update, stop." style="display:block"><g class="fragment fade-out" data-fragment-index="1"><line x1="40" x2="40" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="400" y2="400" stroke="#eee"/><line x1="120" x2="120" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="320" y2="320" stroke="#eee"/><line x1="200" x2="200" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="240" y2="240" stroke="#eee"/><line x1="280" x2="280" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="160" y2="160" stroke="#eee"/><line x1="360" x2="360" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="80" y2="80" stroke="#eee"/><line x1="440" x2="440" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="0" y2="0" stroke="#eee"/><circle cx="80" cy="360" r="11" fill="#8C8580" stroke="#fff" stroke-width="2"/><text x="62" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">A</text><circle cx="120" cy="360" r="11" fill="#8C8580" stroke="#fff" stroke-width="2"/><text x="136" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">B</text><circle cx="80" cy="320" r="11" fill="#8C8580" stroke="#fff" stroke-width="2"/><text x="62" y="308" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">C</text><circle cx="360" cy="80" r="11" fill="#8C8580" stroke="#fff" stroke-width="2"/><text x="376" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">D</text><circle cx="400" cy="80" r="11" fill="#8C8580" stroke="#fff" stroke-width="2"/><text x="416" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">E</text><circle cx="360" cy="40" r="11" fill="#8C8580" stroke="#fff" stroke-width="2"/><text x="376" y="28" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">F</text><path d="M69,349L91,371M91,349L69,371" stroke="#C47B5A" stroke-width="6"/><path d="M69,349L91,371M91,349L69,371" stroke="#2D2D2D" stroke-width="1.6"/><path d="M109,349L131,371M131,349L109,371" stroke="#6B8BA4" stroke-width="6"/><path d="M109,349L131,371M131,349L109,371" stroke="#2D2D2D" stroke-width="1.6"/><text x="240" y="444.0" font-size="16" text-anchor="middle" fill="#2D2D2D">start: both &#215; on A and B</text></g><g data-fragment-index="1" class="fragment fade-in-then-out"><line x1="40" x2="40" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="400" y2="400" stroke="#eee"/><line x1="120" x2="120" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="320" y2="320" stroke="#eee"/><line x1="200" x2="200" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="240" y2="240" stroke="#eee"/><line x1="280" x2="280" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="160" y2="160" stroke="#eee"/><line x1="360" x2="360" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="80" y2="80" stroke="#eee"/><line x1="440" x2="440" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="0" y2="0" stroke="#eee"/><circle cx="80" cy="360" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="62" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">A</text><circle cx="120" cy="360" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="136" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">B</text><circle cx="80" cy="320" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="62" y="308" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">C</text><circle cx="360" cy="80" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="376" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">D</text><circle cx="400" cy="80" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="416" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">E</text><circle cx="360" cy="40" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="376" y="28" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">F</text><path d="M69,349L91,371M91,349L69,371" stroke="#C47B5A" stroke-width="6"/><path d="M69,349L91,371M91,349L69,371" stroke="#2D2D2D" stroke-width="1.6"/><path d="M109,349L131,371M131,349L109,371" stroke="#6B8BA4" stroke-width="6"/><path d="M109,349L131,371M131,349L109,371" stroke="#2D2D2D" stroke-width="1.6"/><text x="240" y="444.0" font-size="18" font-weight="700" text-anchor="middle" fill="#2D2D2D">WCSS 284</text></g><g data-fragment-index="2" class="fragment fade-in-then-out"><line x1="40" x2="40" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="400" y2="400" stroke="#eee"/><line x1="120" x2="120" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="320" y2="320" stroke="#eee"/><line x1="200" x2="200" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="240" y2="240" stroke="#eee"/><line x1="280" x2="280" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="160" y2="160" stroke="#eee"/><line x1="360" x2="360" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="80" y2="80" stroke="#eee"/><line x1="440" x2="440" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="0" y2="0" stroke="#eee"/><circle cx="80" cy="360" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="62" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">A</text><circle cx="120" cy="360" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="136" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">B</text><circle cx="80" cy="320" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="62" y="308" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">C</text><circle cx="360" cy="80" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="376" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">D</text><circle cx="400" cy="80" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="416" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">E</text><circle cx="360" cy="40" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="376" y="28" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">F</text><path d="M69.0,329.0L91.0,351.0M91.0,329.0L69.0,351.0" stroke="#C47B5A" stroke-width="6"/><path d="M69.0,329.0L91.0,351.0M91.0,329.0L69.0,351.0" stroke="#2D2D2D" stroke-width="1.6"/><path d="M299.0,129.0L321.0,151.0M321.0,129.0L299.0,151.0" stroke="#6B8BA4" stroke-width="6"/><path d="M299.0,129.0L321.0,151.0M321.0,129.0L299.0,151.0" stroke="#2D2D2D" stroke-width="1.6"/><text x="240" y="444.0" font-size="18" font-weight="700" text-anchor="middle" fill="#2D2D2D">WCSS 72.2</text></g><g data-fragment-index="3" class="fragment fade-in-then-out"><line x1="40" x2="40" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="400" y2="400" stroke="#eee"/><line x1="120" x2="120" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="320" y2="320" stroke="#eee"/><line x1="200" x2="200" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="240" y2="240" stroke="#eee"/><line x1="280" x2="280" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="160" y2="160" stroke="#eee"/><line x1="360" x2="360" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="80" y2="80" stroke="#eee"/><line x1="440" x2="440" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="0" y2="0" stroke="#eee"/><circle cx="80" cy="360" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="62" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">A</text><circle cx="120" cy="360" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="136" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">B</text><circle cx="80" cy="320" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="62" y="308" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">C</text><circle cx="360" cy="80" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="376" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">D</text><circle cx="400" cy="80" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="416" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">E</text><circle cx="360" cy="40" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="376" y="28" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">F</text><path d="M69.0,329.0L91.0,351.0M91.0,329.0L69.0,351.0" stroke="#C47B5A" stroke-width="6"/><path d="M69.0,329.0L91.0,351.0M91.0,329.0L69.0,351.0" stroke="#2D2D2D" stroke-width="1.6"/><path d="M299.0,129.0L321.0,151.0M321.0,129.0L299.0,151.0" stroke="#6B8BA4" stroke-width="6"/><path d="M299.0,129.0L321.0,151.0M321.0,129.0L299.0,151.0" stroke="#2D2D2D" stroke-width="1.6"/><text x="240" y="444.0" font-size="18" font-weight="700" text-anchor="middle" fill="#2D2D2D">WCSS 20.7</text></g><g data-fragment-index="4" class="fragment"><line x1="40" x2="40" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="400" y2="400" stroke="#eee"/><line x1="120" x2="120" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="320" y2="320" stroke="#eee"/><line x1="200" x2="200" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="240" y2="240" stroke="#eee"/><line x1="280" x2="280" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="160" y2="160" stroke="#eee"/><line x1="360" x2="360" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="80" y2="80" stroke="#eee"/><line x1="440" x2="440" y1="0" y2="400" stroke="#eee"/><line x1="40" x2="440" y1="0" y2="0" stroke="#eee"/><circle cx="80" cy="360" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="62" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">A</text><circle cx="120" cy="360" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="136" y="380" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">B</text><circle cx="80" cy="320" r="11" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="62" y="308" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">C</text><circle cx="360" cy="80" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="376" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">D</text><circle cx="400" cy="80" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="416" y="100" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">E</text><circle cx="360" cy="40" r="11" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="376" y="28" font-size="16" font-weight="700" fill="#2D2D2D" text-anchor="middle">F</text><path d="M82.33333333333333,335.6666666666667L104.33333333333333,357.6666666666667M104.33333333333333,335.6666666666667L82.33333333333333,357.6666666666667" stroke="#C47B5A" stroke-width="6"/><path d="M82.33333333333333,335.6666666666667L104.33333333333333,357.6666666666667M104.33333333333333,335.6666666666667L82.33333333333333,357.6666666666667" stroke="#2D2D2D" stroke-width="1.6"/><path d="M362.33333333333337,55.66666666666663L384.33333333333337,77.66666666666663M384.33333333333337,55.66666666666663L362.33333333333337,77.66666666666663" stroke="#6B8BA4" stroke-width="6"/><path d="M362.33333333333337,55.66666666666663L384.33333333333337,77.66666666666663M384.33333333333337,55.66666666666663L362.33333333333337,77.66666666666663" stroke="#2D2D2D" stroke-width="1.6"/><text x="240" y="444.0" font-size="18" font-weight="700" text-anchor="middle" fill="#2D2D2D">WCSS 2.7</text></g></svg></div>
       </div>
-      <div class="fragment" style="text-align: center; margin-top: 16px;">
-       <p style="font-size: 14pt; color: var(--muted-color);"><i class="fa-solid fa-repeat"></i> Repeat Steps 1 &amp; 2 until no observation changes cluster</p>
-      </div>
+          </div>
+    </section>
+
+    <section id="kmeans-iteration">
+     <h2>K-Means in Action</h2>
+     <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
+      <img alt="K-Means iteration — initial random centroids, after 1 iteration, convergence" class="figure" src="figures/ch22-kmeans-iteration.png" style="max-height: 420px;">
+      <p style="font-size: 14pt; color: var(--muted-color); margin-top: 8px; text-align: center;">Left: random start. Center: after one iteration. Right: converged. The centroids stop moving, and so do the groups.</p>
      </div>
     </section>
 
@@ -234,14 +270,6 @@
        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Lower WCSS = tighter clusters. Each iteration reduces or maintains WCSS &rArr; guaranteed convergence (to a <strong>local</strong> minimum).</p>
       </div>
      </div>
-    </section>
-
-    <section id="kmeans-iteration">
-     <h2>K-Means in Action</h2>
-     <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
-      <img alt="K-Means iteration — initial random centroids, after 1 iteration, convergence" class="figure" src="figures/ch22-kmeans-iteration.png" style="max-height: 420px;">
-     </div>
-     <p class="footnote">Left: random initialization. Center: after one iteration. Right: convergence. Centroids stabilize; so do the groups.</p>
     </section>
 
     <section id="misconception-initialization">
@@ -304,9 +332,9 @@
         \(z_{ij} = \frac{x_{ij} - \bar{x}_j}{s_j}\) &nbsp;&nbsp; (same z-score from Chapter 8)
        </p>
        <p style="font-size: 14pt; color: var(--muted-color); margin-top: 8px;">After standardization, 1 unit = 1 standard deviation in any feature. All variables contribute equally.</p>
+       <p style="font-size: 16pt; margin-top: 10px;"><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Without StandardScaler you are clustering on GDP per capita alone: the other nine barely move the distance.</p>
       </div>
      </div>
-     <p class="footnote"><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Without StandardScaler, you are clustering on GDP per capita alone &mdash; the other 9 variables are noise.</p>
     </section>
 
     <section id="code-bridge">
@@ -334,6 +362,105 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
      </div>
     </section>
 
+    <section id="room-kmeans" data-state="room22" style="padding: 26px 50px;">
+      <h2><i class="fa-solid fa-braille" style="color: var(--secondary-color);"></i> K-Means on Our Room: Four Tidy Groups</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 6px;"><i class="fa-solid fa-circle-question"></i> We asked for K = 4. Does that make the groups real?</p>
+        <div class="poll-number-results" data-poll-id="ch22-econ3916-poll-1" data-min="0" data-max="9999" style="display: none;"></div>
+        <div style="display: grid; grid-template-columns: 470px 1fr; gap: 26px; align-items: start;">
+          <div style="position: relative; width: 470px; height: 430px;">
+            <div class="r22-plot mathjax_ignore" data-layer="grey" style="position: absolute; inset: 0;"></div>
+            <div class="r22-plot fragment fade-in mathjax_ignore" data-fragment-index="1" data-layer="k4" style="position: absolute; inset: 0; background: #fff;"></div>
+          </div>
+          <div><div class="fragment fade-up" data-fragment-index="1" style="background: #fdf0ea; border-left: 4px solid var(--accent-color); border-radius: 8px; padding: 10px 16px;">
+            <p style="font-size: 15pt; line-height: 1.4;"><strong>K = 4 found four groups</strong>, centroids marked &times;. It always returns exactly K: the algorithm never says &ldquo;there are none&rdquo;.</p>
+            <p style="font-size: 14pt; line-height: 1.4; margin-top: 8px; color: var(--muted-color);">Are these groups real? We need a score for that: Section 3.</p>
+          </div></div>
+        </div>
+        <p class="r22-demo" style="font-size: 13pt; font-weight: 700; color: var(--danger-color); margin: 4px 0 0;"></p>
+        <p class="r22-wait" style="font-size: 12pt; color: var(--muted-color); margin: 2px 0 0;"></p>
+      </div>
+    
+    <script>(function () {
+      // room_t22.py: the room's dots, K-Means and the silhouette, computed in the page
+      var PID = "ch22-econ3916-poll-1", demo = /[?&]demo=1/.test(location.search), painting = false, lastRows = null;
+      var COL = ["#C47B5A", "#6B8BA4", "#6A8E6B", "#B7791F", "#8C6BA4"];
+      function rng(s) { return function () { s |= 0; s = s + 0x6D2B79F5 | 0; var t = Math.imul(s ^ s >>> 15, 1 | s);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+      var DEMO = (function () { var r = rng(7), out = []; for (var i = 0; i < 25; i++) {
+        var v = Math.floor(r() * 100) * 100 + Math.floor(r() * 100);
+        out.push({ voter_id: "demo-" + i, choice: String(v), created_at: "2026-01-01T00:00:" + (10 + i) + "Z", poll_id: PID }); } return out; })();
+      function d2(a, b) { var x = a[0] - b[0], y = a[1] - b[1]; return x * x + y * y; }
+      function lloyd(P, K, seed) {
+        var r = rng(seed), C = [P[Math.floor(r() * P.length)].slice()];
+        while (C.length < K) { var w = P.map(function (p) { return Math.min.apply(null, C.map(function (c) { return d2(p, c); })); }),
+          s = w.reduce(function (a, b) { return a + b; }, 0), u = r() * s, i = 0; while (i < P.length - 1 && (u -= w[i]) > 0) i++; C.push(P[i].slice()); }
+        var lab = [];
+        for (var it = 0; it < 100; it++) {
+          var nl = P.map(function (p) { var b = 0; for (var k = 1; k < K; k++) if (d2(p, C[k]) < d2(p, C[b])) b = k; return b; });
+          var same = it > 0 && nl.every(function (v, i) { return v === lab[i]; }); lab = nl;
+          for (var k = 0; k < K; k++) { var m = P.filter(function (p, i) { return lab[i] === k; });
+            if (m.length) C[k] = [m.reduce(function (a, p) { return a + p[0]; }, 0) / m.length, m.reduce(function (a, p) { return a + p[1]; }, 0) / m.length]; }
+          if (same) break; }
+        var W = P.reduce(function (a, p, i) { return a + d2(p, C[lab[i]]); }, 0);
+        return { lab: lab, C: C, W: W };
+      }
+      function kmeans(P, K) { var best = null; for (var s = 0; s < 10; s++) { var f = lloyd(P, K, 42 + s); if (!best || f.W < best.W) best = f; } return best; }
+      function sil(P, lab, K) {
+        var tot = 0; for (var i = 0; i < P.length; i++) { var sums = [], cnt = []; for (var k = 0; k < K; k++) { sums.push(0); cnt.push(0); }
+          for (var j = 0; j < P.length; j++) if (j !== i) { sums[lab[j]] += Math.sqrt(d2(P[i], P[j])); cnt[lab[j]]++; }
+          if (cnt[lab[i]] === 0) continue; var a = sums[lab[i]] / cnt[lab[i]], b = Infinity;
+          for (var k2 = 0; k2 < K; k2++) if (k2 !== lab[i] && cnt[k2]) b = Math.min(b, sums[k2] / cnt[k2]);
+          tot += (b - a) / Math.max(a, b); }
+        return tot / P.length; }
+      function plot(P, fit) {
+        var X = function (v) { return 46 + v * 4.1; }, Y = function (v) { return 392 - v * 3.7; };
+        var s = '<svg viewBox="0 0 470 430" width="470" height="430" style="font-family:inherit;display:block">';
+        for (var t = 0; t <= 100; t += 25) s += '<line x1="' + X(t) + '" x2="' + X(t) + '" y1="22" y2="392" stroke="#eee"/><line x1="46" x2="456" y1="' + Y(t) + '" y2="' + Y(t) + '" stroke="#eee"/>' +
+          '<text x="' + X(t) + '" y="412" font-size="15" text-anchor="middle" fill="#6B645E">' + t + '</text><text x="38" y="' + (Y(t) + 5) + '" font-size="15" text-anchor="end" fill="#6B645E">' + t + '</text>';
+        s += '<text x="251" y="430" font-size="15" text-anchor="middle" fill="#2D2D2D">first two of the four</text>' +
+             '<text x="12" y="207" font-size="15" text-anchor="middle" fill="#2D2D2D" transform="rotate(-90 12 207)">last two of the four</text>';
+        P.forEach(function (p, i) { s += '<circle cx="' + X(p[0]) + '" cy="' + Y(p[1]) + '" r="8" fill="' + (fit ? COL[fit.lab[i]] : '#8C8580') + '" fill-opacity="0.85" stroke="#fff"/>'; });
+        if (fit) fit.C.forEach(function (c, k) { var x = X(c[0]), y = Y(c[1]);
+          s += '<path d="M' + (x - 9) + ',' + (y - 9) + 'L' + (x + 9) + ',' + (y + 9) + 'M' + (x + 9) + ',' + (y - 9) + 'L' + (x - 9) + ',' + (y + 9) + '" stroke="' + COL[k] + '" stroke-width="5"/>' +
+               '<path d="M' + (x - 9) + ',' + (y - 9) + 'L' + (x + 9) + ',' + (y + 9) + 'M' + (x + 9) + ',' + (y - 9) + 'L' + (x - 9) + ',' + (y + 9) + '" stroke="#2D2D2D" stroke-width="1.5"/>'; });
+        return s + '</svg>'; }
+      function silBars(vals) {
+        var s = '<svg viewBox="0 0 520 120" width="100%" style="display:block;font-family:inherit">';
+        vals.forEach(function (v, i) { var y = 6 + i * 28, w = Math.max(0, v) * 520 / 0.8;
+          s += '<text x="0" y="' + (y + 18) + '" font-size="15" fill="#2D2D2D">K = ' + (i + 2) + '</text><rect x="64" y="' + y + '" width="' + Math.min(w, 380) + '" height="22" rx="3" fill="' + (i === 2 ? '#C47B5A' : '#C9C2BB') + '"/>' +
+               '<text x="' + (70 + Math.min(w, 380)) + '" y="' + (y + 17) + '" font-size="15" font-weight="700" fill="#2D2D2D">' + v.toFixed(2) + '</text>'; });
+        return s + '</svg>'; }
+      function set(c, t) { [].forEach.call(document.querySelectorAll(".r22-" + c), function (e) { e.textContent = t; }); }
+      function draw(vals) {
+        var P = vals.map(function (v) { v = Math.round(v); return [Math.floor(v / 100), v % 100]; });
+        var ok = P.length >= 5, fit = ok ? kmeans(P, 4) : null;
+        [].forEach.call(document.querySelectorAll(".r22-plot"), function (el) { el.innerHTML = plot(P, el.getAttribute("data-layer") === "k4" ? fit : null); });
+        var sv = ok ? [2, 3, 4, 5].map(function (K) { var f = kmeans(P, K); return sil(P, f.lab, K); }) : [];
+        [].forEach.call(document.querySelectorAll(".r22-sil"), function (el) { el.innerHTML = ok ? silBars(sv) : "<p style='color:#8C8580'>Needs 5 dots.</p>"; });
+        set("wait", ok ? "" : "Dots so far: " + P.length + ". Press Q for 25 practice dots.");
+      }
+      function paintDemo() { if (!window.Poll || !Poll.showNumbers) return; painting = true; try { Poll.showNumbers(PID, DEMO); } finally { painting = false; } }
+      function cur() { var s = window.Reveal && Reveal.getCurrentSlide && Reveal.getCurrentSlide(); return s && s.id; }
+      var lastT = 0;
+      function toggle() { var n = Date.now(); if (n - lastT < 400) return; lastT = n; demo = !demo;
+        if (demo) paintDemo(); else { set("demo", ""); if (Poll.refreshNumbers) Poll.refreshNumbers(PID); } }
+      window.addEventListener("keydown", function (e) { var t = e.target;
+        if ((e.key === "q" || e.key === "Q") && !e.metaKey && !e.ctrlKey && !e.altKey && /^room-(dots|kmeans|silhouette)$/.test(cur() || "") && !(t && t.closest && t.closest("input,textarea"))) {
+          e.preventDefault(); e.stopImmediatePropagation(); toggle(); } }, true);
+      window.addEventListener("message", function (ev) { var d; try { d = JSON.parse(ev.data); } catch (err) { return; }
+        if (!d || !/^room-(dots|kmeans|silhouette)$/.test(cur() || "")) return;
+        if (d.pollqr === "cycle") { ev.stopImmediatePropagation(); toggle(); } else if (d.method === "triggerKey" && d.args && d.args[0] === 81) toggle(); }, true);
+      if (demo) setTimeout(paintDemo, 1500);
+      document.addEventListener("pollnumbers", function (e) { var d = e.detail; if (!d || d.pollId !== PID || !d.data) return;
+        if (demo && !painting) { setTimeout(paintDemo, 0); return; }
+        set("demo", demo ? "Practice dots: made up, not this room. Press Q to turn them off." : "");
+        draw(d.data.all || []); });
+      draw([]);
+    })();</script>
+    </section>
+
+
     <section class="section-divider" data-state="is-section-divider" id="section-3">
      <p>SECTION 3</p>
      <h1 style="font-size: 36pt;">Choosing \(K\)</h1>
@@ -343,23 +470,11 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
     <section id="elbow-method">
      <h2>The Elbow Method</h2>
      <div class="content">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start;">
-       <div>
-        <p style="font-size: 15pt; line-height: 1.6;">Plot WCSS vs. \(K\) for \(K = 1, 2, \ldots, 10\).</p>
-        <ul>
-         <li>More clusters <strong>always</strong> reduces WCSS</li>
-         <li>Look for the <strong>"elbow"</strong> where improvement slows</li>
-         <li>Before elbow: real structure</li>
-         <li>After elbow: chasing noise</li>
-        </ul>
-        <div class="fragment misconception" style="margin-top: 14px;">
-         <p style="font-weight: 600; color: var(--danger-color);"><i class="fa-solid fa-triangle-exclamation"></i> Problem</p>
-         <p>The elbow is often <strong>ambiguous</strong> in real data &mdash; WCSS decreases smoothly without a sharp inflection.</p>
-        </div>
-       </div>
-       <div>
-        <img alt="Elbow and silhouette plots on the lab&rsquo;s 209 economies: WCSS falls smoothly with no clear elbow; silhouette is highest at K = 2 (0.273), next best K = 4 (0.206)" class="figure" src="figures/ch22-elbow-silhouette.png" style="max-height: 340px;">
-       </div>
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 6px;"><i class="fa-solid fa-circle-question"></i> How many clusters should we ask for?</p>
+      <p style="font-size: 15pt; line-height: 1.5;">Plot WCSS against \(K\). More clusters <strong>always</strong> lower WCSS, so look for the <strong>elbow</strong>, where the drop slows: before it, real structure; after it, chasing noise.</p>
+      <img alt="Lab 22's 209 economies, K = 1 to 10. Left: WCSS falls from 2,090 at K = 1 to 1,488 at K = 2 and keeps falling with no sharp bend. Right: the silhouette is highest at K = 2 (0.27), then K = 4 (0.21)." class="figure" src="figures/ch22-elbow-silhouette.png" style="width: 94%; height: auto; max-height: none; display: block; margin: 6px auto 0;">
+      <div class="fragment misconception" style="margin-top: 8px; padding: 8px 16px;">
+       <p><i class="fa-solid fa-triangle-exclamation" style="color: var(--danger-color);"></i> <strong>Problem:</strong> in real data the elbow is often <strong>ambiguous</strong>. Lab 22&rsquo;s WCSS keeps falling with no sharp bend, so we need a second measure: the silhouette, the right-hand panel, explained next.</p>
       </div>
      </div>
     </section>
@@ -385,13 +500,37 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
        </div>
       </div>
       <div class="fragment key-result" style="margin-top: 16px;">
-       <p><strong>Choose \(K\) that maximizes mean silhouette.</strong> Unlike the elbow, the silhouette gives a principled maximum &mdash; but the two methods can disagree.</p>
+       <p><strong>Choose \(K\) that maximizes mean silhouette.</strong> Unlike the elbow, the silhouette gives a number to compare across \(K\), but treat its peak as a guide, not always the best choice: the two methods can disagree.</p>
       </div>
       <div class="fragment" style="margin-top: 10px;">
-       <p style="font-size: 14pt; color: var(--muted-color);"><i class="fa-solid fa-link"></i> <strong>Ch 18 connection:</strong> Silhouette score is the <em>unsupervised analog of AUC</em> &mdash; measures separation without ground-truth labels.</p>
+       <p style="font-size: 14pt; color: var(--muted-color);"><i class="fa-solid fa-link"></i> <strong>Ch 18 connection:</strong> AUC needed the true labels. With no labels, the silhouette scores how well separated the groups are instead.</p>
       </div>
      </div>
     </section>
+
+    <section id="room-silhouette" data-state="room22" style="padding: 26px 50px;">
+      <h2><i class="fa-solid fa-braille" style="color: var(--secondary-color);"></i> Our Room&rsquo;s Silhouette</h2>
+      <div class="content">
+        <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 6px;"><i class="fa-solid fa-circle-question"></i> Our dots have no real groups. What silhouette do they get?</p>
+        <div class="poll-number-results" data-poll-id="ch22-econ3916-poll-1" data-min="0" data-max="9999" style="display: none;"></div>
+        <div style="display: grid; grid-template-columns: 470px 1fr; gap: 26px; align-items: start;">
+          <div style="position: relative; width: 470px; height: 430px;">
+            <div class="r22-plot mathjax_ignore" data-layer="k4" style="position: absolute; inset: 0;"></div>
+          </div>
+          <div>
+            <p style="font-size: 14pt; margin-bottom: 4px;"><strong>Silhouette on our dots</strong> (best of 10 starts):</p>
+            <div class="r22-sil mathjax_ignore"></div>
+            <div class="fragment fade-up" style="background: #fdf0ea; border-left: 4px solid var(--accent-color); border-radius: 8px; padding: 10px 16px; margin-top: 10px;">
+              <p style="font-size: 14pt; line-height: 1.4;">Dots with <strong>no groups at all</strong> score about <strong>0.4 to 0.5</strong> at K = 4. The number alone proves nothing: compare it with what <strong>structureless data of the same shape</strong> scores.</p>
+              <p style="font-size: 14pt; line-height: 1.4; margin-top: 6px;">We shuffled each of Lab 22&rsquo;s ten indicators on its own: about <strong>0.10</strong>. The real economies: <strong>0.27</strong>. They beat their benchmark; our room does not.</p>
+            </div>
+          </div>
+        </div>
+        <p class="r22-demo" style="font-size: 13pt; font-weight: 700; color: var(--danger-color); margin: 4px 0 0;"></p>
+        <p class="r22-wait" style="font-size: 12pt; color: var(--muted-color); margin: 2px 0 0;"></p>
+      </div>
+    </section>
+
 
     <section id="bias-variance-k">
      <h2>Choosing \(K\) Is Bias-Variance</h2>
@@ -417,20 +556,19 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
      </div>
     </section>
 
-    <section id="poll-2">
-     <h2><i class="fa-solid fa-chart-bar" style="color: var(--secondary-color);"></i> Class Poll</h2>
+    <section id="poll-2" style="padding: 32px 55px;">
+     <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--secondary-color);"></i> Poll &mdash; More Clusters, Better Score?</h2>
      <div class="content">
-      <p class="text-xl" style="margin-bottom: 20px;">K-Means with K=2 gives silhouette = 0.45. You try K=4. What happens?</p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 800px;">
-       <div class="poll-option">A) Silhouette will definitely increase</div>
-       <div class="poll-option">B) Silhouette will definitely decrease</div>
-       <div class="poll-option">C) It depends &mdash; could go either way</div>
-       <div class="poll-option">D) Silhouette is always the same</div>
+      <p class="text-lg" style="line-height: 1.5;">K-Means with \(K = 2\) gives a silhouette of 0.45. You try \(K = 4\). What happens to the silhouette?</p>
+      <div class="poll-grid" data-poll-id="ch22-econ3916-poll-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; font-size: 15pt;">
+       <div class="poll-option" data-choice="A" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">A) It will definitely increase</div>
+       <div class="poll-option" data-choice="B" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">B) It will definitely decrease</div>
+       <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) It depends: it could go either way</div>
+       <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 15px 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) It stays the same</div>
       </div>
-      <div class="fragment">
-       <div class="key-result" style="margin-top: 20px;">
-        <p><strong>C)</strong> Adding clusters sometimes improves separation (real subgroups) and sometimes worsens it (splitting natural groups). This is <strong>bias-variance in action</strong>.</p>
-       </div>
+      <div class="fragment fade-up" style="margin-top: 12px;">
+       <div class="poll-results-chart" data-poll-id="ch22-econ3916-poll-2" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:90px; margin:0 300px 26px;"></div>
+       <div class="key-result"><p><strong>C.</strong> Splitting a real group lowers it; finding real subgroups raises it. Lab 22&rsquo;s economies: 0.27 at \(K = 2\), 0.19 at \(K = 3\), 0.21 at \(K = 4\). Down, then up.</p></div>
       </div>
      </div>
     </section>
@@ -468,14 +606,13 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
       </p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
        <div>
-        <p style="font-size: 15pt; line-height: 1.6;">On the lab's 209 countries, PC1 + PC2 explain <strong>54.8%</strong> of total variance.</p>
+        <p style="font-size: 15pt; line-height: 1.6;">On the lab's 209 economies, PC1 + PC2 explain <strong>54.8%</strong> of total variance.</p>
         <p class="fragment" style="font-size: 15pt; line-height: 1.6; margin-top: 12px;"><strong>Why so much?</strong> Many indicators are correlated: rich countries have high life expectancy, low infant mortality, high internet access simultaneously.</p>
        </div>
        <div class="fragment">
         <pre style="background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; font-size: 13pt; line-height: 1.5;"><code>from sklearn.decomposition import PCA
 
-pca = PCA(n_components=2,
-          random_state=42)
+pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_scaled)
 
 # In the lab (Step 3b):
@@ -488,10 +625,10 @@ X_pca = pca.fit_transform(X_scaled)
 
     <section id="pca-scatter">
      <h2>Country Clusters in PCA Space</h2>
-     <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
-      <img alt="2D PCA scatter plot with K-Means cluster coloring and country labels" class="figure" src="figures/ch22-pca-country-clusters.png" style="max-height: 420px;">
+     <div class="content" style="text-align: center;">
+      <img alt="Lab 22's 209 economies on the first two principal components, coloured by the four K-Means clusters: poorest 53 on the left, middle 94, richest 51 on the right along PC1, and a group of 11 with high unemployment and inequality, South Africa among them, high on PC2. Ethiopia, India, Brazil, China, the United States and Norway are marked." class="figure" src="figures/ch22-pca-country-clusters.png" style="width: 100%; max-height: none; height: auto;">
+      <p style="font-size: 14pt; margin-top: 6px; line-height: 1.45;">PC2 loads mostly on unemployment (+0.735) and inequality (Gini, +0.588): the 11 economies high on PC2, South Africa among them, are that cluster. PCA finds variance; economists supply the meaning.</p>
      </div>
-     <p class="footnote">PC1 &asymp; a &ldquo;general development&rdquo; axis. On the lab&rsquo;s data, PC2 loads mostly on unemployment (+0.735) and inequality (Gini, +0.588); trade barely enters (+0.060). Resist over-interpretation: PCA finds variance, economists supply meaning.</p>
     </section>
 
     <section class="section-divider" data-state="is-section-divider" id="section-5">
@@ -508,7 +645,7 @@ X_pca = pca.fit_transform(X_scaled)
         <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">World Bank</p>
         <ul>
          <li><strong>1 variable:</strong> GNI per capita</li>
-         <li><strong>4 fixed thresholds</strong></li>
+         <li><strong>3 fixed thresholds</strong>, 4 income groups</li>
          <li>Deterministic, transparent</li>
          <li>Updated annually (SDR deflator)</li>
          <li>Determines IDA lending eligibility</li>
@@ -519,8 +656,7 @@ X_pca = pca.fit_transform(X_scaled)
         <ul>
          <li><strong>10 variables:</strong> GDP, health, education, trade&hellip;</li>
          <li><strong>Data-driven groups</strong></li>
-         <li>Statistically tighter</li>
-         <li>Changes with features or K</li>
+                  <li>Changes with features or K</li>
          <li>Captures multivariate nuance</li>
         </ul>
        </div>
@@ -554,9 +690,9 @@ X_pca = pca.fit_transform(X_scaled)
        </ul>
       </div>
       <div style="text-align: center; margin-top: 14px;">
-       <span class="timer-badge"><i class="fa-solid fa-clock"></i> 3 minutes</span>
+       <span class="timer-badge"><i class="fa-solid fa-clock"></i> 2 minutes</span>
       </div>
-               <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>3</strong> to start the timer.</p>
+               <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>2</strong> to start the timer.</p>
         </div>
     </section>
 
@@ -601,7 +737,7 @@ X_pca = pca.fit_transform(X_scaled)
         <ul>
          <li><strong>Ch 4:</strong> Centroid = mean &rarr; breakdown point \(1/n\)</li>
          <li><strong>Ch 15:</strong> Choosing \(K\) = bias-variance tradeoff</li>
-         <li><strong>Ch 18:</strong> Silhouette = unsupervised AUC</li>
+         <li><strong>Ch 18:</strong> no labels, so no AUC; the silhouette scores separation instead</li>
         </ul>
        </div>
        <div>
@@ -682,8 +818,8 @@ X_pca = pca.fit_transform(X_scaled)
       <h2><i class="fa-solid fa-ticket" style="color: var(--accent-color);"></i> End-of-Class Check</h2>
       <div class="content">
         <div style="background: #f0f5f8; border-radius: 10px; padding: 18px 24px;">
-          <p style="font-size: 16pt; line-height: 1.65;">You run K-Means with K=4 on data that has no real group structure at all.</p>
-          <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What comes back?</strong></p>
+          <p style="font-size: 16pt; line-height: 1.6;">In Lab 22 your silhouette is <strong>0.27 at K = 2</strong> and <strong>0.21 at K = 4</strong>. Your manager wants four segments.</p>
+          <p style="font-size: 17pt; line-height: 1.6; margin-top: 12px;"><strong>What do you tell your manager?</strong></p>
         </div>
         <div style="background: #f4f7f4; border-left: 4px solid var(--accent-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
           <p style="font-size: 15.5pt; line-height: 1.6;"><strong>Any answer earns full credit</strong> &mdash; attendance marks that you were here, not that you were right. You get the reasoning either way.</p>
@@ -715,6 +851,71 @@ X_pca = pca.fit_transform(X_scaled)
     pdfMaxPagesPerSlide: 1
    });
   </script>
+
+  <style>
+    .cd-wrap{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-100%);z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+    .cd-wrap.visible{transform:translateX(-50%) translateY(0)}
+    .cd-wrap.hiding{transform:translateX(-50%) translateY(-100%)}
+    .cd-pill{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1e3a5f,#2a5a8a);color:#fff;padding:10px 24px;border-radius:0 0 16px 16px;box-shadow:0 4px 20px rgba(0,0,0,.3);font-family:'SF Mono',Menlo,monospace;pointer-events:auto}
+    .cd-pill .cd-time{font-size:32px;font-weight:700;letter-spacing:2px;min-width:80px;text-align:center}
+    .cd-pill .cd-label{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px}
+    .cd-pill .cd-bar{width:120px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+    .cd-pill .cd-fill{height:100%;background:#4ade80;border-radius:2px;transition:width 1s linear,background-color .5s}
+    .cd-pill.cd-warn{background:linear-gradient(135deg,#854d0e,#a16207)}.cd-pill.cd-warn .cd-fill{background:#fbbf24}
+    .cd-pill.cd-danger{background:linear-gradient(135deg,#991b1b,#dc2626)}.cd-pill.cd-danger .cd-fill{background:#ef4444}
+    .cd-pill.cd-done{animation:cdF .5s ease 3;background:linear-gradient(135deg,#166534,#22c55e)}
+    @keyframes cdF{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.05)}}
+  </style>
+  <div class="cd-wrap" id="cd-wrap"><div class="cd-pill" id="cd-pill"><div><div class="cd-label">Activity Timer</div><div class="cd-time" id="cd-time">0:00</div></div><div class="cd-bar"><div class="cd-fill" id="cd-fill"></div></div></div></div>
+  <script>
+  (function(){
+    var w=document.getElementById('cd-wrap'),p=document.getElementById('cd-pill'),t=document.getElementById('cd-time'),f=document.getElementById('cd-fill');
+    var iv=null,total=0,rem=0,vis=false;
+    function upd(){var m=Math.floor(rem/60),s=rem%60;t.textContent=m+':'+(s<10?'0':'')+s;f.style.width=(total>0?((total-rem)/total)*100:0)+'%';}
+    function show(){vis=true;w.classList.add('visible');w.classList.remove('hiding');}
+    function hide(){vis=false;w.classList.remove('visible');w.classList.add('hiding');}
+    function done(){p.classList.remove('cd-warn','cd-danger');p.classList.add('cd-done');t.textContent='0:00';f.style.width='100%';
+      try{var c=new(window.AudioContext||window.webkitAudioContext);[0,.25,.5].forEach(function(d){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;o.type='sine';g.gain.value=.3;o.start(c.currentTime+d);o.stop(c.currentTime+d+.15);});}catch(e){}
+      setTimeout(function(){if(p.classList.contains('cd-done')){hide();setTimeout(function(){p.classList.remove('cd-done');},500);}},5000);}
+    function start(min){
+      if(iv&&vis&&total===min*60){if(vis)hide();else show();return;}
+      clearInterval(iv);total=min*60;rem=total;p.classList.remove('cd-warn','cd-danger','cd-done');upd();show();
+      iv=setInterval(function(){rem--;if(rem<=0){rem=0;clearInterval(iv);iv=null;upd();done();return;}upd();
+        var pct=rem/total;if(pct<=.15){p.classList.add('cd-danger');p.classList.remove('cd-warn');}else if(pct<=.33){p.classList.add('cd-warn');p.classList.remove('cd-danger');}},1000);}
+    document.addEventListener('keydown',function(e){
+      if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+      if(e.key>='1'&&e.key<='9'&&!e.metaKey&&!e.ctrlKey&&!e.altKey){start(parseInt(e.key));}
+    });
+  })();
+  </script>
+
+  <style>
+    .poll-option:hover{background:#dbeafe!important;border-color:#3b82f6!important}
+    .poll-option.voted{background:#dbeafe!important;border-color:#2563eb!important;font-weight:600}
+    .poll-option.voted::after{content:" \2713";color:#2563eb}
+    .poll-option.disabled{pointer-events:none;opacity:.6}
+    .poll-bar-wrap{display:flex;flex-direction:column;align-items:center;flex:1}
+    .poll-bar{width:60px;border-radius:6px 6px 0 0;transition:height .5s ease;min-height:4px}
+    .poll-bar-label{font-size:13px;font-weight:700;margin-top:6px}
+    .poll-bar-count{font-size:20px;font-weight:700;margin-bottom:4px}
+    .poll-vote-count{text-align:center;font-size:13px;color:#888;margin-top:10px}
+    .reset-btn{display:none}body.instructor-mode .reset-btn{display:inline-block}
+  </style>
+  <script src="../poll.js" data-checkin></script>
+<script>
+  (function(){
+    var SU="https://dpntbrsorgbivmntwmod.supabase.co",SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
+    var VID="v_"+Math.random().toString(36).slice(2,10),voted={},CL={A:"#3b82f6",B:"#22c55e",C:"#f97316",D:"#a855f7"};
+    if(window.location.search.indexOf("instructor")!==-1)document.body.classList.add("instructor-mode");
+    function sf(m,p,b){var o={method:m,headers:{"apikey":SK,"Authorization":"Bearer "+SK,"Content-Type":"application/json","Cache-Control":"no-cache, no-store","Pragma":"no-cache"}};if(b)o.body=JSON.stringify(b);return fetch(SU+"/rest/v1/"+p,o);}
+    function vote(pid,ch){if(voted[pid])return;voted[pid]=ch;var g=document.querySelector('.poll-grid[data-poll-id="'+pid+'"]');if(g)g.querySelectorAll(".poll-option").forEach(function(o){o.classList.add("disabled");if(o.dataset.choice===ch)o.classList.add("voted");});sf("POST","poll_votes",(window.Poll?Poll.stamp(pid,ch):{poll_id:pid,choice:ch,voter_id:VID})).then(function(){fetchR(pid);});}
+    function render(pid,ct){var t=0,ch=["A","B","C","D"];ch.forEach(function(k){t+=(ct[k]||0);});var c=document.querySelector('.poll-results-chart[data-poll-id="'+pid+'"]');if(c){var mx=Math.max.apply(null,ch.map(function(k){return ct[k]||0;}));if(mx===0)mx=1;var avail=Math.max(28,(c.clientHeight||parseFloat(getComputedStyle(c).height)||110)-46);var h="";ch.forEach(function(k){var n=ct[k]||0,ht=Math.max(4,(n/mx)*avail);h+='<div class="poll-bar-wrap"><div class="poll-bar-count">'+n+'</div><div class="poll-bar" style="height:'+ht+'px;background:'+CL[k]+';"></div><div class="poll-bar-label">'+k+'</div></div>';});if(t>0)h+='<div style="position:absolute;bottom:-25px;width:100%;text-align:center;font-size:12px;color:#888;">'+t+' votes</div>';c.style.position="relative";c.innerHTML=h;}var ce=document.querySelector('.poll-vote-count[data-poll-id="'+pid+'"]');if(ce)ce.textContent=t>0?t+" vote"+(t!==1?"s":"")+" so far":"";}
+    function fetchR(pid){sf("GET","poll_votes?poll_id=eq."+pid+"&select=choice"+(window.Poll?Poll.q():"")).then(function(r){return r.json();}).then(function(rows){var ct={};rows.forEach(function(r){ct[r.choice]=(ct[r.choice]||0)+1;});render(pid,ct);}).catch(function(){});}
+    window.clearPoll=function(pid){if(!confirm("Clear all votes?"))return;sf("DELETE","poll_votes?poll_id=eq."+pid).then(function(){render(pid,{});delete voted[pid];var g=document.querySelector('.poll-grid[data-poll-id="'+pid+'"]');if(g)g.querySelectorAll(".poll-option").forEach(function(o){o.classList.remove("disabled","voted");});});};
+    document.querySelectorAll(".poll-grid").forEach(function(g){var pid=g.dataset.pollId;g.querySelectorAll(".poll-option").forEach(function(o){o.addEventListener("click",function(){var go=function(){vote(pid,o.dataset.choice);};if(window.Poll){Poll.ready(pid,go);}else{go();}});});if(!g.parentNode.querySelector(".poll-vote-count")){var ce=document.createElement("div");ce.className="poll-vote-count";ce.dataset.pollId=pid;g.parentNode.insertBefore(ce,g.nextSibling);}fetchR(pid);setInterval(function(){if(document.hidden)return;var s=g.closest("section");if(s&&!s.classList.contains("present"))return;fetchR(pid);},2000);});
+  })();
+  </script>
+
 <script>
 (function () {
   // 29 Sep 2026, Ryan: reveal's "?" panel only knew reveal's own keys. Every

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=ed341260e07d421302b464cef5d7a600">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=f1f614d326ccc2415e5fd5e6968b8311">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>NLP for Economists: Text as Data</title>
@@ -10,7 +10,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <link href="styles.css" rel="stylesheet">
- </head>
+   <link rel="stylesheet" href="../mock-cell.css">
+</head>
  <body>
   <div class="reveal">
    <div class="slides">
@@ -217,23 +218,24 @@
       <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--accent-color);"></i> Class Poll</h2>
       <p style="font-size: 20pt; font-weight: 600; margin-top: 20px;">Which word tells you the MOST about a specific FOMC meeting?</p>
       <div class="poll-grid" data-poll-id="ch23-econ3916-poll1-informative-word" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px;">
-       <div class="poll-option" data-value="A" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
+       <div class="poll-option" data-choice="A" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
         <p style="font-size: 16pt;"><strong>A)</strong> "committee" &mdash; appears in every meeting</p>
        </div>
-       <div class="poll-option" data-value="B" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
+       <div class="poll-option" data-choice="B" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
         <p style="font-size: 16pt;"><strong>B)</strong> "recession" &mdash; high in some meetings, absent in others</p>
        </div>
-       <div class="poll-option" data-value="C" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
+       <div class="poll-option" data-choice="C" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
         <p style="font-size: 16pt;"><strong>C)</strong> "the" &mdash; most frequent word in English</p>
        </div>
-       <div class="poll-option" data-value="D" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
-        <p style="font-size: 16pt;"><strong>D)</strong> "economic" &mdash; appears in 250 of 260 meetings</p>
+       <div class="poll-option" data-choice="D" style="background: #f8f6f3; padding: 18px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;">
+        <p style="font-size: 16pt;"><strong>D)</strong> "economic" &mdash; appears in nearly every meeting</p>
        </div>
       </div>
       <div data-poll-results="ch23-econ3916-poll1-informative-word"></div>
      </section>
-     <section id="poll-1-reveal" style="padding: 40px 50px;">
+     <section id="poll-1-reveal" data-poll-results="ch23-econ3916-poll1-informative-word" style="padding: 40px 50px;">
       <h2><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> Poll 1 Reveal</h2>
+      <div class="poll-results-chart" data-poll-id="ch23-econ3916-poll1-informative-word" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:6px 300px 26px;"></div>
       <div style="background: var(--success-color); color: white; padding: 20px 24px; border-radius: 8px; margin-top: 16px;">
        <p style="font-size: 20pt; font-weight: 700;">Answer: (B) "recession"</p>
       </div>
@@ -292,24 +294,56 @@
       </div>
      </div>
      <div style="background: var(--accent-color); color: white; padding: 14px 20px; border-radius: 8px; margin-top: 20px; text-align: center;">
-      <p style="font-size: 16pt;">"inflation" appears <strong>14&times; as often</strong> but carries <strong>zero information</strong> &mdash; information &prop; rarity, not frequency</p>
+      <p style="font-size: 16pt;">"inflation" appears <strong>14&times; as often</strong> but gets <strong>zero weight</strong> &mdash; weight &prop; rarity, not frequency</p>
      </div>
     </section>
 
-    <section id="tfidf-code" style="padding: 40px 50px;">
-     <h2><i class="fa-solid fa-code" style="color: var(--secondary-color);"></i> In Code: TfidfVectorizer</h2>
-     <pre style="background: #1e1e2e; color: #cdd6f4; padding: 20px 24px; border-radius: 8px; font-size: 14pt; line-height: 1.6; margin-top: 16px; overflow-x: auto;"><code>from sklearn.feature_extraction.text import TfidfVectorizer
-
-vectorizer = TfidfVectorizer(
-    max_features=1000,       # Keep top 1000 words
-    stop_words='english',    # Remove common English words
-    ngram_range=(1, 2),      # Bigrams: "interest rate", "labor market"
-    sublinear_tf=True,       # 1 + log(tf) &mdash; diminishing returns
-)
-
-X_tfidf = vectorizer.fit_transform(documents)
-# Shape: (243, 1000) &mdash; 243 meetings &times; 1000 features</code></pre>
-     <p style="font-size: 15pt; margin-top: 16px; color: var(--muted-color);"><strong>sublinear_tf</strong>: Mentioning "growth" 20 times &ne; 20&times; more growth-focused. Diminishing marginal information.</p>
+    <section>
+    <section id="tfidf-code" style="padding: 20px 40px;">
+     <h2 style="margin-bottom: 12px;"><i class="fa-solid fa-code" style="color: var(--secondary-color);"></i> In Code: Lab 23&rsquo;s TfidfVectorizer</h2>
+     <div class="content">
+      <div class="mock colab" data-src="cells/ch23.json" data-cell="13" data-size="12.5pt" style="max-width: 1080px;"></div>
+     </div>
+    </section>
+    <section id="lab-tfidf-top" style="padding: 20px 40px;">
+     <h2 style="margin-bottom: 12px;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Step 3 in Your Lab: Which Terms Weigh Most?</h2>
+     <div class="content">
+      <div class="mock colab" data-src="cells/ch23.json" data-cell="15" data-size="13pt" style="max-width: 1080px;"></div>
+     </div>
+    </section>
+    <section id="lab-tfidf-hand" style="padding: 20px 40px;">
+     <h2 style="margin-bottom: 12px;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Step 3 in Your Lab: The Formula by Hand</h2>
+     <div class="content">
+      <div class="mock colab" data-src="cells/ch23.json" data-cell="17" data-size="11pt" data-frag-start="0" style="max-width: 1160px;"></div>
+      <p class="fragment" style="font-size: 14pt; margin-top: 10px; color: var(--muted-color);">This is the textbook formula. scikit-learn adds 1 inside the log and 1 after it, so a word in every document gets weight 1, not 0. Lab 23&rsquo;s <code>max_df=0.85</code> drops such words anyway: &ldquo;inflation&rdquo; is not in Step 3&rsquo;s matrix.</p>
+     </div>
+    </section>
+    <section id="lab-write-it" style="padding: 30px 50px;">
+     <h2><i class="fa-solid fa-pen" style="color: var(--accent-color);"></i> Write It Yourself: <code>tfidf_score(word, doc, docs)</code></h2>
+     <div class="content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px;">
+       <div style="background: #f0f5f8; padding: 16px 20px; border-radius: 8px;">
+        <p style="font-size: 15pt; font-weight: 700;">It takes three things</p>
+        <ul style="font-size: 14pt; line-height: 1.5; margin-top: 6px;">
+         <li><code>word</code>: one word in lowercase</li>
+         <li><code>doc</code>: one cleaned document, tokens separated by spaces</li>
+         <li><code>docs</code>: every cleaned document, a list or a Series</li>
+        </ul>
+       </div>
+       <div style="background: #f4f7f4; padding: 16px 20px; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+        <p style="font-size: 15pt; font-weight: 700;">It gives back one number</p>
+        <p style="font-size: 14pt; line-height: 1.5; margin-top: 6px;">The word&rsquo;s share of the tokens in <code>doc</code>, times the natural log of (documents in <code>docs</code> &divide; documents in <code>docs</code> that use the word).</p>
+        <p style="font-size: 13.5pt; color: var(--muted-color); margin-top: 6px;">Test: <code>tfidf_score('recession', doc_dec2008, fomc_df['clean_text'])</code> gives 0.000443.</p>
+       </div>
+      </div>
+      <p style="font-size: 15pt; font-weight: 700; margin-top: 16px;">The check also tries the March 2020 minutes and five made-up documents. Three slips it names:</p>
+      <ul style="font-size: 14pt; line-height: 1.5; margin-top: 4px;">
+       <li>The TF as a count, not a share of the document&rsquo;s tokens</li>
+       <li>Log base 10 instead of the natural log</li>
+       <li>&ldquo;rate&rdquo; found inside &ldquo;corporate&rdquo;: count tokens, not pieces of a string</li>
+      </ul>
+     </div>
+    </section>
     </section>
 
     <section>
@@ -371,7 +405,7 @@ X_tfidf = vectorizer.fit_transform(documents)
      </div>
      <div style="background: var(--danger-color); color: white; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center;">
       <p style="font-size: 28pt; font-weight: 700;">73.8%</p>
-      <p style="font-size: 16pt;">of Harvard "negative" words are NOT negative in financial text</p>
+      <p style="font-size: 16pt;">of the Harvard &ldquo;negative&rdquo; words counted in 10-K filings are NOT negative in financial text</p>
       <p style="font-size: 13pt; margin-top: 4px;">Loughran &amp; McDonald (2011), <em>Journal of Finance</em></p>
      </div>
     </section>
@@ -388,23 +422,24 @@ X_tfidf = vectorizer.fit_transform(documents)
       <h2><i class="fa-solid fa-square-poll-vertical" style="color: var(--accent-color);"></i> Class Poll</h2>
       <p style="font-size: 20pt; font-weight: 600; margin-top: 20px;">Which of these words is NEGATIVE in a 10-K annual filing?</p>
       <div class="poll-grid" data-poll-id="ch23-econ3916-poll2-negative-word" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px;">
-       <div class="poll-option" data-value="A" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
+       <div class="poll-option" data-choice="A" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
         <p style="font-size: 16pt;"><strong>A)</strong> "liability" &mdash; every company has liabilities</p>
        </div>
-       <div class="poll-option" data-value="B" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
+       <div class="poll-option" data-choice="B" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
         <p style="font-size: 16pt;"><strong>B)</strong> "litigation" &mdash; the company is being sued</p>
        </div>
-       <div class="poll-option" data-value="C" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
+       <div class="poll-option" data-choice="C" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
         <p style="font-size: 16pt;"><strong>C)</strong> "capital" &mdash; an accounting category</p>
        </div>
-       <div class="poll-option" data-value="D" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
+       <div class="poll-option" data-choice="D" style="background: #f8f6f3; padding: 18px; border-radius: 8px; cursor: pointer;">
         <p style="font-size: 16pt;"><strong>D)</strong> "foreign" &mdash; describes a geographic segment</p>
        </div>
       </div>
       <div data-poll-results="ch23-econ3916-poll2-negative-word"></div>
      </section>
-     <section id="poll-2-reveal" style="padding: 40px 50px;">
+     <section id="poll-2-reveal" data-poll-results="ch23-econ3916-poll2-negative-word" style="padding: 40px 50px;">
       <h2><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> Poll 2 Reveal</h2>
+      <div class="poll-results-chart" data-poll-id="ch23-econ3916-poll2-negative-word" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:100px; margin:6px 300px 26px;"></div>
       <div style="background: var(--success-color); color: white; padding: 18px 24px; border-radius: 8px; margin-top: 16px;">
        <p style="font-size: 20pt; font-weight: 700;">Answer: (B) "litigation" &mdash; being sued IS negative</p>
       </div>
@@ -441,10 +476,11 @@ X_tfidf = vectorizer.fit_transform(documents)
     <section id="bloomberg-fedspeak" style="padding: 30px 50px;">
      <h2><i class="fa-solid fa-chart-line" style="color: var(--secondary-color);"></i> FedSpeak Sentiment vs. Rate Decisions</h2>
      <div style="text-align: center; margin-top: 8px;">
-      <img alt="LM sentiment score plotted against Federal Funds Rate from 1994-2025, showing correlation between hawkish language and rate hikes" src="figures/ch23-sentiment-vs-rate.png" style="max-height: 420px; border-radius: 8px;">
+      <img alt="Lab 23 net sentiment of each set of FOMC minutes, 2000 to 2026, as a share of tokens, with its 365-day rolling mean, against the effective federal funds rate from FRED. Sentiment falls below zero around the rate cuts of 2001, 2008 and 2020; the most negative minutes are 16 December 2008. During the 2022 rate rises the rolling mean stays near plus 1 percent." src="figures/ch23-sentiment-vs-rate.png" style="max-height: 400px;">
      </div>
      <div style="background: #f8f6f3; padding: 14px 20px; border-radius: 8px; margin-top: 12px;">
-      <p style="font-size: 15pt;"><strong>In practice:</strong> data vendors such as Bloomberg score Fed-related text for <strong>hawkish or dovish</strong> tone and sell the index to traders</p>
+      <p style="font-size: 14.5pt;"><strong>Your lab&rsquo;s series:</strong> the tone falls below zero around the cuts of 2001, 2008 and 2020; the 2022 hikes came with positive tone. A word count reads bad news, not hawkishness.</p>
+      <p style="font-size: 13.5pt; color: var(--muted-color); margin-top: 6px;"><strong>In practice:</strong> data vendors such as Bloomberg score Fed text for hawkish or dovish tone, with trained models, and sell the index to traders.</p>
      </div>
     </section>
 
@@ -454,7 +490,7 @@ X_tfidf = vectorizer.fit_transform(documents)
      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 16px;">
       <div style="display: grid; grid-template-columns: 80px 1fr; background: #f8f6f3; border-radius: 8px; padding: 16px; border-left: 4px solid var(--danger-color); align-items: center;">
        <p style="font-size: 18pt; font-weight: 700; color: var(--danger-color); text-align: center;">A</p>
-       <div><p style="font-size: 15pt;"><strong>Harvard GI</strong> &mdash; Free, fast, general-purpose. ~73.8% misclassification on financial text.</p></div>
+       <div><p style="font-size: 15pt;"><strong>Harvard GI</strong> &mdash; Free, fast, general-purpose. 73.8% of the negative words it counts in 10-K filings are not negative there.</p></div>
       </div>
       <div style="display: grid; grid-template-columns: 80px 1fr; background: #f8f6f3; border-radius: 8px; padding: 16px; border-left: 4px solid var(--success-color); align-items: center;">
        <p style="font-size: 18pt; font-weight: 700; color: var(--success-color); text-align: center;">B</p>
@@ -462,7 +498,7 @@ X_tfidf = vectorizer.fit_transform(documents)
       </div>
       <div style="display: grid; grid-template-columns: 80px 1fr; background: #f8f6f3; border-radius: 8px; padding: 16px; border-left: 4px solid var(--secondary-color); align-items: center;">
        <p style="font-size: 18pt; font-weight: 700; color: var(--secondary-color); text-align: center;">C</p>
-       <div><p style="font-size: 15pt;"><strong>Fine-tuned Transformer</strong> &mdash; $50K+ to develop, best accuracy, black box. Bloomberg's approach.</p></div>
+       <div><p style="font-size: 15pt;"><strong>Fine-tuned Transformer</strong> &mdash; Costly to build and label, often the most accurate, hard to explain.</p></div>
       </div>
      </div>
      <p style="font-size: 16pt; font-weight: 600; color: var(--accent-color); margin-top: 16px; text-align: center;">Show of hands: which do you recommend?</p>
@@ -481,7 +517,7 @@ X_tfidf = vectorizer.fit_transform(documents)
       </div>
       <div style="display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start;">
        <div style="width: 32px; height: 32px; background: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">3</div>
-       <p style="font-size: 15pt;"><strong>Domain-specific lexicons are essential.</strong> Harvard GI misclassifies 73.8% of financial "negative" words.</p>
+       <p style="font-size: 15pt;"><strong>Domain-specific lexicons are essential.</strong> In 10-K filings, 73.8% of the words Harvard GI counts as negative are not negative.</p>
       </div>
       <div style="display: grid; grid-template-columns: 36px 1fr; gap: 12px; align-items: start;">
        <div style="width: 32px; height: 32px; background: var(--danger-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">4</div>
@@ -492,22 +528,6 @@ X_tfidf = vectorizer.fit_transform(documents)
       <p style="font-size: 14pt; color: var(--muted-color);"><strong>Next:</strong> Ch 24 uses text features as <em>controls</em> in causal estimation (DML). Ch 25 queries FOMC docs with natural language (RAG).</p>
      </div>
     </section>
-    <section id="exit-ticket" style="padding: 32px 60px;">
-      <h2><i class="fa-solid fa-ticket" style="color: var(--accent-color);"></i> End-of-Class Check</h2>
-      <div class="content">
-        <div style="background: #f0f5f8; border-radius: 10px; padding: 18px 24px;">
-          <p style="font-size: 16pt; line-height: 1.65;">You convert 243 sets of FOMC minutes into a TF-IDF matrix.</p>
-          <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What have you actually produced?</strong></p>
-        </div>
-        <div style="background: #f4f7f4; border-left: 4px solid var(--accent-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
-          <p style="font-size: 15.5pt; line-height: 1.6;"><strong>Any answer earns full credit</strong> &mdash; attendance marks that you were here, not that you were right. You get the reasoning either way.</p>
-        </div>
-        <div style="background: #f8f6f3; border-left: 4px solid var(--danger-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
-          <p style="font-size: 16pt;"><i class="fa-solid fa-lock" style="color: var(--danger-color);"></i> <strong>Attendance is the check-in on your phone</strong> &mdash; enter your NUID once, then vote in today&rsquo;s polls. <strong>No Canvas quiz and no access code.</strong></p>
-        </div>
-      </div>
-    </section>
-
     <section id="lab-overview" style="padding: 40px 50px;">
      <h2><i class="fa-solid fa-laptop-code" style="color: var(--secondary-color);"></i> Lab: FedSpeak Analysis</h2>
      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px;">
@@ -546,6 +566,22 @@ X_tfidf = vectorizer.fit_transform(documents)
      </div>
     </section>
 
+    <section id="exit-ticket" style="padding: 32px 60px;">
+      <h2><i class="fa-solid fa-ticket" style="color: var(--accent-color);"></i> End-of-Class Check</h2>
+      <div class="content">
+        <div style="background: #f0f5f8; border-radius: 10px; padding: 18px 24px;">
+          <p style="font-size: 16pt; line-height: 1.65;">You convert 243 sets of FOMC minutes into a TF-IDF matrix.</p>
+          <p style="font-size: 17pt; line-height: 1.65; margin-top: 12px;"><strong>What have you actually produced?</strong></p>
+        </div>
+        <div style="background: #f4f7f4; border-left: 4px solid var(--accent-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
+          <p style="font-size: 15.5pt; line-height: 1.6;"><strong>Any answer earns full credit</strong> &mdash; attendance marks that you were here, not that you were right. You get the reasoning either way.</p>
+        </div>
+        <div style="background: #f8f6f3; border-left: 4px solid var(--danger-color); padding: 15px 22px; border-radius: 8px; margin-top: 16px;">
+          <p style="font-size: 16pt;"><i class="fa-solid fa-lock" style="color: var(--danger-color);"></i> <strong>Attendance is the check-in on your phone</strong> &mdash; enter your NUID once, then vote in today&rsquo;s polls. <strong>No Canvas quiz and no access code.</strong></p>
+        </div>
+      </div>
+    </section>
+
    </div>
   </div>
 
@@ -567,6 +603,72 @@ X_tfidf = vectorizer.fit_transform(documents)
       pdfSeparateFragments: false,
     });
   </script>
+
+  <style>
+    .cd-wrap{position:fixed;top:0;left:50%;transform:translateX(-50%) translateY(-100%);z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+    .cd-wrap.visible{transform:translateX(-50%) translateY(0)}
+    .cd-wrap.hiding{transform:translateX(-50%) translateY(-100%)}
+    .cd-pill{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#1e3a5f,#2a5a8a);color:#fff;padding:10px 24px;border-radius:0 0 16px 16px;box-shadow:0 4px 20px rgba(0,0,0,.3);font-family:'SF Mono',Menlo,monospace;pointer-events:auto}
+    .cd-pill .cd-time{font-size:32px;font-weight:700;letter-spacing:2px;min-width:80px;text-align:center}
+    .cd-pill .cd-label{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:1px}
+    .cd-pill .cd-bar{width:120px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden}
+    .cd-pill .cd-fill{height:100%;background:#4ade80;border-radius:2px;transition:width 1s linear,background-color .5s}
+    .cd-pill.cd-warn{background:linear-gradient(135deg,#854d0e,#a16207)}.cd-pill.cd-warn .cd-fill{background:#fbbf24}
+    .cd-pill.cd-danger{background:linear-gradient(135deg,#991b1b,#dc2626)}.cd-pill.cd-danger .cd-fill{background:#ef4444}
+    .cd-pill.cd-done{animation:cdF .5s ease 3;background:linear-gradient(135deg,#166534,#22c55e)}
+    @keyframes cdF{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.05)}}
+  </style>
+  <div class="cd-wrap" id="cd-wrap"><div class="cd-pill" id="cd-pill"><div><div class="cd-label">Activity Timer</div><div class="cd-time" id="cd-time">0:00</div></div><div class="cd-bar"><div class="cd-fill" id="cd-fill"></div></div></div></div>
+  <script>
+  (function(){
+    var w=document.getElementById('cd-wrap'),p=document.getElementById('cd-pill'),t=document.getElementById('cd-time'),f=document.getElementById('cd-fill');
+    var iv=null,total=0,rem=0,vis=false;
+    function upd(){var m=Math.floor(rem/60),s=rem%60;t.textContent=m+':'+(s<10?'0':'')+s;f.style.width=(total>0?((total-rem)/total)*100:0)+'%';}
+    function show(){vis=true;w.classList.add('visible');w.classList.remove('hiding');}
+    function hide(){vis=false;w.classList.remove('visible');w.classList.add('hiding');}
+    function done(){p.classList.remove('cd-warn','cd-danger');p.classList.add('cd-done');t.textContent='0:00';f.style.width='100%';
+      try{var c=new(window.AudioContext||window.webkitAudioContext);[0,.25,.5].forEach(function(d){var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=880;o.type='sine';g.gain.value=.3;o.start(c.currentTime+d);o.stop(c.currentTime+d+.15);});}catch(e){}
+      setTimeout(function(){if(p.classList.contains('cd-done')){hide();setTimeout(function(){p.classList.remove('cd-done');},500);}},5000);}
+    function start(min){
+      if(iv&&vis&&total===min*60){if(vis)hide();else show();return;}
+      clearInterval(iv);total=min*60;rem=total;p.classList.remove('cd-warn','cd-danger','cd-done');upd();show();
+      iv=setInterval(function(){rem--;if(rem<=0){rem=0;clearInterval(iv);iv=null;upd();done();return;}upd();
+        var pct=rem/total;if(pct<=.15){p.classList.add('cd-danger');p.classList.remove('cd-warn');}else if(pct<=.33){p.classList.add('cd-warn');p.classList.remove('cd-danger');}},1000);}
+    document.addEventListener('keydown',function(e){
+      if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+      if(e.key>='1'&&e.key<='9'&&!e.metaKey&&!e.ctrlKey&&!e.altKey){start(parseInt(e.key));}
+    });
+  })();
+  </script>
+
+  <style>
+    .poll-option:hover{background:#dbeafe!important;border-color:#3b82f6!important}
+    .poll-option.voted{background:#dbeafe!important;border-color:#2563eb!important;font-weight:600}
+    .poll-option.voted::after{content:" \2713";color:#2563eb}
+    .poll-option.disabled{pointer-events:none;opacity:.6}
+    .poll-bar-wrap{display:flex;flex-direction:column;align-items:center;flex:1}
+    .poll-bar{width:60px;border-radius:6px 6px 0 0;transition:height .5s ease;min-height:4px}
+    .poll-bar-label{font-size:13px;font-weight:700;margin-top:6px}
+    .poll-bar-count{font-size:20px;font-weight:700;margin-bottom:4px}
+    .poll-vote-count{text-align:center;font-size:13px;color:#888;margin-top:10px}
+    .reset-btn{display:none}body.instructor-mode .reset-btn{display:inline-block}
+  </style>
+  <script src="../poll.js" data-checkin></script>
+  <script src="../mock-cell.js"></script>
+<script>
+  (function(){
+    var SU="https://dpntbrsorgbivmntwmod.supabase.co",SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";
+    var VID="v_"+Math.random().toString(36).slice(2,10),voted={},CL={A:"#3b82f6",B:"#22c55e",C:"#f97316",D:"#a855f7"};
+    if(window.location.search.indexOf("instructor")!==-1)document.body.classList.add("instructor-mode");
+    function sf(m,p,b){var o={method:m,headers:{"apikey":SK,"Authorization":"Bearer "+SK,"Content-Type":"application/json","Cache-Control":"no-cache, no-store","Pragma":"no-cache"}};if(b)o.body=JSON.stringify(b);return fetch(SU+"/rest/v1/"+p,o);}
+    function vote(pid,ch){if(voted[pid])return;voted[pid]=ch;var g=document.querySelector('.poll-grid[data-poll-id="'+pid+'"]');if(g)g.querySelectorAll(".poll-option").forEach(function(o){o.classList.add("disabled");if(o.dataset.choice===ch)o.classList.add("voted");});sf("POST","poll_votes",(window.Poll?Poll.stamp(pid,ch):{poll_id:pid,choice:ch,voter_id:VID})).then(function(){fetchR(pid);});}
+    function render(pid,ct){var t=0,ch=["A","B","C","D"];ch.forEach(function(k){t+=(ct[k]||0);});var c=document.querySelector('.poll-results-chart[data-poll-id="'+pid+'"]');if(c){var mx=Math.max.apply(null,ch.map(function(k){return ct[k]||0;}));if(mx===0)mx=1;var avail=Math.max(28,(c.clientHeight||parseFloat(getComputedStyle(c).height)||110)-46);var h="";ch.forEach(function(k){var n=ct[k]||0,ht=Math.max(4,(n/mx)*avail);h+='<div class="poll-bar-wrap"><div class="poll-bar-count">'+n+'</div><div class="poll-bar" style="height:'+ht+'px;background:'+CL[k]+';"></div><div class="poll-bar-label">'+k+'</div></div>';});if(t>0)h+='<div style="position:absolute;bottom:-25px;width:100%;text-align:center;font-size:12px;color:#888;">'+t+' votes</div>';c.style.position="relative";c.innerHTML=h;}var ce=document.querySelector('.poll-vote-count[data-poll-id="'+pid+'"]');if(ce)ce.textContent=t>0?t+" vote"+(t!==1?"s":"")+" so far":"";}
+    function fetchR(pid){sf("GET","poll_votes?poll_id=eq."+pid+"&select=choice"+(window.Poll?Poll.q():"")).then(function(r){return r.json();}).then(function(rows){var ct={};rows.forEach(function(r){ct[r.choice]=(ct[r.choice]||0)+1;});render(pid,ct);}).catch(function(){});}
+    window.clearPoll=function(pid){if(!confirm("Clear all votes?"))return;sf("DELETE","poll_votes?poll_id=eq."+pid).then(function(){render(pid,{});delete voted[pid];var g=document.querySelector('.poll-grid[data-poll-id="'+pid+'"]');if(g)g.querySelectorAll(".poll-option").forEach(function(o){o.classList.remove("disabled","voted");});});};
+    document.querySelectorAll(".poll-grid").forEach(function(g){var pid=g.dataset.pollId;g.querySelectorAll(".poll-option").forEach(function(o){o.addEventListener("click",function(){var go=function(){vote(pid,o.dataset.choice);};if(window.Poll){Poll.ready(pid,go);}else{go();}});});if(!g.parentNode.querySelector(".poll-vote-count")){var ce=document.createElement("div");ce.className="poll-vote-count";ce.dataset.pollId=pid;g.parentNode.insertBefore(ce,g.nextSibling);}fetchR(pid);setInterval(function(){if(document.hidden)return;var s=g.closest("section");if(s&&!s.classList.contains("present"))return;fetchR(pid);},2000);});
+  })();
+  </script>
+
 <script>
 (function () {
   // 29 Sep 2026, Ryan: reveal's "?" panel only knew reveal's own keys. Every

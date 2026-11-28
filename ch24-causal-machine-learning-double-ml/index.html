@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=cf0feba1f67c3e640836693bb97fd300">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=1344a75d78c490c2927d78057b9bc1ed">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Causal ML: Double Machine Learning</title>
@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="styles.css">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../mock-cell.css">
 </head>
 <body>
   <div class="reveal">
@@ -178,7 +179,7 @@
             <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) 100% of the data — max power</div>
             <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) 50% — a standard train/test split</div>
           </div>
-        </section>
+      </section>
         <section id="poll-2-reveal" data-poll-results="ch24-econ3916-poll2-cross-fitting">
           <h2><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> Answer: B — 80%</h2>
           <div class="poll-results-chart" data-poll-id="ch24-econ3916-poll2-cross-fitting" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:160px; margin:12px 60px;"></div>
@@ -188,7 +189,7 @@
               <p style="font-size: 13pt; margin: 0;"><strong>Same splitting, different objective:</strong> In CV, we measure prediction error. In cross-fitting, we compute causal residuals.</p>
             </div>
           </div>
-        </section>
+      </section>
       </section>
 
       <section id="application" style="padding: 40px 60px;">
@@ -205,11 +206,12 @@
             'twoearn','pira','hown']
 )
 
-ml_l = RandomForestRegressor(
-    n_estimators=200, max_depth=5)
-ml_m = RandomForestRegressor(
-    n_estimators=200, max_depth=5)
+ml_l = RandomForestRegressor(n_estimators=200,
+    max_depth=5, random_state=42)
+ml_m = RandomForestRegressor(n_estimators=200,
+    max_depth=5, random_state=42)
 
+np.random.seed(42)   # fixes the folds
 dml_plr = DoubleMLPLR(
     dml_data, ml_l, ml_m, n_folds=5)
 dml_plr.fit()</code></pre>
@@ -217,7 +219,7 @@ dml_plr.fit()</code></pre>
           <div style="display: flex; flex-direction: column; gap: 14px; justify-content: center;">
             <div style="background: #FDEDEC; border-left: 4px solid #E74C3C; padding: 16px; border-radius: 8px;">
               <p style="font-size: 20pt; font-weight: 700; color: #E74C3C;">$19,559</p>
-              <p style="font-size: 13pt;">Naive OLS (with selection bias)</p>
+              <p style="font-size: 13pt;">Raw gap: eligible minus not eligible (selection bias)</p>
             </div>
             <div style="background: #E8F5E9; border-left: 4px solid #27AE60; padding: 16px; border-radius: 8px;">
               <p style="font-size: 20pt; font-weight: 700; color: #27AE60;">$8,633</p>
@@ -292,8 +294,8 @@ dml_plr.fit()</code></pre>
           </div>
         </div>
         <div style="text-align: center; margin-top: 14px;">
-          <span class="timer-badge"><i class="fa-solid fa-clock"></i> 5 min — Think (1) + Pair (2) + Share (2)</span>
-                  <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>5</strong> to start the timer.</p>
+          <span class="timer-badge"><i class="fa-solid fa-clock"></i> 3 min — Think (1) + Pair (1) + Share (1)</span>
+                  <p style="margin-top: 14px; font-size: 14pt; color: var(--muted-color);"><i class="fa-regular fa-clock"></i> Press <strong>3</strong> to start the timer.</p>
         </div>
       </section>
 
@@ -377,7 +379,7 @@ dml_plr.fit()</code></pre>
             <div class="poll-option" data-choice="C" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">C) A/B test — randomize everything</div>
             <div class="poll-option" data-choice="D" style="background: #f0f5f8; padding: 14px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s; border: 3px solid transparent;">D) OLS with all 200 controls</div>
           </div>
-        </section>
+      </section>
         <section id="poll-3-reveal" data-poll-results="ch24-econ3916-poll3-method-choice">
           <h2><i class="fa-solid fa-check-circle" style="color: var(--success-color);"></i> Answer: B — Instrumental Variables</h2>
           <div class="poll-results-chart" data-poll-id="ch24-econ3916-poll3-method-choice" style="display:flex; gap:20px; align-items:flex-end; justify-content:center; height:160px; margin:12px 60px;"></div>
@@ -387,7 +389,55 @@ dml_plr.fit()</code></pre>
               <p style="font-size: 13pt; margin: 0;"><strong>Rule of thumb:</strong> If you CAN randomize → A/B test. If all confounders are observed → DML. If unmeasured confounding → need an instrument or natural experiment.</p>
             </div>
           </div>
-        </section>
+      </section>
+      </section>
+
+      <section>
+      <section id="lab-overview" style="padding: 30px 50px;">
+        <h2><i class="fa-solid fa-laptop-code" style="color: var(--secondary-color);"></i> Lab 24: Double ML on the 401(k) Data</h2>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 12px;">
+          <div style="display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center;"><div style="background: var(--secondary-color); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12pt;">1</div><p style="font-size: 13.5pt;">Part 1: LASSO on simulated data with a true effect of 5.0 gives 6.12; Double ML gives 4.99 <span style="color: var(--muted-color);">(guided)</span></p></div>
+          <div style="display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center;"><div style="background: var(--accent-color); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12pt;">2</div><p style="font-size: 13.5pt;">Part 2: name the outcome, the treatment and the three columns that must not be controls <span style="color: var(--accent-color); font-weight: 600;">(your task)</span></p></div>
+          <div style="display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center;"><div style="background: var(--secondary-color); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12pt;">3</div><p style="font-size: 13.5pt;">Part 3: the ATE, $8,633, and the same number rebuilt by hand from the cross-fitted predictions <span style="color: var(--muted-color);">(guided)</span></p></div>
+          <div style="display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center;"><div style="background: var(--secondary-color); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12pt;">4</div><p style="font-size: 13.5pt;">Part 4: the same model with every column as a control <span style="color: var(--muted-color);">(guided)</span></p></div>
+          <div style="display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center;"><div style="background: var(--secondary-color); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12pt;">5</div><p style="font-size: 13.5pt;">Part 5: the effect by income quartile: $4,213 in Q1 and $19,084 in Q4 <span style="color: var(--muted-color);">(guided)</span></p></div>
+          <div style="display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center;"><div style="background: var(--accent-color); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12pt;">6</div><p style="font-size: 13.5pt;">Part 6: three interpretation questions <span style="color: var(--accent-color); font-weight: 600;">(your task)</span></p></div>
+          <div style="display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center;"><div style="background: var(--accent-color); color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12pt;">W</div><p style="font-size: 13.5pt;">Write it yourself: <code>dml_by_hand()</code>, the cross-fitting by hand <span style="color: var(--accent-color); font-weight: 600;">(required)</span></p></div>
+        </div>
+      </section>
+      <section id="lab-bad-controls" style="padding: 20px 40px;">
+        <h2 style="margin-bottom: 12px;"><i class="fa-solid fa-flask" style="color: var(--secondary-color);"></i> Part 4 in Your Lab: What &ldquo;Everything Else&rdquo; Costs</h2>
+        <div class="content">
+          <div class="mock colab" data-src="cells/ch24.json" data-cell="26" data-size="11pt" data-lines="2-3,5-12" data-frag-start="0" style="max-width: 1160px;"></div>
+          <p class="fragment" style="font-size: 14.5pt; margin-top: 10px;">Nine controls fixed before eligibility: <strong>$8,633</strong>. Add <code>nifa</code> and <code>tw</code>, which are or contain the outcome, and <code>p401</code>, which is decided after eligibility: <strong>&minus;$835</strong>. A control must be fixed before the treatment and must not contain the outcome.</p>
+        </div>
+      </section>
+      <section id="lab-write-it" style="padding: 30px 50px;">
+        <h2><i class="fa-solid fa-pen" style="color: var(--accent-color);"></i> Write It Yourself: <code>dml_by_hand()</code></h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px;">
+            <div style="background: #f0f5f8; padding: 16px 20px; border-radius: 8px;">
+              <p style="font-size: 15pt; font-weight: 700;">Written for you</p>
+              <p style="font-size: 14pt; line-height: 1.5; margin-top: 6px;">For each fold: fit the model to the outcome on the training rows, and store the outcome&rsquo;s residuals for the test rows.</p>
+            </div>
+            <div style="background: #f4f7f4; padding: 16px 20px; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+              <p style="font-size: 15pt; font-weight: 700;">Your three blanks</p>
+              <ol style="font-size: 14pt; line-height: 1.5; margin-top: 6px; padding-left: 1.6em;">
+                <li>Fit the model to the treatment, on the training rows</li>
+                <li>Store the treatment&rsquo;s residuals for the test rows</li>
+                <li>After the loop: Step 3, continued&rsquo;s formula, one number</li>
+              </ol>
+            </div>
+          </div>
+          <p style="font-size: 14pt; margin-top: 14px;">Test: Step 2&rsquo;s forests on Step 2&rsquo;s folds give Part 3&rsquo;s <strong>$8,633.21</strong>. The check also runs it on 6,000 households with renamed columns, a linear regression and 4 folds, so use only the six arguments.</p>
+          <p style="font-size: 15pt; font-weight: 700; margin-top: 12px;">Slips the check names:</p>
+          <ul style="font-size: 14pt; line-height: 1.5; margin-top: 4px;">
+            <li>Predicting the treatment without fitting the model to it again first</li>
+            <li>Fitting on all the rows instead of the training rows</li>
+            <li>A <code>return</code> inside the loop, so only the first fold counts</li>
+          </ul>
+        </div>
+      </section>
       </section>
 
       <section id="discussion-2" style="padding: 40px 60px;">
@@ -431,7 +481,7 @@ dml_plr.fit()</code></pre>
             <p style="font-size: 14pt; line-height: 1.5;"><strong>5.</strong> DML requires <strong>conditional ignorability</strong> — if unmeasured confounders exist, you need an instrument.</p>
           </div>
         </div>
-        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 12px; text-align: center;"><strong>Before Wednesday:</strong> try Lab 25&rsquo;s Claude Code install and sign-in (its Part 1).</p>
+        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 12px; text-align: center;"><strong>Before Monday:</strong> try Lab 25&rsquo;s Claude Code install and sign-in (its Part 1).</p>
       </section>
 
       <section id="exit-ticket" style="padding: 32px 60px;">
@@ -531,6 +581,7 @@ dml_plr.fit()</code></pre>
     .reset-btn{display:none}body.instructor-mode .reset-btn{display:inline-block}
   </style>
   <script src="../poll.js" data-checkin></script>
+  <script src="../mock-cell.js"></script>
 <script>
   (function(){
     var SU="https://dpntbrsorgbivmntwmod.supabase.co",SK="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRwbnRicnNvcmdiaXZtbnR3bW9kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4NjY5NzksImV4cCI6MjA5MTQ0Mjk3OX0.7__ja5Sq2AB__iFXhj-CKZJ0l7SjUerf8mpGQlo2bxI";

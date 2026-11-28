@@ -105,6 +105,8 @@
   "ch21-econ3916-poll-3": "21-4",
   "ch21-econ3916-poll-4": "21-5",
   "ch21-econ3916-poll-5": "21-1",
+  "ch22-econ3916-poll-1": "22-1",
+  "ch22-econ3916-poll-2": "22-2",
   "ch23-econ3916-poll1-informative-word": "23-1",
   "ch23-econ3916-poll2-negative-word": "23-2",
   "ch24-econ3916-poll1-lasso-bias": "24-1",
@@ -397,6 +399,14 @@
   "21-5": [
    "ch21-time-series-prophet-arima-structural-breaks",
    "ch21-econ3916-poll-4"
+  ],
+  "22-1": [
+   "ch22-unsupervised-learning-clustering-economies",
+   "ch22-econ3916-poll-1"
+  ],
+  "22-2": [
+   "ch22-unsupervised-learning-clustering-economies",
+   "ch22-econ3916-poll-2"
   ],
   "23-1": [
    "ch23-nlp-for-economists-text-as-data",
