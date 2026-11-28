@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <head>
-<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=5988724aa4835a093386b333ccbbffe2">
+<meta name="deck-build" content="public; speaker notes removed by strip_notes.py; out=b8c35f0c6d95faec52723fc9ed8005ae">
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Unsupervised Learning: Clustering Economies</title>
@@ -10,6 +10,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <link href="styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="../mock-cell.css">
  </head>
  <body>
   <div class="reveal">
@@ -97,6 +98,7 @@
 
     <section id="hook">
      <h2><i class="fa-solid fa-bolt" style="color: var(--accent-color);"></i> The Nubank Question</h2>
+     <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Would an algorithm find the bank&rsquo;s four segments, or different ones?</p>
      <div class="content">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
        <div>
@@ -141,6 +143,7 @@
     <section id="supervised-vs-unsupervised">
      <h2>The Fundamental Shift</h2>
      <div class="content">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What changes when the data have no \(y\)?</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
        <div style="background: #f8f6f3; padding: 22px; border-radius: 8px; border-left: 4px solid var(--secondary-color);">
         <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Supervised (Ch 12&ndash;21)</p>
@@ -161,13 +164,8 @@
         </ul>
        </div>
       </div>
-      <div class="fragment" style="margin-top: 18px;">
-       <p style="font-size: 15pt;">Two families of unsupervised methods:</p>
-       <ul>
-        <li><strong>Clustering</strong> &mdash; partition observations into groups (K-Means)</li>
-        <li><strong>Dimensionality reduction</strong> &mdash; compress features (PCA)</li>
-       </ul>
-      </div>
+      <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 16px;"><svg viewBox="0 0 1160 210" width="100%" role="img" aria-label="Three panels: supervised dots each carry a y label and a learned boundary; the same dots with no labels; K-Means draws two groups around them" style="display:block;font-family:inherit"><rect x="0" y="26" width="330" height="170" rx="8" fill="#f8f6f3"/><text x="165.0" y="18" font-size="17" font-weight="700" text-anchor="middle" fill="#2D2D2D">Supervised: every dot has a y</text><line x1="41.8" y1="36.39999999999998" x2="299.40000000000003" y2="170.7" stroke="#2D2D2D" stroke-width="2" stroke-dasharray="6 4"/><text x="318" y="186" font-size="14" text-anchor="end" fill="#6B645E">dashed: the learned boundary</text><circle cx="20" cy="44" r="7" fill="#C47B5A"/><text x="32" y="49" font-size="14" fill="#2D2D2D">y = 1</text><circle cx="92" cy="44" r="7" fill="#6B8BA4"/><text x="104" y="49" font-size="14" fill="#2D2D2D">y = 0</text><circle cx="59" cy="152" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="81" cy="133" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="98" cy="157" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="70" cy="121" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="112" cy="138" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="218" cy="81" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle cx="243" cy="60" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle cx="260" cy="84" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle cx="221" cy="50" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle cx="199" cy="65" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><g class="fragment" data-fragment-index="1"><rect x="415" y="26" width="330" height="170" rx="8" fill="#f8f6f3"/><text x="580.0" y="18" font-size="17" font-weight="700" text-anchor="middle" fill="#2D2D2D">Unsupervised: the same dots, no y</text><circle cx="474" cy="152" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="496" cy="133" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="513" cy="157" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="485" cy="121" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="527" cy="138" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="633" cy="81" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="658" cy="60" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="675" cy="84" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="636" cy="50" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><circle cx="614" cy="65" r="8" fill="#8C8580" stroke="#fff" stroke-width="2"/><text x="767" y="118" font-size="30" fill="#6B645E">→</text></g><g class="fragment" data-fragment-index="2"><rect x="830" y="26" width="330" height="170" rx="8" fill="#f8f6f3"/><text x="995.0" y="18" font-size="17" font-weight="700" text-anchor="middle" fill="#2D2D2D">K-Means finds two groups</text><ellipse cx="913.8" cy="140.1" rx="62" ry="40" fill="none" stroke="#C47B5A" stroke-width="2.5"/><ellipse cx="1059.4" cy="67.0" rx="62" ry="40" fill="none" stroke="#6B8BA4" stroke-width="2.5"/><circle cx="889" cy="152" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="911" cy="133" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="928" cy="157" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="900" cy="121" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="942" cy="138" r="8" fill="#C47B5A" stroke="#fff" stroke-width="2"/><circle cx="1048" cy="81" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle cx="1073" cy="60" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle cx="1090" cy="84" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle cx="1051" cy="50" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle cx="1029" cy="65" r="8" fill="#6B8BA4" stroke="#fff" stroke-width="2"/></g></svg></div>
+      <p class="fragment" data-fragment-index="3" style="font-size: 15pt; margin-top: 10px;">Two families today: <strong>clustering</strong> puts rows into groups (K-Means); <strong>dimensionality reduction</strong> squeezes columns into fewer (PCA).</p>
      </div>
     </section>
 
@@ -237,6 +235,7 @@
 
     <section id="kmeans-iteration">
      <h2>K-Means in Action</h2>
+     <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What does a full run look like on more dots?</p>
      <div class="content" style="display: flex; justify-content: center; align-items: center; flex: 1;">
       <img alt="K-Means iteration — initial random centroids, after 1 iteration, convergence" class="figure" src="figures/ch22-kmeans-iteration.png" style="max-height: 420px;">
       <p style="font-size: 14pt; color: var(--muted-color); margin-top: 8px; text-align: center;">Left: random start. Center: after one iteration. Right: converged. The centroids stop moving, and so do the groups.</p>
@@ -246,69 +245,74 @@
     <section id="lloyds-formal">
      <h2>Lloyd's Algorithm &mdash; Formal Treatment</h2>
      <div class="content">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What does each step compute, on the six dots from before?</p>
+      <div style="display: grid; grid-template-columns: 1fr 360px; gap: 22px; align-items: start;"><div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
        <div>
         <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Assignment Step</p>
         <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px;">
          \(c_i = \arg\min_{k} \|\mathbf{x}_i - \mu_k\|^2\)
         </p>
-        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Each point goes to its nearest centroid (squared Euclidean distance)</p>
+        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Each point goes to its nearest centroid (squared Euclidean distance)</p><p class="fragment" data-fragment-index="1" style="font-size: 13.5pt; margin-top: 6px;">B: <span style="color:#C47B5A;font-weight:700">1.25</span> to orange, <span style="color:#6B8BA4;font-weight:700">52.8</span> to blue &rArr; orange.</p>
        </div>
        <div>
         <p style="font-size: 14pt; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Update Step</p>
         <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px;">
          \(\mu_k = \frac{1}{|C_k|} \sum_{i \in C_k} \mathbf{x}_i\)
         </p>
-        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Centroid = mean of assigned observations</p>
+        <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Centroid = mean of assigned observations</p><p class="fragment" data-fragment-index="2" style="font-size: 13.5pt; margin-top: 6px;">Orange = A, B, C: \(\left(\tfrac{1+2+1}{3}, \tfrac{1+1+2}{3}\right) = (1.33, 1.33)\)</p>
        </div>
       </div>
-      <div class="fragment" style="margin-top: 18px;">
+      <div class="fragment" data-fragment-index="3" style="margin-top: 14px;">
        <p style="font-size: 14pt; font-weight: 600; color: var(--success-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Objective Function &mdash; WCSS</p>
        <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px;">
         \(\text{WCSS} = \sum_{k=1}^{K} \sum_{i \in C_k} \|\mathbf{x}_i - \mu_k\|^2\)
        </p>
-       <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Lower WCSS = tighter clusters. Each iteration reduces or maintains WCSS &rArr; guaranteed convergence (to a <strong>local</strong> minimum).</p>
+       <p style="font-size: 13pt; color: var(--muted-color); margin-top: 8px;">Lower WCSS = tighter clusters. Each iteration reduces or maintains WCSS &rArr; guaranteed convergence (to a <strong>local</strong> minimum). Six dots at the end: WCSS = 2.7.</p>
       </div>
+      <p style="font-size: 12.5pt; color: var(--muted-color); margin-top: 8px;">Reading the symbols: \(\mathbf{x}_i\) = dot \(i\); \(\mu_k\) = centroid \(k\); \(C_k\) = the dots in group \(k\), \(|C_k|\) how many; \(c_i\) = the group dot \(i\) joins.</p>
+      </div><div class="mathjax_ignore tex2jax_ignore"><svg viewBox="0 0 360 350" width="360" height="350" role="img" aria-label="The six dots from the intuition page. B is 1.25 squared units from the orange centroid and 52.8 from the blue one, so B joins orange; the orange centroid then moves to (1.33, 1.33)." style="display:block;font-family:inherit"><line x1="47" x2="47" y1="330" y2="24" stroke="#eee"/><line y1="313" y2="313" x1="30" x2="336" stroke="#eee"/><line x1="81" x2="81" y1="330" y2="24" stroke="#eee"/><line y1="279" y2="279" x1="30" x2="336" stroke="#eee"/><line x1="115" x2="115" y1="330" y2="24" stroke="#eee"/><line y1="245" y2="245" x1="30" x2="336" stroke="#eee"/><line x1="149" x2="149" y1="330" y2="24" stroke="#eee"/><line y1="211" y2="211" x1="30" x2="336" stroke="#eee"/><line x1="183" x2="183" y1="330" y2="24" stroke="#eee"/><line y1="177" y2="177" x1="30" x2="336" stroke="#eee"/><line x1="217" x2="217" y1="330" y2="24" stroke="#eee"/><line y1="143" y2="143" x1="30" x2="336" stroke="#eee"/><line x1="251" x2="251" y1="330" y2="24" stroke="#eee"/><line y1="109" y2="109" x1="30" x2="336" stroke="#eee"/><line x1="285" x2="285" y1="330" y2="24" stroke="#eee"/><line y1="75" y2="75" x1="30" x2="336" stroke="#eee"/><line x1="319" x2="319" y1="330" y2="24" stroke="#eee"/><line y1="41" y2="41" x1="30" x2="336" stroke="#eee"/><g class="fragment fade-in" data-fragment-index="1"><line x1="81.0" y1="313.0" x2="47.0" y2="296.0" stroke="#C47B5A" stroke-width="3"/><line x1="81.0" y1="313.0" x2="242.5" y2="126.0" stroke="#6B8BA4" stroke-width="2" stroke-dasharray="6 4"/><text x="88" y="269" font-size="15" font-weight="700" fill="#C47B5A">1.25</text><text x="169" y="231" font-size="15" font-weight="700" fill="#6B8BA4">52.8</text></g><circle cx="47" cy="313" r="9" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="34" y="332" font-size="15" font-weight="700" text-anchor="middle" fill="#2D2D2D">A</text><circle cx="81" cy="313" r="9" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><circle class="fragment" data-fragment-index="2" cx="81" cy="313" r="9" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="94" y="332" font-size="15" font-weight="700" text-anchor="middle" fill="#2D2D2D">B</text><circle cx="47" cy="279" r="9" fill="#C47B5A" stroke="#fff" stroke-width="2"/><text x="34" y="269" font-size="15" font-weight="700" text-anchor="middle" fill="#2D2D2D">C</text><circle cx="285" cy="75" r="9" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="272" y="65" font-size="15" font-weight="700" text-anchor="middle" fill="#2D2D2D">D</text><circle cx="319" cy="75" r="9" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="332" y="94" font-size="15" font-weight="700" text-anchor="middle" fill="#2D2D2D">E</text><circle cx="285" cy="41" r="9" fill="#6B8BA4" stroke="#fff" stroke-width="2"/><text x="298" y="31" font-size="15" font-weight="700" text-anchor="middle" fill="#2D2D2D">F</text><g class="fragment fade-out" data-fragment-index="2"><path  d="M38,287L56,305M56,287L38,305" stroke="#C47B5A" stroke-width="5"/></g><path  d="M234,117L252,135M252,117L234,135" stroke="#6B8BA4" stroke-width="5"/><g class="fragment" data-fragment-index="2"><path  d="M49,293L67,311M67,293L49,311" stroke="#C47B5A" stroke-width="5"/><text x="122" y="322" font-size="14" fill="#C47B5A" font-weight="700">(1.33, 1.33)</text></g></svg></div></div>
      </div>
     </section>
 
     <section id="misconception-initialization">
      <h2>Initialization Matters</h2>
      <div class="content">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Does K-Means give the same answer every time?</p>
+      <div style="display: grid; grid-template-columns: 1fr 470px; gap: 22px; align-items: start;"><div>
       <div class="misconception">
        <p style="font-weight: 600; color: var(--danger-color); margin-bottom: 4px;"><i class="fa-solid fa-triangle-exclamation"></i> Common Misconception</p>
        <p>"K-Means always finds the <strong>best</strong> clustering."</p>
-       <p style="margin-top: 8px;">K-Means converges to a <em>local</em> minimum of WCSS &mdash; not the global minimum. Different random initializations &rarr; different results.</p>
+       <p style="margin-top: 8px;">K-Means stops at a <em>local</em> minimum of WCSS: no single dot move lowers it, yet a different start can end lower.</p>
       </div>
       <div class="fragment key-result" style="margin-top: 16px;">
        <p style="font-weight: 600; margin-bottom: 4px;">K-Means++ (Arthur &amp; Vassilvitskii, 2007)</p>
        <ul>
-        <li>First centroid: random</li>
-        <li>Each subsequent: probability &prop; squared distance from nearest existing centroid</li>
-        <li>Ensures centroids are spread apart &rArr; dramatically reduces bad local minima</li>
+        <li>First centroid: one dot at random</li>
+        <li>Each next one: far dots more likely (chance &prop; squared distance to the nearest centroid)</li>
         <li>Default in <code>scikit-learn</code> (<code>init='k-means++'</code>)</li>
        </ul>
+       <p style="font-size: 14pt; margin-top: 6px;">On these 40 dots: random starts stuck <strong>12 of 30</strong> times; k-means++ <strong>0 of 30</strong>.</p>
       </div>
+      </div><div class="mathjax_ignore tex2jax_ignore" id="t22-init"><svg viewBox="0 0 470 330" width="470" height="330" role="img" aria-label="Forty dots in four groups; each random start of K-Means with K = 4 ends in a different place, and some starts put two centroids in one group" style="display:block;font-family:inherit"></svg><div style="display:flex;align-items:center;gap:12px;margin-top:4px;"><span style="font-size:13pt;color:var(--muted-color);white-space:nowrap;">random start</span><input type="range" min="1" max="10" step="1" value="1" style="flex:1 1 auto;" aria-label="random start" onkeydown="event.stopPropagation()"><span class="t22-read" style="font-size:14pt;font-weight:700;min-width:1.6em;"></span></div><p class="t22-out" style="font-size:13.5pt;margin:4px 0 0;text-align:center;"></p></div></div>
      </div>
     </section>
 
     <section id="centroid-problem">
      <h2><i class="fa-solid fa-rotate-left" style="color: var(--accent-color);"></i> Callback to Chapter 4</h2>
      <div class="content">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How far can one country drag a centroid?</p>
       <p style="font-size: 16pt;">The centroid is a <strong>mean</strong>. The mean has breakdown point \(1/n\).</p>
-      <div style="background: #f8f6f3; padding: 20px 24px; border-radius: 8px; border-left: 4px solid var(--accent-color); margin-top: 14px;">
-       <p style="font-size: 15pt; font-weight: 600; margin-bottom: 8px;">Quick calculation:</p>
-       <p style="font-size: 15pt;">A cluster of 50 countries has avg GDP/capita = <strong>$12,000</strong>.</p>
-       <p style="font-size: 15pt;">A microstate with GDP = <strong>$5,000,000</strong> joins.</p>
-      </div>
+      <div style="background: #f8f6f3; padding: 10px 20px; border-radius: 8px; border-left: 4px solid var(--accent-color); margin-top: 8px;"><p style="font-size: 15pt;"><strong>Quick calculation:</strong> a cluster of 50 countries averages <strong>\$12,000</strong> GDP per capita; a microstate at <strong>\$5,000,000</strong> joins.</p></div>
       <div class="fragment">
        <p style="font-size: 16pt; text-align: center; padding: 14px; background: #F9F0EE; border-radius: 4px; margin-top: 14px;">
         \(\mu_{\text{new}} = \frac{50 \times 12{,}000 + 5{,}000{,}000}{51} \approx \$109{,}804\)
        </p>
-       <p style="font-size: 14pt; color: var(--danger-color); margin-top: 8px;"><strong>One observation moved the centroid by ~10&times;.</strong> The other 50 countries may now reassign to a different cluster.</p>
+       <p style="font-size: 14pt; color: var(--danger-color); margin-top: 8px;"><strong>One observation moved the centroid 9.2&times;.</strong> The other 50 countries may now reassign to a different cluster.</p>
       </div>
+      <div class="fragment mathjax_ignore tex2jax_ignore" id="t22-mean" style="margin-top: 10px;"><svg viewBox="0 0 1160 92" width="100%" role="img" aria-label="A log-scale GDP axis: 50 countries at 12,000 dollars, one microstate that the slider moves, the mean pulled toward it and the median staying at 12,000" style="display:block;font-family:inherit"></svg><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13pt;color:var(--muted-color);white-space:nowrap;">microstate GDP per capita</span><input type="range" min="0" max="100" step="1" value="100" style="flex:1 1 auto;" aria-label="microstate GDP per capita" onkeydown="event.stopPropagation()"><span class="t22-read" style="font-size:14pt;font-weight:700;min-width:6.5em;"></span></div><p class="t22-out" style="font-size:13.5pt;margin:2px 0 0;text-align:center;"></p></div>
       <div class="fragment key-result" style="margin-top: 12px;">
-       <p><strong>Robust alternative:</strong> K-Medoids (PAM) uses the <em>medoid</em> (actual data point closest to center) instead of the mean &mdash; just as the median replaces the mean for skewed data.</p>
+       <p><strong>Robust alternative:</strong> K-Medoids uses the <em>medoid</em>, the real dot nearest the centre, as the median replaces the mean.</p>
       </div>
      </div>
     </section>
@@ -316,6 +320,7 @@
     <section id="standardization">
      <h2>Standardization Is NOT Optional</h2>
      <div class="content">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Which indicator decides the distance between two economies?</p>
       <p style="font-size: 16pt;">K-Means uses <strong>Euclidean distance</strong> &mdash; treats all dimensions equally. But economic variables have wildly different scales:</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
        <div style="background: #F9F0EE; padding: 16px; border-radius: 8px; text-align: center;">
@@ -331,8 +336,9 @@
        <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px;">
         \(z_{ij} = \frac{x_{ij} - \bar{x}_j}{s_j}\) &nbsp;&nbsp; (same z-score from Chapter 8)
        </p>
-       <p style="font-size: 14pt; color: var(--muted-color); margin-top: 8px;">After standardization, 1 unit = 1 standard deviation in any feature. All variables contribute equally.</p>
-       <p style="font-size: 16pt; margin-top: 10px;"><i class="fa-solid fa-circle-exclamation" style="color: var(--danger-color);"></i> Without StandardScaler you are clustering on GDP per capita alone: the other nine barely move the distance.</p>
+       <p style="font-size: 14pt; color: var(--muted-color); margin-top: 6px;">After standardization, 1 unit = 1 standard deviation in any feature.</p>
+      </div>
+      <div class="fragment mathjax_ignore tex2jax_ignore" id="t22-scale" style="margin-top: 8px;"><div style="display:flex;gap:10px;align-items:center;margin-bottom:4px;"><span style="font-size:13.5pt;color:var(--muted-color);">Share of the squared distance between two Lab 22 economies, by indicator:</span><button type="button" data-v="0" style="font-size:13pt;padding:3px 12px;border-radius:6px;border:1px solid #bbb;cursor:pointer;">Raw units</button><button type="button" data-v="1" style="font-size:13pt;padding:3px 12px;border-radius:6px;border:1px solid #bbb;cursor:pointer;">Standardized</button></div><svg viewBox="0 0 1160 150" width="100%" role="img" aria-label="Bars for the ten Lab 22 indicators: in raw units GDP per capita carries more than 99.99 percent of the squared distance; standardized, each carries 10 percent" style="display:block;font-family:inherit"></svg><p class="t22-out" style="font-size:14pt;margin:2px 0 0;text-align:center;"></p>
       </div>
      </div>
     </section>
@@ -340,25 +346,21 @@
     <section id="code-bridge">
      <h2><i class="fa-solid fa-code" style="color: var(--secondary-color);"></i> In Code</h2>
      <div class="content">
-      <pre style="background: #1e1e2e; color: #cdd6f4; padding: 20px 24px; border-radius: 8px; font-size: 14pt; line-height: 1.5; overflow-x: auto;"><code>from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import KMeans
-
-# Step 1: Standardize (MANDATORY)
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What are the two lines that do the work in Lab 22?</p>
+      <div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 11pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># Step 2, continued: every indicator rescaled to mean 0 and standard deviation 1</span>
 scaler = StandardScaler()
-X_scaled = scaler.fit_transform(df[feature_columns])
-
-# Step 2: Fit K-Means with K=4
-kmeans = KMeans(n_clusters=4, init='k-means++',
-                n_init='auto', random_state=42)
-df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
-      <div class="fragment" style="margin-top: 14px;">
-       <ul>
-        <li><code>StandardScaler</code> &mdash; mean 0, variance 1 (mandatory)</li>
-        <li><code>init='k-means++'</code> &mdash; smart initialization (default)</li>
-        <li><code>n_init='auto'</code> &mdash; one start with k-means++; <code>n_init=10</code> keeps best of 10</li>
-        <li><code>random_state=42</code> &mdash; reproducibility</li>
-       </ul>
-      </div>
+X_scaled = scaler.fit_transform(df[feature_names])
+print(f<span class="t-str">'Shape of feature matrix: {X_scaled.shape}'</span>)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>Shape of feature matrix: (209, 10)</pre></div></div></div></div>
+      <div style="display: grid; grid-template-columns: 1fr 330px; gap: 16px; align-items: start; margin-top: 6px;"><div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 11pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code><span class="t-com"># Step 3: K-Means with K = 4, on the standardized indicators</span>
+kmeans = KMeans(n_clusters=4, init=<span class="t-str">'k-means++'</span>, n_init=<span class="t-str">'auto'</span>, random_state=42)
+df[<span class="t-str">'cluster'</span>] = kmeans.fit_predict(X_scaled)
+print(df[<span class="t-str">'cluster'</span>].value_counts().sort_index())</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>cluster
+0    53
+1    11
+2    51
+3    94
+Name: count, dtype: int64</pre></div></div></div></div><ul class="fragment" style="font-size: 13.5pt; margin: 0;"><li><code>StandardScaler</code>: mean 0, sd 1</li><li><code>k-means++</code>: a spread-out start</li><li><code>n_init='auto'</code>: one start; <code>n_init=10</code> keeps the best of 10</li><li><code>random_state=42</code>: the same groups every run</li></ul></div>
+      
      </div>
     </section>
 
@@ -482,10 +484,12 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
     <section id="silhouette-score">
      <h2>The Silhouette Score</h2>
      <div class="content">
-      <p style="font-size: 16pt; text-align: center; padding: 14px; background: #f8f6f3; border-radius: 4px;">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How do we score groups when there is no right answer to check?</p>
+      <div style="display: grid; grid-template-columns: 1fr 560px; gap: 20px; align-items: start;"><div>
+      <p style="font-size: 16pt; text-align: center; padding: 10px; background: #f8f6f3; border-radius: 4px;">
        \(s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}\)
       </p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 16px;">
+      <div style="display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px;">
        <div style="text-align: center; padding: 14px; background: #EEF2F0; border-radius: 8px;">
         <p style="font-size: 13pt; font-weight: 600; color: var(--success-color);">\(a(i)\) = cohesion</p>
         <p style="font-size: 12pt; color: var(--muted-color);">Mean distance to own cluster</p>
@@ -499,8 +503,9 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
         <p style="font-size: 12pt; color: var(--muted-color);">Near 1 = good, 0 = boundary, &lt;0 = wrong cluster</p>
        </div>
       </div>
-      <div class="fragment key-result" style="margin-top: 16px;">
-       <p><strong>Choose \(K\) that maximizes mean silhouette.</strong> Unlike the elbow, the silhouette gives a number to compare across \(K\), but treat its peak as a guide, not always the best choice: the two methods can disagree.</p>
+      </div><div class="mathjax_ignore tex2jax_ignore" id="t22-sil"><svg viewBox="0 0 560 290" width="560" height="290" role="img" aria-label="Two groups of dots; the slider moves one orange dot from inside its group toward the blue group, with its mean distances to each group and its silhouette shown" style="display:block;font-family:inherit"></svg><div style="display:flex;align-items:center;gap:12px;margin-top:2px;"><span style="font-size:13pt;color:var(--muted-color);white-space:nowrap;">move dot i</span><input type="range" min="1" max="9" step="0.1" value="1.8" style="flex:1 1 auto;" aria-label="position of dot i" onkeydown="event.stopPropagation()"></div><p class="t22-out" style="font-size:14pt;margin:4px 0 0;text-align:center;"></p></div></div>
+      <div class="fragment key-result" style="margin-top: 10px;">
+       <p><strong>Choose \(K\) with the highest mean silhouette</strong>, as a guide: the elbow and the silhouette can disagree.</p>
       </div>
       <div class="fragment" style="margin-top: 10px;">
        <p style="font-size: 14pt; color: var(--muted-color);"><i class="fa-solid fa-link"></i> <strong>Ch 18 connection:</strong> AUC needed the true labels. With no labels, the silhouette scores how well separated the groups are instead.</p>
@@ -535,6 +540,7 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
     <section id="bias-variance-k">
      <h2>Choosing \(K\) Is Bias-Variance</h2>
      <div class="content">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> What goes wrong with too few groups, and with too many?</p>
       <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; margin-top: 12px;">
        <div style="background: #F9F0EE; padding: 20px; border-radius: 8px; text-align: center;">
         <p style="font-size: 32pt; font-weight: 700; color: var(--danger-color);">\(K = 1\)</p>
@@ -549,7 +555,8 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
         <p style="font-size: 14pt; margin-top: 6px;"><strong>High variance</strong><br>Memorizes every point</p>
        </div>
       </div>
-      <div class="fragment" style="margin-top: 20px; text-align: center;">
+      <div class="mathjax_ignore tex2jax_ignore" id="t22-k" style="margin-top: 10px; display: grid; grid-template-columns: 430px 1fr; gap: 20px; align-items: center;"><svg viewBox="0 0 430 250" width="430" height="250" role="img" aria-label="Twelve dots in three groups of four; the slider sets K from 1 to 12 and each dot is joined to its centroid" style="display:block;font-family:inherit"></svg><div><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:14pt;color:var(--muted-color);">K</span><input type="range" min="1" max="12" step="1" value="1" style="flex:1 1 auto;" aria-label="number of clusters K" onkeydown="event.stopPropagation()"><span class="t22-read" style="font-size:16pt;font-weight:700;min-width:1.6em;"></span></div><p class="t22-out" style="font-size:15pt;margin:8px 0 0;"></p></div></div>
+      <div class="fragment" style="margin-top: 10px; text-align: center;">
        <p style="font-size: 15pt;">Same tension from Chapter 15 &mdash; in a new setting.</p>
        <p style="font-size: 14pt; color: var(--muted-color); margin-top: 6px;">No single "correct" \(K\). Domain knowledge provides the final answer.</p>
       </div>
@@ -581,6 +588,7 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
 
     <section id="pca-intuition">
      <h2>PCA &mdash; The "Best Photograph"</h2>
+     <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> How do we look at ten indicators on a flat screen?</p>
      <div class="content">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;">
        <div>
@@ -601,30 +609,24 @@ df['cluster'] = kmeans.fit_predict(X_scaled)</code></pre>
     <section id="explained-variance">
      <h2>How Much Information Do We Keep?</h2>
      <div class="content">
-      <p style="font-size: 16pt; text-align: center; padding: 12px; background: #f8f6f3; border-radius: 4px; margin-bottom: 14px;">
-       \(\text{EVR}_j = \frac{\lambda_j}{\sum_{l=1}^p \lambda_l}\) &nbsp;&nbsp; (fraction of total variance in component \(j\))
-      </p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Two axes out of ten: how much of the spread survives?</p>
+      <p style="font-size: 14.5pt; text-align: center; padding: 6px; background: #f8f6f3; border-radius: 4px; margin-bottom: 8px;">\(\text{EVR}_j = \frac{\lambda_j}{\sum_{l=1}^p \lambda_l}\): the share of all the variance that lies along component \(j\) (\(\lambda_j\) = the variance along it)</p>
+      <div style="display: grid; grid-template-columns: 1fr 540px; gap: 20px; align-items: start;">
        <div>
-        <p style="font-size: 15pt; line-height: 1.6;">On the lab's 209 economies, PC1 + PC2 explain <strong>54.8%</strong> of total variance.</p>
-        <p class="fragment" style="font-size: 15pt; line-height: 1.6; margin-top: 12px;"><strong>Why so much?</strong> Many indicators are correlated: rich countries have high life expectancy, low infant mortality, high internet access simultaneously.</p>
-       </div>
-       <div class="fragment">
-        <pre style="background: #1e1e2e; color: #cdd6f4; padding: 16px; border-radius: 8px; font-size: 13pt; line-height: 1.5;"><code>from sklearn.decomposition import PCA
-
-pca = PCA(n_components=2)
+        <p style="font-size: 15pt; line-height: 1.5;">On the lab's 209 economies, PC1 + PC2 explain <strong>54.8%</strong> of total variance.</p>
+        <p class="fragment" style="font-size: 15pt; line-height: 1.5; margin-top: 10px;"><strong>Why so much?</strong> Many indicators move together: rich countries have high life expectancy, low infant mortality and high internet access at once.</p>
+        <div class="fragment" style="margin-top: 10px;"><div class="mock colab mathjax_ignore tex2jax_ignore" style="--mk-size: 11pt;"><div class="mk-cell"><div class="mk-gut"><div class="mk-run"></div></div><div class="mk-body"><pre class="mk-code"><code>pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X_scaled)
-
-# In the lab (Step 3b):
-# PC1: 41.9% variance
-# PC1+PC2: 54.8% variance</code></pre>
+pca.explained_variance_ratio_.round(3)</code></pre><div class="mk-out mk-mono" style="display: block;"><pre>array([0.419, 0.129])</pre></div></div></div></div></div>
        </div>
+       <div class="mathjax_ignore tex2jax_ignore" id="t22-evr"><svg viewBox="0 0 540 215" width="540" height="215" role="img" aria-label="Bars of the share of variance in each of Lab 22's ten principal components, 41.9 percent for PC1 down to 1 percent for PC10; the slider sets how many are kept and the running total is shown" style="display:block;font-family:inherit"></svg><div style="display:flex;align-items:center;gap:12px;"><span style="font-size:13pt;color:var(--muted-color);white-space:nowrap;">components kept</span><input type="range" min="1" max="10" step="1" value="2" style="flex:1 1 auto;" aria-label="components kept" onkeydown="event.stopPropagation()"><span class="t22-read" style="font-size:14pt;font-weight:700;min-width:1.6em;"></span></div><p class="t22-out" style="font-size:14pt;margin:4px 0 0;text-align:center;"></p></div>
       </div>
      </div>
     </section>
 
     <section id="pca-scatter">
      <h2>Country Clusters in PCA Space</h2>
+     <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Where do the four clusters sit on the two best axes?</p>
      <div class="content" style="text-align: center;">
       <img alt="Lab 22's 209 economies on the first two principal components, coloured by the four K-Means clusters: poorest 53 on the left, middle 94, richest 51 on the right along PC1, and a group of 11 with high unemployment and inequality, South Africa among them, high on PC2. Ethiopia, India, Brazil, China, the United States and Norway are marked." class="figure" src="figures/ch22-pca-country-clusters.png" style="width: 100%; max-height: none; height: auto;">
       <p style="font-size: 14pt; margin-top: 6px; line-height: 1.45;">PC2 loads mostly on unemployment (+0.735) and inequality (Gini, +0.588): the 11 economies high on PC2, South Africa among them, are that cluster. PCA finds variance; economists supply the meaning.</p>
@@ -640,28 +642,27 @@ X_pca = pca.fit_transform(X_scaled)
     <section id="wb-vs-kmeans">
      <h2>World Bank vs. K-Means</h2>
      <div class="content">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-       <div style="background: #f8f6f3; padding: 20px; border-radius: 8px; border-left: 4px solid var(--secondary-color);">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> Do the data-driven groups match the World Bank&rsquo;s income groups?</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 14pt;">
+       <div style="background: #f8f6f3; padding: 12px 18px; border-radius: 8px; border-left: 4px solid var(--secondary-color);">
         <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">World Bank</p>
         <ul>
          <li><strong>1 variable:</strong> GNI per capita</li>
          <li><strong>3 fixed thresholds</strong>, 4 income groups</li>
-         <li>Deterministic, transparent</li>
-         <li>Updated annually (SDR deflator)</li>
-         <li>Determines IDA lending eligibility</li>
+         <li>Transparent; decides IDA lending</li>
         </ul>
        </div>
-       <div style="background: #f8f6f3; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent-color);">
+       <div style="background: #f8f6f3; padding: 12px 18px; border-radius: 8px; border-left: 4px solid var(--accent-color);">
         <p style="font-size: 14pt; font-weight: 600; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">K-Means</p>
         <ul>
          <li><strong>10 variables:</strong> GDP, health, education, trade&hellip;</li>
          <li><strong>Data-driven groups</strong></li>
                   <li>Changes with features or K</li>
-         <li>Captures multivariate nuance</li>
         </ul>
        </div>
       </div>
-      <div class="fragment key-result" style="margin-top: 16px;">
+      <div class="mathjax_ignore tex2jax_ignore" style="margin-top: 12px;"><svg viewBox="0 0 1160 182" width="100%" role="img" aria-label="Lab 22 crosstab of the four K-Means clusters against the World Bank income groups: the richest cluster is 50 of 51 High income; the middle cluster of 94 holds 27 High-income economies." style="display:block;font-family:inherit"><text x="254" y="20" font-size="15" text-anchor="end" fill="#6B645E">K-Means cluster ↓ · World Bank group →</text><text x="365.0" y="44" font-size="16" font-weight="700" text-anchor="middle" fill="#2D2D2D">Low</text><text x="555.0" y="44" font-size="16" font-weight="700" text-anchor="middle" fill="#2D2D2D">Lower-mid</text><text x="745.0" y="44" font-size="16" font-weight="700" text-anchor="middle" fill="#2D2D2D">Upper-mid</text><text x="935.0" y="44" font-size="16" font-weight="700" text-anchor="middle" fill="#2D2D2D">High</text><text x="1080" y="44" font-size="16" font-weight="700" text-anchor="middle" fill="#2D2D2D">Total</text><g class="fragment fade-up" data-fragment-index="1"><text x="254" y="77" font-size="16" text-anchor="end" fill="#2D2D2D">Richest</text><rect x="273" y="57" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.08"/><text x="365.0" y="77" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">0</text><rect x="463" y="57" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.08"/><text x="555.0" y="77" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">0</text><rect x="653" y="57" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.09"/><text x="745.0" y="77" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">1</text><rect x="843" y="57" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.80" stroke="#C47B5A" stroke-width="3"/><text x="935.0" y="77" font-size="17" font-weight="700" text-anchor="middle" fill="#fff">50</text><text x="1080" y="77" font-size="17" text-anchor="middle" fill="#2D2D2D">51</text></g><g class="fragment fade-up" data-fragment-index="2"><text x="254" y="108" font-size="16" text-anchor="end" fill="#2D2D2D">Middle</text><rect x="273" y="88" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.09"/><text x="365.0" y="108" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">1</text><rect x="463" y="88" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.31"/><text x="555.0" y="108" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">16</text><rect x="653" y="88" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.80"/><text x="745.0" y="108" font-size="17" font-weight="400" text-anchor="middle" fill="#fff">50</text><rect x="843" y="88" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.47" stroke="#C47B5A" stroke-width="3"/><text x="935.0" y="108" font-size="17" font-weight="700" text-anchor="middle" fill="#2D2D2D">27</text><text x="1080" y="108" font-size="17" text-anchor="middle" fill="#2D2D2D">94</text></g><g class="fragment fade-up" data-fragment-index="3"><text x="254" y="139" font-size="16" text-anchor="end" fill="#2D2D2D">Poorest</text><rect x="273" y="119" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.43"/><text x="365.0" y="139" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">24</text><rect x="463" y="119" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.41"/><text x="555.0" y="139" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">23</text><rect x="653" y="119" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.15"/><text x="745.0" y="139" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">5</text><rect x="843" y="119" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.09"/><text x="935.0" y="139" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">1</text><text x="1080" y="139" font-size="17" text-anchor="middle" fill="#2D2D2D">53</text></g><g class="fragment fade-up" data-fragment-index="4"><text x="254" y="170" font-size="16" text-anchor="end" fill="#2D2D2D">High unemployment</text><rect x="273" y="150" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.08"/><text x="365.0" y="170" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">0</text><rect x="463" y="150" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.20"/><text x="555.0" y="170" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">8</text><rect x="653" y="150" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.12"/><text x="745.0" y="170" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">3</text><rect x="843" y="150" width="184" height="25" rx="5" fill="#6B8BA4" fill-opacity="0.08"/><text x="935.0" y="170" font-size="17" font-weight="400" text-anchor="middle" fill="#2D2D2D">0</text><text x="1080" y="170" font-size="17" text-anchor="middle" fill="#2D2D2D">11</text></g></svg></div>
+      <div class="fragment key-result" data-fragment-index="5" style="margin-top: 6px; padding-top: 8px; padding-bottom: 8px;">
        <p><strong>The lab's crosstab:</strong> 50 of the 51 countries in the richest cluster are High income &mdash; but 27 High-income economies sit in the 94-country middle cluster.</p>
       </div>
      </div>
@@ -699,6 +700,7 @@ X_pca = pca.fit_transform(X_scaled)
     <section id="debrief">
      <h2>Debrief: Neither Is "Right"</h2>
      <div class="content">
+      <p style="font-size: 14pt; color: var(--secondary-color); margin: 0 0 8px;"><i class="fa-solid fa-circle-question"></i> When would you use each system?</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
        <div style="padding: 18px; border-left: 3px solid var(--secondary-color); background: #f8f6f3; border-radius: 4px;">
         <p style="font-size: 14pt; font-weight: 600; color: var(--secondary-color); margin-bottom: 6px;">World Bank is better when&hellip;</p>
@@ -719,11 +721,8 @@ X_pca = pca.fit_transform(X_scaled)
       </div>
       <div class="fragment" style="margin-top: 16px;">
        <p style="font-size: 15pt;"><strong>Brief alternatives:</strong></p>
-       <ul>
-        <li><strong>DBSCAN</strong> &mdash; density-based, no \(K\) required, classifies outliers as noise</li>
-        <li><strong>Hierarchical</strong> &mdash; dendrogram shows structure at every possible \(K\)</li>
-        <li><strong>GMMs</strong> &mdash; soft assignment (probabilities: 70% Cluster 1, 30% Cluster 2)</li>
-       </ul>
+       <div class="mathjax_ignore tex2jax_ignore" style="margin: 6px 0 4px;"><svg viewBox="0 0 1160 150" width="100%" role="img" aria-label="Three small pictures: DBSCAN groups dense dots and leaves stray dots as noise; a dendrogram joins groups step by step; a mixture model gives one dot 70 percent and 30 percent." style="display:block;font-family:inherit"><rect x="0" y="0" width="370" height="150" rx="8" fill="#f8f6f3"/><rect x="395" y="0" width="370" height="150" rx="8" fill="#f8f6f3"/><rect x="790" y="0" width="370" height="150" rx="8" fill="#f8f6f3"/><circle cx="40" cy="60" r="6" fill="#C47B5A"/><circle cx="55" cy="48" r="6" fill="#C47B5A"/><circle cx="62" cy="70" r="6" fill="#C47B5A"/><circle cx="48" cy="78" r="6" fill="#C47B5A"/><circle cx="75" cy="58" r="6" fill="#C47B5A"/><circle cx="200" cy="95" r="6" fill="#6B8BA4"/><circle cx="215" cy="82" r="6" fill="#6B8BA4"/><circle cx="228" cy="100" r="6" fill="#6B8BA4"/><circle cx="210" cy="110" r="6" fill="#6B8BA4"/><circle cx="130" cy="30" r="6" fill="none" stroke="#8C8580" stroke-width="2"/><circle cx="300" cy="40" r="6" fill="none" stroke="#8C8580" stroke-width="2"/><circle cx="150" cy="125" r="6" fill="none" stroke="#8C8580" stroke-width="2"/><text x="312" y="128" font-size="14" text-anchor="end" fill="#6B645E">open dots: noise</text><path d="M460,120V95H500V120M560,120V100H600V120M480,95V60H580V100M580,60" fill="none" stroke="#2D2D2D" stroke-width="2"/><path d="M530,60V30H680V120" fill="none" stroke="#2D2D2D" stroke-width="2"/><line x1="440" x2="720" y1="78" y2="78" stroke="#C47B5A" stroke-dasharray="5 4" stroke-width="2"/><text x="720" y="72" font-size="14" text-anchor="end" fill="#C47B5A">cut here: K = 3</text><circle cx="875" cy="80" r="42" fill="#C47B5A" fill-opacity=".18" stroke="#C47B5A"/><circle cx="1000" cy="80" r="42" fill="#6B8BA4" fill-opacity=".18" stroke="#6B8BA4"/><circle cx="925" cy="80" r="8" fill="#2D2D2D"/><text x="925" y="134" font-size="15" text-anchor="middle" fill="#2D2D2D">70% orange, 30% blue</text></svg></div>
+       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; font-size: 13.5pt;"><p><strong>DBSCAN</strong>: groups dense dots, no \(K\) needed, strays left as noise</p><p><strong>Hierarchical</strong>: a tree of merges; cut it at any \(K\)</p><p><strong>Mixture models (GMMs)</strong>: each dot gets a probability per group</p></div>
       </div>
      </div>
     </section>
@@ -1594,6 +1593,135 @@ X_pca = pca.fit_transform(X_scaled)
     document.addEventListener('keydown', Ink.keys, true);
   }
   if (Reveal.isReady()) start(); else Reveal.on('ready', start);
+})();
+</script>
+
+<script>
+/* T22 interactives (visuals_t22.py). One control each; the speaker-view bridge mirrors input/click. */
+(function () {
+  var NS = 'http://www.w3.org/2000/svg', OR = '#C47B5A', BL = '#6B8BA4', GR = '#8C8580', INK = '#2D2D2D', MUT = '#6B645E';
+  var PAL = [OR, BL, '#5E8C61', '#9A6FB0', '#C9A227', '#4F7FA8', '#B5543F', '#7A8B3A', '#A0707A', '#3F8F8F', '#8A6D3B', '#5D5D9A'];
+  function el(n, a, p) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function clear(s) { while (s.firstChild) s.removeChild(s.firstChild); }
+  function cross(s, x, y, c, r) { r = r || 8; el('path', {d: 'M' + (x - r) + ',' + (y - r) + 'L' + (x + r) + ',' + (y + r) + 'M' + (x + r) + ',' + (y - r) + 'L' + (x - r) + ',' + (y + r), stroke: c, 'stroke-width': 5}, s);
+    el('path', {d: 'M' + (x - r) + ',' + (y - r) + 'L' + (x + r) + ',' + (y + r) + 'M' + (x + r) + ',' + (y - r) + 'L' + (x - r) + ',' + (y + r), stroke: INK, 'stroke-width': 1.4}, s); }
+  function money(v) { return '$' + Math.round(v).toLocaleString('en-US'); }
+  var INIT = {"x":[[2.0,2.42],[1.79,1.53],[1.66,1.46],[2.05,3.21],[1.63,1.73],[2.37,2.47],[2.08,1.5],[1.98,2.72],[0.99,1.86],[0.57,1.23],[6.62,1.82],[7.05,2.2],[8.12,1.86],[6.11,1.6],[7.96,2.08],[6.85,1.64],[7.27,1.39],[8.8,1.39],[7.98,2.66],[7.56,1.92],[2.48,8.05],[1.48,8.06],[3.42,6.84],[3.04,8.09],[1.92,9.5],[2.97,7.1],[2.46,8.43],[2.26,8.51],[2.35,8.5],[3.48,7.49],[8.15,7.25],[8.1,6.71],[7.57,7.45],[8.67,8.46],[7.01,7.0],[8.49,6.11],[7.65,7.53],[8.94,8.12],[7.75,7.32],[7.81,8.74]],"best":31.5,"starts":[{"w":31.5,"lab":[0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1],"c":[[1.71,2.01],[8.01,7.47],[2.59,8.06],[7.43,1.86]]},{"w":31.5,"lab":[2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3],"c":[[7.43,1.86],[2.59,8.06],[1.71,2.01],[8.01,7.47]]},{"w":31.5,"lab":[1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0],"c":[[8.01,7.47],[1.71,2.01],[2.59,8.06],[7.43,1.86]]},{"w":189.3,"lab":[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,3,3,1,3,1,1,1,3,0,0,0,0,0,0,0,0,0,0],"c":[[8.01,7.47],[2.16,8.51],[4.57,1.94],[3.23,7.38]]},{"w":184.8,"lab":[1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,2,2,3,3,2,3,2,2,2,3,0,0,0,0,0,0,0,0,0,0],"c":[[7.72,4.66],[1.71,2.01],[2.16,8.51],[3.23,7.38]]},{"w":31.5,"lab":[0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2],"c":[[1.71,2.01],[2.59,8.06],[8.01,7.47],[7.43,1.86]]},{"w":31.5,"lab":[3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0],"c":[[8.01,7.47],[7.43,1.86],[2.59,8.06],[1.71,2.01]]},{"w":31.5,"lab":[0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1],"c":[[1.71,2.01],[8.01,7.47],[7.43,1.86],[2.59,8.06]]},{"w":31.5,"lab":[3,3,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1],"c":[[7.43,1.86],[8.01,7.47],[2.59,8.06],[1.71,2.01]]},{"w":176.3,"lab":[3,0,0,3,0,3,0,3,0,0,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],"c":[[1.45,1.55],[5.3,7.76],[7.43,1.86],[2.1,2.7]]}]}, KTOY = {"x":[[3.12,1.09],[2.23,2.19],[1.75,2.38],[0.89,2.37],[7.02,4.03],[7.62,2.01],[7.35,1.83],[6.92,1.99],[5.07,7.47],[5.33,7.49],[4.81,8.45],[5.1,7.32]],"ks":[{"w":143.1,"lab":[0,0,0,0,0,0,0,0,0,0,0,0],"c":[[4.77,4.05]]},{"w":63.4,"lab":[0,0,0,0,0,0,0,0,1,1,1,1],"c":[[4.61,2.24],[5.08,7.68]]},{"w":8.3,"lab":[2,2,2,2,0,0,0,0,1,1,1,1],"c":[[7.23,2.46],[5.08,7.68],[2.0,2.01]]},{"w":5.0,"lab":[2,2,2,2,3,1,1,1,0,0,0,0],"c":[[5.08,7.68],[7.3,1.94],[2.0,2.01],[7.02,4.03]]},{"w":2.2,"lab":[1,3,3,3,4,2,2,2,0,0,0,0],"c":[[5.08,7.68],[3.12,1.09],[7.3,1.94],[1.62,2.31],[7.02,4.03]]},{"w":1.3,"lab":[5,2,2,2,4,0,0,0,1,1,3,1],"c":[[7.3,1.94],[5.16,7.43],[1.62,2.31],[4.81,8.45],[7.02,4.03],[3.12,1.09]]},{"w":0.5,"lab":[3,6,6,2,4,1,1,1,5,5,0,5],"c":[[4.81,8.45],[7.3,1.94],[0.89,2.37],[3.12,1.09],[7.02,4.03],[5.16,7.43],[1.99,2.28]]},{"w":0.2,"lab":[3,2,2,5,4,0,0,6,1,1,7,1],"c":[[7.48,1.92],[5.16,7.43],[1.99,2.28],[3.12,1.09],[7.02,4.03],[0.89,2.37],[6.92,1.99],[4.81,8.45]]},{"w":0.1,"lab":[4,7,2,6,3,0,0,8,1,1,5,1],"c":[[7.48,1.92],[5.16,7.43],[1.75,2.38],[7.02,4.03],[3.12,1.09],[4.81,8.45],[0.89,2.37],[2.23,2.19],[6.92,1.99]]},{"w":0.1,"lab":[4,7,2,6,3,9,0,8,1,1,5,1],"c":[[7.35,1.83],[5.16,7.43],[1.75,2.38],[7.02,4.03],[3.12,1.09],[4.81,8.45],[0.89,2.37],[2.23,2.19],[6.92,1.99],[7.62,2.01]]},{"w":0.0,"lab":[4,7,2,6,3,9,0,8,1,10,5,1],"c":[[7.35,1.83],[5.08,7.4],[1.75,2.38],[7.02,4.03],[3.12,1.09],[4.81,8.45],[0.89,2.37],[2.23,2.19],[6.92,1.99],[7.62,2.01],[5.33,7.49]]},{"w":0.0,"lab":[4,7,2,6,3,9,0,8,1,10,5,11],"c":[[7.35,1.83],[5.07,7.47],[1.75,2.38],[7.02,4.03],[3.12,1.09],[4.81,8.45],[0.89,2.37],[2.23,2.19],[6.92,1.99],[7.62,2.01],[5.33,7.49],[5.1,7.32]]}]}, SCALE = {"names":["GDP per capita","Life expectancy","Infant mortality","Primary enrollment","Gini index","CO\u2082 per capita","Internet users %","Trade % of GDP","Unemployment","Urban population %"],"raw":[0.9999951018225551,4.832184989740429e-08,2.6003520510695486e-07,2.2458672061731297e-07,3.9687428482679476e-08,5.6779235323418455e-08,7.261190651099213e-07,3.0238442261084442e-06,2.7643910450657937e-08,4.911598038633805e-07]}, EVR = [0.4189, 0.1287, 0.1053, 0.0919, 0.0794, 0.0641, 0.0436, 0.0318, 0.0267, 0.0096];
+
+  function init_() {
+    var box = document.getElementById('t22-init'); if (!box) return;
+    var s = box.querySelector('svg'), sl = box.querySelector('input'), rd = box.querySelector('.t22-read'), out = box.querySelector('.t22-out');
+    var X = function (v) { return 20 + v * 43; }, Y = function (v) { return 315 - v * 30; };
+    function draw() {
+      var st = INIT.starts[+sl.value - 1]; clear(s);
+      el('rect', {x: 0, y: 0, width: 470, height: 330, rx: 8, fill: '#f8f6f3'}, s);
+      INIT.x.forEach(function (p, i) { el('circle', {cx: X(p[0]), cy: Y(p[1]), r: 6.5, fill: PAL[st.lab[i]], stroke: '#fff', 'stroke-width': 1.5}, s); });
+      st.c.forEach(function (c, k) { cross(s, X(c[0]), Y(c[1]), PAL[k], 9); });
+      rd.textContent = sl.value;
+      var ok = st.w <= INIT.best + 0.5;
+      out.innerHTML = 'WCSS <strong>' + st.w.toFixed(1) + '</strong>: ' + (ok ? 'the best this data allows.' : '<span style="color:#B5543F">stuck: two &times; share one group, two groups share one &times;.</span>');
+    }
+    sl.addEventListener('input', draw); draw();
+  }
+
+  function mean_() {
+    var box = document.getElementById('t22-mean'); if (!box) return;
+    var s = box.querySelector('svg'), sl = box.querySelector('input'), rd = box.querySelector('.t22-read'), out = box.querySelector('.t22-out');
+    var X = function (v) { return 60 + (Math.log10(v) - 3.5) / (7 - 3.5) * 1040; };
+    function draw() {
+      var g = 12000 * Math.pow(5e6 / 12000, +sl.value / 100), m = (50 * 12000 + g) / 51; clear(s);
+      el('line', {x1: 60, x2: 1100, y1: 60, y2: 60, stroke: '#bbb', 'stroke-width': 2}, s);
+      [1e4, 1e5, 1e6].forEach(function (t) { el('line', {x1: X(t), x2: X(t), y1: 56, y2: 64, stroke: '#999'}, s);
+        el('text', {x: X(t), y: 84, 'font-size': 14, 'text-anchor': 'middle', fill: MUT}, s).textContent = money(t); });
+      el('circle', {cx: X(12000), cy: 60, r: 13, fill: GR}, s);
+      el('text', {x: X(12000), y: 30, 'font-size': 14, 'text-anchor': 'middle', fill: INK}, s).textContent = '50 countries, median';
+      el('circle', {cx: X(g), cy: 60, r: 8, fill: OR}, s);
+      el('path', {d: 'M' + X(m) + ',46l-9,-14h18z', fill: BL}, s);
+      el('text', {x: X(m), y: 24, 'font-size': 15, 'font-weight': 700, 'text-anchor': 'middle', fill: BL}, s).textContent = 'mean';
+      rd.textContent = money(g);
+      out.innerHTML = 'Centroid (the mean): <strong>' + money(m) + '</strong>, ' + (m / 12000).toFixed(1) + '&times; the old ' + money(12000) + '. The median stays at ' + money(12000) + '.';
+    }
+    sl.addEventListener('input', draw); draw();
+  }
+
+  function scale_() {
+    var box = document.getElementById('t22-scale'); if (!box) return;
+    var s = box.querySelector('svg'), out = box.querySelector('.t22-out'), btn = box.querySelectorAll('button'), v = 0;
+    function draw() {
+      clear(s); var n = SCALE.names.length, cw = 1160 / n;
+      SCALE.names.forEach(function (nm, i) {
+        var sh = v ? 1 / n : SCALE.raw[i], h = Math.max(1.5, sh * 110);
+        el('rect', {x: i * cw + 14, y: 112 - h, width: cw - 28, height: h, rx: 3, fill: i === 0 ? OR : BL}, s);
+        var pct = v ? '10%' : (sh > 0.9999 ? '>99.99%' : (sh * 100 < 0.01 ? '<0.01%' : (sh * 100).toFixed(2) + '%'));
+        el('text', {x: i * cw + cw / 2, y: Math.min(100, 106 - h), 'font-size': 14, 'font-weight': 700, 'text-anchor': 'middle', fill: INK}, s).textContent = pct;
+        el('text', {x: i * cw + cw / 2, y: 134, 'font-size': 13, 'text-anchor': 'middle', fill: MUT}, s).textContent = nm;
+      });
+      [].forEach.call(btn, function (b) { var on = +b.dataset.v === v; b.style.background = on ? '#2D2D2D' : '#fff'; b.style.color = on ? '#fff' : '#2D2D2D'; });
+      out.innerHTML = v ? 'Standardized: every indicator carries <strong>10%</strong>.' : 'Raw units: GDP per capita carries <strong>more than 99.99%</strong>; the other nine share the rest.';
+    }
+    [].forEach.call(btn, function (b) { b.addEventListener('click', function () { v = +b.dataset.v; draw(); }); });
+    draw();
+  }
+
+  function sil_() {
+    var box = document.getElementById('t22-sil'); if (!box) return;
+    var s = box.querySelector('svg'), sl = box.querySelector('input'), out = box.querySelector('.t22-out');
+    var A = [[1.0, 2.2], [1.6, 3.4], [2.3, 1.7], [2.6, 3.0]], B = [[7.0, 2.0], [7.6, 3.2], [8.4, 1.8], [8.8, 3.0], [7.9, 2.5]];
+    var X = function (v) { return 30 + v * 55; }, Y = function (v) { return 250 - v * 50; };
+    function d(p, q) { return Math.hypot(p[0] - q[0], p[1] - q[1]); }
+    function draw() {
+      var i = [+sl.value, 2.5]; clear(s);
+      el('rect', {x: 0, y: 0, width: 560, height: 290, rx: 8, fill: '#f8f6f3'}, s);
+      var a = A.reduce(function (t, p) { return t + d(i, p); }, 0) / A.length, b = B.reduce(function (t, p) { return t + d(i, p); }, 0) / B.length;
+      A.forEach(function (p) { el('line', {x1: X(i[0]), y1: Y(i[1]), x2: X(p[0]), y2: Y(p[1]), stroke: OR, 'stroke-width': 1.5, 'stroke-opacity': .6}, s); });
+      B.forEach(function (p) { el('line', {x1: X(i[0]), y1: Y(i[1]), x2: X(p[0]), y2: Y(p[1]), stroke: BL, 'stroke-width': 1.2, 'stroke-dasharray': '5 4', 'stroke-opacity': .6}, s); });
+      A.forEach(function (p) { el('circle', {cx: X(p[0]), cy: Y(p[1]), r: 9, fill: OR, stroke: '#fff', 'stroke-width': 2}, s); });
+      B.forEach(function (p) { el('circle', {cx: X(p[0]), cy: Y(p[1]), r: 9, fill: BL, stroke: '#fff', 'stroke-width': 2}, s); });
+      el('circle', {cx: X(i[0]), cy: Y(i[1]), r: 11, fill: OR, stroke: INK, 'stroke-width': 2.5}, s);
+      el('text', {x: X(i[0]), y: Y(i[1]) + 32, 'font-size': 16, 'font-weight': 700, 'text-anchor': i[0] > 7.5 ? 'end' : (i[0] < 2 ? 'start' : 'middle'), fill: INK}, s).textContent = 'i (orange)';
+      var sv = (b - a) / Math.max(a, b);
+      out.innerHTML = '<span style="color:' + OR + '">a = ' + a.toFixed(2) + '</span> &middot; <span style="color:' + BL + '">b = ' + b.toFixed(2) + '</span> &middot; <strong>s = ' + sv.toFixed(2) + '</strong>' +
+        (Math.abs(sv) < 0.15 ? ' : on the boundary' : (sv < 0 ? ' : closer to blue, wrong group' : ' : well placed'));
+    }
+    sl.addEventListener('input', draw); draw();
+  }
+
+  function k_() {
+    var box = document.getElementById('t22-k'); if (!box) return;
+    var s = box.querySelector('svg'), sl = box.querySelector('input'), rd = box.querySelector('.t22-read'), out = box.querySelector('.t22-out');
+    var X = function (v) { return 15 + v * 40; }, Y = function (v) { return 240 - v * 23; };
+    function draw() {
+      var k = +sl.value, r = KTOY.ks[k - 1]; clear(s);
+      el('rect', {x: 0, y: 0, width: 430, height: 250, rx: 8, fill: '#f8f6f3'}, s);
+      KTOY.x.forEach(function (p, i) { var c = r.c[r.lab[i]]; el('line', {x1: X(p[0]), y1: Y(p[1]), x2: X(c[0]), y2: Y(c[1]), stroke: PAL[r.lab[i] % 12], 'stroke-width': 1.5}, s); });
+      KTOY.x.forEach(function (p, i) { el('circle', {cx: X(p[0]), cy: Y(p[1]), r: 7, fill: PAL[r.lab[i] % 12], stroke: '#fff', 'stroke-width': 1.5}, s); });
+      if (k < 12) r.c.forEach(function (c, j) { cross(s, X(c[0]), Y(c[1]), PAL[j % 12], 7); });
+      rd.textContent = k;
+      var msg = k === 1 ? 'one group: ignores all structure (high bias)' : k === 3 ? 'the three real groups' : k === 2 ? 'two real groups forced into one' :
+                k === 12 ? 'every dot its own group: WCSS 0, nothing learned (high variance)' : 'real groups split into pieces (variance creeping in)';
+      out.innerHTML = 'WCSS <strong>' + r.w.toFixed(1) + '</strong>: ' + msg + '.';
+    }
+    sl.addEventListener('input', draw); draw();
+  }
+
+  function evr_() {
+    var box = document.getElementById('t22-evr'); if (!box) return;
+    var s = box.querySelector('svg'), sl = box.querySelector('input'), rd = box.querySelector('.t22-read'), out = box.querySelector('.t22-out');
+    function draw() {
+      var k = +sl.value, tot = 0; clear(s);
+      EVR.forEach(function (e, j) { var on = j < k; if (on) tot += e; var h = e / 0.45 * 155;
+        el('rect', {x: 30 + j * 50, y: 186 - h, width: 38, height: h, rx: 3, fill: on ? BL : '#d9d5c8'}, s);
+        el('text', {x: 49 + j * 50, y: 180 - h, 'font-size': 14, 'text-anchor': 'middle', fill: INK}, s).textContent = (e * 100).toFixed(1);
+        el('text', {x: 49 + j * 50, y: 206, 'font-size': 14, 'text-anchor': 'middle', fill: MUT}, s).textContent = 'PC' + (j + 1); });
+      el('text', {x: 30, y: 14, 'font-size': 14, fill: MUT}, s).textContent = '% of total variance, Lab 22';
+      rd.textContent = k;
+      out.innerHTML = 'Keep ' + k + ' of 10: <strong>' + (tot * 100).toFixed(1) + '%</strong> of the variance.';
+    }
+    sl.addEventListener('input', draw); draw();
+  }
+
+  function go() { init_(); mean_(); scale_(); sil_(); k_(); evr_(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 })();
 </script>
 </body>
